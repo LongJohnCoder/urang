@@ -14,6 +14,7 @@
                                 Invoice #: 123<br>
                                 Created: January 1, 2015<br>
                                 Due: February 1, 2015
+                                {{$search_invoice}}
                             </td>
                         </tr>
                     </table>
