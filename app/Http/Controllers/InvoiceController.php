@@ -36,8 +36,7 @@ class InvoiceController extends Controller
     }
     public function showInvoiceUser(Request $request) {
     	//return $request; Full texts	
-    	$search_invoice = Invoice::where('pick_up_req_id', $request->id)->get();
-    	//return $search_invoice;
+    	$search_invoice = Invoice::where('pick_up_req_id', $request->id)->with('user', 'user_details', 'pick_up_req')->get();
     	if (count($search_invoice) > 0) {
     		return view('invoices.invoice', compact('search_invoice'));
     	}
