@@ -182,10 +182,41 @@
 			
 		}
 		function delSchool(id) {
-			alert(id);
+			$.ajax({
+				url: "{{route('postDeleteSchool')}}",
+				type:"POST",
+				data: {id: id, _token: "{{Session::token()}}"},
+				success : function(data) {
+					//console.log(data)
+					if (data == 1) 
+					{
+						location.reload();
+					}
+					else
+					{
+						sweetAlert("Oops...", "Cannot delete school please try again later!", "error");
+					}
+				}
+			});
 		}
 		function payPendingMoney(id) {
-			alert(id);
+			$.ajax({
+				url: "{{route('postPendingMoney')}}",
+				type:"POST",
+				data: {id: id, _token: "{{Session::token()}}"},
+				success : function(data) {
+					//console.log(data);
+					//return;
+					if (data == 1) 
+					{
+						location.reload();
+					}
+					else
+					{
+						sweetAlert("Oops...", "Cannot delete school please try again later!", "error");
+					}
+				}
+			});
 		}
 	</script>
 @endsection
