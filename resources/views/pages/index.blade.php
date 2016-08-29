@@ -178,24 +178,24 @@
       <div class="row">
           <div class="col-md-7 col-sm-7 text-right">
               <div class="clearfix " style="padding-right: 3px;">
-                  <div class="above-title">{!!$cms->tag_line!!}</div>
-                  <h4>{!! $cms->header !!}</h4>
+                  <div class="above-title">{!! $cms !=null ? $cms->tag_line : '' !!}</div>
+                  <h4>{!! $cms !=null ? $cms->header : '' !!}</h4>
               </div>
-              <div><em>{!!$cms->tag_line_2!!}</em></div>
-              <p>{!! $cms->tag_line_3 !!}</p>
+              <div><em>{!! $cms !=null ? $cms->tag_line_2 : '' !!}</em></div>
+              <p>{!! $cms !=null ? $cms->tag_line_3 : '' !!}</p>
               <div class="design-arrow inline-arrow"></div>
-              <p class="large">{!!$cms->tag_line_4!!}</p>
-              <p>{!!$cms->head_setion!!}</p>
+              <p class="large">{!! $cms !=null ? $cms->tag_line_4 : '' !!}</p>
+              <p>{!! $cms !=null ? $cms->head_setion : '' !!}</p>
               <p>
               <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
-                  {!! $cms->contents !!}
+                  {!! $cms !=null ? $cms->contents : '' !!}
               <br />
-                  <p class="large">{!! $cms->head_section_2 !!}</p>
-                  {!! $cms->contents_2 !!}
+                  <p class="large">{!! $cms !=null ? $cms->head_section_2 : '' !!}</p>
+                  {!! $cms !=null ? $cms->contents_2 : '' !!}
               </ul>
           </div>
           <div class="col-md-5 col-sm-5 text-center">
-              <img src="{{url('/')}}/public/dump_images/{{$cms->image}}" alt="image" class="img-responsive" />
+              <img src="{{url('/')}}/public/dump_images/{{ $cms !=null ? $cms->image : ''}}" alt="image" class="img-responsive" />
           </div>
       </div>
   </div>
