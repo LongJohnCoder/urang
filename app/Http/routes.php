@@ -191,4 +191,6 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/get-school-preferences', ['uses' => 'ApiV1\UserApiController@showSchoolPreferences', 'as' => 'showSchoolPreferences']);
     Route::post('/add-school-preferences', ['uses' => 'ApiV1\UserApiController@addSchoolToPreference', 'as' => 'addSchoolToPreference']);
     Route::post('/get-card-details', ['uses' => 'ApiV1\UserApiController@getCreditCardDetails', 'as' => 'getCreditCardDetails']);
+    Route::post('/cancle-order', ['uses' => 'ApiV1\UserApiController@cancleOrder', 'as' => 'cancleOrder']);
+
 }); 

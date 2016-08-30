@@ -992,5 +992,42 @@ class UserApiController extends Controller
                                 ));
         }
 
+    }
+
+    public function cancleOrder(Request $request)
+    {
+        $pick_up_id = $request->pick_up_id;
+
+        $pickup = Pickupreq::find($pick_up_id);
+        $pickup->order_status = 5;
+        if($pickup->save())
+        {
+            $order_tracker = OrderTracker::where('pick_up_req_id',$pick_up_id)->first();
+            $order_tracker->order_status = 5;
+            if($order_tracker->save())
+            {
+                return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'message' => "Order cancelled."        
+                                ));
+            }
+            else
+            {
+                return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Could not cancle your order!"        
+                                ));
+            }
+        }
+        else
+        {
+            return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Could not cancle your order!"        
+                                ));
+        }
     } 
 }
