@@ -61,6 +61,9 @@ Route::group(['middleware' => ['user']], function () {
 /*Admin Routes*/
 Route::get('/admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
 Route::post('/admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-admin-login']);
+//check for session disable back button
+Route::post('/check-session', ['uses' => 'AdminController@checkForSession', 'as' => 'checkForSession']);
+//session check for back button
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('/dashboard', ['uses' => 'AdminController@getDashboard', 'as' => 'get-admin-dashboard']);
 	Route::get('/logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);

@@ -31,6 +31,11 @@ use Illuminate\Support\Facades\Event;
 use App\IndexContent;
 class MainController extends Controller
 {
+    
+    /*public function __construct() 
+    {
+        pu$isLoggedIn = 0;
+    }*/
     public function getIndex() {
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
@@ -51,6 +56,16 @@ class MainController extends Controller
             return view('pages.login', compact('site_details'));
         }
     }
+    //check for session for back button
+    /*public function checkForSessioUser(Request $request) {
+        if (auth()->guard('users')->user()) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }*/
     public function getSignUp(){
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();

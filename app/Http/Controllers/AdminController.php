@@ -46,6 +46,16 @@ class AdminController extends Controller
             return view('admin.login');
         }
     }
+    //disbale back after logout function
+    public function checkForSession(Request $request) {
+        if (Auth::check()) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     public function LoginAttempt(Request $request) {
         //dd($request);
         //protected $guard = {'admin'};

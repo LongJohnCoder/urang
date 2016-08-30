@@ -23,6 +23,20 @@
                 return false;
             }
         });
+        //check for session disable back after logout
+        $.ajax({
+            url: "{{route('checkForSession')}}",
+            type: "POST",
+            data: {_token: "{{Session::token()}}"},
+            success: function(data) {
+                //console.log(data);
+                if (data == 0) 
+                {
+                    //i.e no session
+                    document.location.href="{!! route('get-admin-login') !!}";
+                }
+            }
+        });
     });
 </script>
 
