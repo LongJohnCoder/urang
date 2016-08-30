@@ -183,11 +183,17 @@
                                 </select>  
                               </td>
                               <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
+
                               <td>{{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
                               @if($pickup->school_donations != null)
                                 <b>Donated Money :</b>
-                              @endif 
-                              {{$pickup->school_donations != null ? '$'.($pickup->total_price*$donate_money_percentage->percentage)/100 : ''}}</td>
+                                @if($donate_money_percentage != null)
+                                ${{($pickup->total_price*$donate_money_percentage->percentage)/100}}
+                                @else
+                                  Set Up Donation Percentage
+                                @endif
+                              @endif
+                              </td>
                               <td>
                                  <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
                                  <input type="hidden" name="user_id" value="{{$pickup->user_id}}" id="user_id_{{$pickup->id}}"></input>

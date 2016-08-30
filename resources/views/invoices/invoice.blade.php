@@ -133,7 +133,7 @@
                 </tr>
                 <tr class="details">
                     <td>{{$school_details->school_name}}</td>
-                    <td>{{($total_price*$school_donation_per->percentage)/100}}</td>
+                    <td>${{($total_price*$school_donation_per->percentage)/100}}</td>
                 </tr>
             @endif
             <tr class="total">

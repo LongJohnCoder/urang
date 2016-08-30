@@ -42,11 +42,12 @@
 			            <th>Final Invoice</th>
 			            <th>Payment Status</th>
 			            <th>Delete</th>
-			            @if(count($pick_up_req) > 0)
+			            <!-- @if(count($pick_up_req) > 0)
 			      			@foreach($pick_up_req as $req)
 			      				<th>{{$req->order_status != 5 ? "cancel order" : "undo"}}</th>
 			      			@endforeach
-			      		@endif
+			      		@endif -->
+			      		<th>Cancel Order</th>
 			            <th>Invoice</th>
 			         </tr>
 			      </thead>
@@ -84,9 +85,9 @@
 				          		</td>
 				          		<td>
 				          			@if($req->order_status == 1)
-				          				<button type="button" class="btn btn-xs btn-warning" onclick="return CancelReq('{{$req->id}}', 'cancel');"><i class="fa fa-times" aria-hidden="true"></i></button>
+				          				<button type="button" class="btn btn-xs btn-warning" onclick="return CancelReq('{{$req->id}}', 'cancel');"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
 				          			@elseif($req->order_status == 5)
-				          				<button type="button" class="btn btn-xs btn-warning" onclick="return CancelReq('{{$req->id}}', 'open');"><i class="fa fa-check" aria-hidden="true"></i></button>
+				          				<button type="button" class="btn btn-xs btn-warning" onclick="return CancelReq('{{$req->id}}', 'open');"><i class="fa fa-check" aria-hidden="true"></i> Undo</button>
 				          			@else
 				          				<button type="button" class="btn btn-xs btn-warning" disabled="true"><i class="fa fa-times" aria-hidden="true"></i></button>
 				          			@endif
