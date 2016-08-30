@@ -892,7 +892,7 @@
       }
     }
    }
-   function sayMeThePrice(price, coupon, pickUpId = 0) {
+   function sayMeThePrice(price, coupon, pickUpId) {
     var final_price = 0.00;
     if ($.trim(coupon)) 
     {
@@ -907,14 +907,14 @@
           {
             final_price = (price-(price*(data/100)));
             $('#gross_price').text("$"+final_price.toFixed(2));
-            if (pickUpId != 0) 
+            if (typeof pickUpId != 'undefined') 
             {
               $('#chargable_'+pickUpId).val(final_price.toFixed(2));
             }
           } 
           else {
             $('#gross_price').text("$"+price);
-            if (pickUpId != 0) 
+            if (typeof pickUpId != 'undefined') 
             {
               $('#chargable_'+pickUpId).val(price);
             }

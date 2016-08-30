@@ -52,12 +52,21 @@ class InvoiceController extends Controller
              //$user_info = UserDetails::where('user_id', $request->req_user_id)->first();
              if ($payOrNot->school_donation_id != null) {
                 $fetch_percentage = SchoolDonationPercentage::first();
-                $new_percentage = $fetch_percentage->percentage/100;
+                //dd($fetch_percentage);
+                if ($fetch_percentage == null) {
+                    $new_percentage = 0;
+                }
+                else
+                {
+                    $new_percentage = $fetch_percentage->percentage/100;
+                }
                 $school = SchoolDonations::find($payOrNot->school_donation_id);
-                $present_pending_money = $school->pending_money;
-                $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
-                $school->pending_money = $updated_pending_money;
-                $school->save();
+                if ($school) {
+                    $present_pending_money = $school->pending_money;
+                    $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
+                    $school->pending_money = $updated_pending_money;
+                    $school->save();
+                }
              }
              $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
              $search_pickupreq->total_price = $total_price;
@@ -145,11 +154,14 @@ class InvoiceController extends Controller
                     foreach ($getPickUpReq as $pickup) {
                         $total_price += ($pickup->quantity*$pickup->price);    
                     }
+                    //return $total_price;
                     $find_pickup = Pickupreq::find($request->pick_up_req_id);
+                    //return $find_pickup;
                     if ($find_pickup) {
                         $find_pickup->total_price = $total_price;
                         $find_pickup->save();
                     }
+                    //return $find_pickup->total_price;
                 }
                 return 1;
             }
