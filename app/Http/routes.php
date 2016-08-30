@@ -36,7 +36,10 @@ Route::get('/tailoring', ['uses' => 'MainController@getTailoring', 'as' => 'getT
 Route::get('/wet-cleaning', ['uses' => 'MainController@getWetCleaning', 'as' => 'getWetCleaningFront']);
 Route::get('/complaints', ['uses' => 'MainController@getComplaints', 'as' => 'getComplaints']);
 Route::post('/complaints', ['uses' => 'MainController@postComplaints', 'as' => 'postComplaints']);
-
+Route::get('/forgot-password', ['uses' => 'MainController@getForgotPassword', 'as' => 'getForgotPassword']);
+Route::post('/forgot-password', ['uses' => 'MainController@postForgotPassword', 'as' => 'postForgotPassword']);
+Route::get('/confirm-reset-password/{id}', ['uses' => 'MainController@getResetUserPassword', 'as' => 'getresetUserPassword']);
+Route::post('/reset-password-save', ['uses' => 'MainController@postResetPassword', 'as' => 'postResetPassword']);
 /*after login user functionality in middleware*/
 Route::get('/login', ['uses' => 'MainController@getLogin' ,'as' => 'getLogin']);
 Route::post('/login-attempt', ['uses' => 'MainController@postCustomerLogin', 'as' => 'postCustomerLogin']);

@@ -26,6 +26,7 @@ use App\OrderTracker;
 use App\SchoolPreferences;
 use App\Events\SendEmailOnSignUp;
 use App\Events\SendCustomerComplaints;
+use App\Events\ResetPassword;
 use Illuminate\Support\Facades\Event;
 use App\IndexContent;
 class MainController extends Controller
@@ -118,6 +119,51 @@ class MainController extends Controller
         else
         {
             return redirect()->route('getSignUp')->with('fail', 'Password and confirm password did not match');
+        }
+    }
+    public function getForgotPassword() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        return view('pages.forgot-password', compact('site_details'));
+    }
+    public function postForgotPassword(Request $request) {
+        $search_user = User::where('email', $request->forgot_pass_user_email)->first();
+        if ($search_user != null && $search_user->block_status == 0) {
+            //dd(base64_encode($search_user->id));
+            Event::fire(new ResetPassword($search_user));
+            return redirect()->route('getForgotPassword')->with('success', "password reset email has been sent to your email. Did not receive one? try again after 1 min.");
+        }
+        else
+        {
+            return redirect()->route('getForgotPassword')->with('fail', "Could not find user of this email or make sure you are not blocked");
+        }
+    }
+    public function getResetUserPassword($id) {
+        $reset_id = base64_decode($id);
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        return view('pages.reset-password', compact('reset_id'));
+    }
+    public function postResetPassword(Request $request) {
+        $this->validate($request, [
+            'new_password' => 'required|min:6',
+            'conf_new_password' => 'required|min:6|same:new_password',
+            'user_id' => 'required',
+        ]);
+        $user = User::find($request->user_id);
+        if ($user) {
+            $user->password = bcrypt($request->conf_new_password);
+            if ($user->save()) {
+                return redirect()->route('getLogin')->with('success', "Successfully reset password. you can login now!");
+            }
+            else
+            {
+                return redirect()->route('getLogin')->with('fail', "Error in saving new password please try again later!");
+            }
+        }
+        else
+        {
+            return redirect()->route('getLogin')->with('fail', 'Cannot reset your password try to create a new account!');
         }
     }
     public function postCustomerLogin(Request $request) {
@@ -475,14 +521,23 @@ class MainController extends Controller
                 }
                 //dd($total_price);
                 $percentage = SchoolDonationPercentage::first();
-                $new_percentage = $percentage->percentage/100;
+                if ($percentage == null) {
+                    $new_percentage = 0;
+                }
+                else
+                {
+                    $new_percentage = $percentage->percentage/100;
+                }
+                
                 $pick_up_req->school_donation_id = $request->school_donation_id;
                 //$pick_up_req->school_donation_amount = $request->school_donation_amount;
                 $search = SchoolDonations::find($request->school_donation_id);
-                $present_pending_money = $search->pending_money;
-                $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
-                $search->pending_money = $updated_pending_money;
-                $search->save();
+                if ($search) {
+                    $present_pending_money = $search->pending_money;
+                    $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
+                    $search->pending_money = $updated_pending_money;
+                    $search->save();
+                }
                 //save the school in user details for future ref
                 if ($request->identifier == "admin") {
                     $update_user_details = UserDetails::where('user_id', $request->user_id)->first();

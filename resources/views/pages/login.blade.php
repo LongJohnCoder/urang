@@ -30,6 +30,7 @@
                </div>
               <button type="submit">Login</button>
               <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+              <p class="message"><a href="{{route('getForgotPassword')}}">Forgot Password?</a></p>
               <p class="message">Not registered? <a href="{{route('getSignUp')}}">Create an account</a></p>
             </form>
           </div>

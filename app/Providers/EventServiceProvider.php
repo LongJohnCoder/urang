@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SendCustomerComplaints' => [
         'App\Listeners\CustomerComplaintsListener',
         ],
+        'App\Events\ResetPassword' => [
+        'App\Listeners\ResetPasswordListener',
+        ],
     ];
 
     /**
