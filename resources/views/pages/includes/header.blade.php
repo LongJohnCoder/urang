@@ -4,6 +4,8 @@
 <meta http-equiv="cache-control" content="private, max-age=0, no-cache">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="0">
+<meta name="description" content="{{isset($site_details) && $site_details!= null && $site_details->meta_keywords!=null ? $site_details->meta_keywords : 'U-rang'}}">
+<meta name="keywords" content="{{isset($site_details) && $site_details!= null && $site_details->meta_description!=null ? $site_details->meta_description : 'U-rang'}}">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
