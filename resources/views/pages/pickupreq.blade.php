@@ -191,7 +191,7 @@
               </div>
             </div>
             <div class="form-group">
-                <label>Do you have a coupon code ?<p style="color: red;">Please leave the field blank if you dont hav any.</p></label>
+                <label>Do you have a coupon code ?<p style="color: red;">Please leave the field blank if you dont have any.</p></label>
                 <input type="text" name="coupon" id="coupon" class="form-control" />
             </div>
             <div class="form-group">
