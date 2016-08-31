@@ -316,7 +316,10 @@
 		});
 		var todays_date=  $.datepicker.formatDate('mm/dd/yy', new Date());
      	$('#datepicker').val(todays_date);
-     	$( "#datepicker" ).datepicker();
+     	var dateToday = new Date(); 
+     	$( "#datepicker" ).datepicker({
+     		minDate: dateToday
+     	});
      	$('#modal-close').click(function(){
 	        if($('#list_items_json').val() == '')
 	        {

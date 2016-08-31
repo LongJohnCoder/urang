@@ -311,7 +311,10 @@
 
     //sweetAlert("Oops...", "Something went wrong!", "error");
       $('#schoolNameDropDown').val("{{auth()->guard('users')->user()->user_details->school_id}}");
-      $( "#datepicker" ).datepicker();
+      var dateToday = new Date(); 
+      $( "#datepicker" ).datepicker({
+        minDate: dateToday
+      });
       $( ".calendar" ).click(function(e) {
         e.preventDefault();
         $( "#datepicker" ).focus();
