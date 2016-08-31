@@ -88,3 +88,22 @@
    </section>
 </footer>
 <script src="{{url('/')}}/public/new/js/custom.js" type="text/javascript"></script>
+<script type="text/javascript">
+   $(document).ready(function(){
+      var block_status = "";
+      block_status = '{{auth()->guard("users")->user() != null ? auth()->guard("users")->user()->block_status : 0}}';
+      //console.log(block_status);
+      if (block_status == 1) 
+      {
+         $.ajax({
+            url: "{{route('getLogout')}}",
+            type: "GET",
+            data: {},
+            success:function(response) {
+               //console.log(response);
+               location.reload();
+            }
+         });
+      }
+   });
+</script>

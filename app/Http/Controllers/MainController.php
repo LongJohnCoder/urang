@@ -29,13 +29,29 @@ use App\Events\SendCustomerComplaints;
 use App\Events\ResetPassword;
 use Illuminate\Support\Facades\Event;
 use App\IndexContent;
+use Session;
 class MainController extends Controller
 {
     
-    /*public function __construct() 
+    public function __construct() 
     {
-        pu$isLoggedIn = 0;
-    }*/
+        /*if (auth()->guard('users')->user()) {
+            $isBlocked = auth()->guard('users')->user()->block_status;
+            if ($isBlocked == 1) {
+                $user = auth()->guard('users');
+                $user->logout();
+            }
+        }
+        else
+        {
+            //dd('hete');
+            return redirect()->route('getLogin');
+        }*/
+        /*if ($flag == true) {
+            return redirect()->route('getLogin');
+            $flag = false;
+        }*/
+    }
     public function getIndex() {
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
