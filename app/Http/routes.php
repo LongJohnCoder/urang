@@ -199,4 +199,6 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/get-card-details', ['uses' => 'ApiV1\UserApiController@getCreditCardDetails', 'as' => 'getCreditCardDetails']);
     Route::post('/cancle-order', ['uses' => 'ApiV1\UserApiController@cancleOrder', 'as' => 'cancleOrder']);
 
+    Route::post('/postForgotPassword', ['uses' => 'ApiV1\UserApiController@postForgotPassword', 'as' => 'postForgotPassword']);
+
 }); 

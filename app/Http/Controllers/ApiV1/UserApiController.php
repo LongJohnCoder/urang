@@ -1029,5 +1029,29 @@ class UserApiController extends Controller
                                     'message' => "Could not cancle your order!"        
                                 ));
         }
+    }
+
+    public function postForgotPassword(Request $request) 
+    {
+        $search_user = User::where('email', $request->forgot_pass_user_email)->first();
+        if ($search_user != null && $search_user->block_status == 0) {
+            //dd(base64_encode($search_user->id));
+            Event::fire(new ResetPassword($search_user));
+            /*return redirect()->route('getForgotPassword')->with('success', "password reset email has been sent to your email. Did not receive one? try again after 1 min.");*/
+            return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'message' => "password reset email has been sent to your email. Did not receive one? try again after 1 min."        
+                                ));
+        }
+        else
+        {
+            /*return redirect()->route('getForgotPassword')->with('fail', "Could not find user of this email or make sure you are not blocked");*/
+            return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Could not find user of this email or make sure you are not blocked"        
+                                ));
+        }
     } 
 }
