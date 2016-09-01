@@ -33,6 +33,7 @@ use App\Invoice;
 use App\Events\SendEmailOnSignUp;
 use App\Events\SendCustomerComplaints;
 use App\Events\ResetPassword;
+use Illuminate\Support\Facades\Event;
 
 class UserApiController extends Controller
 {
