@@ -30,6 +30,9 @@ use App\PickUpTime;
 use App\SchoolDonationPercentage;
 use App\SchoolPreferences;
 use App\Invoice;
+use App\Events\SendEmailOnSignUp;
+use App\Events\SendCustomerComplaints;
+use App\Events\ResetPassword;
 
 class UserApiController extends Controller
 {
