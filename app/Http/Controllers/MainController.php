@@ -857,7 +857,7 @@ class MainController extends Controller
         $getPickup = Pickupreq::find($request->id);
         if ($getPickup) {
             if ($request->flag == 'cancel') {
-                $order_tracker = OrderTracker::where('pick_up_req_id',$request->id);
+                $order_tracker = OrderTracker::where('pick_up_req_id',$request->id)->first();
                 $order_tracker->order_status = 5;
                 $getPickup->order_status = 5;
             }
