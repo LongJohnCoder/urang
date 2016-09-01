@@ -703,6 +703,7 @@ class MainController extends Controller
     public function postDeletePickUp(Request $request) {
         $id_to_del = $request->id;
         $search = Pickupreq::find($id_to_del);
+        $trackOrder = OrderTracker::where('pick_up_req_id',$request->id)->first();
         if ($search) {
            if ($search->pick_up_type == 0) {
                 $search->delete();
@@ -710,7 +711,6 @@ class MainController extends Controller
                 foreach ($search_order_details as $details) {
                     $details->delete();
                 }
-                $trackOrder = OrderTracker::where('pick_up_req_id',$request->id)->first();
                 if($trackOrder->delete())
                 {
                     return 1;
@@ -720,7 +720,10 @@ class MainController extends Controller
            else
            {
                 if ($search->delete()) {
-                    return 1;
+                    if($trackOrder->delete())
+                    {
+                        return 1;
+                    }
                 }
                 else
                 {
