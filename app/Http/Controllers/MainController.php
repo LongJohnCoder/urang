@@ -710,7 +710,12 @@ class MainController extends Controller
                 foreach ($search_order_details as $details) {
                     $details->delete();
                 }
-                return 1;
+                $trackOrder = OrderTracker::where('pick_up_req_id',$request->id)->first();
+                if($trackOrder->delete())
+                {
+                    return 1;
+                }
+                
            }
            else
            {
