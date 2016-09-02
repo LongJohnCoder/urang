@@ -122,7 +122,7 @@
              <div class="form-group">
                 <div class="checkbox checkbox-large">
                   <label>
-                    <input type="checkbox" name="urang_bag"> Please tick this box if you need U-Rang bag.
+                    <input type="checkbox" name="urang_bag"> Please click this box if you need U-Rang bag.
                   </label>
               </div>
             </div>
@@ -140,7 +140,7 @@
               <label for="schedule">How to pay </label>
               <div class="schedule-radio">
                 <label class="radio">
-                  <input type="radio" name="pay_method" id="inlineRadio6" value="1" required=""> Charge my credit card this time for amount $ 
+                  <input type="radio" name="pay_method" id="inlineRadio6" value="1" required="" checked> Charge my credit card this time for amount $ 
                 </label>
                 <br>
                 <!-- <label class="radio">
@@ -172,7 +172,7 @@
                 <option value="0">No</option>
               </select>
             </div> -->
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="client_type">What type of client you are ?</label>
               <select name="client_type" id="client_type" required="">
                 <option value="">Client Type</option>
@@ -181,7 +181,7 @@
                 <option value="corporate_client">Corporate Client</option>
                 <option value="reff">Referral</option>
               </select>
-            </div>
+            </div> -->
             <div class="form-group">
               <div class="checkbox checkbox-large">
                 <label>

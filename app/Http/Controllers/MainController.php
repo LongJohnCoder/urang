@@ -416,7 +416,7 @@ class MainController extends Controller
             $flag=Mail::send('pages.sendEmailContact', ['firstName'=>$firstname,'lastName'=>$lastname,'email'=>$email,'subject'=>$subject,'text'=>$text,'phone'=>$phone], function($msg) use($request)
                         {
                             $msg->from($request->email, 'U-rang');
-                            $msg->to('work@tier5.us', $request->firstName)->subject('U-rang Details');
+                            $msg->to('lisa@u-rang.com', $request->firstName)->subject('U-rang Details');
                         });
 
             if($flag==1)
@@ -502,7 +502,7 @@ class MainController extends Controller
     }
     public function postPickUp (Request $request) {
         //dd($request);
-        if ($request->address && $request->pick_up_date && $request->client_type && isset($request->order_type) && $request->pay_method) {
+        if ($request->address && $request->pick_up_date && isset($request->order_type) && $request->pay_method) {
             $total_price = 0.00;
             $pick_up_req = new Pickupreq();
             if ($request->identifier == "admin") {
