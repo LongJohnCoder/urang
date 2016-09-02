@@ -2240,6 +2240,27 @@ class AdminController extends Controller
         $searchInvoice['pick_up_req_id'] = $request->pick_up_id;
         $searchInvoice['user_id'] = $request->user_id;
         $invoice = Invoice::where($searchInvoice)->first();
+
+        $previous_price = 0;
+        $pick_up_req_id = $request->pick_up_id;
+
+        $pickups = Pickupreq::where('id',$pick_up_req_id)->first();
+
+        //return $pick_up_req_id;
+
+        $previous_price = $pickups->total_price;
+        if($previous_price>0)
+        {
+            $nowquantity = $invoice->quantity;
+            $nowPriceEach = $invoice->price;
+
+            $total_price_to_deduct = $nowquantity * $nowPriceEach;
+
+            $pickups->total_price = $previous_price - $total_price_to_deduct;
+
+            $pickups->save();
+        }
+
         if($invoice->delete())
         {
             $searchDetails['items'] = $request->item_name;
@@ -2247,7 +2268,10 @@ class AdminController extends Controller
             $searchDetails['user_id'] = $request->user_id;
 
             $order_details = OrderDetails::where($searchDetails)->first();
-            $order_details->delete();
+            if($order_details)
+            {
+                $order_details->delete();
+            }
             return 1;
         }
         else
@@ -2259,7 +2283,31 @@ class AdminController extends Controller
 
     public function deleteItemFromInvoice(Request $request)
     {
+        $previous_price = 0;
+
+        $pick_up_req_id = $request->pickupid;
+        $pickups = Pickupreq::where('id',$pick_up_req_id)->first();
+
+        //return $pick_up_req_id;
+
+        $previous_price = $pickups->total_price;
+
+
+
         $invoice = Invoice::where('custom_item_add_id',$request->custom_item_add_id)->first();
+
+        if($previous_price>0)
+        {
+            $nowquantity = $invoice->quantity;
+            $nowPriceEach = $invoice->price;
+
+            $total_price_to_deduct = $nowquantity * $nowPriceEach;
+
+            $pickups->total_price = $previous_price - $total_price_to_deduct;
+
+            $pickups->save();
+        }
+
         if($invoice->delete())
         {
             return 1;

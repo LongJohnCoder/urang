@@ -886,7 +886,7 @@
       $.ajax({
           url: "{{route('deleteItemFromInvoice')}}",
           type: "POST",
-          data: {_token: "{{Session::token()}}", custom_item_add_id: id},
+          data: {_token: "{{Session::token()}}", custom_item_add_id: id,pickupid: pickupid},
           success: function(data) {
             //console.log(data);
             if (data == 1) 
