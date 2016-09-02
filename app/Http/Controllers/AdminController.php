@@ -2269,4 +2269,48 @@ class AdminController extends Controller
             return "Some thing went wrong!";
         }
     }
+
+    public function postDeleteTotalPickUp(Request $request) {
+        $id_to_del = $request->id;
+        $search = Pickupreq::find($id_to_del);
+        $trackOrder = OrderTracker::where('pick_up_req_id',$request->id)->first();
+        if ($search) {
+           if ($search->pick_up_type == 0) {
+                $search->delete();
+                $search_order_details = OrderDetails::where('pick_up_req_id', $id_to_del)->get();
+                foreach ($search_order_details as $details) {
+                    $details->delete();
+                }
+                if($trackOrder->delete())
+                {
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order deleted successfully');
+                }
+                
+           }
+           else
+           {
+                if ($search->delete()) {
+                    if($trackOrder->delete())
+                    {
+                        return redirect()->route('getCustomerOrders')->with('success', 'Order deleted successfully');
+                    }
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('error', 'Cannot delete the order now!');
+                }
+           }
+           $invoices = Invoice::where('pick_up_req_id', $id_to_del)->get();
+           if($invoice)
+           {
+                foreach ($invoices as $invoice) {
+                    $invoice->delete();
+                }
+           }
+        }
+        else
+        {
+           return redirect()->route('getCustomerOrders')->with('error', 'Cannot delete the order now!');
+        }
+    }
 }

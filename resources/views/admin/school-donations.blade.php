@@ -306,11 +306,14 @@
 					return;*/
 					if (data.length > 0) 
 					{
+						search_text = '';
+						
 						for(var i=0 ; i<= data.length; i++)
 						{
 							if (data[i]) 
 							{
-								$('#res_temp').append('<a href="#" onclick="return setvalue(\''+data[i].school_name+'\');">'+data[i].school_name+'</a><br>');
+								search_text += '<a href="#" onclick="return setvalue(\''+data[i].school_name+'\');">'+data[i].school_name+'</a><br>';
+								$('#res_temp').html(search_text);
 							}	
 						}
 					}

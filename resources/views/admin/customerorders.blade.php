@@ -90,6 +90,7 @@
                            <th>School Donation</th>
                            <th></th>
                            <th></th>
+                           <th></th>
                         </tr>
                      </thead>
                      <tbody>
@@ -225,6 +226,14 @@
                               <td>order cancelled</td>
                               <!-- <td>order cancelled</td> -->
                            @endif
+                           <td>
+                            <form action="{{route('postDeleteTotalPickUp')}}" method="post">
+                              <input type="hidden" name="id" value="{{$pickup->id}}">
+                              <input type="hidden" name="_token" value="{{Session::token()}}">
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                                
+                           </td>
                         </tr>
                         @endforeach
                      </tbody>
@@ -716,6 +725,11 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
+    function deleteTotalPickup(id)
+    {
+        alert(id);
+    }
+
     var DELETE_pick_up_id = "";
     var DELETE_user_id = "";
 
@@ -787,7 +801,7 @@
             $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
             $('#invoice_no').text('{{$invoice->invoice_id}}');
             $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}');
-            div += "<tr><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Delete</button>@else click on the edit items @endif</td></tr>";
+            div += "<tr><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Delete</button>@else @endif</td></tr>";
             total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
             $('#total_price').text("$"+total_price);
             $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
@@ -1312,6 +1326,8 @@
     } else {
       submitMyForm(pick_up_id1);
     }
+
+    
   }
 </script>
 @endsection
