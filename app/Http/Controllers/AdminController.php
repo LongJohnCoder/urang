@@ -359,6 +359,11 @@ class AdminController extends Controller
         $search = Categories::find($request->id);
         if ($search) {
             if ($search->delete()) {
+
+                $price_list = PriceList::where('category_id',$request->id)->get();
+                foreach ($price_list as $item) {
+                    $item->delete();
+                }
                 return 1;
             }
             else
@@ -427,18 +432,28 @@ class AdminController extends Controller
                 $card_details = CustomerCreditCardInfo::where('user_id', $id)->first();
                 if ($card_details) {
                     //$card_details->delete();
-                    if ($card_details->delete()) {
+                    if ($card_details->delete()) 
+                    {
                         $search = Pickupreq::where('user_id', $id)->get();
-                        foreach ($search as $pick_up_req) {
-                            $pick_up_req->delete();
+                        if($search)
+                        {
+                            foreach ($search as $pick_up_req) {
+                                $pick_up_req->delete();
+                            }
                         }
                         $search_invoice = Invoice::where('user_id', $id)->get();
-                        foreach ($search_invoice as $inv) {
-                            $inv->delete();
+                        if($search_invoice)
+                        {
+                            foreach ($search_invoice as $inv) {
+                                $inv->delete();
+                            }
                         }
                         $orders = OrderDetails::where('user_id', $id)->get();
-                        foreach ($orders as $each_order) {
-                            $each_order->delete();
+                        if($orders)
+                        {
+                            foreach ($orders as $each_order) {
+                                $each_order->delete();
+                            }
                         }
                         return 1;
                     }
@@ -461,6 +476,62 @@ class AdminController extends Controller
         else
         {
             return "Cannot find a user with that id";
+        }
+    }
+
+    public function DeleteCustomerNew(Request $request)
+    {
+        $id = $request->id;
+        $user = User::find($id);
+        if($user)
+        {
+            if($user->delete())
+            {
+                $user_details = UserDetails::where('user_id', $id)->first();
+                if($user_details->delete())
+                {
+                        $card_details = CustomerCreditCardInfo::where('user_id', $id)->first();
+                        if($card_details)
+                        {
+                            $card_details->delete();
+                        }
+                        $search = Pickupreq::where('user_id', $id)->get();
+                        if($search)
+                        {
+                            foreach ($search as $pick_up_req) {
+                                $pick_up_req->delete();
+                            }
+                        }
+                        $search_invoice = Invoice::where('user_id', $id)->get();
+                        if($search_invoice)
+                        {
+                            foreach ($search_invoice as $inv) {
+                                $inv->delete();
+                            }
+                        }
+                        $orders = OrderDetails::where('user_id', $id)->get();
+                        if($orders)
+                        {
+                            foreach ($orders as $each_order) {
+                                $each_order->delete();
+                            }
+                        }
+                        return 1;
+                }
+                else
+                {
+                    return "Sorry cannot delete user details";
+                }
+                
+            }
+            else
+            {
+                return "Sorry cannot delete the user";
+            }
+        }
+        else
+        {
+            return "Sorry cannot find the user ID";
         }
     }
     public function postEditCustomer(Request $request) {

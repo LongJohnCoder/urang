@@ -136,7 +136,7 @@
 										{
 											console.log(data);
 											$('#errordiv').show();
-											$('#errordiv').html('Some Error occured please try again later');
+											$('#errordiv').html(data);
 										}
 										//console.log(data);
 									}
