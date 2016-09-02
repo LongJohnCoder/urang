@@ -65,6 +65,8 @@ Route::post('/admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-a
 Route::post('/check-session', ['uses' => 'AdminController@checkForSession', 'as' => 'checkForSession']);
 //session check for back button
 Route::group(['middleware' => ['auth']], function () {
+    Route::post('/deleteItemFromInvoice', ['uses' => 'AdminController@deleteItemFromInvoice', 'as' => 'deleteItemFromInvoice']);
+    Route::post('/postDeleteItemByID', ['uses' => 'AdminController@postDeleteItemByID', 'as' => 'postDeleteItemByID']);
 	Route::get('/dashboard', ['uses' => 'AdminController@getDashboard', 'as' => 'get-admin-dashboard']);
 	Route::get('/logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);
 	Route::get('/profile-details', ['uses' => 'AdminController@getProfile', 'as' => 'get-admin-profile']);

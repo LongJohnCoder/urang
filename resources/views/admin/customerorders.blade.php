@@ -670,6 +670,7 @@
                      <th>Item Name</th>
                      <th>Item Price</th>
                      <th>Action</th>
+                     <th>Delete</th>
                   </tr>
                </thead>
                <tbody>
@@ -686,6 +687,7 @@
                          <td id="item2_{{$list->id}}" style="display: none;">{{$list->item}}</td>
                          <td id="price2_{{$list->id}}" style="display: none;">{{$list->price}}</td>
                          <td id="btn_action_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td>
+                         <td id="btn_delete_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-danger btn-xs" onclick="delete_id({{$list->id}})" id="btn_delete_{{$list->id}}">Delete</button></td>
                       </tr>
                     @endforeach
                   @else
@@ -713,6 +715,10 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function(){
+
+    var DELETE_pick_up_id = "";
+    var DELETE_user_id = "";
+
     $('#show_modal_items').click(function(){
       $('#row_id').val($('#pick_up_req_id_alter').val());
       $('#row_user_id').val($('#user_id').val());
@@ -781,7 +787,7 @@
             $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
             $('#invoice_no').text('{{$invoice->invoice_id}}');
             $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}');
-            div += "<tr><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td></tr>";
+            div += "<tr><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Delete</button>@else click on the edit items @endif</td></tr>";
             total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
             $('#total_price').text("$"+total_price);
             $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
@@ -858,6 +864,27 @@
       
     }
     
+   }
+
+   function deleteManualItems(id, usr_id, pickupid, invoiceid)
+   {
+      //alert(id);
+      $.ajax({
+          url: "{{route('deleteItemFromInvoice')}}",
+          type: "POST",
+          data: {_token: "{{Session::token()}}", custom_item_add_id: id},
+          success: function(data) {
+            //console.log(data);
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else
+            {
+              sweetAlert("Oops!", data, "error");
+            }
+          }
+        });
    }
    //function to add an item in the list of invoice which is not in list
    function addExtraItemInv(invoice_id, pickup_id, user_id) {
@@ -995,6 +1022,25 @@
       sweetAlert("Oops...", "Please select atleast one item", "error");
      }
    }
+
+   function delete_id(id)
+   {
+      /*alert("pickup id "+DELETE_pick_up_id);
+      alert("User id "+DELETE_user_id);
+      alert($('#item2_'+id).text());*/
+      $.ajax({
+        url: "{{route('postDeleteItemByID')}}",
+        type: "POST",
+        data: {item_name: $('#item2_'+id).text(),user_id: DELETE_user_id,pick_up_id: DELETE_pick_up_id,item_id: id, _token: "{{Session::token()}}"},
+        success: function(data) {
+            console.log(data);
+            if(data==1)
+            {
+              location.reload();
+            }
+        }
+    });
+   }
    function add_item(id) {
     arrItems = [];
     if($('#btn_'+id).text()=='Add')
@@ -1034,6 +1080,8 @@
    //mywork
    function openEditItemModal(pickup_id,user_id)
    {
+    DELETE_user_id = user_id;
+    DELETE_pick_up_id = pickup_id;
     jsonObj = [];
     var setJson= '';
     $.ajax({
@@ -1094,6 +1142,7 @@
         $('#item2_'+data[i].id).show();
         $('#price2_'+data[i].id).show();
         $('#btn_action_'+data[i].id).show();
+        $('#btn_delete_'+data[i].id).show();
         if ($('#btn2_'+data[i].id).text() == "Remove") 
         {
           $('#number2_'+data[i].id).attr('disabled', 'true');

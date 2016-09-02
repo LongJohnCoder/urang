@@ -2232,4 +2232,41 @@ class AdminController extends Controller
         //return view('admin.school-donations', compact('user_data', 'site_details', 'list_school', 'neighborhood', 'percentage'));
         return view('admin.school-donations')->with('list_school', $list_school)->with('user_data', $user_data)->with('site_details', $site_details)->with('neighborhood', $neighborhood)->with('percentage', $percentage);
     }
+
+    public function postDeleteItemByID(Request $request)
+    {
+        //return $request->item_id.$request->user_id.$request->pick_up_id.$request->item_name;
+        $searchInvoice['list_item_id'] = $request->item_id;
+        $searchInvoice['pick_up_req_id'] = $request->pick_up_id;
+        $searchInvoice['user_id'] = $request->user_id;
+        $invoice = Invoice::where($searchInvoice)->first();
+        if($invoice->delete())
+        {
+            $searchDetails['items'] = $request->item_name;
+            $searchDetails['pick_up_req_id'] = $request->pick_up_id;
+            $searchDetails['user_id'] = $request->user_id;
+
+            $order_details = OrderDetails::where($searchDetails)->first();
+            $order_details->delete();
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+        
+    }
+
+    public function deleteItemFromInvoice(Request $request)
+    {
+        $invoice = Invoice::where('custom_item_add_id',$request->custom_item_add_id)->first();
+        if($invoice->delete())
+        {
+            return 1;
+        }
+        else
+        {
+            return "Some thing went wrong!";
+        }
+    }
 }

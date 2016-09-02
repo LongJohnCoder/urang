@@ -29,7 +29,7 @@
                                                 address
                                             </div>
                                             <div class="info pull-right text-right">
-                                                <p class="no-margin">150 Broad Steet New York, NY 10005</p>
+                                                <p class="no-margin">15 Broad Steet New York, NY 10005</p>
                                                 <p class="no-margin">355 E 23rd Street New York, NY 10010</p>
                                             </div>
                                         </div>
