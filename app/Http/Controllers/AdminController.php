@@ -751,7 +751,7 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = SiteConfig::first();
-        $pickups = Pickupreq::orderBy('id','desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+        $pickups = Pickupreq::where('order_status',1)->orderBy('id','desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
         //dd($pickups);
         $donate_money_percentage = SchoolDonationPercentage::first();
         /*if (!$donate_money_percentage) {

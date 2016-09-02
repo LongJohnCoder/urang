@@ -82,7 +82,7 @@
                            <th>Order Status</th>
                            <th>Emergency</th>
                            <th>Payment Type</th>
-                           <th>Client Type</th>
+                           <!-- <th>Client Type</th> -->
                            <th>Total Amount</th>
                            <th>More Info</th>
                            <th>Mark As</th>
@@ -151,7 +151,7 @@
                            <td>{{ $order_status }}</td>
                            <td>{{ $is_emargency }}</td>
                            <td>{{ $payment_type }}</td>
-                           <td>{{ $pickup->client_type }} </td>
+                           <!-- <td>{{ $pickup->client_type }} </td> -->
                            <form id="change_status_form">
                               <td>${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                               <td>
@@ -503,9 +503,9 @@
                      <div class="col-md-5 col-sm-5"><span> {{ $is_emargency }}</span></div>
                   </div> -->
                   <div class="row">
-                     <div class="col-md-5 col-sm-5"><strong>Client Type</strong></div>
+                     <!-- <div class="col-md-5 col-sm-5"><strong>Client Type</strong></div> -->
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->client_type }}</span></div>
+                     <!-- <div class="col-md-5 col-sm-5"><span> {{ $pickup->client_type }}</span></div> -->
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Wash and Fold</strong></div>
