@@ -631,10 +631,10 @@
                 <label>Gross Price</label>
                 <div id="gross_price"></div>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                  <label>Take Action:</label>
                  <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
-              </div>
+              </div> -->
               <label>See Breakdown:</label>
               <table class="table table-bordered">
                  <thead>
