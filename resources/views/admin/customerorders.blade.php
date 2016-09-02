@@ -145,7 +145,19 @@
                            <td>{{ $pickup->user->email }}</td>
                            <td>{{ $pickup->address }}</td>
                            @if($pick_up_type == "Detailed Pickup")
-                           <td>{{ $pick_up_type }} <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button></td>
+                           <td>{{ $pick_up_type }} 
+                           
+                           <?php
+                            $checkOrderDetails = \App\OrderDetails::where('pick_up_req_id',$pickup->id)->get();
+                           ?>
+
+                           <!-- {{$checkOrderDetails}} -->
+                           @if(count($checkOrderDetails)>0)
+                           <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
+                           @endif
+                           
+
+                           </td>
                            @else
                            <td>{{ $pick_up_type }}</td>
                            @endif

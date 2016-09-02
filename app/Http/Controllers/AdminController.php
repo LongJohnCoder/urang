@@ -757,7 +757,8 @@ class AdminController extends Controller
         /*if (!$donate_money_percentage) {
             $donate_money_percentage = 0;
         }*/
-        return view('admin.customerorders', compact('user_data', 'site_details','pickups', 'donate_money_percentage'));
+        
+        return view('admin.customerorders', compact('user_data', 'site_details','pickups', 'donate_money_percentage','checkDetails'));
     }
 
     public function changeOrderStatusAdmin(Request $req)
