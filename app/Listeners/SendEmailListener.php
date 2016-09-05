@@ -29,7 +29,7 @@ class SendEmailListener
     {
         //dd($event->req);
         Mail::send('email.confirmation', array('email'=>$event->req->email, 'password' => $event->req->password, 'name' => $event->req->name, 'address' => $event->req->address, 'ph' => $event->req->personal_phone), function($message) use ($event){
-            $message->from("admin@u-rang.com", "Urang");
+            $message->from("lisa@u-rang.com", "Urang");
             $message->to($event->req->email, $event->req->name)->subject('Signup Details');
             });
     }
