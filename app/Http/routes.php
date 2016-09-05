@@ -206,5 +206,6 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/cancle-order', ['uses' => 'ApiV1\UserApiController@cancleOrder', 'as' => 'cancleOrder']);
 
     Route::post('/postForgotPassword', ['uses' => 'ApiV1\UserApiController@postForgotPassword', 'as' => 'postForgotPasswordApi']);
+    Route::post('/postCoupon', ['uses' => 'ApiV1\UserApiController@checkCoupon', 'as' => 'checkCoupon']);
 
 }); 
