@@ -247,7 +247,7 @@ ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.s
 				<div class="content">
 					<table>
 					<tr>
-						<td><img src="http://u-rang.com/images/logo.gif" alt="logo" /></td>
+						<td><img src="#" alt="logo" /></td>
 					</tr>
 				</table>
 				</div>
@@ -273,7 +273,7 @@ ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.s
 						<p class="lead">Thnak You! for signing up with u-rang.</p>
 						
 						<!-- A Real Hero (and a real human being) -->
-						<p><img src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2d/f2/new-york-city.jpg" /></p><!-- /hero -->
+						<p><img src="#" /></p><!-- /hero -->
 						
 						<!-- Callout Panel -->
 						<p class="callout">
@@ -288,7 +288,7 @@ ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.s
 						<p>Name: {{$name}}</p>
 						<p>Address: {{$address}}</p>
 						<p>Phone Number: {{$ph}}</p>
-						<a class="btn" href="http://u-rang.tier5-portfolio.com/">Our Website!</a>
+						<a class="btn" href="#">Our Website!</a>
 												
 						<br/>
 						<br/>							
