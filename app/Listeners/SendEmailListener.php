@@ -27,11 +27,10 @@ class SendEmailListener
      */
     public function handle(SendEmailOnSignUp $event)
     {
-        Mail::send('email.confirmation', array('email'=>$event->req->email), 
-            function($message) use ($event)
-            {
-            $message->from("admin@u-rang.com");
-            $message->to($event->req->email, $event->req->name)->subject('confirmation for signup');
+        //dd($event->req);
+        Mail::send('email.confirmation', array('email'=>$event->req->email, 'password' => $event->req->password, 'name' => $event->req->name, 'address' => $event->req->address, 'ph' => $event->req->personal_phone), function($message) use ($event){
+            $message->from("admin@u-rang.com", "Urang");
+            $message->to($event->req->email, $event->req->name)->subject('Signup Details');
             });
     }
 }
