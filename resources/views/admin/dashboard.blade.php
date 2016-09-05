@@ -72,14 +72,14 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <?php $i = 0; ?>
+                                <!-- <?php $i = 0; ?>
                                 @foreach($customers as $cus)
                                     @foreach($cus->order_details as $order)
                                         <?php $i += count($order); ?>
                                     @endforeach
-                                @endforeach
-                                <div class="huge">{{$i}}</div>
-                                <div>Scheduled Pickup!</div>
+                                @endforeach -->
+                                <div class="huge">{{$school_count}}</div>
+                                <div>School Listings!</div>
                             </div>
                         </div>
                     </div>
