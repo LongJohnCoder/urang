@@ -32,7 +32,7 @@
                         <ul>
                           <div style="display:none;">{{$test = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
                           @foreach($test as $hood)
-                            <li> <a href="{{route('getStandAloneNeighbor', $hood->url_slug)}}" target="_blank">{{$hood->name}}</a></li>
+                            <li> <a href="{{route('getStandAloneNeighbor', $hood->url_slug)}}">{{$hood->name}}</a></li>
                           @endforeach
                         </ul>
 
@@ -43,11 +43,11 @@
                       <li>
                         <a href="{{route('getServices')}}">Services <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                         <ul style="width: 160%">
-                          <li class="dryclean"><a target="_blank" href="{{route('getStandAloneService', 'dry-clean')}}">DRY CLEAN ONLY</a></li>
-                          <li class="washnfold"><a target="_blank" href="{{route('getStandAloneService', 'washNfold')}}">WASH & FOLD</a></li>
-                          <li><a target="_blank" href="{{route('getStandAloneService', 'corporate')}}">CORPOARTE</a></li>
-                          <li><a target="_blank" href="{{route('getStandAloneService', 'tailoring')}}">TAILORING</a></li>
-                          <li><a target="_blank" href="{{route('getStandAloneService', 'wet-cleaning')}}">WET CLEANING</a></li>
+                          <li class="dryclean"><a  href="{{route('getStandAloneService', 'dry-clean')}}">DRY CLEAN ONLY</a></li>
+                          <li class="washnfold"><a  href="{{route('getStandAloneService', 'washNfold')}}">WASH & FOLD</a></li>
+                          <li><a  href="{{route('getStandAloneService', 'corporate')}}">CORPOARTE</a></li>
+                          <li><a  href="{{route('getStandAloneService', 'tailoring')}}">TAILORING</a></li>
+                          <li><a  href="{{route('getStandAloneService', 'wet-cleaning')}}">WET CLEANING</a></li>
                         </ul>
                       </li>
                       <li role="presentation"><a href="{{route('getFaqList')}}">FAQs</a></li>
