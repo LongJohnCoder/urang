@@ -6,6 +6,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Confirmation Email | U-rang 2016</title>
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/mail_css/main.css">
 </head>
  
 <body bgcolor="#FFFFFF">
