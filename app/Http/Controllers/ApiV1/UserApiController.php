@@ -34,6 +34,7 @@ use App\Events\SendEmailOnSignUp;
 use App\Events\SendCustomerComplaints;
 use App\Events\ResetPassword;
 use Illuminate\Support\Facades\Event;
+use App\Coupon;
 
 class UserApiController extends Controller
 {
@@ -1055,6 +1056,39 @@ class UserApiController extends Controller
                                     'status' => false,
                                     'status_code' => 400,
                                     'message' => "Could not find user of this email or make sure you are not blocked"        
+                                ));
+        }
+    }
+
+    public function checkCoupon(Request $request)
+    {
+        $coupon_details = Coupon::where('coupon_code',$request->coupon)->first();
+        if($coupon_details)
+        {
+            if($coupon_details->isActive)
+            {
+                return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'response' => $coupon_details        
+                                ));
+            }
+            else
+            {
+                return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Coupon is no longer valid"        
+                                ));
+            }
+            
+        }
+        else
+        {
+            return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Invalid coupon"        
                                 ));
         }
     } 
