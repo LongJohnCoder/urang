@@ -84,12 +84,25 @@ class StaffController extends Controller
         }
         
     }
-    public function getStaffOrders()
+    public function getStaffOrders($value = null)
     {
+        
         $staff = auth()->guard('staffs')->user();
         if($staff)
         {
-            $pickups = Pickupreq::orderBy('id', 'desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+            if ($value) {
+                if ($value == 'picked-up-orders') {
+                    $pickups = Pickupreq::orderBy('id', 'desc')->where('order_status', 2)->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());   
+                }
+                else
+                {
+                    $pickups = Pickupreq::orderBy('id', 'desc')->where('order_status', 3)->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                }
+            }
+            else
+            {
+                $pickups = Pickupreq::orderBy('id', 'desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+            }
             return view('staff.orders',compact('pickups'));
         }
         else

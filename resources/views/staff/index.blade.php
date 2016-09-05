@@ -39,8 +39,8 @@
                                         <i class="fa fa-plus-square-o fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">{{ count($orders_to_pick_up) }}</div>
-                                        <div>New Orders</div>
+                                        <div class="huge">{{ count($pickups) }}</div>
+                                        <div>All Orders</div>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{ route('getStaffOrders') }}">
+                            <a href="{{ route('getStaffOrders', ['value' => 'picked-up-orders']) }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{ route('getStaffOrders') }}">
+                            <a href="{{ route('getStaffOrders', ['value' => 'processed-orders']) }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

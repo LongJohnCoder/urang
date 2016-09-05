@@ -134,7 +134,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/manage-request-no',['uses' => 'AdminController@manageReqNo','as' => 'manageReqNo']);
     Route::post('/changeWeekDayNumber',['uses' => 'AdminController@changeWeekDayNumber','as' => 'changeWeekDayNumber']);
     Route::get('/setSundayToZero',['uses' => 'AdminController@setSundayToZero','as' => 'setSundayToZero']);
-    Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
     Route::post('/save-school-donation-percentage', ['uses' => 'AdminController@savePercentage', 'as' => 'savePercentage']);
     Route::get('/expenses', ['uses' => 'AdminController@getExpenses', 'as' => 'getExpenses']);
     Route::get('/allocate-pick-up-req', ['uses' => 'AdminController@getPickUpReqAdmin', 'as' =>'getPickUpReqAdmin']);
@@ -160,11 +159,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);
     Route::post('/payment', ['uses' => 'PaymentController@AuthoRizePayment', 'as' => 'postPayment']);
+    Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
 //Staff routes
 Route::group (['prefix' => 'staff'], function () {
     Route::get('/login',['uses' => 'StaffController@getStaffLogin','as' => 'getStaffLogin']);
     Route::get('/',['uses' => 'StaffController@getStaffIndex','as' => 'getStaffIndex']);
-    Route::get('/orders',['uses' => 'StaffController@getStaffOrders', 'as' => 'getStaffOrders']);
+    Route::get('/orders/{value?}',['uses' => 'StaffController@getStaffOrders', 'as' => 'getStaffOrders']);
     Route::post('/orders',['uses' => 'StaffController@changeOrderStatus', 'as' => 'changeOrderStatus']);
     Route::get('/search',['uses' => 'StaffController@getSearch', 'as' => 'getSearch']);
     Route::post('/login',['uses' => 'StaffController@LoginAttempt', 'as' => 'post-staff-login']);

@@ -138,8 +138,8 @@
                 borderWidth: 1
             },
             {
-                label: 'Schedule Pickup',
-                data: ['{{$i}}'],
+                label: 'School Listings',
+                data: ['{{$school_count}}'],
                 backgroundColor: ['rgba(255, 153, 0, 0.7)'],
                 borderColor: ['rgba(255, 153, 0, 1)'],
                 borderWidth: 1

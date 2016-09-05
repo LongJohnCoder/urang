@@ -50,7 +50,7 @@
                                        </div>
                                        <div class="form-group">
                                           <label>Amount</label>
-                                          <input type="number" class="form-control" name="amount" required="" placeholder="chargable amount" id="amount" step="any"></input>
+                                          <input type="number" class="form-control" name="amount" required="" placeholder="chargable amount" id="amount" step="any" disabled="true"></input>
                                        </div>
                                        <button type="submit" class="btn btn-outline btn-primary" id="make_payment">Make Payment</button>
                                        <button type="button" class="btn btn-outline btn-primary" id="reset_btn" onclick="flushData()">Reset</button>
