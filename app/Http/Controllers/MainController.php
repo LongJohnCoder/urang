@@ -158,7 +158,7 @@ class MainController extends Controller
         return view('pages.forgot-password', compact('site_details'));
     }
     public function postForgotPassword(Request $request) {
-        $search_user = User::where('email', $request->forgot_pass_user_email)->first();
+        $search_user = User::where('email', $request->forgot_pass_user_email)->with('user_details')->first();
         if ($search_user != null && $search_user->block_status == 0) {
             //dd(base64_encode($search_user->id));
             Event::fire(new ResetPassword($search_user));

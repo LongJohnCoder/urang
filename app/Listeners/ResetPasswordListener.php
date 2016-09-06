@@ -26,12 +26,11 @@ class ResetPasswordListener
      */
     public function handle(ResetPassword $event)
     {
-        //dd($event->req);
         Mail::send('email.reset-password', array('email'=>$event->req->email, 'id' => $event->req->id), 
         function($message) use ($event)
         {
-            $message->from("lisa@u-rang.com", "Admin U-rang");
-            $message->to($event->req->email)->subject('Reset Password U-rang');
+            $message->from("work@tier5.us", "Admin");
+            $message->to($event->req->email, $event->req->user_details->name)->subject('Reset Password');
         });
     }
 }
