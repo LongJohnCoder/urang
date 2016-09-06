@@ -109,15 +109,14 @@
                 <option value="0">No</option>
               </select>
             </div>
-            <div class="form-group custom-checkbox">
-
-              <input type="checkbox" name="wash_n_fold" id="wash_n_fold"> Wash and fold ? (<span style="color: red;">make sure you put your wash and fold cloths in seperate bag</span>)</input>
-
-            </div>
             <div class="form-group" style="display: none;" id="time_frame">
               <label for="time_frame">Give Us a Time Frame</label>
               <input type="text" name="time_frame_start" id="time_frame_start" class="form-control" style="width: 25%" placeholder="Start time"></input> To
               <input type="text" name="time_frame_end" id="time_frame_end" class="form-control" style="width: 25%" placeholder="End time"></input>
+              <div style="color: red;" id="errorTime"></div>
+            </div>
+            <div class="form-group custom-checkbox">
+              <input type="checkbox" name="wash_n_fold" id="wash_n_fold"> Wash and fold ? (<span style="color: red;">make sure you put your wash and fold cloths in seperate bag</span>)</input>
             </div>
              <div class="form-group">
                 <div class="checkbox checkbox-large">
@@ -216,7 +215,7 @@
                   </select>
                 </span>
             </div>
-               <button type="submit" class="btn btn-default">Schedule Pick up</button>
+               <button type="submit" class="btn btn-default" id="schedule_pick_up">Schedule Pick up</button>
                <input type="hidden" name="_token" value="{{Session::token()}}"></input>
             <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
             </div>
@@ -278,6 +277,8 @@
   </div>
   <script type="text/javascript">
   $(document).ready(function(){
+    var time_start = '';
+    var time_end = '';
     $('#doorman').on('change', function(){
       var value = $(this).val();
       //console.log(value);
@@ -289,7 +290,43 @@
       } else {
         $('#time_frame').hide();
       }
+      $('#time_frame_start').change(function(){
+        time_start = $('#time_frame_start').val();
+        checkTime();
+      });
+      $('#time_frame_end').change(function(){
+        time_end = $('#time_frame_end').val();
+        checkTime();
+      });
     });
+    //check time
+    function checkTime() {
+      //console.log(time_start);
+      //console.log(time_end);
+      if ($.trim(time_start) && $.trim(time_end)) 
+      {
+        if (time_start < time_end) 
+        {
+          //console.log('ok');
+          $('#errorTime').html('');
+          $('#schedule_pick_up').attr('type', 'submit');
+        }
+        else if (time_start > time_end) {
+          //console.log('not ok');
+          $('#errorTime').html('* start time cannot be greater than end time. Wrong Input!');
+          $('#schedule_pick_up').attr('type', 'button');
+          return false;
+        }
+        else
+        {
+          //console.log('not ok');
+          $('#errorTime').html('Wrong Input! check the input and put it again.');
+          $('#schedule_pick_up').attr('type', 'button');
+          return false;
+        }
+        //return false;
+      } 
+    }
     $(".fixed-div").click(function(){
 
        $(this).toggleClass("open");

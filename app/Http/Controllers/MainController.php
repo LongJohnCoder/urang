@@ -502,6 +502,39 @@ class MainController extends Controller
     }
     public function postPickUp (Request $request) {
         //dd($request);
+        if ($request->time_frame_start != null && $request->time_frame_end != null) {
+            $start_time = strtotime($request->time_frame_start);
+            $end_time = strtotime($request->time_frame_end);
+            if ($start_time < $end_time) {
+                return $this->postMyPickup($request);
+            }
+            else if ($start_time > $end_time) {
+                if ($request->identifier == "admin") {
+                    return redirect()->route('getPickUpReqAdmin')->with('fail', "start time could not be greater than end time!");
+                }
+                else
+                {
+                    return redirect()->route('getPickUpReq')->with('fail', "start time could not be greater than end time!");
+                }
+                
+            }
+            else
+            {
+                if ($request->identifier == "admin") {
+                   return redirect()->route('getPickUpReqAdmin')->with('fail', "Wrong input in time frame. Hint: start time could not be greater than or equals to endtime!");
+                }
+                else
+                {
+                    return redirect()->route('getPickUpReq')->with('fail', "Wrong input in time frame. Hint: start time could not be greater than or equals to endtime!");
+                }
+            }
+        }
+        else
+        {
+            return $this->postMyPickup($request);
+        }
+    }
+    public function postMyPickup($request) {
         if ($request->address && $request->pick_up_date && isset($request->order_type) && $request->pay_method) {
             $total_price = 0.00;
             $pick_up_req = new Pickupreq();

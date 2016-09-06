@@ -101,9 +101,6 @@
 						                <option value="0">No</option>
 					              	</select>
 								</div>
-								<div class="form-group">
-              						<input type="checkbox" name="wash_n_fold" id="wash_n_fold"> Wash and fold ? (<span style="color: red;">make sure you put your wash and fold cloths in seperate bag</span>)</input>
-            					</div>
 								<div class="form-group" id="time_frame" style="display: none;">
 					              <label for="time_frame">Give Us a Time Frame</label>
 					              <div class="row">
@@ -115,7 +112,11 @@
 						              	<input type="text" name="time_frame_end" id="time_frame_end" class="form-control" placeholder="End time">
 						              </div>
 					              </div>
+					              <div style="color: red;" id="errorTime"></div>
 					            </div>
+								<div class="form-group">
+              						<input type="checkbox" name="wash_n_fold" id="wash_n_fold"> Wash and fold ? (<span style="color: red;">make sure you put your wash and fold cloths in seperate bag</span>)</input>
+            					</div>
 								<div class="form-group">
 									 <label>
                     					<input type="checkbox" name="urang_bag"> Please click this box if you need U-Rang bag.
@@ -187,7 +188,7 @@
 				                  </select>
 				                </span>
 				              </div>
-              					<button type="submit" class="btn btn-primary btn-lg btn-block">Schedule Pick up</button>
+              					<button type="submit" class="btn btn-primary btn-lg btn-block" id="schedule_pick_up">Schedule Pick up</button>
 								<input type="hidden" name="_token" value="{{Session::token()}}"></input>
 								<input type="hidden" name="identifier" value="admin"></input>
 								<div id="myModal" class="modal fade" role="dialog">
@@ -247,6 +248,8 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function(){
+		var start_time = '';
+    	var end_time = '';
 		$('#doorman').on('change', function(){
 	      var value = $(this).val();
 	      //console.log(value);
@@ -258,6 +261,15 @@
 	      } else {
 	        $('#time_frame').hide();
 	      }
+	    });
+	    $('#time_frame_start').change(function(){
+	        start_time = $('#time_frame_start').val();
+	        checkTime();
+	        //console.log(start_time);
+	    });
+	    $('#time_frame_end').change(function(){
+	       end_time = $('#time_frame_end').val();
+	       checkTime();
 	    });
 		$('#order_type').change(function(){
 	      if ($('#order_type').val() == 0) 
@@ -331,8 +343,35 @@
         	$('#myModal').modal('hide');
         	swal("Success!", "Your items are select now please place an order", "success");
      	});
+     	//check time
+	    function checkTime() {
+	      //console.log(time_start);
+	      //console.log(time_end);
+	      if ($.trim(start_time) && $.trim(end_time)) 
+	      {
+	        if (start_time < end_time) 
+	        {
+	          //console.log('ok');
+	          $('#errorTime').html('');
+	          $('#schedule_pick_up').attr('type', 'submit');
+	        }
+	        else if (start_time > end_time) {
+	          //console.log('not ok');
+	          $('#errorTime').html('* start time cannot be greater than end time. Wrong Input!');
+	          $('#schedule_pick_up').attr('type', 'button');
+	          return false;
+	        }
+	        else
+	        {
+	          //console.log('not ok');
+	          $('#errorTime').html('Wrong Input! check the input and put it again.');
+	          $('#schedule_pick_up').attr('type', 'button');
+	          return false;
+	        }
+	        //return false;
+	      } 
+	    }
   	});
-
   jsonArray = [];
 
   function add_id(id) {
