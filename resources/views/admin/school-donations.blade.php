@@ -21,7 +21,7 @@
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;margin-left: 1%;" id="add_percentage" onclick="OpenTextBox()">Add Money Percentage</button>
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;margin-left: 1%; display: none;" id="reset">close</button>
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_school" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Add School</button>
-	               <form role="form" method="get" action="{{route('postSearchByButton')}}" style="margin-left: 55%;">
+	               <form role="form" method="get" id="searchForm" action="{{route('postSearchByButton')}}" style="margin-left: 55%;">
 	               		<input type="text" name="search_school" id="search_school" onkeypress ="return SearchRes();"  placeholder="school name" />
 	               		<button type="submit" id="search_school" class="btn btn-xs btn-primary"><i class="fa fa-search" aria-hidden="true"></i> search</button>
 	               		<div id="res_temp"></div>
@@ -298,33 +298,57 @@
 		});
 		function SearchRes() {
 			//console.log($('#search_school').val());
-			var j = 0;
-			$.ajax({
-				url: "{{route('postSearchSchool')}}",
-				type: "POST",
-				data: {search: $('#search_school').val(), _token: "{{Session::token()}}"},
-				success: function(data) {
-					/*console.log(data.length);
-					return;*/
-					if (data.length > 0) 
-					{
-						search_text = '';
-						
-						for(var i=0 ; i<= data.length; i++)
-						{
-							if (data[i]) 
+			
+			
+			setTimeout(function() {
+				var searchKeys = $('#search_school').val();
+				if($.trim(searchKeys))
+				{
+					
+					//alert('some')
+					//alert(searchKeys);
+					var j = 0;
+					$.ajax({
+						url: "{{route('postSearchSchool')}}",
+						type: "POST",
+						data: {search: searchKeys, _token: "{{Session::token()}}"},
+						success: function(data) {
+							console.log(data);
+							
+							if (data.length > 0) 
 							{
-								search_text += '<a href="#" onclick="return setvalue(\''+data[i].school_name+'\');">'+data[i].school_name+'</a><br>';
+								search_text = '';
+								
+								for(var i=0 ; i<= data.length; i++)
+								{
+									if (data[i]) 
+									{
+										search_text += '<a onclick="searchClick(\''+data[i].school_name+'\');">'+data[i].school_name+'</a><br>';
+										
+									}	
+								}
 								$('#res_temp').html(search_text);
-							}	
+							}
+							else
+							{
+								$('#res_temp').html("");
+							}
 						}
-					}
-					else
-					{
-						return false;
-					}
+					});
 				}
-			});
+				else
+				{
+					$('#res_temp').html("");
+				}
+				
+			}, 100);
+		}
+
+		function searchClick(schoolName)
+		{
+			setvalue(schoolName);
+			//alert(schoolName);
+			$('#searchForm').submit();
 		}
 		function setvalue(name) {
 			//alert('test')
