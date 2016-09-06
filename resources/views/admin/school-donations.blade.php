@@ -102,17 +102,19 @@
 	        	</div>
 	        	<div class="form-group">
 	        		<label for="neighborhood">Select Neighborhood:</label>
-	        		@if(count($neighborhood) > 0)
+	        		
 	        			<select class="form-control" name="neighborhood" required="">
+	        			@if(count($neighborhood) > 0)
 	        				<option value="">Select Neighborhood</option>
 	        				@foreach($neighborhood as $neighbor)
 	        					<option value="{{$neighbor->id}}">{{$neighbor->name}}</option>
 	        				@endforeach
 	        				<option value="0">Others</option>
+	        			@else
+	        				<option value="">Select Neighborhood</option>
+	        				<option value="0">Others</option>
+	        			@endif
 	        			</select>
-	        		@else
-	        			No Neighborhood please create one <a href="{{route('get-neighborhood')}}">click here</a>
-	        		@endif
 	        	</div>
 	        	<div class="form-group">
 	        		<label for="image">Upload Image:</label>
