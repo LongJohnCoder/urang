@@ -1,4 +1,4 @@
-@extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
+@extends('pages.layouts.master-stand-alone')
 @section('content')
 <section class="top-header services-header with-bottom-effect transparent-effect dark">
    <div class="bottom-effect"></div>
@@ -66,9 +66,9 @@
 			    @endif
             </div>
             <div class="col-md-6">
-               <h5 class="italic-title">{{$data != null && $data->page_heading != null ? $data->page_heading : "Dry Clean Only"}}</h5>
+               <h5 class="italic-title">{{$data != null && $data->page_heading != null ? $data->page_heading : "Default Heading"}}</h5>
                <p>
-                  {!! $data != null && $data->content != null ? $data->content : "Dry Clean Page Default Content" !!}
+                  {!! $data != null && $data->content != null ? $data->content : "Page Default Content" !!}
                </p>
                <!-- <ul class="marker-list">
                   <li>Commodo consequt. Duis aute irure dolor reprehenderit </li>
