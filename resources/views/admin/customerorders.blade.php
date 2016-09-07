@@ -146,17 +146,10 @@
                            <td>{{ $pickup->address }}</td>
                            @if($pick_up_type == "Detailed Pickup")
                            <td>{{ $pick_up_type }} 
-                           
-                           <?php
-                            $checkOrderDetails = \App\OrderDetails::where('pick_up_req_id',$pickup->id)->get();
-                           ?>
-
-                           <!-- {{$checkOrderDetails}} -->
-                           @if(count($checkOrderDetails)>0)
-                           <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
-                           @endif
-                           
-
+                          
+                             @if(count($pickup->invoice) > 0)
+                                <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
+                             @endif
                            </td>
                            @else
                            <td>{{ $pick_up_type }}</td>
@@ -922,7 +915,7 @@
       var item_name =  $('#item_'+invoice_id).val();
       var qty = $('#qty_'+invoice_id).val();
       var price = $('#price_'+invoice_id).val();
-      var custom_item_add_id = Math.floor(Math.random()*45956)+1
+      var custom_item_add_id = Math.floor(Math.random()*45956)+1;
       if ($.trim(item_name) && $.trim(qty) && $.trim(price) && $.trim(custom_item_add_id)) 
       {
         $.ajax({

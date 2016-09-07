@@ -68,6 +68,40 @@
             background: #555555 !important;
             border-color: #555555 !important;
         }
+        .reset-password{
+            background: #fff;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .social{
+            display: inline-block;
+            width: 40%;
+        }
+
+        .tblheading{
+            background: #fff;
+            margin: 20px 0 10px;
+            text-align: left;
+            display: inline-block;
+            width: 100%;
+            padding: 20px;
+            border-top: 5px solid #666;
+        }
+
+        .tblheading h1, .reset-password h1{
+            font-size: 25px;
+            display: inline-block;
+            color: #666;
+            padding-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .tblheading img{
+            float: right;
+            display: inline-block;
+        }
 
     </style>
 
@@ -92,20 +126,23 @@
             <tr>
             <td>
             <![endif]-->
-
-            <h1>Complaints Template</h1>
+            <div class="tblheading">
+                <h1>Complaints Template</h1>
+                <img src="http://u-rang.com/images/logo.gif" alt="u-rang logo" class="img-responsive">
+            </div>
             <!-- Email Header : BEGIN -->
-            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
+            <!-- <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
 				<tr>
 					<td style="padding: 20px 0; text-align: center">
 						<img src="http://u-rang.tier5-portfolio.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
 					</td>
 				</tr>
-            </table>
+            </table> -->
             <!-- Email Header : END -->
             
             <!-- Email Body : BEGIN -->
-            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
+            
+            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="width: 100%;" role="presentation">
                 
                 <!-- Hero Image, Flush : BEGIN -->
                 <tr>
@@ -130,20 +167,18 @@
                         	<tr>
 	                            <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
 	                            	<section name="customer_details" style="background:#d3d3d3;height: 250px;border-radius: 10px;">
-	                            		<div class="container">
 	                            			<div class="row">
-	                            				<div class="col-xs-5"></div>
-	                            				<div class="col-xs-2">
-	                            					<img src="http://u-rang.tier5-portfolio.com/public/images/cus_icon.png" alt="customer icon" style="height: 60px; width:60px; margin-left: 222px;margin-top: 10px;">	
+	                            				<div class="col-md-5"></div>
+	                            				<div class="col-md-2">
+	                            					<img src="http://u-rang.tier5-portfolio.com/public/images/cus_icon.png" alt="customer icon" style="height: 60px; width:60px;margin-top: 10px;">	
 	                            				</div>
-	                            				<div class="col-xs-5"></div>
+	                            				<div class="col-md-5"></div>
 	                            			</div>
-	                            			<div style="margin-left: 142px;">
+	                            			<div class="text-center">
 	                            				<label for="name"><b>Customer Name:</b> first last</label><br><br>
 	                               				<label for="email"><b>Customer Email:</b>email </label><br><br>
 	                               				<label for="no"><b>Phone Number:</b>phone </label>
 	                            			</div>
-	                            		</div>
 	                            	</section>
 	                                <br><br>
 	                                <!-- Button : Begin -->
@@ -185,40 +220,15 @@
                                         </tr>
                                     </table>
                                 </td>
-                                <!-- <td align="center" valign="top" width="50%">
-                                    <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: left;">
-                                        <tr>
-                                            <td style="text-align: center; padding: 0 10px;">
-                                                <img src="http://placehold.it/200" width="200" alt="" style="border: 0;width: 100%;max-width: 200px;" class="center-on-narrow">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center;font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555; padding: 10px 10px 0;" class="stack-column-center">
-                                                Maecenas sed ante pellentesque, posuere leo id, eleifend dolor. Class aptent taciti sociosqu ad litora per conubia nostra, per torquent inceptos&nbsp;himenaeos. 
-                                            </td> -->
-                                        </tr>
-                                    </table>
-                                </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
-                <!-- Two Even Columns : END -->
-
-                <!-- Clear Spacer : BEGIN -->
-                <tr>
-                    <td height="40" style="font-size: 0; line-height: 0;">
-	                    &nbsp;
-                    </td>
-                </tr>
-                <!-- Clear Spacer : END -->
-
-                <!-- 1 Column Text + Button : BEGIN -->
                 <tr>
                     <td bgcolor="#ffffff">
                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                        	<tr>
-	                            <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
+                            <tr>
+                                <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
                                 <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
                                 <textarea name="value" class="form-control" rows="10">
                                     {{$complaintsEmail->company_info}}
@@ -228,20 +238,13 @@
                                     <br>
                                     <button type="submit" class="btn btn-info btn-sm">Change</button>
                                 </form>
-	                            </td>
-								</tr>
+                                </td>
+                                </tr>
                         </table>
                     </td>
                 </tr>
-                <!-- 1 Column Text + Button : BEGIN -->
-
-            </table>
-            <!-- Email Body : END -->
-          
-            <!-- Email Footer : BEGIN -->
-            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 680px;" role="presentation">
                 <tr>
-                    <td style="padding: 40px 10px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;">
+                    <td style="padding: 40px 10px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;" bgcolor="#ffffff">
                         <!-- <webversion style="color:#cccccc; text-decoration:underline; font-weight: bold;">View as a Web Page</webversion> -->
                         <a href="http://u-rang.tier5-portfolio.com/" target="_blank" style="color: #fff;">Visit our website</a>
                         <br>
@@ -285,6 +288,22 @@
                     </td>
                 </tr>
             </table>
+        </td>
+    </tr>
+                <!-- Two Even Columns : END -->
+
+
+                <!-- 1 Column Text + Button : BEGIN -->
+                
+                <!-- 1 Column Text + Button : BEGIN -->
+
+            </table>
+            <!-- Email Body : END -->
+          
+            <!-- Email Footer : BEGIN -->
+            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 680px;" role="presentation">
+                
+            </table>
             <!-- Email Footer : END -->
 
             <!--[if mso]>
@@ -292,29 +311,10 @@
             </tr>
             </table>
             <![endif]-->
-        </div>
-<h1>Sign up confirmation</h1>
-        <!-- HEADER -->
-<table class="head-wrap">
-    <tr>
-        <td></td>
-        <td class="header container">
-            
-                <div class="content">
-                    <table>
-                    <tr>
-                        <td><img src="http://u-rang.com/images/logo.gif" alt="logo" /></td>
-                    </tr>
-                </table>
-                </div>
-                
-        </td>
-        <td></td>
-    </tr>
-</table><!-- /HEADER -->
-
-
-<!-- BODY -->
+<div class="tblheading">            
+    <h1>Sign up confirmation</h1>
+    <img src="http://u-rang.com/images/logo.gif" alt="logo" class="img-responsive" />
+</div>
 <table class="body-wrap">
     <tr>
         <td></td>
@@ -351,52 +351,32 @@
                         <br/>                           
                                                 
                         <!-- social & contact -->
-                        <table class="social" width="100%">
-                            <tr>
-                                <td>
-                                    
-                                    <!--- column 1 -->
-                                    <table align="left" class="column">
-                                        <tr>
-                                            <td>                
-                                                
-                                                <h5 class="">Connect with Us:</h5>
-                                                <p class=""><a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
-                        
-                                                
-                                            </td>
-                                        </tr>
-                                    </table><!-- /column 1 -->  
-                                    
-                                    <!--- column 2 -->
-                                    <table align="left" class="column">
-                                        <tr>
-                                            <td>                
-                                                                            
-                                                <h5 class="">Contact Info:</h5>                                             
-                                                <p>Phone: <strong>(800)959-5785</strong><br/>
-                Email: <strong><a href="emailto:lisa@u-rang.com">lisa@u-rang.com</a></strong></p>
-                
-                                            </td>
-                                        </tr>
-                                    </table><!-- /column 2 -->
-                                    
-                                    <span class="clear"></span> 
+                        <div class="social">
+                            <h5 class="">Connect with Us:</h5>
+                            <p class=""><a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
+                        </div>
+                        <div class="social pull-right text-right"> 
+                            <h5 class="">Contact Info:</h5>             
+                            <p>Phone: <strong>(800)959-5785</strong><br/>Email: <strong><a href="emailto:lisa@u-rang.com">lisa@u-rang.com</a></strong></p>
+                        </div>
                                     
                                 </td>
                             </tr>
                         </table><!-- /social & contact -->
-                    
-                    
                     </td>
                 </tr>
-            </table>
-            </div>
-                                    
+            </table>               
         </td>
         <td></td>
     </tr>
-</table><!-- /BODY -->
+</table>
+    <div class="reset-password">
+        <h1>Reset Password Email</h1>
+        <p><a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">Click Here</a> to Reset Password.</p>
+    </div>
+</div>
+
+
 
 <!-- FOOTER -->
 <table class="footer-wrap">
@@ -425,10 +405,6 @@
     </tr>
 </table><!-- /FOOTER -->
 
-<h1>Reset Password Email</h1>
 
-Hey, here is ur link 
-<a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID</a>
 
-    </center>
 @endsection

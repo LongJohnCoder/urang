@@ -36,7 +36,7 @@
                             <form role="form" method="post" action="{{route('postWetCleaning')}}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="title">Title:</label>
-                                    <input class="form-control" type="text" name="title" id="title" required="" />
+                                    <input class="form-control" type="text" name="title" id="title" />
                                 </div>
                                 <div class="form-group">
                                     <label for="keywords">Meta Keywords:</label>
@@ -50,10 +50,10 @@
                                 	<label for="heading">Page Heading:</label>
                                 	<input type="text" class="form-control" name="heading" id="heading"></input>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                 	<label for="tags">Tag Lines:</label>
                                 	<input type="text" class="form-control" name="tags" id="tags"></input>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                 	<label for="content">Page Content:</label>
                                 	<textarea name="content" id="content" class="form-control" rows="10">{{$cms_data != null && $cms_data->content != null ? $cms_data->content : '' }}</textarea>
@@ -90,7 +90,7 @@
 			$('#keywords').val("{{$cms_data->meta_keywords}}");
 			$('#description').val("{{$cms_data->meta_description}}");
 			$('#heading').val("{{$cms_data->page_heading}}");
-			$('#tags').val("{{$cms_data->tags}}");
+			//$('#tags').val("{{$cms_data->tags}}");
 			$('#imagePreview').attr('src',"{{url('/')}}/public/dump_images/{{$cms_data->background_image}}");
 		});
 	</script>
