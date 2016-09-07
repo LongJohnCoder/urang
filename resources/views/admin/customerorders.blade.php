@@ -72,7 +72,7 @@
                 <p>Please wait...</p>
                 <img src="{{url('/')}}/public/images/loading.gif" style="height: 150px;">
               </div>
-                  <table class="table table-bordered">
+                  <table class="table table-bordered" style="overflow-x: scroll;display: block;">
                      <thead>
                         <tr>
                            <th>Pickup Date</th>
