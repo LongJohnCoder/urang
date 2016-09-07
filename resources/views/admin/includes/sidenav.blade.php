@@ -100,6 +100,9 @@
                 <li>
                     <a href="{{route('getPaymentLog')}}"><i class="fa fa-history" aria-hidden="true"></i> Payment Log</a>
                 </li>
+                <li>
+                    <a href="{{route('getEmailTemplates')}}"><i class="fa fa-envelope" aria-hidden="true"></i> Email Template</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

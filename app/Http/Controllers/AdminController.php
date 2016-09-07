@@ -35,6 +35,8 @@ use DateTime;
 use App\OrderTracker;
 use App\Coupon;
 use App\IndexContent;
+use App\CustomerComplaintsEmail;
+
 class AdminController extends Controller
 {
     public function index() {
@@ -79,6 +81,17 @@ class AdminController extends Controller
         $school_count = SchoolDonations::count();
         //dd($school_count);
         return view('admin.dashboard', compact('user_data', 'site_details', 'customers', 'school_count'));
+    }
+    public function getEmailTemplates() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $customers = User::with('user_details', 'pickup_req', 'order_details')->paginate(10);
+        $school_count = SchoolDonations::count();
+        $complaintsEmail = CustomerComplaintsEmail::first();
+        //dd($school_count);
+        //dd($complaintsEmail);
+        return view('email.complaintsTemplate', compact('user_data', 'site_details', 'customers', 'school_count','complaintsEmail'));
     }
     public function logout() {
         Auth::logout();
@@ -2363,5 +2376,15 @@ class AdminController extends Controller
         {
            return redirect()->route('getCustomerOrders')->with('error', 'Cannot delete the order now!');
         }
+    }
+
+    public function postComplaintsEmailChange(Request $request)
+    {
+        //dd($request);
+        $field_to_update = $request->field_to_update;
+        $customer_complaints = CustomerComplaintsEmail::first();
+        $customer_complaints->$field_to_update = $request->value;
+        $customer_complaints->save();
+        return redirect()->route('getEmailTemplates');
     }
 }

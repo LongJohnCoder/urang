@@ -13,11 +13,12 @@
 
 /*landing page routes*/
 /*Route::get('/email', function(){
+    return view('email.complaintsTemplate');
+});*/
+
+Route::get('/email', function(){
     return view('email.complaints');
-});*/
-/*Route::get('/email-sign', function(){
-    return view('email.confirmation');
-});*/
+});
 Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
 Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);
@@ -68,6 +69,8 @@ Route::post('/admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-a
 Route::post('/check-session', ['uses' => 'AdminController@checkForSession', 'as' => 'checkForSession']);
 //session check for back button
 Route::group(['middleware' => ['auth']], function () {
+    Route::post('/postComplaintsEmailChange', ['uses' => 'AdminController@postComplaintsEmailChange', 'as' => 'postComplaintsEmailChange']);
+    Route::get('/email-templates', ['uses' => 'AdminController@getEmailTemplates', 'as' => 'getEmailTemplates']);
     Route::post('/postDeleteTotalPickUp', ['uses' => 'AdminController@postDeleteTotalPickUp', 'as' => 'postDeleteTotalPickUp']);
     Route::post('/deleteItemFromInvoice', ['uses' => 'AdminController@deleteItemFromInvoice', 'as' => 'deleteItemFromInvoice']);
     Route::post('/postDeleteItemByID', ['uses' => 'AdminController@postDeleteItemByID', 'as' => 'postDeleteItemByID']);
@@ -145,6 +148,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/change-status-coupon', ['uses' => 'AdminController@ChangeStatusCoupon', 'as' => 'ChangeStatusCoupon']);
     Route::post('/delete-coupon', ['uses' => 'AdminController@postDeleteCoupon', 'as' => 'postDeleteCoupon']);
     Route::get('/payment-history', ['uses' => 'AdminController@getPaymentLog', 'as' => 'getPaymentLog']);
+    Route::get('/email-template', ['uses' => 'AdminController@getEmailTemplate', 'as' => 'getEmailTemplate']);
     Route::post('/search-by-item', ['uses' => 'AdminController@postSearchSchool', 'as' => 'postSearchSchool']);
     Route::get('/search-of-button', ['uses' => 'AdminController@postSearchByButton', 'as' => 'postSearchByButton']);
 });

@@ -1,31 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta charset="utf-8"> <!-- utf-8 works for most cases -->
-	<meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-	<title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-
-	<!-- Web Font / @font-face : BEGIN -->
-	<!-- NOTE: If web fonts are not required, lines 9 - 26 can be safely removed. -->
-	
-	<!-- Desktop Outlook chokes on web font references and defaults to Times New Roman, so we force a safe fallback font. -->
-	<!--[if mso]>
-		<style>
-			* {
-				font-family: sans-serif !important;
-			}
-		</style>
-	<![endif]-->
-	
-	<!-- All other clients get the webfont reference; some will render the font and others will silently fail to the fallbacks. More on that here: http://stylecampaign.com/blog/2015/02/webfont-support-in-email/ -->
-	<!--[if !mso]><!-->
-		<!-- insert web font reference, eg: <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'> -->
-	<!--<![endif]-->
-
-	<!-- Web Font / @font-face : END -->
-	
-  	<!-- CSS Reset -->
+@extends('admin.layouts.master')
+@section('content')
     <style>
 
 		/* What it does: Remove spaces around the email design added by some email clients. */
@@ -97,9 +71,9 @@
 
     </style>
 
-</head>
-<body width="100%" bgcolor="#222222" style="margin: 0;">
-    <center style="width: 100%; background: #222222;">
+
+
+    <center style="width: 100%; background: #e4e1e1;">
 
         <!-- Visually Hidden Preheader Text : BEGIN -->
         <div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family: sans-serif;">
@@ -119,12 +93,7 @@
             <td>
             <![endif]-->
 
-
-            <?php 
-            $complaints = \App\CustomerComplaintsEmail::first();
-
-            ?>
-
+            <h1>Complaints Template</h1>
             <!-- Email Header : BEGIN -->
             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
 				<tr>
@@ -141,7 +110,15 @@
                 <!-- Hero Image, Flush : BEGIN -->
                 <tr>
 					<td bgcolor="#ffffff">
-						<img src="{{$complaints->cover_image}}" width="600" height="" alt="alt_text" border="0" align="center" style="width: 100%; max-width: 600px;">
+						<img src="{{$complaintsEmail->cover_image}}" width="600" height="" alt="alt_text" border="0" align="center" style="width: 100%; max-width: 600px;">
+                        <br>
+                        <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
+                            <input type="text" name="value" value="{{$complaintsEmail->cover_image}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="cover_image">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
 					</td>
                 </tr>
                 <!-- Hero Image, Flush : END -->
@@ -162,9 +139,9 @@
 	                            				<div class="col-xs-5"></div>
 	                            			</div>
 	                            			<div style="margin-left: 142px;">
-	                            				<label for="name"><b>Customer Name:</b> {!! $first_name !!} {!! $last_name !!}</label><br><br>
-                                                <label for="email"><b>Customer Email:</b> {!! $email !!}</label><br><br>
-                                                <label for="no"><b>Phone Number:</b> {!! $phone !!}</label>
+	                            				<label for="name"><b>Customer Name:</b> first last</label><br><br>
+	                               				<label for="email"><b>Customer Email:</b>email </label><br><br>
+	                               				<label for="no"><b>Phone Number:</b>phone </label>
 	                            			</div>
 	                            		</div>
 	                            	</section>
@@ -203,7 +180,7 @@
                                         </tr>
                                         <tr>
                                             <td style="text-align: center;font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555; padding: 10px 10px 0;" class="stack-column-center">
-                                                {!! $complaint !!}
+                                                complain body
                                             </td>
                                         </tr>
                                     </table>
@@ -242,7 +219,15 @@
                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         	<tr>
 	                            <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
-	                                {{$complaints->company_info}}
+                                <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
+                                <textarea name="value" class="form-control" rows="10">
+                                    {{$complaintsEmail->company_info}}
+                                </textarea>
+                                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                                    <input type="hidden" name="field_to_update" value="company_info">
+                                    <br>
+                                    <button type="submit" class="btn btn-info btn-sm">Change</button>
+                                </form>
 	                            </td>
 								</tr>
                         </table>
@@ -258,11 +243,45 @@
                 <tr>
                     <td style="padding: 40px 10px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;">
                         <!-- <webversion style="color:#cccccc; text-decoration:underline; font-weight: bold;">View as a Web Page</webversion> -->
-                        <a href="{{$complaints->website_link}}" target="_blank" style="color: #fff;">Visit our website</a>
+                        <a href="http://u-rang.tier5-portfolio.com/" target="_blank" style="color: #fff;">Visit our website</a>
+                        <br>
+                        <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
+                            <input type="text" name="value" value="{{$complaintsEmail->website_link}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="website_link">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
                         <br><br>
-                        U-rang<br><span class="mobile-link--footer">{{$complaints->address}}</span><br><span class="mobile-link--footer">{{$complaints->phone_no}}</span>
+                        U-rang
+                        <br>
+                        <span class="mobile-link--footer">{{$complaintsEmail->address}}</span>
+                        <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
+                            <input type="text" name="value" value="{{$complaintsEmail->address}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="address">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                        <br>
+
+                        <span class="mobile-link--footer">{{$complaintsEmail->phone_no}}</span>
+                        <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
+                            <input type="text" name="value" value="{{$complaintsEmail->phone_no}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="phone_no">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
                         <br><br>
-                        <unsubscribe style="color:#888888; text-decoration:underline;">{{$complaints->support_email}}</unsubscribe>
+                        <unsubscribe style="color:#888888; text-decoration:underline;">{{$complaintsEmail->support_email}}</unsubscribe>
+                        <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
+                            <input type="text" name="value" value="{{$complaintsEmail->support_email}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="support_email">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
                     </td>
                 </tr>
             </table>
@@ -274,6 +293,142 @@
             </table>
             <![endif]-->
         </div>
+<h1>Sign up confirmation</h1>
+        <!-- HEADER -->
+<table class="head-wrap">
+    <tr>
+        <td></td>
+        <td class="header container">
+            
+                <div class="content">
+                    <table>
+                    <tr>
+                        <td><img src="http://u-rang.com/images/logo.gif" alt="logo" /></td>
+                    </tr>
+                </table>
+                </div>
+                
+        </td>
+        <td></td>
+    </tr>
+</table><!-- /HEADER -->
+
+
+<!-- BODY -->
+<table class="body-wrap">
+    <tr>
+        <td></td>
+        <td class="container" bgcolor="#FFFFFF">
+
+            <div class="content">
+            <table>
+                <tr>
+                    <td>
+                        
+                        <h3>Welcome, Customer Name</h3>
+                        <p class="lead">Thank you for signing up with U-Rang.com. We appreciate your business. Please feel free to reach out to us with any additional questions or concerns. We can be reached via email at Lisa@u-rang.com or by phone at (800)959-5785.</p>
+                        
+                        <!-- A Real Hero (and a real human being) -->
+                        <p><img src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2d/f2/new-york-city.jpg" /></p><!-- /hero -->
+                        <!-- Callout Panel -->
+                        <p class="callout">
+                            You have successfully registered with u-rang, new york city's #1 laundry service. <a href="http://u-rang.tier5-portfolio.com/login">Login Now! &raquo;</a>
+                        </p><!-- /Callout Panel -->
+                        
+                        <h3>Your Account Details</h3>
+                        <small><b>Login Credentials: </b></small><br/><br/>
+                        <p>User email : customer@urang.com</p>
+                        <p>Password: password</p>
+                        <small><b>Other Details: </b></small><br/><br/>
+                        <p>Name: Customer Name</p>
+                        <p>Address: Customer Address</p>
+                        <p>Phone Number: 0000000</p>
+                        <p>Regards, </p>
+                        <p>The Team at U-Rang.com</p>
+                        <a class="btn" href="http://u-rang.tier5-portfolio.com/">Our Website!</a>
+                                                
+                        <br/>
+                        <br/>                           
+                                                
+                        <!-- social & contact -->
+                        <table class="social" width="100%">
+                            <tr>
+                                <td>
+                                    
+                                    <!--- column 1 -->
+                                    <table align="left" class="column">
+                                        <tr>
+                                            <td>                
+                                                
+                                                <h5 class="">Connect with Us:</h5>
+                                                <p class=""><a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
+                        
+                                                
+                                            </td>
+                                        </tr>
+                                    </table><!-- /column 1 -->  
+                                    
+                                    <!--- column 2 -->
+                                    <table align="left" class="column">
+                                        <tr>
+                                            <td>                
+                                                                            
+                                                <h5 class="">Contact Info:</h5>                                             
+                                                <p>Phone: <strong>(800)959-5785</strong><br/>
+                Email: <strong><a href="emailto:lisa@u-rang.com">lisa@u-rang.com</a></strong></p>
+                
+                                            </td>
+                                        </tr>
+                                    </table><!-- /column 2 -->
+                                    
+                                    <span class="clear"></span> 
+                                    
+                                </td>
+                            </tr>
+                        </table><!-- /social & contact -->
+                    
+                    
+                    </td>
+                </tr>
+            </table>
+            </div>
+                                    
+        </td>
+        <td></td>
+    </tr>
+</table><!-- /BODY -->
+
+<!-- FOOTER -->
+<table class="footer-wrap">
+    <tr>
+        <td></td>
+        <td class="container">
+            
+                <!-- content -->
+                <div class="content">
+                <table>
+                <tr>
+                    <td align="center">
+                        <p>
+                            <!-- <a href="#">Terms</a> |
+                            <a href="#">Privacy</a> |
+                            <a href="#"><unsubscribe>Unsubscribe</unsubscribe></a> -->
+                            <small>©2016 PAPER'D MEDIA, INC.. ALL RIGHTS RESERVED</small>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+                </div><!-- /content -->
+                
+        </td>
+        <td></td>
+    </tr>
+</table><!-- /FOOTER -->
+
+<h1>Reset Password Email</h1>
+
+Hey, here is ur link 
+<a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID</a>
+
     </center>
-</body>
-</html>
+@endsection
