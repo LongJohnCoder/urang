@@ -70,6 +70,8 @@ Route::post('/check-session', ['uses' => 'AdminController@checkForSession', 'as'
 //session check for back button
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/postComplaintsEmailChange', ['uses' => 'AdminController@postComplaintsEmailChange', 'as' => 'postComplaintsEmailChange']);
+    Route::post('/postSignUpEmailChange', ['uses' => 'AdminController@postSignUpEmailChange', 'as' => 'postSignUpEmailChange']);
+    Route::post('/postForgotPasswordEmailChange', ['uses' => 'AdminController@postForgotPasswordEmailChange', 'as' => 'postForgotPasswordEmailChange']);
     Route::get('/email-templates', ['uses' => 'AdminController@getEmailTemplates', 'as' => 'getEmailTemplates']);
     Route::post('/postDeleteTotalPickUp', ['uses' => 'AdminController@postDeleteTotalPickUp', 'as' => 'postDeleteTotalPickUp']);
 	Route::get('/dashboard', ['uses' => 'AdminController@getDashboard', 'as' => 'get-admin-dashboard']);

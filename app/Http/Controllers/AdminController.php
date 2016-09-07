@@ -36,6 +36,8 @@ use App\OrderTracker;
 use App\Coupon;
 use App\IndexContent;
 use App\CustomerComplaintsEmail;
+use App\EmailTemplateSignUp;
+use App\EmailTemplateForgetPassword;
 
 class AdminController extends Controller
 {
@@ -89,9 +91,11 @@ class AdminController extends Controller
         $customers = User::with('user_details', 'pickup_req', 'order_details')->paginate(10);
         $school_count = SchoolDonations::count();
         $complaintsEmail = CustomerComplaintsEmail::first();
+        $signup_temp = EmailTemplateSignUp::first();
+        $forget_pass = EmailTemplateForgetPassword::first();
         //dd($school_count);
         //dd($complaintsEmail);
-        return view('email.complaintsTemplate', compact('user_data', 'site_details', 'customers', 'school_count','complaintsEmail'));
+        return view('email.complaintsTemplate', compact('user_data', 'site_details', 'customers', 'school_count','complaintsEmail','signup_temp','forget_pass'));
     }
     public function logout() {
         Auth::logout();
@@ -2383,6 +2387,24 @@ class AdminController extends Controller
         //dd($request);
         $field_to_update = $request->field_to_update;
         $customer_complaints = CustomerComplaintsEmail::first();
+        $customer_complaints->$field_to_update = $request->value;
+        $customer_complaints->save();
+        return redirect()->route('getEmailTemplates');
+    }
+
+    public function postSignUpEmailChange(Request $request)
+    {
+        $field_to_update = $request->field_to_update;
+        $customer_complaints = EmailTemplateSignUp::first();
+        $customer_complaints->$field_to_update = $request->value;
+        $customer_complaints->save();
+        return redirect()->route('getEmailTemplates');
+    }
+
+    public function postForgotPasswordEmailChange(Request $request)
+    {
+        $field_to_update = $request->field_to_update;
+        $customer_complaints = EmailTemplateForgetPassword::first();
         $customer_complaints->$field_to_update = $request->value;
         $customer_complaints->save();
         return redirect()->route('getEmailTemplates');

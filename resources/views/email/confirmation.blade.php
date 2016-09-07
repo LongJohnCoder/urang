@@ -31,6 +31,11 @@
 
 
 <!-- BODY -->
+
+		<?php 
+            $complaints = \App\EmailTemplateSignUp::first();
+
+            ?>
 <table class="body-wrap">
 	<tr>
 		<td></td>
@@ -42,13 +47,13 @@
 					<td>
 						
 						<h3>Welcome, {{$name}}</h3>
-						<p class="lead">Thank you for signing up with U-Rang.com. We appreciate your business. Please feel free to reach out to us with any additional questions or concerns. We can be reached via email at Lisa@u-rang.com or by phone at (800)959-5785.</p>
+						<p class="lead">{{$complaints->first_writeup}}</p>
 						
 						<!-- A Real Hero (and a real human being) -->
-						<p><img src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2d/f2/new-york-city.jpg" /></p><!-- /hero -->
+						<p><img src="{{$complaints->image_link}}" /></p><!-- /hero -->
 						<!-- Callout Panel -->
 						<p class="callout">
-							You have successfully registered with u-rang, new york city's #1 laundry service. <a href="http://u-rang.tier5-portfolio.com/login">Login Now! &raquo;</a>
+							You have successfully registered with u-rang, new york city's #1 laundry service. <a href="{{$complaints->login_link}}">Login Now! &raquo;</a>
 						</p><!-- /Callout Panel -->
 						
 						<h3>Your Account Details</h3>
@@ -61,7 +66,7 @@
 						<p>Phone Number: {{$ph}}</p>
 						<p>Regards, </p>
 						<p>The Team at U-Rang.com</p>
-						<a class="btn" href="http://u-rang.tier5-portfolio.com/">Our Website!</a>
+						<a class="btn" href="{{$complaints->website_link}}">Our Website!</a>
 												
 						<br/>
 						<br/>							
@@ -77,7 +82,7 @@
 											<td>				
 												
 												<h5 class="">Connect with Us:</h5>
-												<p class=""><a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
+												<p class=""><a href="{{$complaints->fb_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a> <a href="{{$complaints->twitter_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a> <a href="{{$complaints->google_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
 						
 												
 											</td>
@@ -90,8 +95,8 @@
 											<td>				
 																			
 												<h5 class="">Contact Info:</h5>												
-												<p>Phone: <strong>(800)959-5785</strong><br/>
-                Email: <strong><a href="emailto:lisa@u-rang.com">lisa@u-rang.com</a></strong></p>
+												<p>Phone: <strong>{{$complaints->phone_no}}</strong><br/>
+                Email: <strong><a href="{{$complaints->email_link}}">{{$complaints->email_link}}</a></strong></p>
                 
 											</td>
 										</tr>

@@ -326,13 +326,39 @@
                     <td>
                         
                         <h3>Welcome, Customer Name</h3>
-                        <p class="lead">Thank you for signing up with U-Rang.com. We appreciate your business. Please feel free to reach out to us with any additional questions or concerns. We can be reached via email at Lisa@u-rang.com or by phone at (800)959-5785.</p>
+                        <p class="lead">
+                        <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                            <textarea name="value" class="form-control">
+                                {{$signup_temp->first_writeup}}
+                            </textarea>
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="first_writeup">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                        </p>
                         
                         <!-- A Real Hero (and a real human being) -->
-                        <p><img src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2d/f2/new-york-city.jpg" /></p><!-- /hero -->
+                        <p><img src="{{$signup_temp->image_link}}" />
+                        <br>
+                        <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                            <input name="value" class="form-control" value="{{$signup_temp->image_link}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="image_link">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                        </p><!-- /hero -->
                         <!-- Callout Panel -->
                         <p class="callout">
-                            You have successfully registered with u-rang, new york city's #1 laundry service. <a href="http://u-rang.tier5-portfolio.com/login">Login Now! &raquo;</a>
+                            You have successfully registered with u-rang, new york city's #1 laundry service. <a href="{{$signup_temp->login_link}}">Login Now! &raquo;</a>
+                            <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                                <input name="value" class="form-control" value="{{$signup_temp->login_link}}">
+                                <input type="hidden" name="_token" value="{{Session::token()}}">
+                                <input type="hidden" name="field_to_update" value="login_link">
+                                <br>
+                                <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </form>
                         </p><!-- /Callout Panel -->
                         
                         <h3>Your Account Details</h3>
@@ -345,19 +371,77 @@
                         <p>Phone Number: 0000000</p>
                         <p>Regards, </p>
                         <p>The Team at U-Rang.com</p>
-                        <a class="btn" href="http://u-rang.tier5-portfolio.com/">Our Website!</a>
-                                                
+                        <a class="btn" href="{{$signup_temp->website_link}}">Our Website!</a>
+                        <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                                <input name="value" class="form-control" value="{{$signup_temp->website_link}}">
+                                <input type="hidden" name="_token" value="{{Session::token()}}">
+                                <input type="hidden" name="field_to_update" value="website_link">
+                                <br>
+                                <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </form>                    
                         <br/>
                         <br/>                           
                                                 
                         <!-- social & contact -->
                         <div class="social">
                             <h5 class="">Connect with Us:</h5>
-                            <p class=""><a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a> <a href="#" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
+                            <p class="">
+
+                            <a href="{{$signup_temp->fb_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a>
+                            <br>
+                            <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                                <input name="value" class="form-control" value="{{$signup_temp->fb_link}}">
+                                <input type="hidden" name="_token" value="{{Session::token()}}">
+                                <input type="hidden" name="field_to_update" value="fb_link">
+                                <br>
+                                <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </form>
+                            <br>
+                             <a href="{{$signup_temp->twitter_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a>
+                             <br>
+                            <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                                <input name="value" class="form-control" value="{{$signup_temp->twitter_link}}">
+                                <input type="hidden" name="_token" value="{{Session::token()}}">
+                                <input type="hidden" name="field_to_update" value="twitter_link">
+                                <br>
+                                <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </form>
+                            <br>
+
+                              <a href="{{$signup_temp->google_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
+
+                            <br>
+                            <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                                <input name="value" class="form-control" value="{{$signup_temp->google_link}}">
+                                <input type="hidden" name="_token" value="{{Session::token()}}">
+                                <input type="hidden" name="field_to_update" value="google_link">
+                                <br>
+                                <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </form>
+                            <br>
                         </div>
                         <div class="social pull-right text-right"> 
                             <h5 class="">Contact Info:</h5>             
-                            <p>Phone: <strong>(800)959-5785</strong><br/>Email: <strong><a href="emailto:lisa@u-rang.com">lisa@u-rang.com</a></strong></p>
+                            <p>Phone: <strong>{{$signup_temp->phone_no}}</strong>
+                            <br>
+                            <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                                <input name="value" class="form-control" value="{{$signup_temp->phone_no}}">
+                                <input type="hidden" name="_token" value="{{Session::token()}}">
+                                <input type="hidden" name="field_to_update" value="phone_no">
+                                <br>
+                                <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </form>
+                            <br>
+                            <br/>Email: <strong><a href="{{$signup_temp->email_link}}">{{$signup_temp->email_link}}</a>
+                            <br>
+                            <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
+                                <input name="value" class="form-control" value="{{$signup_temp->email_link}}">
+                                <input type="hidden" name="_token" value="{{Session::token()}}">
+                                <input type="hidden" name="field_to_update" value="email_link">
+                                <br>
+                                <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </form>
+                            <br></strong></p>
                         </div>
                                     
                                 </td>
@@ -372,7 +456,19 @@
 </table>
     <div class="reset-password">
         <h1>Reset Password Email</h1>
-        <p><a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">Click Here</a> to Reset Password.</p>
+        <p><a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">Click Here</a>
+
+        {{$forget_pass->write_up}}.
+        <br>
+        <form class="text-center" action="{{route('postForgotPasswordEmailChange')}}" method="post">
+            <input type="text" name="value" value="{{$forget_pass->write_up}}">
+            <input type="hidden" name="_token" value="{{Session::token()}}">
+            <input type="hidden" name="field_to_update" value="write_up">
+            <br>
+            <button type="submit" class="btn btn-info btn-sm">Change</button>
+        </form>
+
+        </p>
     </div>
 </div>
 
