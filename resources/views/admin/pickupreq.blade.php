@@ -41,7 +41,7 @@
 								</div>
 								<div class="form-group">
 				                	<label for="address_line_2">Address Line 2 (optional)</label>
-				                	<textarea class="form-control" name="address_line_2"></textarea>
+				                	<textarea class="form-control" name="address_line_2" id="address_line_2"></textarea>
 				              	</div>
 					            <div class="form-group">
 					            	<label for="apt_no">Apartment Number (if any optional)</label>
@@ -76,17 +76,17 @@
 								    <label>How Would You Like Your Shirts</label>
 						              <div class="checkbox">
 						                <label>
-						                  <input type="radio" name="boxed_or_hung" value="Boxed"> Boxed
+						                  <input type="radio" name="boxed_or_hung" value="Boxed" id="boxed"> Boxed
 						              </label>
 						              </div>
 						              <div class="checkbox">
 						                <label>
-						                  <input type="radio" name="boxed_or_hung" value="Hung"> Hung
+						                  <input type="radio" name="boxed_or_hung" value="Hung" id="hung"> Hung
 						                </label>
 								</div>
 								<div class="form-group">
 									<label>Strach type:</label>
-				                  <select name="strach_type" required="" class="form-control">
+				                  <select name="strach_type" required="" class="form-control" id="strach_type">
 					                <option value="No">No Starch</option>
 					                <option value="Very_light_starch">Very Light Starch</option>
 					                <option value="Light_starch">Light Starch</option>
@@ -119,16 +119,16 @@
             					</div>
 								<div class="form-group">
 									 <label>
-                    					<input type="checkbox" name="urang_bag"> Please click this box if you need U-Rang bag.
+                    					<input type="checkbox" name="urang_bag" id="urang_bag"> Please click this box if you need U-Rang bag.
                   					</label>
 								</div>
 								<div class="form-group">
 					                <label>Special Instructions</label>
-					                <textarea class="form-control" rows="3" name="spcl_ins"></textarea>
+					                <textarea class="form-control" rows="3" name="spcl_ins" id="spcl_ins"></textarea>
 					            </div>
 					            <div class="form-group">
 					                <label>Driving Instructions</label>
-					                <textarea class="form-control" rows="3" name="driving_ins"></textarea>
+					                <textarea class="form-control" rows="3" name="driving_ins" id="driving_ins"></textarea>
 					            </div>
 					             <div class="form-group">
 					              <label>Select Payment Method</label><br>
@@ -168,7 +168,7 @@
 					            </div> -->
 					            <div class="form-group">					                
 					            	<label>Is it a emergency service ? <p style="color: red;">$7 extra</p></label>
-					                <input type="checkbox" name="isEmergency"></input>
+					                <input type="checkbox" name="isEmergency" id="isEmergency"></input>
 					            </div>
 					            <div class="form-group">
 					               <label>Do you have a coupon code ?<p style="color: red;">Please leave the field blank if you dont have any.</p></label>
@@ -285,7 +285,7 @@
 		$('#cus_email').change(function(){
 			if ($.trim($('#cus_email').val()) != null) 
 			{
-				//console.log($('#cus_email').val());
+				/*//console.log($('#cus_email').val());
 				//return;
 				if('{{count($users)}}' > 0) {
 					//console.log('{{count($users)}}')
@@ -318,13 +318,98 @@
 				}		    		
 				else {
 					return;
-				}
+				}*/
+				$.ajax({
+			      url: "{{route('lastPickUpReq')}}",
+			      type: "POST",
+			      data: {user_id: $('#cus_email').val(), _token: "{{Session::token()}}"},
+			      success: function(data) {
+			        console.log(data);
+			        //return;
+			        if (data != 0) 
+			        {
+			          //mandetory address
+			          $('#user_add').text(data.address);
+			          //optional addressline 2
+			          $('#address_line_2').text(data.address_line_2);
+			          //apartment number
+			          $('#apt_no').val(data.apt_no);
+			          //schedule
+			          if (data.schedule == "For the time specified only") 
+			          {
+			            $('#inlineRadio1').prop('checked', true);
+			          }
+			          else if (data.schedule == "Daily at this time except weekends") 
+			          {
+			            $('#inlineRadio2').prop('checked', true);
+			          }
+			          else if (data.schedule == "Daily at this time including weekends") 
+			          {
+			            $('#inlineRadio3').prop('checked', true);
+			          }
+			          else if (data.schedule == "Weekly on this day of the week") 
+			          {
+			            $('#inlineRadio4').prop('checked', true);
+			          }
+			          else if (data.schedule == "Monthly on this day of the month")
+			          {
+			            $('#inlineRadio5').prop('checked', true);
+			          }
+			          else
+			          {
+			            $('#inlineRadio1').prop('checked', false);
+			          }
+			          //delivary type
+			          if (data.delivary_type == "Boxed") {
+			            $('#boxed').prop('checked', true);
+			          }
+			          else if (data.delivary_type == "Hung") {
+			            $('#hung').prop('checked', true);
+			          }
+			          else
+			          {
+			            $('#boxed').prop('checked', false);
+			          }
+			          //starch type
+			          $('#strach_type').val(data.starch_type);
+			          //wash and fold
+			          if (data.wash_n_fold == 1) 
+			          {
+			            $('#wash_n_fold').prop('checked', true);
+			          }
+			          //need bag
+			          if (data.need_bag == 1) 
+			          {
+			            $('#urang_bag').prop('checked', true);
+			          }
+			          //spcl instruction
+			          $('#spcl_ins').text(data.special_instructions);
+			          //driving ins
+			          $('#driving_ins').text(data.driving_instructions);
+			          //emergency
+			          if (data.is_emergency == 1) 
+			          {
+			            $('#isEmergency').prop('checked', true);
+			          }
+			          //coupon
+			          $('#coupon').val(data.coupon);
+			          //school donation
+			          if (data.school_donation_id != null) 
+			          {
+			            $('#school_checkbox').prop('checked', true);
+			            openCheckBoxSchool();
+			            $('#schoolNameDropDown').val(data.school_donation_id);
+			          }
+			        }
+			      }
+			    });
 									    	
 			}
 			else
 			{
 				return;
 			}
+		    
 		});
 		var todays_date=  $.datepicker.formatDate('mm/dd/yy', new Date());
      	$('#datepicker').val(todays_date);

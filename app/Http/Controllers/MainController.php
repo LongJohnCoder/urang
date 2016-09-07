@@ -916,4 +916,13 @@ class MainController extends Controller
             return "could not find a pickup related to this id";
         }
     }
+    public function lastPickUpReq(Request $request) {
+        //return $request;
+        $last_row = Pickupreq::orderBy('created_at', 'desc')->where('user_id', $request->user_id)->first();
+        if (count($last_row) > 0) {
+           return $last_row;
+        } else {
+            return 0;
+        }
+    }
 }
