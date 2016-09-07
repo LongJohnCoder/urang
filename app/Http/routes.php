@@ -72,8 +72,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/postComplaintsEmailChange', ['uses' => 'AdminController@postComplaintsEmailChange', 'as' => 'postComplaintsEmailChange']);
     Route::get('/email-templates', ['uses' => 'AdminController@getEmailTemplates', 'as' => 'getEmailTemplates']);
     Route::post('/postDeleteTotalPickUp', ['uses' => 'AdminController@postDeleteTotalPickUp', 'as' => 'postDeleteTotalPickUp']);
-    Route::post('/deleteItemFromInvoice', ['uses' => 'AdminController@deleteItemFromInvoice', 'as' => 'deleteItemFromInvoice']);
-    Route::post('/postDeleteItemByID', ['uses' => 'AdminController@postDeleteItemByID', 'as' => 'postDeleteItemByID']);
 	Route::get('/dashboard', ['uses' => 'AdminController@getDashboard', 'as' => 'get-admin-dashboard']);
 	Route::get('/logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);
 	Route::get('/profile-details', ['uses' => 'AdminController@getProfile', 'as' => 'get-admin-profile']);
@@ -159,6 +157,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/fetch-percentage', ['uses' => 'InvoiceController@fetchPercentageCoupon', 'as' => 'fetchPercentageCoupon']);
     Route::post('/save-extra-item', ['uses' => 'InvoiceController@pushAnItemInVoice', 'as' => 'pushAnItemInVoice']);
     Route::post('/update-extra-item', ['uses' => 'InvoiceController@UpDateExtraItem', 'as'=> 'UpDateExtraItem']);
+    Route::post('/deleteItemFromInvoice', ['uses' => 'AdminController@deleteItemFromInvoice', 'as' => 'deleteItemFromInvoice']);
+    Route::post('/postDeleteItemByID', ['uses' => 'AdminController@postDeleteItemByID', 'as' => 'postDeleteItemByID']);
 //mark as paid routes
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);

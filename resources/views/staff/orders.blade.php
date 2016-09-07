@@ -160,7 +160,12 @@
                         <td>{{ $pickup->user->email }}</td>
                         <td>{{ $pickup->address }}</td>
                         @if($pick_up_type == "Detailed Pickup")
-                        <td>{{ $pick_up_type }} <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button></td>
+                        <td>
+                          {{ $pick_up_type }} 
+                          @if(count($pickup->invoice) > 0)
+                            <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
+                          @endif
+                        </td>
                         @else
                         <td>{{ $pick_up_type }}</td>
                         @endif
@@ -252,10 +257,10 @@
                   </tr>
                </thead>
                <tbody>
-                  @foreach($pickup->order_detail as $order)
+                  @foreach($pickup->invoice as $order)
                   <tr>
                      <td>{{ $order->quantity }}</td>
-                     <td>{{ $order->items }}</td>
+                     <td>{{ $order->item }}</td>
                      <td>${{ number_format((float)$order->price, 2, '.', '') }}</td>
                   </tr>
                   @endforeach  
@@ -487,7 +492,7 @@
 @endforeach
 <!-- Modal -->
 <div id="ModalShowInvoice" class="modal fade" role="dialog">
-   <div class="modal-dialog">
+   <div class="modal-dialog modal-lg">
       <!-- Modal content-->
       <div class="modal-content">
          <div class="modal-header">
@@ -523,10 +528,10 @@
                 <label>Gross Price</label>
                 <div id="gross_price"></div>
               </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                <label>Take Action:</label>
                <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
-            </div>
+            </div> -->
             <label>See Breakdown:</label>
             <table class="table table-bordered">
                <thead>
@@ -534,6 +539,7 @@
                      <td>Item</td>
                      <td>Quantity</td>
                      <td>Price</td>
+                     <td>Edit</td>
                   </tr>
                </thead>
                <tbody id="inv">
@@ -567,22 +573,24 @@
                      <th>Item Name</th>
                      <th>Item Price</th>
                      <th>Action</th>
+                     <th>Delete</th>
                   </tr>
                </thead>
                <tbody>
                   @if(count($price_list) > 0)
                   @foreach($price_list as $list)
                   <tr>
-                     <td>
+                     <td id="nos1_{{$list->id}}" style="display: none;">
                         <select name="number_of_item" id="number_{{$list->id}}">
                            @for($i=0; $i<=10; $i++)
                            <option value="{{$i}}">{{$i}}</option>
                            @endfor
                         </select>
                      </td>
-                     <td id="item_{{$list->id}}">{{$list->item}}</td>
-                     <td id="price_{{$list->id}}">{{$list->price}}</td>
-                     <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+                     <td id="item_{{$list->id}}" style="display: none;">{{$list->item}}</td>
+                     <td id="price_{{$list->id}}" style="display: none;">{{$list->price}}</td>
+                     <td id="btn_action1_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+                     <td id="btn_delete1_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-danger btn-xs" onclick="delete_id({{$list->id}})" id="btn_delete1_{{$list->id}}">Delete</button></td>
                   </tr>
                   @endforeach
                   @else
@@ -666,6 +674,8 @@
 </div>
 <script type="text/javascript">
    $(document).ready(function(){
+     var DELETE_pick_up_id = "";
+      var DELETE_user_id = "";
        $('#infoButton').click(function(){
            $('#infoModal').modal('show');
        });
@@ -752,6 +762,8 @@
    }
    function openEditItemModal(pickup_id,user_id)
    {
+    DELETE_user_id = user_id;
+    DELETE_pick_up_id = pickup_id;
     jsonObj = [];
     var setJson= '';
     $.ajax({
@@ -800,8 +812,39 @@
         //console.log(data[i]);
         $('#number_'+data[i].id).val(data[i].number_of_item);
         $('#btn_'+data[i].id).text('Remove');
+        $('#nos1_'+data[i].id).show();
+        $('#item_'+data[i].id).show();
+        $('#price_'+data[i].id).show();
+        $('#btn_action1_'+data[i].id).show();
+        $('#btn_delete1_'+data[i].id).show();
+        if ($('#btn_'+data[i].id).text() == "Remove") 
+        {
+          $('#number_'+data[i].id).attr('disabled', 'true');
+        }
+        else
+        {
+          $('#number_'+data[i].id).attr('disabled', 'false');
+        }
       }
    });
+   function delete_id(id)
+   {
+      /*alert("pickup id "+DELETE_pick_up_id);
+      alert("User id "+DELETE_user_id);
+      alert($('#item2_'+id).text());*/
+      $.ajax({
+        url: "{{route('postDeleteItemByID')}}",
+        type: "POST",
+        data: {item_name: $('#item2_'+id).text(),user_id: DELETE_user_id,pick_up_id: DELETE_pick_up_id,item_id: id, _token: "{{Session::token()}}"},
+        success: function(data) {
+            console.log(data);
+            if(data==1)
+            {
+              location.reload();
+            }
+        }
+    });
+    }
   /* function recreateInv(pick_req_id_inv, user_id_inv) {
    //alert();
    //alert($('#invoice_no').text())
@@ -897,7 +940,7 @@
                  {
                      $('#invoice_no').text('{{$invoice->invoice_id}}');
                      $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
-                     div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
+                     div += "<tr><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Delete</button>@else @endif</td></tr>";
                      total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
                      $('#total_price').text("$"+total_price);
                      $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
@@ -913,6 +956,85 @@
             }
            @endforeach
      }
+     function editManualItems(id, usr_id, pickupid, invoiceid) {
+    if ($('#edit_btn_'+id).text() == "Edit") 
+    {
+      var editableText1 = $("<input type='text' id='new_item_"+id+"'/>"); //for item name
+      var editableText2 = $("<input type='number' style='width: 20%; margin-left: 3%;' id='qty_"+id+"'/>"); // for qty
+      var editableText3 = $("<input type='number' style='width: 24%; margin-left: 3%;' step='any' id='price_"+id+"'/>"); //for price
+      var item_name_val = $('#tbl_item_'+id).text(); // get value item name
+      var qty_val = $("#tbl_qty_"+id).text(); //get value item qty
+      var price_val = $("#tbl_price_"+id).text(); //get value price
+      $('#tbl_item_'+id).replaceWith(editableText1);
+      $('#tbl_qty_'+id).replaceWith(editableText2);
+      $('#tbl_price_'+id).replaceWith(editableText3);
+      editableText1.val(item_name_val); //set values to proper field
+      editableText2.val(qty_val);
+      editableText3.val(price_val);
+      $('#edit_btn_'+id).text('Save chnages');
+    } 
+    else
+    {
+      //console.log(id);
+      //console.log(usr_id);
+      //console.log(pickupid);
+      //console.log(invoiceid);
+      //save or update into database 
+      //userid, //pickupreqid, //invoiceid
+      //ajax post from here to save
+      if ($.trim($('#new_item_'+id).val()) && $.trim($('#qty_'+id).val()) && $.trim($('#price_'+id).val())) 
+      {
+        $.ajax({
+          url: "{{route('UpDateExtraItem')}}",
+          type: "POST",
+           data: {user_id: usr_id, pick_up_req_id: pickupid, invoice_id: invoiceid, item_name:$('#new_item_'+id).val(), qty: $('#qty_'+id).val(), price: $('#price_'+id).val() , _token: "{{Session::token()}}", custom_item_add_id: id},
+           success: function(data) {
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else if(data == 2)
+            {
+              sweetAlert("Oops!", "Cannot update data", "error");
+              return false;
+            }
+            else
+            {
+              sweetAlert("Oops!", "Could not be able to find the item related to this id", "error");
+              return false;
+            }
+           }
+        });
+      }
+      else
+      {
+        $('#error_add').html('<p style="color:red;">All fields are mandetory !</p>');
+        return false;
+      }
+      
+    }
+    
+   }
+   function deleteManualItems(id, usr_id, pickupid, invoiceid)
+   {
+      //alert(id);
+      $.ajax({
+          url: "{{route('deleteItemFromInvoice')}}",
+          type: "POST",
+          data: {_token: "{{Session::token()}}", custom_item_add_id: id,pickupid: pickupid},
+          success: function(data) {
+            //console.log(data);
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else
+            {
+              sweetAlert("Oops!", data, "error");
+            }
+          }
+        });
+   }
      //function to add an item in the list of invoice which is not in list
    function addExtraItemInv(invoice_id, pickup_id, user_id) {
     if ($('.extraItemBtn').text() == "Add an extra item") {
@@ -923,12 +1045,13 @@
       var item_name =  $('#item_'+invoice_id).val();
       var qty = $('#qty_'+invoice_id).val();
       var price = $('#price_'+invoice_id).val();
-      if ($.trim(item_name) && $.trim(qty) && $.trim(price)) 
+      var custom_item_add_id = Math.floor(Math.random()*45956)+1;
+      if ($.trim(item_name) && $.trim(qty) && $.trim(price) && $.trim(custom_item_add_id)) 
       {
         $.ajax({
           url: "{{route('pushAnItemInVoice')}}",
           type: "POST",
-          data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}"},
+          data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}", custom_item_add_id: custom_item_add_id},
           success: function(data) {
             $('.extraItemBtn').text("Add an extra item");
             //console.log(data);
@@ -951,7 +1074,7 @@
       }
     }
    }
-     function sayMeThePrice(price, coupon, pickUpId = 0) {
+     function sayMeThePrice(price, coupon, pickUpId) {
       var final_price = 0.00;
       if ($.trim(coupon)) 
       {
@@ -966,13 +1089,13 @@
             {
               final_price = (price-(price*(data/100)));
               $('#gross_price').text("$"+final_price.toFixed(2));
-              if (pickUpId != 0) 
+              if (typeof pickUpId != 0) 
               {
                 $('#chargable_'+pickUpId).val(final_price.toFixed(2));
               }
             } else {
               $('#gross_price').text("$"+price);
-              if (pickUpId != 0) 
+              if (typeof pickUpId != 0) 
               {
                 $('#chargable_'+pickUpId).val(price);
               }
