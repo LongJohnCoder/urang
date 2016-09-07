@@ -413,7 +413,7 @@
                             <!-- <a href="#">Terms</a> |
                             <a href="#">Privacy</a> |
                             <a href="#"><unsubscribe>Unsubscribe</unsubscribe></a> -->
-                            <small>©2016 PAPER'D MEDIA, INC.. ALL RIGHTS RESERVED</small>
+                            
                         </p>
                     </td>
                 </tr>
