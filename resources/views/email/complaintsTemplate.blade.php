@@ -456,9 +456,9 @@
 </table>
     <div class="reset-password">
         <h1>Reset Password Email</h1>
-        <p><a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">Click Here</a>
+        <p>{{$forget_pass->write_up}}<a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID</a>
 
-        {{$forget_pass->write_up}}.
+        .
         <br>
         <form class="text-center" action="{{route('postForgotPasswordEmailChange')}}" method="post">
             <input type="text" name="value" value="{{$forget_pass->write_up}}">
