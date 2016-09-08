@@ -236,7 +236,7 @@
 </div>
 <!-- /#wrapper -->
 @foreach($pickups as $pickup) 
-@if(count($pickup->order_detail)>0)
+@if(count($pickup->invoice)>0)
 <!-- Modal -->
 <div id="detail_{{ $pickup->id }}" class="modal fade" role="dialog">
    <div class="modal-dialog modal-lg">
