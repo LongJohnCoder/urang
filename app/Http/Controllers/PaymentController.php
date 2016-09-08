@@ -29,7 +29,7 @@ class PaymentController extends Controller
 		return view('admin.payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
 	}
     public function AuthoRizePayment(Request $auth_request) {
-    	//dd($auth_request);
+    	//dd($auth_request->amount);
     	if(preg_match('/^([0-9]{4})-([0-9]{2})$/', $auth_request->exp_date)) {
     		$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
 	   		$payment_keys = PaymentKeys::first();
@@ -46,7 +46,7 @@ class PaymentController extends Controller
 				$paymentOne->setCreditCard($creditCard);
 				// Create a transaction
 				$transactionRequestType = new AnetAPI\TransactionRequestType();
-				$transactionRequestType->setTransactionType( "authCaptureTransaction"); 
+				$transactionRequestType->setTransactionType("authCaptureTransaction"); 
 				$transactionRequestType->setAmount($auth_request->amount);
 				$transactionRequestType->setPayment($paymentOne);
 				$request = new AnetAPI\CreateTransactionRequest();

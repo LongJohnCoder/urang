@@ -40,6 +40,7 @@ Route::get('/tailoring', ['uses' => 'MainController@getTailoring', 'as' => 'getT
 Route::get('/wet-cleaning', ['uses' => 'MainController@getWetCleaning', 'as' => 'getWetCleaningFront']);
 Route::get('/complaints', ['uses' => 'MainController@getComplaints', 'as' => 'getComplaints']);
 Route::post('/complaints', ['uses' => 'MainController@postComplaints', 'as' => 'postComplaints']);
+Route::post('/last-insterted-record', ['uses' => 'MainController@lastPickUpReq', 'as' => 'lastPickUpReq']);
 Route::get('/forgot-password', ['uses' => 'MainController@getForgotPassword', 'as' => 'getForgotPassword']);
 Route::post('/forgot-password', ['uses' => 'MainController@postForgotPassword', 'as' => 'postForgotPassword']);
 Route::get('/confirm-reset-password/{id}', ['uses' => 'MainController@getResetUserPassword', 'as' => 'getresetUserPassword']);
@@ -60,8 +61,6 @@ Route::group(['middleware' => ['user']], function () {
     Route::post('/show-invoice', ['uses' => 'InvoiceController@showInvoiceUser', 'as' => 'showInvoiceUser']);
     Route::post('/cancel-order', ['uses' => 'MainController@postCancelOrder', 'as' => 'postCancelOrder']);
 });
-
-
 /*Admin Routes*/
 Route::get('/admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
 Route::post('/admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-admin-login']);
