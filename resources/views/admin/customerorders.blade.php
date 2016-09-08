@@ -145,7 +145,8 @@
                            <td>{{ $pickup->user->email }}</td>
                            <td>{{ $pickup->address }}</td>
                            @if($pick_up_type == "Detailed Pickup")
-                           <td>{{ $pick_up_type }} 
+                           <td>
+                                {{ $pick_up_type }} 
                           
                              @if(count($pickup->invoice) > 0)
                                 <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
@@ -252,7 +253,7 @@
    </div>
 </div>
 @foreach($pickups as $pickup) 
-@if(count($pickup->order_detail)>0)
+@if(count($pickup->invoice)>0)
 <!-- Modal -->
 <div id="detail_{{ $pickup->id }}" class="modal fade" role="dialog">
    <div class="modal-dialog modal-lg">
