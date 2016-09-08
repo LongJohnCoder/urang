@@ -271,16 +271,17 @@
 	       end_time = $('#time_frame_end').val();
 	       checkTime();
 	    });
-		$('#order_type').change(function(){
-	      if ($('#order_type').val() == 0) 
-	      {
-	        $('#myModal').modal('show');
-	      }
-	      else
-	      {
-	        $('#myModal').modal('hide');
-	      }
-	     });
+		$('#order_type').click(function(){
+			var value_type = $('#order_type').val();
+	      	if ($.trim(value_type) && $.trim(value_type) == 0) 
+		    {
+		    	$('#myModal').modal('show');
+		    }
+	      	else
+	        {
+	        	$('#myModal').modal('hide');
+	        }
+	   	});
 		//generating address of user and school
 		$('#cus_email').change(function(){
 			if ($.trim($('#cus_email').val()) != null) 

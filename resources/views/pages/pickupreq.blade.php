@@ -285,7 +285,7 @@
       type: "POST",
       data: {user_id: "{{auth()->guard('users')->user()->id}}", _token: "{{Session::token()}}"},
       success: function(data) {
-        console.log(data);
+        //console.log(data);
         if (data != 0) 
         {
           //mandetory address
@@ -442,8 +442,9 @@
      //alert(some);
      $('#datepicker').val(todays_date);
      //alert($('#order_type').val())
-     $('#order_type').change(function(){
-      if ($('#order_type').val() == 0) 
+     $('#order_type').click(function(){
+      var value_type = $('#order_type').val();
+      if ($.trim(value_type) && $.trim(value_type) == 0) 
       {
         $('#myModal').modal('show');
       }
