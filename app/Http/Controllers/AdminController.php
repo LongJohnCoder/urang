@@ -2351,6 +2351,31 @@ class AdminController extends Controller
         $search = Pickupreq::find($id_to_del);
         $trackOrder = OrderTracker::where('pick_up_req_id',$request->id)->first();
         if ($search) {
+            
+            if($request->schoolDonationAmount)
+            {
+
+                if($search->order_status==1)
+                {
+                    
+                    $schoolDonationToDeletePending = SchoolDonations::find($search->school_donation_id);
+                    if($schoolDonationToDeletePending)
+                    {
+                        $previous_pendingMoney = $schoolDonationToDeletePending->pending_money;
+                        //dd($previous_pendingMoney);
+                        if($previous_pendingMoney>0)
+                        {
+                            $now_pendingMoney = $previous_pendingMoney - $request->schoolDonationAmount;
+                            $schoolDonationToDeletePending->pending_money = $now_pendingMoney;
+                            $schoolDonationToDeletePending->save();
+                            //dd("$schoolDonationToDeletePending");
+                        }
+                    }
+                    
+                    
+                    
+                }
+            }
            if ($search->pick_up_type == 0) {
                 $search->delete();
                 $search_order_details = OrderDetails::where('pick_up_req_id', $id_to_del)->get();

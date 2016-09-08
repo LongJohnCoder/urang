@@ -159,7 +159,7 @@
                            <td>{{ $payment_type }}</td>
                            <!-- <td>{{ $pickup->client_type }} </td> -->
                            <form id="change_status_form">
-                              <td>${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
+                              <td id="id_to_show_gross_price_{{$pickup->id}}">${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                               <td>
                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
@@ -232,10 +232,11 @@
                               <!-- <td>order cancelled</td> -->
                            @endif
                            <td>
-                            <form action="{{route('postDeleteTotalPickUp')}}" method="post">
+                            <form id="deletePickUpForm" action="{{route('postDeleteTotalPickUp')}}" method="post">
                               <input type="hidden" name="id" value="{{$pickup->id}}">
+                              <input type="hidden" name="schoolDonationAmount" value="{{($pickup->total_price*$donate_money_percentage->percentage)/100}}">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
-                              <button type="submit" class="btn btn-danger">Delete</button>
+                              <button type="button" data-toggle="confirmation" onclick="deleteThePickUp()" class="btn btn-danger">Delete</button>
                             </form>
                                 
                            </td>
@@ -693,7 +694,7 @@
                       <tr id="tr_identifier_{{$list->id}}">
                          <td id="nos_{{$list->id}}" style="display: none;">
                             <select name="number_of_item" id="number2_{{$list->id}}">
-                              @for($i=0;$i<=10;$i++)
+                              @for($i=1;$i<=10;$i++)
                                   <option value="{{$i}}">{{$i}}</option>
                               @endfor
                             </select>
@@ -726,6 +727,20 @@
          </div>
       </div>
    </div>
+</div>
+
+<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a id="confirmDeleteButton" class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -959,6 +974,7 @@
           {
             final_price = (price-(price*(data/100)));
             $('#gross_price').text("$"+final_price.toFixed(2));
+            $('#id_to_show_gross_price_'+pickUpId).html("$"+final_price.toFixed(2));
             if (typeof pickUpId != 'undefined') 
             {
               $('#chargable_'+pickUpId).val(final_price.toFixed(2));
@@ -977,6 +993,7 @@
     else
     {
       $('#gross_price').text("$"+price);
+
     }
    }
    function delInvoice(id) {
@@ -1337,5 +1354,14 @@
 
     
   }
+
+  function deleteThePickUp()
+  {
+    //alert("delete");
+    $('#confirm_delete').modal('show');
+  }
+  $('#confirmDeleteButton').click(function(){
+      $('#deletePickUpForm').submit();
+  });
 </script>
 @endsection

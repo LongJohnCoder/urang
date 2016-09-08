@@ -470,7 +470,7 @@ class MainController extends Controller
         }
         else
         {
-            return "500 Bad request";
+            return "";
         }
     }
     private function returnData($day) {
@@ -630,6 +630,7 @@ class MainController extends Controller
                     $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                     //dd($expected_time);
                     if ($request->identifier == "admin") {
+
                         /*$pass_to_event = array(
                             'request' => $request,
                             'inv_id' => 0
@@ -640,7 +641,8 @@ class MainController extends Controller
                     else
                     {
                         Event::fire(new PickUpReqEvent($request, 0));
-                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order ".$expected_time);
+
                     }
                     
                 }
@@ -697,7 +699,8 @@ class MainController extends Controller
                     else
                     {
                         Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
-                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order ".$expected_time);
+
                     }
                 }
             }

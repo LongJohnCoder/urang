@@ -246,7 +246,7 @@
                   <tr>
                     <td>
                       <select name="number_of_item" id="number_{{$list->id}}">
-                        @for($i=0; $i<=10; $i++)
+                        @for($i=1; $i<=10; $i++)
                           <option value="{{$i}}">{{$i}}</option>
                         @endfor
                       </select>
