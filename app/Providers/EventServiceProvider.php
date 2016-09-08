@@ -14,13 +14,16 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\SendEmailOnSignUp' => [
-        'App\Listeners\SendEmailListener',
+            'App\Listeners\SendEmailListener',
         ],
         'App\Events\SendCustomerComplaints' => [
-        'App\Listeners\CustomerComplaintsListener',
+            'App\Listeners\CustomerComplaintsListener',
         ],
         'App\Events\ResetPassword' => [
-        'App\Listeners\ResetPasswordListener',
+            'App\Listeners\ResetPasswordListener',
+        ],
+        'App\Events\PickUpReqEvent' => [
+            'App\Listeners\PickUpReqListener',
         ],
     ];
 

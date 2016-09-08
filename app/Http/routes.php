@@ -16,8 +16,8 @@
     return view('email.complaintsTemplate');
 });*/
 
-Route::get('/email', function(){
-    return view('email.complaints');
+Route::get('/email-pickup', function(){
+    return view('email.pickupemail');
 });
 Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);

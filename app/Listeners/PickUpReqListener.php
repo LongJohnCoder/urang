@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Events\PickUpReqEvent;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Coupon;
+use App\User;
+use App\UserDetails;
+use Mail;
+class PickUpReqListener
+{
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  PickUpReq  $event
+     * @return void
+     */
+    public function handle(PickUpReqEvent $event)
+    {
+        //dd($event->req);
+        $table_data = ''; //detail pickup data
+        $subtotal = 0.00;
+        $discount = 0.00;
+        if ($event->req->identifier == "admin") {
+            $user_to_search = User::with('user_details')->find($event->req->user_id);
+            if ($user_to_search) {
+                //dd($user_to_search);
+                $email = $user_to_search->email;
+                $user_name = $user_to_search->user_details->name;
+                $number = $user_to_search->user_details->personal_ph;
+            }
+            else
+            {
+                $email = "work@tier5.us";
+                $user_name = "undefined";
+                $number = 00000000;
+            }
+           /* $email = auth()->guard('users')->user()->email; //user email
+            $user_name = auth()->guard('users')->user()->user_details->name; //user name
+            $number =  auth()->guard('users')->user()->user_details->personal_ph; //phon number*/
+        }
+        else
+        {
+            $email = auth()->guard('users')->user()->email; //user email
+            $user_name = auth()->guard('users')->user()->user_details->name; //user name
+            $number =  auth()->guard('users')->user()->user_details->personal_ph; //phon number
+        }
+        //details pick up
+        if ($event->req->list_items_json != '') {
+            $format_items = json_decode($event->req->list_items_json);
+            //dd();
+            for($i=0; $i<count($format_items); $i++)
+            {
+                $table_data .= "<tr><td>".$format_items[$i]->item_name."</td><td>".$format_items[$i]->number_of_item."</td><td>".$format_items[$i]->item_price."</td></tr>";
+                $subtotal +=  $format_items[$i]->number_of_item*$format_items[$i]->item_price;
+            }
+        }
+        //fast pickup
+        else
+        {
+            $table_data = '';
+        }
+        //dd($subtotal);
+        $invoice_id = $event->inv_id; //invoice id 
+        $date_today = $event->req->pick_up_date; //date
+        $coupon = $event->req->coupon; // coupon 
+        if ($coupon != null) {
+            $discount_percentage = Coupon::where('coupon_code', $coupon)->first();
+            //dd($discount_percentage);
+            if ($discount_percentage != "" && $discount_percentage->isActive == 1) {
+                $discount = $subtotal*($discount_percentage->discount/100);
+            }
+            else
+            {
+                $discount = 0.00;
+                $coupon = "Not a valid coupon";
+            }
+        }
+        else
+        {
+            $discount = 0.00;
+            $coupon = "No Coupon Applied";
+        }
+        Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data), 
+            function($message) use ($event){
+                $message->from("work@tier5.us", "Admin");
+                if ($event->req->identifier == "admin") {
+                    $user_to_search = User::with('user_details')->find($event->req->user_id);
+                    if ($user_to_search) {
+                        //dd($user_to_search);
+                        $email = $user_to_search->email;
+                        $user_name = $user_to_search->user_details->name;
+                        $number = $user_to_search->user_details->personal_ph;
+                    }
+                    else
+                    {
+                        $email = "work@tier5.us";
+                        $user_name = "undefined";
+                        $number = 00000000;
+                    }
+                    $message->to($email, $user_name)->subject('Pickuprequest Details U-rang');
+                }
+                else
+                {
+                    $message->to(auth()->guard('users')->user()->email, auth()->guard('users')->user()->user_details->name)->subject('Pickuprequest Details U-rang');
+                }   
+            });
+    }
+}

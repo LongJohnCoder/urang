@@ -26,6 +26,7 @@ use App\OrderTracker;
 use App\SchoolPreferences;
 use App\Events\SendEmailOnSignUp;
 use App\Events\SendCustomerComplaints;
+use App\Events\PickUpReqEvent;
 use App\Events\ResetPassword;
 use Illuminate\Support\Facades\Event;
 use App\IndexContent;
@@ -535,6 +536,7 @@ class MainController extends Controller
         }
     }
     public function postMyPickup($request) {
+        //$pass_to_event = array();
         if ($request->address && $request->pick_up_date && isset($request->order_type) && $request->pay_method) {
             $total_price = 0.00;
             $pick_up_req = new Pickupreq();
@@ -628,10 +630,16 @@ class MainController extends Controller
                     $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                     //dd($expected_time);
                     if ($request->identifier == "admin") {
+                        /*$pass_to_event = array(
+                            'request' => $request,
+                            'inv_id' => 0
+                        );*/
+                        Event::fire(new PickUpReqEvent($request, 0));
                         return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                     }
                     else
                     {
+                        Event::fire(new PickUpReqEvent($request, 0));
                         return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                     }
                     
@@ -679,10 +687,16 @@ class MainController extends Controller
                         $invoice->save();
                     }
                     if ($request->identifier == "admin") {
+                        /*$pass_to_event = array(
+                            'request' => $request,
+                            'inv_id' => $invoice->invoice_id
+                        );*/
+                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
                         return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                     }
                     else
                     {
+                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
                         return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                     }
                 }
