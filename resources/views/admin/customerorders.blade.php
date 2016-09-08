@@ -273,7 +273,7 @@
                </thead>
                <tbody>
                   @foreach($pickup->invoice as $order)
-                  <tr>
+                  <tr id="items_to_delete_order_items{{$order->list_item_id}}">
                      <td>{{ $order->quantity }}</td>
                      <td>{{ $order->item }}</td>
                      <td>${{ number_format((float)$order->price, 2, '.', '') }}</td>
@@ -687,10 +687,10 @@
                      <th>Delete</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody id="items_modal_show">
                   @if(count($price_list) > 0)
                     @foreach($price_list as $list)
-                      <tr>
+                      <tr id="tr_identifier_{{$list->id}}">
                          <td id="nos_{{$list->id}}" style="display: none;">
                             <select name="number_of_item" id="number2_{{$list->id}}">
                               @for($i=0;$i<=10;$i++)
@@ -806,7 +806,7 @@
             $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
             $('#invoice_no').text('{{$invoice->invoice_id}}');
             $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}');
-            div += "<tr><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Delete</button>@else @endif</td></tr>";
+            div += "<tr id='invoice_row_to_del_{{$invoice->list_item_id}}'><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Delete</button>@else @endif</td></tr>";
             total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
             $('#total_price').text("$"+total_price);
             $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
@@ -1053,10 +1053,13 @@
         data: {item_name: $('#item2_'+id).text(),user_id: DELETE_user_id,pick_up_id: DELETE_pick_up_id,item_id: id, _token: "{{Session::token()}}"},
         success: function(data) {
             console.log(data);
-            if(data==1)
+            if(data!=0)
             {
-              location.reload();
+              $('#tr_identifier_'+data).hide();
+              $('#invoice_row_to_del_'+data).hide();
+              $('#items_to_delete_order_items'+data).hide();
             }
+            
         }
     });
    }

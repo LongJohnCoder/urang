@@ -39,6 +39,7 @@
 	                                    <th>Item</th>
 	                                    <th>Price</th>
 	                                    <th>Created By</th>
+	                                    <th>Image</th>
 	                                    <th>Created At</th>
 	                                    <th>Edit</th>
 	                                    <th>Delete</th>
@@ -57,6 +58,7 @@
 				                            	<td>{{ $item->item }}</td>
 				                            	<td>{{$item->price}}</td>
 				                            	<td>{{$item->admin->username}}</td>
+				                            	<td><img src="{{url('/')}}/public/dump_images/{{$item->image}}" alt="item image" style="height: 50px; width: 73px"></td>
 				                            	<td>{{ date("F jS Y",strtotime($item->created_at->toDateString())) }}</td>
 				                            	<td><button type="button" id="edit_{{$item->id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
 				                            	<td><button type="button" id="del_{{$item->id}}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
@@ -144,7 +146,7 @@
 		        	<img src="{{url('/')}}/public/img/reload.gif">
 		    </div>
 		    <!--work-->
-			<form role="form" id="add-modal-form" action="{{route('postPriceList')}}" method="post">
+			<form role="form" id="add-modal-form" action="{{route('postPriceList')}}" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 				    <label for="categories" id="cat_label_0">Categories</label>
 				    @if(count($categories) > 0)
@@ -162,10 +164,15 @@
 			    <label for="name" id="namelbl_0">Item Name</label>
 			    <input class="form-control" id="name_0" name="name[]" type="text" required="">
 			  </div>
+
 			  <div class="form-group">
 			    <label for="price" id="pricelbl_0">Price</label>
 			    <input type="number" step="any" class="form-control" name="price[]" id="price_0" required=""></input>
 			  </div>
+			  <div class="form-group">
+	        		<label for="image">Upload Image:</label>
+	        		<input type="file" name="image" class="form-control" required=""></input>
+	        	</div>
 			  <div id="jq_append"></div>
 			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postItem">Add Item</button>
 			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>

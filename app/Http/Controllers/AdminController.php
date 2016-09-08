@@ -322,6 +322,14 @@ class AdminController extends Controller
             $item->category_id = $request->category[$i];
             $item->item = $request->name[$i];
             $item->price = $request->price[$i];
+            $image = $request->image;
+            $extension =$image->getClientOriginalExtension();
+            $destinationPath = 'public/dump_images/';
+            $fileName = rand(111111111,999999999).'.'.$extension;
+            $image->move($destinationPath, $fileName);
+            $item->image = $fileName;
+            $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+            $img->save('public/app_images/'.$img->basename);
             $item->save();
         }
         return redirect()->route('getPriceList')->with('success', 'items successfully added!');
@@ -2260,7 +2268,7 @@ class AdminController extends Controller
         $searchInvoice['pick_up_req_id'] = $request->pick_up_id;
         $searchInvoice['user_id'] = $request->user_id;
         $invoice = Invoice::where($searchInvoice)->first();
-
+        $invoiceDeletedId = $invoice->list_item_id;
         $previous_price = 0;
         $pick_up_req_id = $request->pick_up_id;
 
@@ -2292,7 +2300,7 @@ class AdminController extends Controller
             {
                 $order_details->delete();
             }
-            return 1;
+            return $invoiceDeletedId;
         }
         else
         {
