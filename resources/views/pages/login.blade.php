@@ -22,8 +22,8 @@
     <p class="message">Already registered? <a href="#">Sign In</a></p>
   </form>-->
   <form class="login-form" role="form" action="{{route('postCustomerLogin')}}" method="post">
-     <input type="email"  id="exampleInputEmail1" name="email" placeholder="Email" required="">
-     <input type="password"  id="exampleInputPassword1" name="password" placeholder="Password" required="">
+     <input type="email"  id="exampleInputEmail1" name="email" placeholder="Email" required="" value="{{old('email')}}">
+     <input type="password"  id="exampleInputPassword1" name="password" placeholder="Password" required="" value="{{old('password')}}">
      <div style="float: left;">
        <input name="remember" type="checkbox" value="1" style="display: inline-block; width: auto; margin: 0; position: relative; top: 2px;">
        <p style="display: inline;"> Remember Me</p>
