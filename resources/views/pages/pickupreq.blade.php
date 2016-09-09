@@ -154,7 +154,7 @@
             <div class="clear"></div>
             <div class="form-group">
                 <select id="order_type" name="order_type" id="order_type" class="col-xs-5" required="">
-                  <option value="types">Type of order</option>
+                  <option value="">Type of order</option>
                   <option value="1">Fast Pickup</option>
                   <option value="0">Detailed Pickup</option>
                 </select>
@@ -192,6 +192,7 @@
             <div class="form-group">
                 <label>Do you have a coupon code ?<p style="color: red;">Please leave the field blank if you dont have any.</p></label>
                 <input type="text" name="coupon" id="coupon" class="form-control" />
+                <div id="validity"></div>
             </div>
             <div class="form-group">
                 <div class="checkbox checkbox-large">
@@ -472,6 +473,33 @@
         }
         $('#myModal').modal('hide');
         swal("Success!", "Your items are select now please place an order", "success");
+     });
+     //coupon validity
+     $(document).on('input', '#coupon',  function() {    
+        //console.log('test')
+        var coupon_value = $('#coupon').val();
+        //console.log(coupon_value);
+        $.ajax({
+          url: "{{route('checkCouponVailidity')}}",
+          type: "POST",
+          data: {coupon_value: coupon_value, _token:"{{Session::token()}}"},
+          success: function(data) {
+            //console.log(data);
+            if (data == 1) {
+              $('#validity').html("");
+              $('#schedule_pick_up').attr('type', 'submit');
+            }
+            else if (data == 2) {
+              $('#validity').html('<span style="color: red;">Old coupon code. Coupon is not valid!</span>');
+              $('#schedule_pick_up').attr('type', 'button');
+            }
+            else
+            {
+              $('#validity').html('<span style="color: red;">Invalid coupon code!</span>');
+              $('#schedule_pick_up').attr('type', 'button');
+            }
+          }
+        })
      });
   });
   jsonArray = [];
