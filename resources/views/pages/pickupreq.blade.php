@@ -469,6 +469,8 @@
   jsonArray = [];
 
   function add_id(id) {
+    //console.log(id);
+    //return;
      if ($('#number_'+id).val() > 0) 
      {
         if ($('#btn_'+id).text() == "Add") 
@@ -483,6 +485,7 @@
           jsonArray.push(list_item);
           jsonString = JSON.stringify(jsonArray);
           $('#list_items_json').val(jsonString);
+          //console.log(jsonString);
         }
         else
         {
@@ -493,8 +496,10 @@
             {
               if (jsonArray[j].id == id) 
               {
-                jsonArray.splice(j,j);
+                //console.log(jsonArray);
+                jsonArray.splice(j,id);
                 jsonString = JSON.stringify(jsonArray);
+                //console.log(jsonString);
               }
             }
             else
@@ -504,6 +509,7 @@
             }
             
           }
+          //console.log(jsonString);
           //jsonString = JSON.stringify(jsonArray);
           $('#list_items_json').val(jsonString);
         }

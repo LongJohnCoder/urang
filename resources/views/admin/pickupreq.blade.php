@@ -485,7 +485,7 @@
             {
               if (jsonArray[j].id == id) 
               {
-                jsonArray.splice(j,j);
+                jsonArray.splice(j,id);
                 jsonString = JSON.stringify(jsonArray);
               }
             }
