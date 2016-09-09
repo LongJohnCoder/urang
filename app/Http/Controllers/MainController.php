@@ -636,7 +636,7 @@ class MainController extends Controller
                             'inv_id' => 0
                         );*/
                         Event::fire(new PickUpReqEvent($request, 0));
-                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order ".$expected_time);
                     }
                     else
                     {
@@ -694,7 +694,7 @@ class MainController extends Controller
                             'inv_id' => $invoice->invoice_id
                         );*/
                         Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
-                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order ".$expected_time);
                     }
                     else
                     {

@@ -36,7 +36,7 @@
                   <div class="row">
                      <form action="{{ route('sortAdmin') }}" method="get">
                         <div class="col-md-5">
-                           <select name="sort" class="form-control">
+                           <select name="sort" class="form-control" onchange="this.form.submit()">
                               <option value="">Sort By</option>
                               <option value="pick_up_date">Pickup Date</option>
                               <option value="created_at">Order Date</option>
@@ -1081,6 +1081,7 @@
               $('#tr_identifier_'+data).hide();
               $('#invoice_row_to_del_'+data).hide();
               $('#items_to_delete_order_items'+data).hide();
+              $('#EditItemModal').modal('toggle');
             }
             
         }
