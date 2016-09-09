@@ -52,10 +52,10 @@
                         <form role="form" action="{{ route('post-admin-login') }}"  method="post">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus value="{{old('email')}}">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="{{old('password')}}">
                                 </div>
                                 <div class="checkbox">
                                     <label>
