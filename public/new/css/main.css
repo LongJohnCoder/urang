@@ -1175,9 +1175,71 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 .plans {
 	list-style: none;
 	margin: 0;
-	padding: 20px 40px;
+	/*padding: 20px 40px;*/
 }
-	.plan {
+/************************************/
+.plans .product-section{
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.plans h2{
+    border: 1px solid #ff6400;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.plans h2 i.fa.fa-caret-down{
+    display: none;
+}
+
+.plans h2 i{
+    margin-left: 10px;
+}
+
+.plans .product{
+    border: 1px solid #ccc;
+    transition: 0.5s;
+    background: #F5F5F5;
+}
+
+.plans .product h3{
+    font-size: 14px;
+    text-transform: capitalize;
+    margin: 24px 0 0;
+    color: #333;
+}
+
+@media only screen and ( min-width: 992px ) and ( max-width: 1199px ){
+    .plans h2 {
+        font-size: 16px;
+    }
+
+    .plans .product h3 {
+        margin: 15px 0 0;
+    }
+}
+
+@media only screen and ( max-width: 991px ){
+    .plans {
+        margin-bottom: 20px;
+    }
+
+    .product .img-responsive{
+        margin: auto;
+        display: block; 
+    }
+
+    .plans .product-section {
+        text-align: center;
+    }
+}
+/***********************************/
+
+.plan {
     background: white;
     border-radius: 6px;
     height: 100px;

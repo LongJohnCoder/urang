@@ -173,6 +173,7 @@
 					            <div class="form-group">
 					               <label>Do you have a coupon code ?<p style="color: red;">Please leave the field blank if you dont have any.</p></label>
 					              	<input type="text" name="coupon" id="coupon" class="form-control" />
+					              	<div id="validity"></div>
 					            </div>
 					            <div class="form-group">
 					            	<label>Donate to a school in your neighborhood ?</label>
@@ -206,7 +207,7 @@
 						                    <th>No of Items</th>
 						                    <th>Item Name</th>
 						                    <th>Item Price</th>
-						                    <th>Action</th>
+						                    <!-- <th>Action</th> -->
 						                  </tr>
 						                </thead>
 						                <tbody> 
@@ -214,15 +215,15 @@
 						                @foreach($price_list as $list)
 						                  <tr>
 						                    <td>
-						                      <select name="number_of_item" id="number_{{$list->id}}">
-						                        @for($i=1; $i<=10; $i++)
+						                      <select name="number_of_item" id="number_{{$list->id}}" onchange="return addListItems('{{$list->id}}');">
+						                        @for($i=0; $i<=10; $i++)
 						                          <option value="{{$i}}">{{$i}}</option>
 						                        @endfor
 						                      </select>
 						                    </td>
 						                    <td id="item_{{$list->id}}">{{$list->item}}</td>
 						                    <td id="price_{{$list->id}}">{{$list->price}}</td>
-						                    <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+						                    <!-- <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td> -->
 						                  </tr>
 						                @endforeach
 						              @else
@@ -271,16 +272,26 @@
 	       end_time = $('#time_frame_end').val();
 	       checkTime();
 	    });
-		$('#order_type').click(function(){
+		$('#order_type').change(function(){
 			var value_type = $('#order_type').val();
-	      	if ($.trim(value_type) && $.trim(value_type) == 0) 
-		    {
-		    	$('#myModal').modal('show');
-		    }
-	      	else
-	        {
-	        	$('#myModal').modal('hide');
-	        }
+	      	if (!isNaN(value_type)) {
+		        if (value_type == 0) 
+		        {
+		          $('#myModal').modal('show');
+		        }
+		        else if (value_type == 1)
+		        {
+		          $('#myModal').modal('hide');
+		        }
+		        else
+		        {
+		          console.log("U-rang Order page");
+		        }
+	      }
+	      else
+	      {
+	        console.log('U-rang Order page. Hint: Developer guide');
+	      }
 	   	});
 		//generating address of user and school
 		$('#cus_email').change(function(){
@@ -457,53 +468,75 @@
 	        //return false;
 	      } 
 	    }
+	    //coupon validity
+	     $(document).on('input', '#coupon',  function() {    
+	        //console.log('test')
+	        var coupon_value = $('#coupon').val();
+	        //console.log(coupon_value);
+	        $.ajax({
+	          url: "{{route('checkCouponVailidity')}}",
+	          type: "POST",
+	          data: {coupon_value: coupon_value, _token:"{{Session::token()}}"},
+	          success: function(data) {
+	            //console.log(data);
+	            if (data == 1) {
+	              $('#validity').html("");
+	              $('#schedule_pick_up').attr('type', 'submit');
+	            }
+	            else if (data == 2) {
+	              $('#validity').html('<span style="color: red;">Old coupon code. Coupon is not valid!</span>');
+	              $('#schedule_pick_up').attr('type', 'button');
+	            }
+	            else
+	            {
+	              $('#validity').html('<span style="color: red;">Invalid coupon code!</span>');
+	              $('#schedule_pick_up').attr('type', 'button');
+	            }
+	          }
+	        })
+	     });
   	});
   jsonArray = [];
 
-  function add_id(id) {
-     if ($('#number_'+id).val() > 0) 
-     {
-        if ($('#btn_'+id).text() == "Add") 
+    function addListItems(id) {
+    //alert(id);
+    var no_of_item = $('#number_'+id).val();
+    //console.log(no_of_item);
+    if (no_of_item > 0) {
+      for(var m=0; m< jsonArray.length; m++) {
+        //console.log(jsonArray[m]);
+        if (jsonArray[m].id == id) {
+          jsonArray.splice(m,1);
+        }
+      }
+      list_item = {};
+      list_item['id'] = id;
+      list_item['number_of_item'] = $('#number_'+id).val();
+      list_item['item_name'] = $('#item_'+id).text();
+      list_item['item_price'] = $('#price_'+id).text();
+      jsonArray.push(list_item);
+      jsonString = JSON.stringify(jsonArray);
+      //console.log(jsonString);
+    }
+    else if (no_of_item == 0)
+    {
+      for(var j=0; j< jsonArray.length; j++) {
+        if (jsonArray[j].id == id) 
         {
-          $('#btn_'+id).text("Remove");
-          $('#number_'+id).prop('disabled', true);
-          list_item = {};
-          list_item['id'] = id;
-          list_item['number_of_item'] = $('#number_'+id).val();
-          list_item['item_name'] = $('#item_'+id).text();
-          list_item['item_price'] = $('#price_'+id).text();
-          jsonArray.push(list_item);
+          //console.log(jsonArray);
+          jsonArray.splice(j,1);
           jsonString = JSON.stringify(jsonArray);
-          $('#list_items_json').val(jsonString);
+          //console.log(jsonString);
         }
-        else
-        {
-          $('#btn_'+id).text("Add");
-          $('#number_'+id).prop('disabled', false);
-          for(var j=0; j< jsonArray.length; j++) {
-            if (jsonArray.length > 1) 
-            {
-              if (jsonArray[j].id == id) 
-              {
-                jsonArray.splice(j,id);
-                jsonString = JSON.stringify(jsonArray);
-              }
-            }
-            else
-            {
-              jsonArray = [];
-              $('#list_items_json').val('');
-            }
-            
-          }
-          //jsonString = JSON.stringify(jsonArray);
-          $('#list_items_json').val(jsonString);
-        }
-     }
-     else
-     {
-        sweetAlert("Oops...", "Please select atleast one item", "error");
-     }
+      }
+    }
+    else
+    {
+      console.log("Developer's guide");
+    }
+    //console.log(jsonString);
+    $('#list_items_json').val(jsonString);
+    //console.log(jsonString);
   }
   $('#schoolNameDropDown').hide();
   $('#schoolDonationAmount').hide();

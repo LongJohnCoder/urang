@@ -31,6 +31,7 @@ use App\Events\ResetPassword;
 use Illuminate\Support\Facades\Event;
 use App\IndexContent;
 use Session;
+use App\Coupon;
 class MainController extends Controller
 {
     
@@ -571,6 +572,7 @@ class MainController extends Controller
             for ($i=0; $i< count($data_table); $i++) {
                 $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
             }
+            //dd($total_price);
             $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
             /*//for charging cards after wards
             $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
@@ -600,6 +602,14 @@ class MainController extends Controller
                 $search = SchoolDonations::find($request->school_donation_id);
                 if ($search) {
                     $present_pending_money = $search->pending_money;
+                    /*//check coupon
+                    if ($request->coupon) {
+                        $discount = Coupon::where('coupon_code', $request->coupon)->first();
+                        if ($discount && $discount->isActive == 1) {
+                            dd($total_price);
+                            $total_price = $total_price - ($total_price*$discount->discount/100);
+                        }
+                    }*/
                     $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
                     $search->pending_money = $updated_pending_money;
                     $search->save();
@@ -941,5 +951,26 @@ class MainController extends Controller
         } else {
             return 0;
         }
+    }
+    public function checkCouponVailidity(Request $request) {
+        //return $request;
+        if ($request->coupon_value != null) {
+            $find_coupon = Coupon::where('coupon_code', $request->coupon_value)->first();
+            if ($find_coupon && $find_coupon->isActive == 1) {
+                return 1;
+            }
+            else if($find_coupon && $find_coupon->isActive == 0) {
+                return 2;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 1;
+        }
+        
     }
 }
