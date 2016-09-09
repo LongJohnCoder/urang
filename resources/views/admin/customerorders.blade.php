@@ -558,7 +558,7 @@
                      <th>No of Items</th>
                      <th>Item Name</th>
                      <th>Item Price</th>
-                     <th>Action</th>
+                     <!-- <th>Action</th> -->
                   </tr>
                </thead>
                <tbody>
@@ -567,15 +567,15 @@
                      @foreach($price_list as $list)
                      <tr>
                         <td>
-                           <select name="number_of_item" id="number_{{$list->id}}">
-                              @for($i=1; $i<=10; $i++)
+                           <select name="number_of_item" id="number_{{$list->id}}" onchange="return addListItemsCreateInvoice('{{$list->id}}');">
+                              @for($i=0; $i<=10; $i++)
                                 <option value="{{$i}}">{{$i}}</option>
                               @endfor
                            </select>
                         </td>
                         <td id="item_{{$list->id}}">{{$list->item}}</td>
                         <td id="price_{{$list->id}}">{{$list->price}}</td>
-                        <td><button type="button" class="btn btn-primary btn-xs" onclick="add_item({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+                        <!-- <td><button type="button" class="btn btn-primary btn-xs" onclick="add_item({{$list->id}})" id="btn_{{$list->id}}">Add</button></td> -->
                      </tr>
                      @endforeach
 
@@ -685,7 +685,7 @@
                      <th>No of Items</th>
                      <th>Item Name</th>
                      <th>Item Price</th>
-                     <th>Action</th>
+                     <!-- <th>Action</th> -->
                      <th>Delete</th>
                   </tr>
                </thead>
@@ -694,7 +694,7 @@
                     @foreach($price_list as $list)
                       <tr id="tr_identifier_{{$list->id}}">
                          <td id="nos_{{$list->id}}" style="display: none;">
-                            <select name="number_of_item" id="number2_{{$list->id}}">
+                            <select name="number_of_item" id="number2_{{$list->id}}" onchange="return addListItems('{{$list->id}}');">
                               @for($i=1;$i<=10;$i++)
                                   <option value="{{$i}}">{{$i}}</option>
                               @endfor
@@ -702,7 +702,7 @@
                          </td>
                          <td id="item2_{{$list->id}}" style="display: none;">{{$list->item}}</td>
                          <td id="price2_{{$list->id}}" style="display: none;">{{$list->price}}</td>
-                         <td id="btn_action_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td>
+                         <!-- <td id="btn_action_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td> -->
                          <td id="btn_delete_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-danger btn-xs" onclick="delete_id({{$list->id}})" id="btn_delete_{{$list->id}}">Delete</button></td>
                       </tr>
                     @endforeach
@@ -1022,7 +1022,7 @@
    }
    
    jsonArray = [];
-   function add_id(id) {
+   /*function add_id(id) {
     //alert(id);
     if ($('#number2_'+id).val() > 0) 
      {
@@ -1063,8 +1063,83 @@
      {
       sweetAlert("Oops...", "Please select atleast one item", "error");
      }
-   }
-
+   }*/
+   function addListItems(id) {
+    var no_of_item = $('#number2_'+id).val();
+    if (no_of_item > 0) {
+      for(var m=0; m< jsonArray.length; m++) {
+        //console.log(jsonArray[m]);
+        if (jsonArray[m].id == id) {
+          jsonArray.splice(m,1);
+        }
+      }
+      list_item = {};
+      list_item['id'] = id;
+      list_item['number_of_item'] = $('#number2_'+id).val();
+      list_item['item_name'] = $('#item2_'+id).text();
+      list_item['item_price'] = $('#price2_'+id).text();
+      jsonArray.push(list_item);
+      jsonString = JSON.stringify(jsonArray);
+      //console.log(jsonString);
+    }
+    else if (no_of_item == 0)
+    {
+      for(var j=0; j< jsonArray.length; j++) {
+        if (jsonArray[j].id == id) 
+        {
+          //console.log(jsonArray);
+          jsonArray.splice(j,1);
+          jsonString = JSON.stringify(jsonArray);
+          //console.log(jsonString);
+        }
+      }
+    }
+    else
+    {
+      console.log("Developer's guide");
+    }
+    //console.log(jsonString);
+    $('#list_items_json').val(jsonString);
+    //console.log(jsonString);
+  }
+  function addListItemsCreateInvoice(id) {
+    var no_of_item = $('#number_'+id).val();
+    if (no_of_item > 0) {
+      for(var m=0; m< jsonArray.length; m++) {
+        //console.log(jsonArray[m]);
+        if (jsonArray[m].id == id) {
+          jsonArray.splice(m,1);
+        }
+      }
+      list_item = {};
+      list_item['id'] = id;
+      list_item['number_of_item'] = $('#number_'+id).val();
+      list_item['item_name'] = $('#item_'+id).text();
+      list_item['item_price'] = $('#price_'+id).text();
+      jsonArray.push(list_item);
+      jsonString = JSON.stringify(jsonArray);
+      //console.log(jsonString);
+    }
+    else if (no_of_item == 0)
+    {
+      for(var j=0; j< jsonArray.length; j++) {
+        if (jsonArray[j].id == id) 
+        {
+          //console.log(jsonArray);
+          jsonArray.splice(j,1);
+          jsonString = JSON.stringify(jsonArray);
+          //console.log(jsonString);
+        }
+      }
+    }
+    else
+    {
+      console.log("Developer's guide");
+    }
+    //console.log(jsonString);
+    $('#text_field').val(jsonString);
+    //console.log(jsonString);
+  }
    function delete_id(id)
    {
       /*alert("pickup id "+DELETE_pick_up_id);
@@ -1087,7 +1162,7 @@
         }
     });
    }
-   function add_item(id) {
+   /*function add_item(id) {
     arrItems = [];
     if($('#btn_'+id).text()=='Add')
     {
@@ -1122,7 +1197,7 @@
       $('#number_'+id).prop('disabled', false);
     }
      
-   }
+   }*/
    //mywork
    function openEditItemModal(pickup_id,user_id)
    {
@@ -1189,14 +1264,14 @@
         $('#price2_'+data[i].id).show();
         $('#btn_action_'+data[i].id).show();
         $('#btn_delete_'+data[i].id).show();
-        if ($('#btn2_'+data[i].id).text() == "Remove") 
+        /*if ($('#btn2_'+data[i].id).text() == "Remove") 
         {
           $('#number2_'+data[i].id).attr('disabled', 'true');
         }
         else
         {
           $('#number2_'+data[i].id).attr('disabled', 'false');
-        }
+        }*/
       }
    });
    function sbmitEditForm()

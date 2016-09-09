@@ -21,8 +21,21 @@ class InvoiceController extends Controller
         //dd($request);
         if ($request->list_item != null) {
             $total_price = 0.00;
-            $itemList=explode(',',$request->list_item);
-             for($i=0;$i<count($itemList);$i++)
+            //$itemList=explode(',',$request->list_item);
+            $data = json_decode($request->list_item);
+            for ($i=0; $i< count($data); $i++) {
+                $save_invoice = new Invoice();
+                $save_invoice->user_id = $request->req_user_id;
+                $save_invoice->pick_up_req_id = $request->pick_up_req_id;
+                $save_invoice->invoice_id = time();
+                $save_invoice->item = $data[$i]->item_name;
+                $save_invoice->quantity = $data[$i]->number_of_item;
+                $save_invoice->price = $data[$i]->item_price;
+                $total_price += $data[$i]->number_of_item*$data[$i]->item_price;
+                $save_invoice->list_item_id = $data[$i]->id;
+                $save_invoice->save();
+            }
+             /*for($i=0;$i<count($itemList);$i++)
              {
                 $items=$itemList[$i];
                 if($items!='')
@@ -45,7 +58,7 @@ class InvoiceController extends Controller
                     $save_invoice->list_item_id = $id;
                     $save_invoice->save();
                 }
-             }
+             }*/
              //dd($request->pick_up_req_id);
              $payOrNot= Pickupreq::find($request->pick_up_req_id);
              //dd();

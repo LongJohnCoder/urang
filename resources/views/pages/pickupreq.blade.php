@@ -154,7 +154,7 @@
             <div class="clear"></div>
             <div class="form-group">
                 <select id="order_type" name="order_type" id="order_type" class="col-xs-5" required="">
-                  <option value="">Type of order</option>
+                  <option value="types">Type of order</option>
                   <option value="1">Fast Pickup</option>
                   <option value="0">Detailed Pickup</option>
                 </select>
@@ -237,7 +237,7 @@
                     <th>No of Items</th>
                     <th>Item Name</th>
                     <th>Item Price</th>
-                    <th>Action</th>
+                    <!-- <th>Action</th> -->
                   </tr>
                 </thead>
                 <tbody> 
@@ -245,15 +245,15 @@
                 @foreach($price_list as $list)
                   <tr>
                     <td>
-                      <select name="number_of_item" id="number_{{$list->id}}">
-                        @for($i=1; $i<=10; $i++)
+                      <select name="number_of_item" id="number_{{$list->id}}" onchange="return addListItems('{{$list->id}}');">
+                        @for($i=0; $i<=10; $i++)
                           <option value="{{$i}}">{{$i}}</option>
                         @endfor
                       </select>
                     </td>
                     <td id="item_{{$list->id}}">{{$list->item}}</td>
                     <td id="price_{{$list->id}}">{{$list->price}}</td>
-                    <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+                    <!-- <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td> -->
                   </tr>
                 @endforeach
               @else
@@ -439,18 +439,26 @@
       });
       //alert('test')
      var todays_date=  $.datepicker.formatDate('mm/dd/yy', new Date());
-     //alert(some);
      $('#datepicker').val(todays_date);
-     //alert($('#order_type').val())
-     $('#order_type').click(function(){
+     $('#order_type').change(function(){
       var value_type = $('#order_type').val();
-      if ($.trim(value_type) && $.trim(value_type) == 0) 
-      {
-        $('#myModal').modal('show');
+      if (!isNaN(value_type)) {
+        if (value_type == 0) 
+        {
+          $('#myModal').modal('show');
+        }
+        else if (value_type == 1)
+        {
+          $('#myModal').modal('hide');
+        }
+        else
+        {
+          console.log("U-rang Order page");
+        }
       }
       else
       {
-        $('#myModal').modal('hide');
+        console.log('U-rang Order page. Hint: Developer guide');
       }
      });
      $('#modal-close').click(function(){
@@ -468,56 +476,44 @@
   });
   jsonArray = [];
 
-  function add_id(id) {
-    //console.log(id);
-    //return;
-     if ($('#number_'+id).val() > 0) 
-     {
-        if ($('#btn_'+id).text() == "Add") 
+  function addListItems(id) {
+    //alert(id);
+    var no_of_item = $('#number_'+id).val();
+    //console.log(no_of_item);
+    if (no_of_item > 0) {
+      for(var m=0; m< jsonArray.length; m++) {
+        //console.log(jsonArray[m]);
+        if (jsonArray[m].id == id) {
+          jsonArray.splice(m,1);
+        }
+      }
+      list_item = {};
+      list_item['id'] = id;
+      list_item['number_of_item'] = $('#number_'+id).val();
+      list_item['item_name'] = $('#item_'+id).text();
+      list_item['item_price'] = $('#price_'+id).text();
+      jsonArray.push(list_item);
+      jsonString = JSON.stringify(jsonArray);
+      //console.log(jsonString);
+    }
+    else if (no_of_item == 0)
+    {
+      for(var j=0; j< jsonArray.length; j++) {
+        if (jsonArray[j].id == id) 
         {
-          $('#btn_'+id).text("Remove");
-          $('#number_'+id).prop('disabled', true);
-          list_item = {};
-          list_item['id'] = id;
-          list_item['number_of_item'] = $('#number_'+id).val();
-          list_item['item_name'] = $('#item_'+id).text();
-          list_item['item_price'] = $('#price_'+id).text();
-          jsonArray.push(list_item);
+          //console.log(jsonArray);
+          jsonArray.splice(j,1);
           jsonString = JSON.stringify(jsonArray);
-          $('#list_items_json').val(jsonString);
           //console.log(jsonString);
         }
-        else
-        {
-          $('#btn_'+id).text("Add");
-          $('#number_'+id).prop('disabled', false);
-          for(var j=0; j< jsonArray.length; j++) {
-            if (jsonArray.length > 1) 
-            {
-              if (jsonArray[j].id == id) 
-              {
-                //console.log(jsonArray);
-                jsonArray.splice(j,id);
-                jsonString = JSON.stringify(jsonArray);
-                //console.log(jsonString);
-              }
-            }
-            else
-            {
-              jsonArray = [];
-              $('#list_items_json').val('');
-            }
-            
-          }
-          //console.log(jsonString);
-          //jsonString = JSON.stringify(jsonArray);
-          $('#list_items_json').val(jsonString);
-        }
-     }
-     else
-     {
-        sweetAlert("Oops...", "Please select atleast one item", "error");
-     }
+      }
+    }
+    else
+    {
+      console.log("Developer's guide");
+    }
+    $('#list_items_json').val(jsonString);
+    //console.log(jsonString);
   }
   $('#schoolNameDropDown').hide();
   $('#schoolDonationAmount').hide();
