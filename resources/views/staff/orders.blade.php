@@ -57,9 +57,9 @@
                      </div>
                      <div class="col-md-7">
                         <div class="row">
-                           <form action="{{ route('sort') }}" method="get">
+                           <form action="{{ route('sort') }}" method="get" >
                               <div class="col-md-6">
-                                 <select name="sort" class="form-control">
+                                 <select name="sort" class="form-control" onchange="this.form.submit()">
                                     <option value="">Sort By</option>
                                     <option value="pick_up_date">Pickup Date</option>
                                     <option value="created_at">Order Date</option>
@@ -71,7 +71,7 @@
                                  </select>
                               </div>
                               <div class="col-md-6">
-                                 <button type="submit" class="btn btn-default">Sort</button>
+                                 <!-- <button type="submit" class="btn btn-default">Sort</button> -->
                               </div>
                            </form>
                         </div>
@@ -179,6 +179,7 @@
                               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                               <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                            </td>
+                           @if($pickup->order_status != 5)
                            <td>
                             <select name="order_status" class="form-control" id="order_status_staff_{{$pickup->id}}">
                                 @if($pickup->order_status == 1)
@@ -222,6 +223,20 @@
                             <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}','{{$pickup->coupon}}' )"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
                           @endif
                         @endif
+                        @else
+                              <td>order cancelled</td>
+                              <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
+                              <!-- <td>
+                                {{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
+                              @if($pickup->school_donations != null)
+                                <b>Donated Money :</b>
+                              @endif 
+                              {{$pickup->school_donations != null ? '$'.($pickup->total_price*$donate_money_percentage->percentage)/100 : ''}}
+                              </td> -->
+                              <td>order cancelled</td>
+                              <!-- <td>order cancelled</td> -->
+                              
+                           @endif
                      </tr>
                      @endforeach
                   </tbody>
@@ -827,6 +842,26 @@
         }
       }
    });
+
+   setTimeout(function()
+  { 
+
+      @if(Session::has('openTheModal'))
+      ModalIdToOpen = {{Session::get('ModalToOpenOnPageLoad')}};
+      //ModalToOpenNow = {{Session::get('NextPageModal')}};
+      //alert(ModalToOpenNow);
+      //console.log(ModalToOpenNow);
+      showDetails(ModalIdToOpen);
+      //console.log({{Session::get('NextPageModal')}});
+      <?php
+      Session::forget('openTheModal');
+      Session::forget('ModalToOpenOnPageLoad');
+      //Session::forget('NextPageModal');
+      ?>
+     @endif
+
+   }, 100);
+   
    function delete_id(id)
    {
       /*alert("pickup id "+DELETE_pick_up_id);
@@ -843,6 +878,7 @@
               $('#tr_identifier_'+data).hide();
               $('#invoice_row_to_del_'+data).hide();
               $('#items_to_delete_order_items'+data).hide();
+              window.location.reload();
             }
         }
     });

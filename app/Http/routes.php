@@ -160,6 +160,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/update-extra-item', ['uses' => 'InvoiceController@UpDateExtraItem', 'as'=> 'UpDateExtraItem']);
     Route::post('/deleteItemFromInvoice', ['uses' => 'AdminController@deleteItemFromInvoice', 'as' => 'deleteItemFromInvoice']);
     Route::post('/postDeleteItemByID', ['uses' => 'AdminController@postDeleteItemByID', 'as' => 'postDeleteItemByID']);
+    Route::post('/postCancleDeleteItemByID', ['uses' => 'AdminController@postCancleDeleteItemByID', 'as' => 'postCancleDeleteItemByID']);
 //mark as paid routes
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);

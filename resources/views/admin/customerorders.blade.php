@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-md-3"></div>
                         <div class="col-md-4">
-                           <button type="submit" class="btn btn-default">Sort</button>
+                           <!-- <button type="submit" class="btn btn-default">Sort</button> -->
                         </div>
                      </form>
                   </div>
@@ -149,7 +149,7 @@
                                 {{ $pick_up_type }} 
                           
                              @if(count($pickup->invoice) > 0)
-                                <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
+                                <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}" onclick="setModalDetailed()"><i class="fa fa-info" aria-hidden="true"></i></button>
                              @endif
                            </td>
                            @else
@@ -219,6 +219,14 @@
                                 <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{$pickup->coupon}}')"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
                               @endif
                            @endif
+                           <td>
+                                <form id="deletePickUpForm_{{$pickup->id}}" action="{{route('postDeleteTotalPickUp')}}" method="post">
+                                  <input type="hidden" name="id" value="{{$pickup->id}}">
+                                  <input type="hidden" name="schoolDonationAmount" value="{{($pickup->total_price*$donate_money_percentage->percentage)/100}}">
+                                  <input type="hidden" name="_token" value="{{Session::token()}}">
+                                  <button type="button" data-toggle="confirmation" onclick="deleteThePickUp({{$pickup->id}})" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
                            @else
                               <td>order cancelled</td>
                               <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
@@ -231,16 +239,15 @@
                               </td>
                               <td>order cancelled</td>
                               <!-- <td>order cancelled</td> -->
+                              <td>
+                                <form id="deletePickUpForm_{{$pickup->id}}" action="{{route('postDeleteTotalPickUp')}}" method="post">
+                                  <input type="hidden" name="id" value="{{$pickup->id}}">
+                                  <input type="hidden" name="schoolDonationAmount" value="{{($pickup->total_price*$donate_money_percentage->percentage)/100}}">
+                                  <input type="hidden" name="_token" value="{{Session::token()}}">
+                                  <button type="button" data-toggle="confirmation" onclick="deleteCancelledOrder({{$pickup->id}})" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
                            @endif
-                           <td>
-                            <form id="deletePickUpForm" action="{{route('postDeleteTotalPickUp')}}" method="post">
-                              <input type="hidden" name="id" value="{{$pickup->id}}">
-                              <input type="hidden" name="schoolDonationAmount" value="{{($pickup->total_price*$donate_money_percentage->percentage)/100}}">
-                              <input type="hidden" name="_token" value="{{Session::token()}}">
-                              <button type="button" data-toggle="confirmation" onclick="deleteThePickUp()" class="btn btn-danger">Delete</button>
-                            </form>
-                                
-                           </td>
                         </tr>
                         @endforeach
                      </tbody>
@@ -746,13 +753,9 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
-    function deleteTotalPickup(id)
-    {
-        alert(id);
-    }
-
     var DELETE_pick_up_id = "";
     var DELETE_user_id = "";
+    var ModalToOpenOnNextPage="";
 
     $('#show_modal_items').click(function(){
       $('#row_id').val($('#pick_up_req_id_alter').val());
@@ -799,9 +802,15 @@
     $('#req_user_id').val(user_id);
    }
    function showDetails(id) {
+
+      ModalToOpenOnNextPage = "showDetails";
       var div = "";
       var total_price = 0;
-      $('#ModalShowInvoice').modal('show');
+      //alert($('#showInv_'+id).text());
+      if($.trim($('#showInv_'+id).text())=="Show Details")
+      {
+          $('#ModalShowInvoice').modal('show');
+      }
       @foreach ($pickups as $pickup)
         if('{{$pickup->id}}' == id) 
         {
@@ -1065,15 +1074,36 @@
      }
    }
 
+setTimeout(function()
+{ 
+
+    @if(Session::has('openTheModal'))
+    ModalIdToOpen = {{Session::get('ModalToOpenOnPageLoad')}};
+    //ModalToOpenNow = {{Session::get('NextPageModal')}};
+    //alert(ModalToOpenNow);
+    //console.log(ModalToOpenNow);
+    showDetails(ModalIdToOpen);
+    //console.log({{Session::get('NextPageModal')}});
+    <?php
+    Session::forget('openTheModal');
+    Session::forget('ModalToOpenOnPageLoad');
+    //Session::forget('NextPageModal');
+    ?>
+   @endif
+
+ }, 100);
+   
+    
    function delete_id(id)
    {
       /*alert("pickup id "+DELETE_pick_up_id);
       alert("User id "+DELETE_user_id);
       alert($('#item2_'+id).text());*/
+      //alert(ModalToOpenOnNextPage);
       $.ajax({
         url: "{{route('postDeleteItemByID')}}",
         type: "POST",
-        data: {item_name: $('#item2_'+id).text(),user_id: DELETE_user_id,pick_up_id: DELETE_pick_up_id,item_id: id, _token: "{{Session::token()}}"},
+        data: {nextPageModal: ModalToOpenOnNextPage, item_name: $('#item2_'+id).text(),user_id: DELETE_user_id,pick_up_id: DELETE_pick_up_id,item_id: id, _token: "{{Session::token()}}"},
         success: function(data) {
             console.log(data);
             if(data!=0)
@@ -1082,6 +1112,11 @@
               $('#invoice_row_to_del_'+data).hide();
               $('#items_to_delete_order_items'+data).hide();
               $('#EditItemModal').modal('toggle');
+              //sessionStorage.reloadAfterPageLoad = true;
+              //sessionStorage.reloadAfterPageLoad = DELETE_pick_up_id;
+              
+              
+              window.location.reload();
             }
             
         }
@@ -1362,13 +1397,78 @@
     
   }
 
-  function deleteThePickUp()
+  DELETE_ROW_PICKUP_ID = 0;
+  function deleteThePickUp(id)
   {
-    //alert("delete");
-    $('#confirm_delete').modal('show');
+    DELETE_ROW_PICKUP_ID = id;
+    //$('#confirm_delete').modal('show');
+    swal({   
+        title: "",   
+        text: "Do you want to delete it?",   
+        type: "warning",   
+        showCancelButton: true, 
+        cancelButtonText: "No",  
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "yes",   
+        closeOnConfirm: true }, 
+        function(isConfirm){
+          if (isConfirm) 
+          {
+            //alert('yes');
+            $('#deletePickUpForm_'+DELETE_ROW_PICKUP_ID).submit();
+          } 
+          else 
+          {
+            
+          }
+          
+      });
   }
-  $('#confirmDeleteButton').click(function(){
-      $('#deletePickUpForm').submit();
-  });
+  /*$('#confirmDeleteButton').click(function(){
+      
+      //console.log( $('#deletePickUpForm_'+DELETE_ROW_PICKUP_ID).find(':input'));
+  });*/
+
+  function deleteCancelledOrder(id)
+  {
+    //alert(id);
+    swal({   
+        title: "This order is cancelled by the user!",   
+        text: "Do you want to delete it?",   
+        type: "warning",   
+        showCancelButton: true, 
+        cancelButtonText: "No",  
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "yes",   
+        closeOnConfirm: true }, 
+        function(isConfirm){
+          if (isConfirm) 
+          {
+            //alert('yes');
+            $.ajax({
+                url: "{{route('postCancleDeleteItemByID')}}",
+                type: "POST",
+                data: {pick_up_req_id: id, _token: "{{Session::token()}}"},
+                success: function(data) {
+                    if(data!=0)
+                    {
+                      window.location.reload();
+                    }
+                    
+                }
+            });
+          } 
+          else 
+          {
+            //alert('no'); 
+          }
+          
+      });
+  }
+  
+  function setModalDetailed()
+  {
+    ModalToOpenOnNextPage = "detail_";
+  }
 </script>
 @endsection

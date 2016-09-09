@@ -2263,6 +2263,7 @@ class AdminController extends Controller
 
     public function postDeleteItemByID(Request $request)
     {
+
         //return $request->item_id.$request->user_id.$request->pick_up_id.$request->item_name;
         $searchInvoice['list_item_id'] = $request->item_id;
         $searchInvoice['pick_up_req_id'] = $request->pick_up_id;
@@ -2300,6 +2301,9 @@ class AdminController extends Controller
             {
                 $order_details->delete();
             }
+            Session::put("openTheModal",true);
+            Session::put("ModalToOpenOnPageLoad",$request->pick_up_id);
+            //Session::put("NextPageModal",$request->nextPageModal);
             return $invoiceDeletedId;
         }
         else
@@ -2348,6 +2352,7 @@ class AdminController extends Controller
 
     public function postDeleteTotalPickUp(Request $request) {
         $id_to_del = $request->id;
+        //dd($request);
         $search = Pickupreq::find($id_to_del);
         $trackOrder = OrderTracker::where('pick_up_req_id',$request->id)->first();
         if ($search) {
@@ -2441,5 +2446,18 @@ class AdminController extends Controller
         $customer_complaints->$field_to_update = $request->value;
         $customer_complaints->save();
         return redirect()->route('getEmailTemplates');
+    }
+
+    public function postCancleDeleteItemByID(Request $request)
+    {
+        $pickupreq = Pickupreq::find($request->pick_up_req_id);
+        if($pickupreq->delete())
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
