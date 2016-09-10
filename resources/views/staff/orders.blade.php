@@ -226,13 +226,6 @@
                         @else
                               <td>order cancelled</td>
                               <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
-                              <!-- <td>
-                                {{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
-                              @if($pickup->school_donations != null)
-                                <b>Donated Money :</b>
-                              @endif 
-                              {{$pickup->school_donations != null ? '$'.($pickup->total_price*$donate_money_percentage->percentage)/100 : ''}}
-                              </td> -->
                               <td>order cancelled</td>
                               <!-- <td>order cancelled</td> -->
                               
