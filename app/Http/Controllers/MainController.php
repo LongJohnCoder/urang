@@ -540,7 +540,8 @@ class MainController extends Controller
     }
     public function postMyPickup($request) {
         //$pass_to_event = array();
-        if ($request->address && $request->pick_up_date && isset($request->order_type) && $request->pay_method) {
+        //dd($request);
+        if ($request->address && $request->pick_up_date && $request->order_type != null && $request->pay_method) {
             $total_price = 0.00;
             $pick_up_req = new Pickupreq();
             if ($request->identifier == "admin") {
@@ -731,11 +732,11 @@ class MainController extends Controller
         else
         {
             if ($request->identifier == "admin") {
-                return redirect()->route('getPickUpReqAdmin')->with('fail', "Cannot be able to save pick up request make sure schedule, client type, order type or payment method is filled up correctly");
+                return redirect()->route('getPickUpReqAdmin')->with('fail', "Cannot be able to save pick up request make sure  type of order  is selected  correctly");
             }
             else
             {
-                return redirect()->route('getPickUpReq')->with('fail', "Cannot be able to save pick up request make sure schedule, client type, order type or payment method is filled up correctly");
+                return redirect()->route('getPickUpReq')->with('fail', "Cannot be able to save pick up request make sure  type of order  is selected  correctly");
             }
         }
     }

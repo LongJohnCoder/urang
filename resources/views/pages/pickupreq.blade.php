@@ -153,7 +153,7 @@
             </div>
             <div class="clear"></div>
             <div class="form-group">
-                <select id="order_type" name="order_type" id="order_type" class="col-xs-5" required="">
+                <select id="order_type" name="order_type" id="order_type" class="col-xs-5" required="true">
                   <option value="">Type of order</option>
                   <option value="1">Fast Pickup</option>
                   <option value="0">Detailed Pickup</option>
