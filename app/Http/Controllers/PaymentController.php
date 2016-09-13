@@ -13,6 +13,8 @@ use App\PaymentKeys;
 use App\Pickupreq;
 use App\CustomerCreditCardInfo;
 use App\Invoice;
+use App\SchoolDonations;
+use App\SchoolDonationPercentage;
 class PaymentController extends Controller
 {
 	public function postGetCustomerCreditCard(Request $request) {
@@ -29,7 +31,7 @@ class PaymentController extends Controller
 		return view('admin.payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
 	}
     public function AuthoRizePayment(Request $auth_request) {
-    	//dd($auth_request->amount);
+    	//dd($auth_request->school_donation_id);
     	if(preg_match('/^([0-9]{4})-([0-9]{2})$/', $auth_request->exp_date)) {
     		$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
 	   		$payment_keys = PaymentKeys::first();
@@ -72,7 +74,58 @@ class PaymentController extends Controller
 				    	//marking as paid
 				    	$search_pickup_req = Pickupreq::find($auth_request->pick_up_re_id);
 					    $search_pickup_req->payment_status = 1;
-					    $search_pickup_req->save();		    	
+					    $search_pickup_req->save();		
+					    if ($auth_request->school_donation_id != null) {
+					    	//donate to school
+					    	 //get the percenatge
+					    	$percentage = SchoolDonationPercentage::first();
+					    	if ($percentage != null) {
+					    		$fetch_school = SchoolDonations::find($auth_request->school_donation_id);
+					    		if ($fetch_school) {
+					    			$fetch_school->actual_pending_money += ($auth_request->amount*$percentage->percentage)/100;
+					    			if ($fetch_school->save()) {
+					    				if (isset($auth_request->i_m_staff)) {
+					    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull!");
+					    				}
+					    				else {
+								    		return redirect()->route('getPayment')->with('success', "Payment was successfull!");
+								    	}
+					    			}
+					    			else
+					    			{
+					    				if (isset($auth_request->i_m_staff)) {
+					    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the school. Hint: error while saving data!");
+					    				}
+					    				else {
+								    		return redirect()->route('getPayment')->with('success', "Payment was successfull but cannot donate to the school. Hint: error while saving data!");
+								    	}
+					    				//return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the school. Hint: error while saving data!");
+					    			}
+					    		}
+					    		else
+					    		{
+					    			//return to avoid the error
+					    			if (isset($auth_request->i_m_staff)) {
+				    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the requested school. Hint: could not locate it!");
+				    				}
+				    				else {
+							    		return redirect()->route('getPayment')->with('success', "Payment was successfull but cannot donate to the requested school. Hint: could not locate it!");
+							    	}
+					    			//return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the requested school. Hint: could not locate it!");
+					    		}
+					    	}
+					    	else
+					    	{
+					    		if (isset($auth_request->i_m_staff)) {
+			    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull but money is not donated Hint: set the school donation percentage!");
+			    				}
+			    				else {
+						    		return redirect()->route('getPayment')->with('success', "Payment was successfull but money is not donated Hint: set the school donation percentage!");
+						    	}
+					    		//return to avoid error
+					    		//return redirect()->route('getMakePayments')->with('success', "Payment was successfull but money is not donated Hint: set the school donation percentage!");
+					    	}
+					    }
 				    	if (isset($auth_request->i_m_staff)) {
 				    		return redirect()->route('getMakePayments')->with('success', "Payment was successfull!");
 				    	} else {

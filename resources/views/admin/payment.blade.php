@@ -56,6 +56,7 @@
                                 <button type="submit" class="btn btn-outline btn-primary " id="make_payment">Make Payment</button>
                                 <button type="button" class="btn btn-outline btn-primary" id="reset_btn" onclick="flushData()">Reset</button>
                                 <input type="hidden" name="pick_up_re_id" id="pick_up_re_id"></input>
+                                <input type="hidden" name="school_donation_id" id="school_donation_id"></input>
                                 <input type="hidden" name="_token" value="{{ Session::token() }}"></input>
                                 <input type="hidden" id="isValidCard"></input>
                             </form>
@@ -144,7 +145,7 @@
                 <td>{{$card_info->cvv !=null ? $card_info->cvv: "No cvv" }}</td>
                 <td>20{{$card_info->exp_year}}-{{$card_info->exp_month}}</td>
                 <td id="amount_{{$user->id}}">{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
-                <td><button type="button" id="charge_{{$user->id}}" class="btn btn-warning btn-xs" onclick="charge_it('{{$user->user->id}}', '{{$user->id}}')"><i class="fa fa-credit-card" aria-hidden="true"></i> Charge It</button></td>
+                <td><button type="button" id="charge_{{$user->id}}" class="btn btn-warning btn-xs" onclick="charge_it('{{$user->user->id}}', '{{$user->id}}', '{{$user->school_donation_id}}')"><i class="fa fa-credit-card" aria-hidden="true"></i> Charge It</button></td>
               </tr>
             @endforeach
           </tbody>
@@ -172,6 +173,36 @@
 			}
 		});
 	</script>
+@endif
+@if(count($user_details) > 0)
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var final_price = 0.00;
+      @foreach($user_details as $user)
+        if ("{{$user->coupon}}") {
+          //console.log('discount');
+          final_price = "{{$user->total_price}}";
+          $.ajax({
+            url : "{{route('fetchPercentageCoupon')}}",
+            type: "POST",
+            data: {coupon : "{{$user->coupon}}", _token: "{{Session::token()}}"},
+            success: function(data) {
+              //console.log(data);
+              //return;
+              if (data != 0) {
+                final_price = final_price -((final_price*data)/100);
+                $('#amount_{{$user->id}}').text(final_price.toFixed(2));
+              }
+            }
+          });
+        } else {
+          //console.log('Developer Guide: No discount!');
+          return;
+        }
+        //console.log("{{$user->coupon}}");
+      @endforeach
+    });
+  </script>
 @endif
 <script type="text/javascript">
 	function creditCardValidate(){
@@ -238,8 +269,8 @@
            dateFormat: 'yy-mm'
         });
       });
-      function charge_it(id, oid) {
-        //console.log(id);
+      function charge_it(id, oid, school_id) {
+        //console.log(school_id);
         //console.log(oid);
         $('#modalCustomrs').modal('hide');
         $.ajax({
@@ -251,6 +282,9 @@
             $('#exp_date').val("20"+data.exp_year+"-"+data.exp_month);
             $('#amount').val($('#amount_'+oid).text());
             $('#pick_up_re_id').val(oid);
+            if ($.trim(school_id) != null) {
+              $('#school_donation_id').val(school_id);
+            }
             $('#conf_msg').show();
             return;
           }
