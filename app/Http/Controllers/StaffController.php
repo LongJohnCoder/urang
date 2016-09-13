@@ -21,6 +21,8 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use App\CustomerCreditCardInfo;
 use App\Http\Controllers\AdminController;
+
+
 class StaffController extends Controller
 {
     public function __construct()
@@ -103,7 +105,10 @@ class StaffController extends Controller
             {
                 $pickups = Pickupreq::orderBy('id', 'desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
             }
-            return view('staff.orders',compact('pickups'));
+
+            $donate_money_percentage = SchoolDonationPercentage::first();
+
+            return view('staff.orders',compact('pickups','donate_money_percentage'));
         }
         else
         {
@@ -219,6 +224,17 @@ class StaffController extends Controller
                     }
                 }
                 else {
+
+                    if(isset($req->actual_school_donation_id))
+                    {
+                        if($req->actual_school_donation_id!=null)
+                        {
+                            $school_donation_actual = SchoolDonations::where('id',$req->actual_school_donation_id)->first();
+                            $school_donation_actual->actual_pending_money = $school_donation_actual->actual_pending_money+$req->actual_school_donation_amount;
+                            $school_donation_actual->save();
+                        }
+                        
+                    }
                     //delivered
                     $data['order_status'] = $req->order_status;
                     if ($req->payment_type == 1) {

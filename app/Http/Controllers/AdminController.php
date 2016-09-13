@@ -322,14 +322,14 @@ class AdminController extends Controller
             $item->category_id = $request->category[$i];
             $item->item = $request->name[$i];
             $item->price = $request->price[$i];
-            $image = $request->image;
+            /*$image = $request->image;
             $extension =$image->getClientOriginalExtension();
             $destinationPath = 'public/dump_images/';
             $fileName = rand(111111111,999999999).'.'.$extension;
             $image->move($destinationPath, $fileName);
             $item->image = $fileName;
             $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
-            $img->save('public/app_images/'.$img->basename);
+            $img->save('public/app_images/'.$img->basename);*/
             $item->save();
         }
         return redirect()->route('getPriceList')->with('success', 'items successfully added!');
@@ -835,7 +835,17 @@ class AdminController extends Controller
                     return 0;
                 }
             } else {
-                //dd('here');
+                
+                if(isset($req->actual_school_donation_id))
+                {
+                    if($req->actual_school_donation_id!=null)
+                    {
+                        $school_donation_actual = SchoolDonations::where('id',$req->actual_school_donation_id)->first();
+                        $school_donation_actual->actual_pending_money = $school_donation_actual->actual_pending_money+$req->actual_school_donation_amount;
+                        $school_donation_actual->save();
+                    }
+                    
+                }
                 $data['order_status'] = $req->order_status;
                 if ($req->payment_type == 1) {
                     //charge this card
@@ -1726,8 +1736,8 @@ class AdminController extends Controller
                 $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
                 $img->save('public/app_images/'.$img->basename);
             }
-            $search->pending_money = $request->pending_money;
-            $search->total_money_gained = $request->total_money_gained;
+            $search->actual_pending_money = $request->pending_money;
+            $search->actual_total_money_gained = $request->money_gained;
             if ($search->save()) {
                 return redirect()->route('getSchoolDonationsAdmin')->with('success', 'Successfully Saved School !');
             }
@@ -1761,11 +1771,11 @@ class AdminController extends Controller
     public function postPendingMoney(Request $request) {
         $search_school = SchoolDonations::find($request->id);
         if ($search_school) {
-            $total_money_gained = $search_school->total_money_gained;
-            $pending_money = $search_school->pending_money;
+            $total_money_gained = $search_school->actual_total_money_gained;
+            $pending_money = $search_school->actual_pending_money;
             //return 1;
-            $search_school->total_money_gained = $total_money_gained+$pending_money;
-            $search_school->pending_money = 0.00;
+            $search_school->actual_total_money_gained = $total_money_gained+$pending_money;
+            $search_school->actual_pending_money = 0.00;
             if ($search_school->save()) {
                 return 1;
             }
@@ -2303,7 +2313,17 @@ class AdminController extends Controller
             }
             Session::put("openTheModal",true);
             Session::put("ModalToOpenOnPageLoad",$request->pick_up_id);
-            //Session::put("NextPageModal",$request->nextPageModal);
+            /*Session::put("NextPageModal",$request->nextPageModal);*/
+            if($request->nextPageModal=="modal")
+            {
+                Session::put("modal",true);
+                //Session::put("function",false);
+            }
+            else if($request->nextPageModal=="function")
+            {
+                Session::put("function",true);
+                //Session::put("modal",false);
+            }
             return $invoiceDeletedId;
         }
         else
@@ -2342,6 +2362,9 @@ class AdminController extends Controller
 
         if($invoice->delete())
         {
+            Session::put("openTheModal",true);
+            Session::put("ModalToOpenOnPageLoad",$request->pickupid);
+            Session::put("function",true);
             return 1;
         }
         else

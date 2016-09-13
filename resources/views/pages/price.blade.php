@@ -27,12 +27,34 @@
             <div class="design-arrow"></div>
          </div>
       </div>
+      
+
+      @foreach($price_list as $i=>$category)
+      @if((++$i%3)==0)
       <div class="row">
+      @endif
          <div class="col-md-4">
             <div class="plans">
-               <h2>Residential Service <i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i></h2>
+               <h2>{{$category->name}}<i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i></h2>
                <div class="product">
+               @foreach($category->pricelists as $pricelist)
                   <div class="product-section">
+                        <div class="col-md-2">
+                           <!-- <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive"> -->
+                        </div>
+                        <div class="col-md-6">
+                           <div class="row">
+                              <h3>{{$pricelist->item}}</h3>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="row">
+                              <h3>${{$pricelist->price}}</h3>
+                           </div>
+                        </div>
+                  </div>
+                  @endforeach
+                  <!-- <div class="product-section">
                         <div class="col-md-3">
                            <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive">
                         </div>
@@ -46,26 +68,21 @@
                               <h3>$40.00</h3>
                            </div>
                         </div>
-                  </div>
-                  <div class="product-section">
-                        <div class="col-md-3">
-                           <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive">
-                        </div>
-                        <div class="col-md-6">
-                           <div class="row">
-                              <h3>product name</h3>
-                           </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="row">
-                              <h3>$40.00</h3>
-                           </div>
-                        </div>
-                  </div>
+                  </div> -->
                </div>
-            </div>
+             </div>
+            
+           </div>
+
+         @if(($i%3)==0)
          </div>
-         <div class="col-md-4">
+         <br>
+         @endif
+
+         
+
+         @endforeach
+         <!-- <div class="col-md-4">
             <div class="plans">
                <h2>Household Items <i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i></h2>
                <div class="product">
@@ -138,7 +155,7 @@
                   </div>
                </div>
             </div>
-         </div>
+         </div> -->
       </div>
    </div>
 </section>

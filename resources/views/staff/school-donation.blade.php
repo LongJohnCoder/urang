@@ -58,8 +58,8 @@
 	                        				@endif
 	                        			</td>
 	                        			<td><img src="{{url('/')}}/public/dump_images/{{$school->image}}" alt="school image" style="height: 50px; width: 73px"></td>
-	                        			<td>{{number_format((float)$school->total_money_gained, 2, '.', '')}}</td>
-	                        			<td>{{number_format((float)$school->pending_money, 2, '.', '')}}</td>
+	                        			<td>{{number_format((float)$school->actual_total_money_gained, 2, '.', '')}}</td>
+	                        			<td>{{number_format((float)$school->actual_pending_money, 2, '.', '')}}</td>
 	                        			<!-- <td><button type="button" class="btn btn-warning btn-xs" onclick="editSchool('{{$school->id}}')"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></td>
 	                        			<td><button type="button" class="btn btn-danger btn-xs" onclick="delSchool('{{$school->id}}')"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
 	                        			<td>
@@ -153,8 +153,8 @@
 					$('#school_name').val('{!!$school->school_name!!}');
 					$('#neighborhood').val('{{$school->neighborhood_id}}');
 					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$school->image}}" style="height: 100px; width: 100px;" alt="school image">');
-					$('#pending_money').val('{{number_format((float)$school->pending_money, 2, '.', '')}}');
-					$('#total_money_gained').val('{{number_format((float)$school->total_money_gained, 2, '.', '')}}');
+					$('#pending_money').val('{{number_format((float)$school->actual_pending_money, 2, '.', '')}}');
+					$('#total_money_gained').val('{{number_format((float)$school->actual_total_money_gained, 2, '.', '')}}');
 					$('#sch_id').val('{{$school->id}}');
 				}
 			@endforeach

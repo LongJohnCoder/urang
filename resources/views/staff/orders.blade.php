@@ -106,6 +106,7 @@
                         <th>More Info</th>
                         <th>Mark As</th>
                         <th>Coupon Applied</th>
+                        <th>School Donation</th>
                         <th></th>
                         <th></th>
                      </tr>
@@ -204,6 +205,17 @@
                             </select>  
                            </td>
                            <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
+                           <td>{{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
+                              @if($pickup->school_donations != null)
+                                <b>Donated Money :</b>
+                                @if($donate_money_percentage != null)
+                                $<span id="actual_school_donation_{{$pickup->id}}">{{($pickup->total_price*$donate_money_percentage->percentage)/100}}</span>
+                                <span style="display:none" id="actual_school_donation_id_{{$pickup->id}}">{{$pickup->school_donations->id}}</span>
+                                @else
+                                  Set Up Donation Percentage
+                                @endif
+                              @endif
+                              </td>
                            <td>
                               <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
                               <input type="hidden" name="_token" value="{{ Session::token() }}">
@@ -226,6 +238,16 @@
                         @else
                               <td>order cancelled</td>
                               <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
+                              <td>{{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
+                              @if($pickup->school_donations != null)
+                                <b>Donated Money :</b>
+                                @if($donate_money_percentage != null)
+                                $<span id="actual_school_donation_{{$pickup->id}}">{{($pickup->total_price*$donate_money_percentage->percentage)/100}}</span>
+                                @else
+                                  Set Up Donation Percentage
+                                @endif
+                              @endif
+                              </td>
                               <td>order cancelled</td>
                               <!-- <td>order cancelled</td> -->
                               
@@ -1201,6 +1223,8 @@
               final_price = (price-(price*(data/100)));
               $('#gross_price').text("$"+final_price.toFixed(2));
               $('#id_to_show_gross_price_'+pickUpId).html("$"+final_price.toFixed(2));
+              actualSchoolDonation = (final_price*{{$donate_money_percentage->percentage}})/100;
+            $('#actual_school_donation_'+pickUpId).html(actualSchoolDonation);
               if (typeof pickUpId != 0) 
               {
                 $('#chargable_'+pickUpId).val(final_price.toFixed(2));
@@ -1245,6 +1269,8 @@
       var userid = $('#user_id_'+idpickup).val();
       var paymenttype = $('#payment_type_'+idpickup).val();
       var chargable = $('#chargable_'+idpickup).val();
+      var actual_school_donation_amount = $('#actual_school_donation_'+idpickup).text();
+      var actual_school_donation_id = $('#actual_school_donation_id_'+idpickup).text();
       /*console.log(selectvalue);
       console.log(pickupid);
       console.log(userid);
@@ -1258,7 +1284,7 @@
         $.ajax({
           url: "{{ route('changeOrderStatus') }}",
           type: "POST",
-          data: {order_status:selectvalue, payment_type: paymenttype, pickup_id: pickupid, user_id: userid, chargable:chargable, _token: "{{Session::token()}}"  },
+          data: {actual_school_donation_amount: actual_school_donation_amount, actual_school_donation_id: actual_school_donation_id ,order_status:selectvalue, payment_type: paymenttype, pickup_id: pickupid, user_id: userid, chargable:chargable, _token: "{{Session::token()}}"  },
           success: function(data) {
             /*console.log(data);
             return;*/

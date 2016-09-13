@@ -32,6 +32,8 @@ use Illuminate\Support\Facades\Event;
 use App\IndexContent;
 use Session;
 use App\Coupon;
+use App\Categories;
+
 class MainController extends Controller
 {
     
@@ -335,7 +337,7 @@ class MainController extends Controller
         $login_check = $obj->getCustomerData();
         //$neighborhood = $obj->getNeighborhood();
         //dd($login_check);
-        $price_list = PriceList::with('categories')->get();
+        $price_list = Categories::with('pricelists')->get();
         //dd($price_list);
         if ($login_check != null) {
             //dd('i m here');

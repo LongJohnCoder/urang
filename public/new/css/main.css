@@ -1185,7 +1185,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 }
 
 .plans h2{
-    border: 1px solid #ff6400;
+    
     text-align: center;
     padding: 20px 0;
     font-size: 20px;
@@ -1201,7 +1201,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 }
 
 .plans .product{
-    border: 1px solid #ccc;
+    
     transition: 0.5s;
     background: #F5F5F5;
 }
