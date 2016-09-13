@@ -225,16 +225,6 @@ class StaffController extends Controller
                 }
                 else {
 
-                    if(isset($req->actual_school_donation_id))
-                    {
-                        if($req->actual_school_donation_id!=null)
-                        {
-                            $school_donation_actual = SchoolDonations::where('id',$req->actual_school_donation_id)->first();
-                            $school_donation_actual->actual_pending_money = $school_donation_actual->actual_pending_money+$req->actual_school_donation_amount;
-                            $school_donation_actual->save();
-                        }
-                        
-                    }
                     //delivered
                     $data['order_status'] = $req->order_status;
                     if ($req->payment_type == 1) {
@@ -249,6 +239,16 @@ class StaffController extends Controller
                             if($result)
                             {
                                 //return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated and paid also!');
+                                if(isset($req->actual_school_donation_id))
+                                {
+                                    if($req->actual_school_donation_id!=null)
+                                    {
+                                        $school_donation_actual = SchoolDonations::where('id',$req->actual_school_donation_id)->first();
+                                        $school_donation_actual->actual_pending_money = $school_donation_actual->actual_pending_money+$req->actual_school_donation_amount;
+                                        $school_donation_actual->save();
+                                    }
+                                    
+                                }
                                 return "I00001";
                             }
                             else
