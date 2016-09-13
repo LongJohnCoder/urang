@@ -181,40 +181,41 @@
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						echo $school_donation_monthly[1];
+
+	                        						echo number_format((float)$school_donation_monthly[1], 2, '.', '');
 	                        						break;
 	                        					case '2':
-	                        						echo $school_donation_monthly[2];
+	                        						echo number_format((float)$school_donation_monthly[2], 2, '.', '');
 	                        						break;
 	                        					case '3':
-	                        						echo $school_donation_monthly[3];
+	                        						echo number_format((float)$school_donation_monthly[3], 2, '.', '');
 	                        						break;
 	                        					case '4':
-	                        						echo $school_donation_monthly[4];
+	                        						echo number_format((float)$school_donation_monthly[4], 2, '.', '');
 	                        						break;
 	                        					case '5':
-	                        						echo $school_donation_monthly[5];
+	                        						echo number_format((float)$school_donation_monthly[5], 2, '.', '');
 	                        						break;
 	                        					case '6':
-	                        						echo $school_donation_monthly[6];
+	                        						echo number_format((float)$school_donation_monthly[6], 2, '.', '');
 	                        						break;
 	                        					case '7':
-	                        						echo $school_donation_monthly[7];
+	                        						echo number_format((float)$school_donation_monthly[7], 2, '.', '');
 	                        						break;
 	                        					case '8':
-	                        						echo $school_donation_monthly[8];
+	                        						echo number_format((float)$school_donation_monthly[8], 2, '.', '');
 	                        						break;
 	                        					case '9':
-	                        						echo $school_donation_monthly[9];
+	                        						echo number_format((float)$school_donation_monthly[9], 2, '.', '');
 	                        						break;
 	                        					case '10':
-	                        						echo $school_donation_monthly[10];
+	                        						echo number_format((float)$school_donation_monthly[10], 2, '.', '');
 	                        						break;
 	                        					case '11':
-	                        						echo $school_donation_monthly[11];
+	                        						echo number_format((float)$school_donation_monthly[11], 2, '.', '');
 	                        						break;
 	                        					case '12':
-	                        						echo $school_donation_monthly[12];
+	                        						echo number_format((float)$school_donation_monthly[12], 2, '.', '');
 	                        						break;
 	                        					default:
 	                        						echo "Something went wrong";
@@ -226,40 +227,40 @@
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						echo ($total_money_gained[1]*22)/100;
+	                        						echo number_format((float)($total_money_gained[1]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '2':
-	                        						echo ($total_money_gained[2]*22)/100;
+	                        						echo number_format((float)($total_money_gained[2]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '3':
-	                        						echo ($total_money_gained[3]*22)/100;
+	                        						echo number_format((float)($total_money_gained[3]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '4':
-	                        						echo ($total_money_gained[4]*22)/100;
+	                        						echo number_format((float)($total_money_gained[4]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '5':
-	                        						echo ($total_money_gained[5]*22)/100;
+	                        						echo number_format((float)($total_money_gained[5]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '6':
-	                        						echo ($total_money_gained[6]*22)/100;
+	                        						echo number_format((float)($total_money_gained[6]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '7':
-	                        						echo ($total_money_gained[7]*22)/100;
+	                        						echo number_format((float)($total_money_gained[7]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '8':
-	                        						echo ($total_money_gained[8]*22)/100;
+	                        						echo number_format((float)($total_money_gained[8]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '9':
-	                        						echo ($total_money_gained[9]*22)/100;
+	                        						echo number_format((float)($total_money_gained[9]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '10':
-	                        						echo ($total_money_gained[10]*22)/100;
+	                        						echo number_format((float)($total_money_gained[10]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '11':
-	                        						echo ($total_money_gained[11]*22)/100;
+	                        						echo number_format((float)($total_money_gained[11]*22)/100, 2, '.', '');
 	                        						break;
 	                        					case '12':
-	                        						echo ($total_money_gained[12]*22)/100;
+	                        						echo number_format((float)($total_money_gained[12]*22)/100, 2, '.', '');
 	                        						break;
 	                        					default:
 	                        						echo "Something went wrong";
@@ -271,40 +272,46 @@
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						echo $total_money_gained[1]-($school_donation_monthly[1]+($total_money_gained[1]*22)/100);
+
+	                        						echo number_format((float)$total_money_gained[1]-($school_donation_monthly[1]+($total_money_gained[1]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '2':
-	                        						echo $total_money_gained[2]-($school_donation_monthly[2]+($total_money_gained[2]*22)/100);
+
+	                        						echo number_format((float)$total_money_gained[2]-($school_donation_monthly[2]+($total_money_gained[2]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '3':
-	                        						echo $total_money_gained[3]-($school_donation_monthly[3]+($total_money_gained[3]*22)/100);
+
+	                        						echo number_format((float)$total_money_gained[3]-($school_donation_monthly[3]+($total_money_gained[3]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '4':
-	                        						echo $total_money_gained[4]-($school_donation_monthly[4]+($total_money_gained[4]*22)/100);
+
+	                        						echo number_format((float)$total_money_gained[4]-($school_donation_monthly[4]+($total_money_gained[4]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '5':
-	                        						echo $total_money_gained[5]-($school_donation_monthly[5]+($total_money_gained[5]*22)/100);
+
+	                        						echo number_format((float)$total_money_gained[5]-($school_donation_monthly[5]+($total_money_gained[5]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '6':
-	                        						echo $total_money_gained[6]-($school_donation_monthly[6]+($total_money_gained[6]*22)/100);
+
+	                        						echo number_format((float)$total_money_gained[6]-($school_donation_monthly[6]+($total_money_gained[6]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '7':
-	                        						echo $total_money_gained[7]-($school_donation_monthly[7]+($total_money_gained[7]*22)/100);
+	                        						echo number_format((float)$total_money_gained[7]-($school_donation_monthly[7]+($total_money_gained[7]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '8':
-	                        						echo $total_money_gained[8]-($school_donation_monthly[8]+($total_money_gained[8]*22)/100);
+	                        						echo number_format((float)$total_money_gained[8]-($school_donation_monthly[8]+($total_money_gained[8]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '9':
-	                        						echo $total_money_gained[9]-($school_donation_monthly[9]+($total_money_gained[9]*22)/100);
+	                        						echo number_format((float)$total_money_gained[9]-($school_donation_monthly[9]+($total_money_gained[9]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '10':
-	                        						echo $total_money_gained[10]-($school_donation_monthly[10]+($total_money_gained[10]*22)/100);
+	                        						echo number_format((float)$total_money_gained[10]-($school_donation_monthly[10]+($total_money_gained[10]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '11':
-	                        						echo $total_money_gained[11]-($school_donation_monthly[11]+($total_money_gained[11]*22)/100);
+	                        						echo number_format((float)$total_money_gained[11]-($school_donation_monthly[11]+($total_money_gained[11]*22)/100), 2, '.', '');
 	                        						break;
 	                        					case '12':
-	                        						echo $total_money_gained[12]-($school_donation_monthly[12]+($total_money_gained[12]*22)/100);
+	                        						echo number_format((float)$total_money_gained[12]-($school_donation_monthly[12]+($total_money_gained[12]*22)/100), 2, '.', '');
 	                        						break;
 	                        					default:
 	                        						echo "Something went wrong";

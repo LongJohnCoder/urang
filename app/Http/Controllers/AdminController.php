@@ -1854,7 +1854,7 @@ class AdminController extends Controller
         }
     }
     private function CountOrdersPerMonth() {
-        $orders = Pickupreq::all();
+        $orders = Pickupreq::where('order_status', 4)->get();
         $jan_orders=0;
         $feb_orders=0;
         $march_orders=0;
@@ -1938,7 +1938,7 @@ class AdminController extends Controller
         );
     }
     private function totalMoneyGained() {
-        $orders = Pickupreq::all();
+        $orders = Pickupreq::where('order_status', 4)->get();
         $jan_price=0.00;
         $feb_price=0.00;
         $march_price=0.00;
@@ -2026,62 +2026,62 @@ class AdminController extends Controller
         foreach ($schools as $school) {
             switch ($school->updated_at->month) {
             case '1':
-                $total_money_jan += $school->total_money_gained;
+                $total_money_jan += $school->actual_total_money_gained;
                 //$jan_schl++;
                 //echo $jan_orders."jany";
                 break;
             case '2':
-                $total_money_feb += $school->total_money_gained;
+                $total_money_feb += $school->actual_total_money_gained;
                 //$feb_schl++;
                 //echo $feb_orders;
                 break;
             case '3':
-                $total_money_march += $school->total_money_gained;
+                $total_money_march += $school->actual_total_money_gained;
                 //$march_schl++;
                 //echo $march_orders;
                 break;
             case '4':
-                $total_money_april += $school->total_money_gained;
+                $total_money_april += $school->actual_total_money_gained;
                 //$april_schl++;
                 //echo $april_orders;
                 break;
             case '5':
-                $total_money_may += $school->total_money_gained;
+                $total_money_may += $school->actual_total_money_gained;
                 //$may_schl++;
                 //echo $may_orders;
                 break;
             case '6':
-                $total_money_june += $school->total_money_gained;
+                $total_money_june += $school->actual_total_money_gained;
                 //$june_schl++;
                 //echo $june_orders;
                 break;
             case '7':
-                $total_money_july += $school->total_money_gained;
+                $total_money_july += $school->actual_total_money_gained;
                 //$july_schl++;
                 //echo $july_orders;
                 break;
             case '8':
-                $total_money_aug += $school->total_money_gained;
+                $total_money_aug += $school->actual_total_money_gained;
                 //$aug_schl++;
                 //echo $aug_orders."aug";
                 break;
             case '9':
-                $total_money_sep += $school->total_money_gained;
+                $total_money_sep += $school->actual_total_money_gained;
                 //$sep_schl++;
                 //echo $sep_orders;
                 break;
             case '10':
-                $total_money_oct += $school->total_money_gained;
+                $total_money_oct += $school->actual_total_money_gained;
                 //$oct_schl++;
                 //echo $oct_orders;
                 break;
             case '11':
-                $total_money_nov += $school->total_money_gained;
+                $total_money_nov += $school->actual_total_money_gained;
                 //$nov_schl++;
                 //echo $nov_orders;
                 break;
             case '12':
-                $total_money_dec += $school->total_money_gained;
+                $total_money_dec += $school->actual_total_money_gained;
                 //$dec_schl++;
                 //echo $dec_orders;
                 break;
