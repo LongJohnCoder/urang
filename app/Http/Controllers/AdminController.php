@@ -836,16 +836,7 @@ class AdminController extends Controller
                 }
             } else {
                 
-                if(isset($req->actual_school_donation_id))
-                {
-                    if($req->actual_school_donation_id!=null)
-                    {
-                        $school_donation_actual = SchoolDonations::where('id',$req->actual_school_donation_id)->first();
-                        $school_donation_actual->actual_pending_money = $school_donation_actual->actual_pending_money+$req->actual_school_donation_amount;
-                        $school_donation_actual->save();
-                    }
-                    
-                }
+                
                 $data['order_status'] = $req->order_status;
                 if ($req->payment_type == 1) {
                     //charge this card
@@ -859,6 +850,16 @@ class AdminController extends Controller
                         if($result)
                         {
                             //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated and paid also!');
+                            if(isset($req->actual_school_donation_id))
+                            {
+                                if($req->actual_school_donation_id!=null)
+                                {
+                                    $school_donation_actual = SchoolDonations::where('id',$req->actual_school_donation_id)->first();
+                                    $school_donation_actual->actual_pending_money = $school_donation_actual->actual_pending_money+$req->actual_school_donation_amount;
+                                    $school_donation_actual->save();
+                                }
+                                
+                            }
                             return "I00001";
                         }
                         else
