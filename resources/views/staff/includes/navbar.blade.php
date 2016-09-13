@@ -114,21 +114,21 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                    <li class="staff">
                         <a href="{{ route('getStaffIndex') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li>
+                    <li class="orders">
 
                         <a href="{{ route('getStaffOrders') }}"><i class="fa fa-fw fa-bar-chart-o"></i>Pickup Requests</a>
 
                     </li>
-                    <li>
+                    <li class="school-donation">
                         <a href="{{route('getSchoolDonationStaff')}}"><i class="fa fa-usd" aria-hidden="true"></i> School Donation</a>
                     </li>
-                    <li>
+                    <li class="make-payments">
                         <a href="{{route('getMakePayments')}}"><i class="fa fa-credit-card fa-fw"></i> Make Payments</a>
                     </li>
-                    <li>
+                    <li class="manual-payments">
                         <a href="{{route('getManualPayment')}}"><i class="fa fa-usd" aria-hidden="true"></i> Manage Client Payments</a>
                     </li>
                     <!--<li>
@@ -155,3 +155,4 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
+
