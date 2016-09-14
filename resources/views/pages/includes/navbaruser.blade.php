@@ -26,16 +26,17 @@
                       <li role="presentation"><a href="{{route('getPickUpReq')}}">NYC Pick-UP </a></li>
                       <li role="presentation"><a href="{{route('getMyPickUp')}}">My Pick-UP </a></li>
                       <li role="presentation"><a href="{{route('getPrices')}}">Prices</a></li>
+                      <div style="display:none;">{{$test = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
                       <li role="presentation">
                         
                         <a href="{{route('getNeiborhoodPage')}}"> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
-                        <ul>
-                          <div style="display:none;">{{$test = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
-                          @foreach($test as $hood)
-                            <li> <a href="{{route('getStandAloneNeighbor', $hood->url_slug)}}">{{$hood->name}}</a></li>
-                          @endforeach
-                        </ul>
-
+                        @if(count($test) > 0)
+                          <ul>
+                            @foreach($test as $hood)
+                              <li> <a href="{{route('getStandAloneNeighbor', $hood->url_slug)}}">{{$hood->name}}</a></li>
+                            @endforeach
+                          </ul>
+                        @endif
                       </li>
                       <li>
                         <a href="{{route('getSchoolDonations')}}">School Donations</a> 

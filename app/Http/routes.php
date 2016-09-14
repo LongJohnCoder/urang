@@ -16,9 +16,9 @@
     return view('email.complaintsTemplate');
 });*/
 
-Route::get('/email-pickup', function(){
+/*Route::get('/email-pickup', function(){
     return view('email.pickupemail');
-});
+});*/
 Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
 Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);

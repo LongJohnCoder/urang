@@ -24,15 +24,16 @@
               <li>
                   <a href="{{route('getFaqList')}}">FAQs</a>
               </li>
+              <div style="display:none;">{{$navber_data = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
               <li>
                 <a href="{{route('getNeiborhoodPage')}}"> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
-                <ul>
-                <div style="display:none;">{{$navber_data = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
-                  @foreach($navber_data as $hood)
-                    <li> <a href="{{route('getStandAloneNeighbor', $hood->url_slug)}}">{{$hood->name}}</a></li>
-                  @endforeach
-                  
-                </ul>
+                @if(count($navber_data) > 0)
+                  <ul>
+                      @foreach($navber_data as $hood)
+                        <li> <a href="{{route('getStandAloneNeighbor', $hood->url_slug)}}">{{$hood->name}}</a></li>
+                      @endforeach
+                  </ul>
+                @endif
               </li>
               <li>
                   <a href="{{route('getSchoolDonations')}}">School Donations</a>
