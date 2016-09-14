@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Helper\NavBarHelper;
+use App\Helper\SiteHelper;
 use App\User;
 use App\UserDetails;
 use App\PriceList;
@@ -579,6 +580,13 @@ class MainController extends Controller
             $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
             /*//for charging cards after wards
             $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
+            //coupon check
+            if ($pick_up_req->coupon != null) {
+                $calculate_discount = new SiteHelper();
+                $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
+                //dd($discounted_value);
+                $pick_up_req->discounted_value = $discounted_value;
+            }
             if($request->isDonate)
             {
                 //save in android school prefrences table
@@ -740,6 +748,20 @@ class MainController extends Controller
             }
         }
     }
+    /*public function discountedValue($coupon, $total_price) {
+        //dd($coupon);
+        $find_coupon = Coupon::where('coupon_code', $coupon)->first();
+        //dd($find_coupon);
+        if ($find_coupon != null && $find_coupon->isActive == 1) {
+            $total_price -= ($total_price*$find_coupon->discount)/100;
+            return $total_price;
+        }
+        else
+        {
+            //no discount thats why total price is returned
+            return $total_price;
+        }
+    }*/
     public function SavePreferncesSchool($userId, $schoolId) {
         //dd($userId."\n".$schoolId);
         $find_school = SchoolPreferences::where('user_id', $userId)->where('school_id', $schoolId)->first();

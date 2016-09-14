@@ -21,7 +21,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use App\CustomerCreditCardInfo;
 use App\Http\Controllers\AdminController;
-
+use App\Helper\SiteHelper;
 
 class StaffController extends Controller
 {
@@ -430,6 +430,12 @@ class StaffController extends Controller
         }
         if($user->save())
         {
+            if ($user->coupon != null) {
+                $calculate_discount = new SiteHelper();
+                $discounted_value = $calculate_discount->discountedValue($user->coupon, $user->total_price);
+                $user->discounted_value = $discounted_value;
+                $user->save();
+            }
             return redirect()->route('getStaffOrders')->with('success', 'Order successfully updated!');
         }
         else

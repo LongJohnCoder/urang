@@ -11,6 +11,7 @@ use App\SchoolDonations;
 use App\SchoolDonationPercentage;
 use App\UserDetails;
 use App\Coupon;
+use App\Helper\SiteHelper;
 class InvoiceController extends Controller
 {
     /*public function index() {
@@ -82,6 +83,13 @@ class InvoiceController extends Controller
                 }
              }
              $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
+             //dd($search_pickupreq);
+             if ($search_pickupreq->coupon != null) {
+                $calculate_discount = new SiteHelper();
+                $discounted_value = $calculate_discount->discountedValue($search_pickupreq->coupon, $total_price);
+                //dd($discounted_value);
+                $search_pickupreq->discounted_value = $discounted_value;
+             }
              $search_pickupreq->total_price = $total_price;
              if ($search_pickupreq->save()) {
                 if ($request->identifier == 'staff') {
@@ -176,6 +184,12 @@ class InvoiceController extends Controller
                     }
                     //return $find_pickup->total_price;
                 }
+                if ($find_pickup->coupon != null) {
+                    $calculate_discount = new SiteHelper();
+                    $discounted_value = $calculate_discount->discountedValue($find_pickup->coupon, $find_pickup->total_price);
+                    $find_pickup->discounted_value = $discounted_value;
+                    $find_pickup->save();
+                }
                 return 1;
             }
             else
@@ -204,7 +218,20 @@ class InvoiceController extends Controller
             if ($find_pickup) {
                 $find_pickup->total_price += $total_price;
                 if ($find_pickup->save()) {
-                    return 1;
+                    if ($find_pickup->coupon != null) {
+                        $calculate_discount = new SiteHelper();
+                        $discounted_value = $calculate_discount->discountedValue($find_pickup->coupon, $total_price);
+                        //return $discounted_value;
+                        $find_pickup->discounted_value += $discounted_value;
+                        if ($find_pickup->save()) {
+                            return 1;
+                        }
+                        else
+                        {
+                            return "Error while saving discounted value";
+                        }
+                    }
+                    
                 } else {
                     return "Cannot Update total price";
                 }

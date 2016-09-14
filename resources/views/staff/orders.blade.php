@@ -130,7 +130,9 @@
                             case '4':
                                 $order_status = "Delivered";
                                 break;
-                            
+                            case '5':
+                              $order_status = "Cancelled";
+                              break;
                             default:
                                 $order_status = "Default";
                                 break;

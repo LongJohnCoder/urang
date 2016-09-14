@@ -38,6 +38,7 @@ use App\IndexContent;
 use App\CustomerComplaintsEmail;
 use App\EmailTemplateSignUp;
 use App\EmailTemplateForgetPassword;
+use App\Helper\SiteHelper;
 
 class AdminController extends Controller
 {
@@ -1671,6 +1672,13 @@ class AdminController extends Controller
         }
         if($user->save())
         {
+            //dd($user);
+            if ($user->coupon != null) {
+                $calculate_discount = new SiteHelper();
+                $discounted_value = $calculate_discount->discountedValue($user->coupon, $user->total_price);
+                $user->discounted_value = $discounted_value;
+                $user->save();
+            }
             return redirect()->route('getCustomerOrders')->with('success', 'Order successfully updated!');
         }
         else
@@ -1954,40 +1962,40 @@ class AdminController extends Controller
         foreach ($orders as $order) {
             switch ($order->created_at->month) {
             case '1':
-                $jan_price +=$order->total_price; 
+                $jan_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value; 
                 break;
             case '2':
-                $feb_price +=$order->total_price;
+                $feb_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '3':
-                $march_price +=$order->total_price;
+                $march_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '4':
-                $april_price +=$order->total_price;
+                $april_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '5':
-                $may_price +=$order->total_price;
+                $may_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '6':
-                $june_price +=$order->total_price;
+                $june_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '7':
-                $july_price +=$order->total_price;
+                $july_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '8':
-                $aug_price +=$order->total_price;
+                $aug_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '9':
-                $sep_price +=$order->total_price;
+                $sep_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '10':
-                $oct_price +=$order->total_price;
+                $oct_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '11':
-                $nov_price +=$order->total_price;
+                $nov_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             case '12':
-                $dec_price +=$order->total_price;
+                $dec_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value;
                 break;
             default:
                 echo "Something went wrong";
@@ -2300,7 +2308,12 @@ class AdminController extends Controller
 
             $pickups->save();
         }
-
+        if ($pickups->coupon != null) {
+            $calculate_discount = new SiteHelper();
+            $discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->total_price);
+            $pickups->discounted_value = $discounted_value;
+            $pickups->save();
+        }
         if($invoice->delete())
         {
             $searchDetails['items'] = $request->item_name;
@@ -2358,6 +2371,12 @@ class AdminController extends Controller
 
             $pickups->total_price = $previous_price - $total_price_to_deduct;
 
+            $pickups->save();
+        }
+        if ($pickups->coupon != null) {
+            $calculate_discount = new SiteHelper();
+            $discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->total_price);
+            $pickups->discounted_value = $discounted_value;
             $pickups->save();
         }
 

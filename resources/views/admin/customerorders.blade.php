@@ -892,6 +892,8 @@
           type: "POST",
            data: {user_id: usr_id, pick_up_req_id: pickupid, invoice_id: invoiceid, item_name:$('#new_item_'+id).val(), qty: $('#qty_'+id).val(), price: $('#price_'+id).val() , _token: "{{Session::token()}}", custom_item_add_id: id},
            success: function(data) {
+            /*console.log(data);
+            return;*/
             if (data == 1) 
             {
               location.reload();
@@ -927,7 +929,8 @@
           type: "POST",
           data: {_token: "{{Session::token()}}", custom_item_add_id: id,pickupid: pickupid},
           success: function(data) {
-            //console.log(data);
+            /*console.log(data);
+            return;*/
             if (data == 1) 
             {
               location.reload();
@@ -957,6 +960,8 @@
           type: "POST",
           data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}", custom_item_add_id: custom_item_add_id},
           success: function(data) {
+            //console.log(data);
+            //return;
             $('.extraItemBtn').text("Add an extra item");
             //console.log(data);
             if (data == 1) 
@@ -1200,7 +1205,8 @@
         type: "POST",
         data: {nextPageModal: ModalToOpenOnNextPage, item_name: $('#item2_'+id).text(),user_id: DELETE_user_id,pick_up_id: DELETE_pick_up_id,item_id: id, _token: "{{Session::token()}}"},
         success: function(data) {
-            console.log(data);
+            /*console.log(data);
+            return;*/
             if(data!=0)
             {
               $('#tr_identifier_'+data).hide();
