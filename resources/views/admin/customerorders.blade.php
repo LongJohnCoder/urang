@@ -646,8 +646,12 @@
                 <div id="app_coupon"></div>
               </div>
               <div class="form-group">
-                <label>Gross Price</label>
+                <label>Gross Price:</label>
                 <div id="gross_price"></div>
+              </div>
+              <div class="form-group" id="emergency" style="display: none;">
+                  <label>Emergency: Yes <span style="color: red;">$7 extra</span> </label>
+                  <div id="final_amount"></div>
               </div>
               <!-- <div class="form-group">
                  <label>Take Action:</label>
@@ -773,12 +777,20 @@
       //value load chargable
       if ('{{$pickup->coupon}}') 
       {
-        $('#chargable_'+'{{$pickup->id}}').val(sayMeThePrice('{{$pickup->total_price}}', '{{$pickup->coupon}}', '{{$pickup->id}}'));
+        $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->discounted_value == NULL ? $pickup->total_price : $pickup->discounted_value, 2, '.', '')}}');
       }
       else
       {
         $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->total_price, 2, '.', '')}}');
       }
+      if ('{{$pickup->is_emergency}}' == 1) {
+        $('#chargable_{{$pickup->id}}').val(parseFloat($('#chargable_{{$pickup->id}}').val())+7);
+      }
+      else
+      {
+        $('#chargable_{{$pickup->id}}').val($('#chargable_{{$pickup->id}}').val());
+      }
+      $('#chargable_'+'{{$pickup->id}}').val();
       //console.log('{{$pickup->is_emergency}}');
       if ('{{$pickup->is_emergency}}' == 1 && '{{$pickup->payment_status}}' == 0) 
       {
@@ -828,6 +840,14 @@
           {
             $('#show_modal_items').removeAttr('disabled');
             $('.extraItemBtn').removeAttr('disabled');
+          }
+          if ('{{$pickup->is_emergency}}' == 1) {
+            $('#emergency').show();
+            $('#final_amount').html('$'+'{{$pickup->discounted_value == NULL ? $pickup->total_price+7 : $pickup->discounted_value+7}}');
+          }
+          else
+          {
+            $('#emergency').hide();
           }
           @foreach($pickup->invoice as $invoice)
           
@@ -960,8 +980,8 @@
           type: "POST",
           data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}", custom_item_add_id: custom_item_add_id},
           success: function(data) {
-            //console.log(data);
-            //return;
+            /*console.log(data);
+            return;*/
             $('.extraItemBtn').text("Add an extra item");
             //console.log(data);
             if (data == 1) 
@@ -993,8 +1013,6 @@
         type: "post",
         data: {coupon: coupon, _token: "{{Session::token()}}"},
         success: function(data) {
-          //console.log(data);
-          //return;
           if (data > 0) 
           {
             final_price = (price-(price*(data/100)));

@@ -231,7 +231,7 @@ class InvoiceController extends Controller
                             return "Error while saving discounted value";
                         }
                     }
-                    
+                    return 1;
                 } else {
                     return "Cannot Update total price";
                 }

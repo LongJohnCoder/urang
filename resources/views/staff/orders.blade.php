@@ -555,11 +555,15 @@
             <div class="form-group">
                 <label>Coupon Applied:</label>
                 <div id="app_coupon"></div>
-              </div>
-              <div class="form-group">
-                <label>Gross Price</label>
-                <div id="gross_price"></div>
-              </div>
+            </div>
+            <div class="form-group">
+              <label>Gross Price</label>
+              <div id="gross_price"></div>
+            </div>
+            <div class="form-group" id="emergency" style="display: none;">
+                <label>Emergency: Yes <span style="color: red;">$7 extra</span> </label>
+                <div id="final_amount"></div>
+            </div>
             <!-- <div class="form-group">
                <label>Take Action:</label>
                <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
@@ -723,14 +727,15 @@
         @foreach($pickups as $pickup)
           //console.log('{{$pickup->is_emergency}}');
           //value load chargable
-        if ('{{$pickup->coupon}}') 
-        {
-          $('#chargable_'+'{{$pickup->id}}').val(sayMeThePrice('{{$pickup->total_price}}', '{{$pickup->coupon}}', '{{$pickup->id}}'));
-        }
-        else
-        {
-          $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->total_price, 2, '.', '')}}');
-        }
+
+          if ('{{$pickup->coupon}}') 
+          {
+            $('#chargable_'+'{{$pickup->id}}').val(sayMeThePrice('{{$pickup->total_price}}', '{{$pickup->coupon}}', '{{$pickup->id}}'));
+          }
+          else
+          {
+            $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->total_price, 2, '.', '')}}');
+          }
           if ('{{$pickup->is_emergency}}' == 1 && '{{$pickup->payment_status}}' == 0) 
           {
             $('#color_{{$pickup->id}}').attr('style', 'color: #999900;');
@@ -1065,6 +1070,14 @@
               {
                 $('#show_modal_items').removeAttr('disabled');
                 $('.extraItemBtn').removeAttr('disabled');
+              }
+              if ('{{$pickup->is_emergency}}' == 1) {
+                $('#emergency').show();
+                $('#final_amount').html('$'+'{{$pickup->discounted_value == NULL ? $pickup->total_price+7 : $pickup->discounted_value+7}}');
+              }
+              else
+              {
+                $('#emergency').hide();
               }
               @foreach($pickup->invoice as $invoice)
                  if ('{{$invoice->pick_up_req_id}}' == id) 
