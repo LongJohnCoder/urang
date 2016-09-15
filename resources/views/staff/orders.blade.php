@@ -728,9 +728,10 @@
           //console.log('{{$pickup->is_emergency}}');
           //value load chargable
 
+         //value load chargable
           if ('{{$pickup->coupon}}') 
           {
-            $('#chargable_'+'{{$pickup->id}}').val(sayMeThePrice('{{$pickup->total_price}}', '{{$pickup->coupon}}', '{{$pickup->id}}'));
+            $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->discounted_value == NULL ? $pickup->total_price : $pickup->discounted_value, 2, '.', '')}}');
           }
           else
           {
@@ -1073,12 +1074,14 @@
               }
               if ('{{$pickup->is_emergency}}' == 1) {
                 $('#emergency').show();
-                $('#final_amount').html('$'+'{{$pickup->discounted_value == NULL ? $pickup->total_price+7 : $pickup->discounted_value+7}}');
+                //$('#final_amount').html('$'+'{{$pickup->discounted_value == NULL ? $pickup->total_price+7 : $pickup->discounted_value+7}}');
               }
               else
               {
                 $('#emergency').hide();
               }
+              $('#total_price').text("$"+"{{number_format((float)$pickup->total_price, 2, '.', '')}}");
+              $('#gross_price').text("$"+"{{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') :number_format((float)$pickup->total_price, 2, '.', '')}}");
               @foreach($pickup->invoice as $invoice)
                  if ('{{$invoice->pick_up_req_id}}' == id) 
                  {
@@ -1089,8 +1092,8 @@
                      @else
                      div += "<tr id='invoice_row_to_del_{{$invoice->list_item_id}}'><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Delete</button>@else @endif</td></tr>";
                      @endif
-                     total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
-                     $('#total_price').text("$"+total_price);
+                     //total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
+                     //$('#total_price').text("$"+total_price);
                      $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
                      $('#inv').html(div);
                      //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
@@ -1100,7 +1103,7 @@
                      $('.extraItemBtn').attr('onclick', 'addExtraItemInv("{{$invoice->invoice_id}}", "{{$pickup->id}}", "{{$pickup->user_id}}")');
                  }
              @endforeach
-             sayMeThePrice(total_price, '{{$pickup->coupon}}');
+             //sayMeThePrice(total_price, '{{$pickup->coupon}}');
             }
            @endforeach
      }
@@ -1222,7 +1225,7 @@
       }
     }
    }
-     function sayMeThePrice(price, coupon, pickUpId) {
+     /*function sayMeThePrice(price, coupon, pickUpId) {
       var final_price = 0.00;
       if ($.trim(coupon)) 
       {
@@ -1258,7 +1261,7 @@
       {
         $('#gross_price').text("$"+price);
       }
-     }
+     }*/
      function delInvoice(id) {
        //alert(id);
        $.ajax({

@@ -783,13 +783,13 @@
       {
         $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->total_price, 2, '.', '')}}');
       }
-      if ('{{$pickup->is_emergency}}' == 1) {
-        $('#chargable_{{$pickup->id}}').val(parseFloat($('#chargable_{{$pickup->id}}').val())+7);
+      /*if ('{{$pickup->is_emergency}}' == 1) {
+        $('#chargable_{{$pickup->id}}').val($('#chargable_{{$pickup->id}}').val());
       }
       else
       {
         $('#chargable_{{$pickup->id}}').val($('#chargable_{{$pickup->id}}').val());
-      }
+      }*/
       $('#chargable_'+'{{$pickup->id}}').val();
       //console.log('{{$pickup->is_emergency}}');
       if ('{{$pickup->is_emergency}}' == 1 && '{{$pickup->payment_status}}' == 0) 
@@ -843,12 +843,14 @@
           }
           if ('{{$pickup->is_emergency}}' == 1) {
             $('#emergency').show();
-            $('#final_amount').html('$'+'{{$pickup->discounted_value == NULL ? $pickup->total_price+7 : $pickup->discounted_value+7}}');
+            //$('#final_amount').html('$'+'{{$pickup->discounted_value == NULL ? number_format((float)$pickup->total_price, 2, '.', '') : number_format((float)$pickup->discounted_value, 2, '.', '')}}');
           }
           else
           {
             $('#emergency').hide();
           }
+          $('#total_price').text("$"+"{{number_format((float)$pickup->total_price, 2, '.', '')}}");
+          $('#gross_price').text("$"+"{{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') :number_format((float)$pickup->total_price, 2, '.', '')}}");
           @foreach($pickup->invoice as $invoice)
           
             $('#user_name').text('{{$pickup->user_detail->name}}');
@@ -861,8 +863,7 @@
             @else
             div += "<tr id='invoice_row_to_del_{{$invoice->list_item_id}}'><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-danger' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='deleteManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});' >Delete</button>@else @endif</td></tr>";
             @endif
-            total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
-            $('#total_price').text("$"+total_price);
+            //total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
             $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
             $('#inv').html(div);
             $('#pick_up_req_id_alter').val('{{$invoice->pick_up_req_id}}');
@@ -874,7 +875,7 @@
             $('.extraItemBtn').attr('onclick', 'addExtraItemInv("{{$invoice->invoice_id}}", "{{$pickup->id}}", "{{$pickup->user_id}}")');
           @endforeach
           //for setting gross price
-          sayMeThePrice(total_price, '{{$pickup->coupon}}');
+          //sayMeThePrice(total_price, '{{$pickup->coupon}}');
         }
       @endforeach
    }

@@ -362,6 +362,7 @@ class StaffController extends Controller
 
     public function addItemCustom(Request $request)
     {
+        //dd($request);
         $data = json_decode($request->list_items_json);
         $user = Pickupreq::find($request->row_id);
         //$previous_price = $user->total_price;
@@ -430,6 +431,13 @@ class StaffController extends Controller
         }
         if($user->save())
         {
+            //$7 emergency extra
+            if ($user->is_emergency == 1) {
+                if ($user->total_price > 0) {
+                    $user->total_price +=7;
+                    $user->save();
+                }
+            }
             if ($user->coupon != null) {
                 $calculate_discount = new SiteHelper();
                 $discounted_value = $calculate_discount->discountedValue($user->coupon, $user->total_price);

@@ -578,8 +578,13 @@ class MainController extends Controller
             }
             //dd($total_price);
             $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
-            /*//for charging cards after wards
-            $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
+
+            //on emergency $7 add 
+            if (isset($request->isEmergency)) {
+                if ($pick_up_req->total_price > 0) {
+                    $total_price +=7;
+                }
+            }
             //coupon check
             if ($pick_up_req->coupon != null) {
                 $calculate_discount = new SiteHelper();

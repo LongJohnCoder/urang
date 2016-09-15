@@ -142,16 +142,20 @@
                 <td>
                     <?php $school_donation_money = $total_price;  ?>
                    <p>Subtotal: ${{$total_price}}</p>
-                   <p id="discount"></p>
                    <p id="emergency"></p>
-                   <p id="total"></p>
+                   <p id="total">Total : ${{number_format((float)$one_iteration->pick_up_req->total_price, 2, '.', '')}}</p>
+                   @if($one_iteration->pick_up_req->coupon !=  null)
+                    <p id="discount">Discount({{$school_donation_per->percentage}}%): ${{$one_iteration->pick_up_req->discounted_value}}</p>
+                   @else
+                    <p id="discount">Discount(0%): ${{number_format((float)$one_iteration->pick_up_req->total_price, 2, '.', '')}}</p>
+                   @endif
                 </td>
             </tr>
         </table>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-            var total_inv = 0.00;
+            /*var total_inv = 0.00;
             var final_inv = 0.00;
             $.ajax({
                 url: "{{route('fetchPercentageCoupon')}}",
@@ -189,7 +193,7 @@
                     //$('#emergency').text('{{$one_iteration->pick_up_req->is_emergency}}');
                   } 
                 }
-            });
+            });*/
             if ('{{$one_iteration->pick_up_req->is_emergency}}' ==1) {
                 $('#emergency').text("Emergency : $7");
             }

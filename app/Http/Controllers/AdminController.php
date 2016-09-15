@@ -837,13 +837,13 @@ class AdminController extends Controller
                 }
             } else {
                 
-                
                 $data['order_status'] = $req->order_status;
                 if ($req->payment_type == 1) {
                     //charge this card
                     $response = $this->ChargeCard($req->user_id, $req->chargable);
                     //dd($response);
-                    if ($response == "I00001") {
+                    //return $response;
+                    if ($response === "I00001") {
                         $data['payment_status'] = 1;
                         $this->TrackOrder($req);
                         $result = Pickupreq::where('id', $req->pickup_id)->update($data);
@@ -874,24 +874,7 @@ class AdminController extends Controller
                         //Session::put("error_code", $response);
                         return $response;
                     }
-                    /*if ($response == "I00001") {
-                        $result = Pickupreq::where('id', $req->pickup_id)->update($data);
-                    }
-                    else
-                    {
-                        //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to pay!');
-                        return "error in payment";
-                    }*/
-                    /*if($result)
-                    {
-                        //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated and paid also!');
-                        return "I00001";
-                    }
-                    else
-                    {
-                        //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
-                        return 0;
-                    }*/
+                    
                 } else {
                     //do not charge
                     $paidOrNOt = Pickupreq::where('id',$req->pickup_id)->first(); 
@@ -967,7 +950,7 @@ class AdminController extends Controller
             }
         }
     }
-    private function ChargeCard($id, $amount) {
+    public function ChargeCard($id, $amount) {
         //fetch the record from databse
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
         $customer_credit_card = CustomerCreditCardInfo::where('user_id', $id)->first();
@@ -1672,6 +1655,13 @@ class AdminController extends Controller
         }
         if($user->save())
         {
+            //$7 emergency extra
+            if ($user->is_emergency == 1) {
+                if ($user->total_price > 0) {
+                    $user->total_price +=7;
+                    $user->save();
+                }
+            }
             //dd($user);
             if ($user->coupon != null) {
                 $calculate_discount = new SiteHelper();

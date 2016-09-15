@@ -84,6 +84,12 @@ class InvoiceController extends Controller
              }
              $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
              //dd($search_pickupreq);
+             //emergency $7 extra
+             if ($search_pickupreq->is_emergency == 1) {
+                if ($total_price > 0) {
+                    $total_price +=7;
+                }
+            }
              if ($search_pickupreq->coupon != null) {
                 $calculate_discount = new SiteHelper();
                 $discounted_value = $calculate_discount->discountedValue($search_pickupreq->coupon, $total_price);
