@@ -1,6 +1,4 @@
 #!/bin/bash
-git clone $1
-git checkout development
 composer update
 php artisan optimize
 echo "making dependency files, please wait......"
