@@ -1,18 +1,15 @@
 #!/bin/bash
+git checkout development
+chmod +x set-up-script.sh
 composer update
 php artisan optimize
-echo "making dependency files, please wait......"
-cp .env.example .env
 echo "Setting up database files please wait...."
 echo -n "Database name [ENTER]:"
 read db_name
 echo -n "Database user name [ENTER]:"
 read db_usr_name
-echo -n "Database user name [ENTER]:"
+echo -n "Database password [ENTER]:"
 read db_pass
-sed -i -e "s/\(DB_DATABASE=\).*/\1$db_name/" \
--e "s/\(DB_USERNAME=\).*/\1$db_usr_name/" \
--e "s/\(DB_PASSWORD=\).*/\1$db_pass/" .env
 echo "Database set up done successfully!"
 echo "Mail Server set up is in progress please wait...."
 echo -n "Mail Driver [ENTER]:"
@@ -27,13 +24,36 @@ echo -n "Mail password [ENTER]:"
 read mail_pass
 echo -n "Mail encryption [ENTER]:"
 read mail_enc
-sed -i -e "s/\(MAIL_DRIVER=\).*/\1$mail_driver/" \
--e "s/\(MAIL_HOST=\).*/\1$mail_host/" \
--e "s/\(MAIL_PORT=\).*/\1$mail_port/" \ 
--e "s/\(MAIL_USERNAME=\).*/\1$mail_uname/" \
--e "s/\(MAIL_PASSWORD=\).*/\1$mail_pass/" \
--e "s/\(MAIL_ENCRYPTION=\).*/\1$mail_enc/" .env
 echo "Mail setup done successsfully! waiting for furthur prosesses"
+cat > .env <<- "EOF"
+APP_ENV=local
+APP_KEY=SomeRandomString
+APP_DEBUG=true
+APP_LOG_LEVEL=debug
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE='$db_name'
+DB_USERNAME='$db_usr_name'
+DB_PASSWORD='$db_pass'
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_DRIVER='$mail_driver'
+MAIL_HOST='$mail_host'
+MAIL_PORT='$mail_port'
+MAIL_USERNAME='$mail_uname'
+MAIL_PASSWORD='$mail_pass'
+MAIL_ENCRYPTION='$mail_enc'
+EOF
 mkdir public/dump_images
 mkdir public/ app_images
 chmod -R 777 public/
