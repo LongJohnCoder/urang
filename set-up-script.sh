@@ -1,4 +1,6 @@
 #!/bin/bash
+#U-rang set up V2.4 stable
+echo "$(tput setaf 1)U-Rang Set up script V2.4 running.......$(tput sgr0)"
 chmod +x set-up-script.sh
 composer update
 php artisan optimize
@@ -39,7 +41,7 @@ MAIL_ENCRYPTION=tls
 EOF
 sudo echo -e '\nDB_DATABASE= '$db_name '\nDB_USERNAME= '$db_usr_name '\nDB_PASSWORD= '$db_pass >> .env
 mkdir public/dump_images
-mkdir public/ app_images
+mkdir public/app_images
 chmod -R 777 public/
 chmod -R 777 bootstrap/
 chmod -R 777 storage/
