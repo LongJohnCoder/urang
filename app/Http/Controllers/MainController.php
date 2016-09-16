@@ -582,7 +582,9 @@ class MainController extends Controller
             //on emergency $7 add 
             if (isset($request->isEmergency)) {
                 if ($pick_up_req->total_price > 0) {
+                    //dd($total_price);
                     $total_price +=7;
+                    $pick_up_req->total_price = $total_price;
                 }
             }
             //coupon check

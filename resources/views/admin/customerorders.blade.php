@@ -160,7 +160,7 @@
                            <td>{{ $payment_type }}</td>
                            <!-- <td>{{ $pickup->client_type }} </td> -->
                            <form id="change_status_form">
-                              <td id="id_to_show_gross_price_{{$pickup->id}}">${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
+                              <td>${{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') : number_format((float)$pickup->total_price, 2, '.', '') }}</td>
                               <td>
                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
