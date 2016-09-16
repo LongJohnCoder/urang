@@ -1,10 +1,10 @@
-<b>AUTOMATED SETUP(IN CASE DOES'NT WORK GO FOR MANUAL SET UP)</b>
+<b>AUTOMATED SETUP(IN CASE DOES'NT WORK GO FOR MANUAL SET UP)</b> <br/>
 1. git clone repo <br/>
 2. git checkout development <br/>
 3. bash set-up-script.sh <br/>
 4. give the inputs it asks to you. <br/>
 
-<b>MANUAL SETUP</b>
+<b>MANUAL SETUP</b> <br/>
 1. git clone repo <br/>
 2. checkout to development branch <br/>
 3. composer update <br/>
