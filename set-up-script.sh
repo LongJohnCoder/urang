@@ -1,5 +1,4 @@
 #!/bin/bash
-git checkout development
 chmod +x set-up-script.sh
 composer update
 php artisan optimize
@@ -11,20 +10,6 @@ read db_usr_name
 echo -n "Database password [ENTER]:"
 read db_pass
 echo "Database set up done successfully!"
-echo "Mail Server set up is in progress please wait...."
-echo -n "Mail Driver [ENTER]:"
-read mail_driver
-echo -n "Mail Host [ENTER]:"
-read mail_host
-echo -n "Mail port [ENTER]:"
-read mail_port
-echo -n "Mail username [ENTER]:"
-read mail_uname
-echo -n "Mail password [ENTER]:"
-read mail_pass
-echo -n "Mail encryption [ENTER]:"
-read mail_enc
-echo "Mail setup done successsfully! waiting for furthur prosesses"
 cat > .env <<- "EOF"
 APP_ENV=local
 APP_KEY=SomeRandomString
@@ -35,10 +20,7 @@ APP_URL=http://localhost
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE='$db_name'
-DB_USERNAME='$db_usr_name'
-DB_PASSWORD='$db_pass'
-
+sudo echo -e '\nDB_DATABASE= '$db_name '\nDB_USERNAME= '$db_usr_name '\nDB_PASSWORD= '$db_pass >> .env
 CACHE_DRIVER=file
 SESSION_DRIVER=file
 QUEUE_DRIVER=sync
@@ -47,12 +29,12 @@ REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 
-MAIL_DRIVER='$mail_driver'
-MAIL_HOST='$mail_host'
-MAIL_PORT='$mail_port'
-MAIL_USERNAME='$mail_uname'
-MAIL_PASSWORD='$mail_pass'
-MAIL_ENCRYPTION='$mail_enc'
+MAIL_DRIVER=mail
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=work@tier5.us
+MAIL_PASSWORD=!Aworker2#4
+MAIL_ENCRYPTION=tls
 EOF
 mkdir public/dump_images
 mkdir public/ app_images
