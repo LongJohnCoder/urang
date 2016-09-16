@@ -20,7 +20,10 @@ APP_URL=http://localhost
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-sudo echo -e '\nDB_DATABASE= '$db_name '\nDB_USERNAME= '$db_usr_name '\nDB_PASSWORD= '$db_pass >> .env
+DB_DATABASE=$db_name
+DB_USERNAME=$db_usr_name
+DB_PASSWORD=$db_pass
+
 CACHE_DRIVER=file
 SESSION_DRIVER=file
 QUEUE_DRIVER=sync
