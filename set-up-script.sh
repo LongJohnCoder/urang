@@ -20,9 +20,7 @@ APP_URL=http://localhost
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=$db_name
-DB_USERNAME=$db_usr_name
-DB_PASSWORD=$db_pass
+
 
 CACHE_DRIVER=file
 SESSION_DRIVER=file
@@ -39,6 +37,7 @@ MAIL_USERNAME=work@tier5.us
 MAIL_PASSWORD=!Aworker2#4
 MAIL_ENCRYPTION=tls
 EOF
+sudo echo -e '\nDB_DATABASE= '$db_name '\nDB_USERNAME= '$db_usr_name '\nDB_PASSWORD= '$db_pass >> .env
 mkdir public/dump_images
 mkdir public/ app_images
 chmod -R 777 public/
