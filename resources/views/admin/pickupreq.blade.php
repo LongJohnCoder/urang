@@ -336,7 +336,7 @@
 			      type: "POST",
 			      data: {user_id: $('#cus_email').val(), _token: "{{Session::token()}}"},
 			      success: function(data) {
-			        console.log(data);
+			        //console.log(data);
 			        //return;
 			        if (data != 0) 
 			        {
@@ -404,7 +404,23 @@
 			            $('#isEmergency').prop('checked', true);
 			          }
 			          //coupon
-			          $('#coupon').val(data.coupon);
+			          //$('#coupon').val(data.coupon);
+			          //check coupon validity
+			          $.ajax({
+			            url : "{{route('checkCouponVailidity')}}",
+			            type: "POST",
+			            data: {coupon_value : data.coupon, _token: "{{Session::token()}}"},
+			            success: function(response) {
+			              //console.log(response);
+			              if (response == 1) {
+			                $('#coupon').val(data.coupon);
+			              }
+			              else
+			              {
+			                $('#coupon').val("");
+			              }
+			            }
+			          });
 			          //school donation
 			          if (data.school_donation_id != null) 
 			          {
