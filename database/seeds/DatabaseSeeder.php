@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(EmailTemplateOrderConfirmSeeder::class);
         $this->call(EmailTemplateForgerPasswordSeeder::class);
         $this->call(CompliantsEmailTableSeeder::class);
         $this->call(EmailTemplateSignUpTableSeeder::class);

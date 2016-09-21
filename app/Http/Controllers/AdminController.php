@@ -39,6 +39,7 @@ use App\CustomerComplaintsEmail;
 use App\EmailTemplateSignUp;
 use App\EmailTemplateForgetPassword;
 use App\Helper\SiteHelper;
+use App\EmailTemplateOrderConfirm;
 
 class AdminController extends Controller
 {
@@ -94,9 +95,10 @@ class AdminController extends Controller
         $complaintsEmail = CustomerComplaintsEmail::first();
         $signup_temp = EmailTemplateSignUp::first();
         $forget_pass = EmailTemplateForgetPassword::first();
+        $order_confirm = EmailTemplateOrderConfirm::first();
         //dd($school_count);
         //dd($complaintsEmail);
-        return view('email.complaintsTemplate', compact('user_data', 'site_details', 'customers', 'school_count','complaintsEmail','signup_temp','forget_pass'));
+        return view('email.complaintsTemplate', compact('user_data', 'site_details', 'customers', 'school_count','complaintsEmail','signup_temp','forget_pass','order_confirm'));
     }
     public function logout() {
         Auth::logout();
@@ -703,18 +705,22 @@ class AdminController extends Controller
         $admin_id = Auth::user()->id;
         $question = $request->question;
         $answer = $request->answer;
-        $image = $request->image;
-        $extension =$image->getClientOriginalExtension();
-        $destinationPath = 'public/dump_images/';   // upload path
-        $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
-        $image->move($destinationPath, $fileName); // uploading file to given path 
-        //return $fileName;
-        $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
-        $img->save('public/app_images/'.$img->basename);
         $faq = new Faq();
         $faq->question = $question;
         $faq->answer = $answer;
-        $faq->image = $fileName;
+        if($request->image)
+        {
+            $image = $request->image;
+            $extension =$image->getClientOriginalExtension();
+            $destinationPath = 'public/dump_images/';   // upload path
+            $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+            $image->move($destinationPath, $fileName); // uploading file to given path 
+            //return $fileName;
+            $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+            $img->save('public/app_images/'.$img->basename);
+            $faq->image = $fileName;
+        }
+        
         $faq->admin_id = $admin_id;
         if ($faq->save()) {
             return redirect()->route('getFaq')->with('successUpdate', 'Faq Successfully added!');
@@ -1180,8 +1186,9 @@ class AdminController extends Controller
                 /*$isDataExists->background_image = $fileName;
                 $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
                 $img->save('public/app_images/'.$img->basename);*/
+                $search->image = $fileName;
             }
-            $search->image = $fileName;
+            
             if ($search->save()) {
                 return redirect()->route('getCmsIndexPage')->with('success', 'Data Saved Successfully!');
             }
@@ -1213,8 +1220,9 @@ class AdminController extends Controller
                 /*$isDataExists->background_image = $fileName;
                 $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
                 $img->save('public/app_images/'.$img->basename);*/
+                $new_rec->image = $fileName;
             }
-            $new_rec->image = $fileName;
+            
             if ($new_rec->save()) {
                 return redirect()->route('getCmsIndexPage')->with('success', 'Data Saved Successfully!');
             }
@@ -2492,5 +2500,14 @@ class AdminController extends Controller
         {
             return 0;
         }
+    }
+
+    public function postOrderConfirmEmailChange(Request $request)
+    {
+        $field_to_update = $request->field_to_update;
+        $customer_complaints = EmailTemplateOrderConfirm::first();
+        $customer_complaints->$field_to_update = $request->value;
+        $customer_complaints->save();
+        return redirect()->route('getEmailTemplates');
     }
 }

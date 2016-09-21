@@ -140,10 +140,14 @@
             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
                 
                 <!-- Hero Image, Flush : BEGIN -->
+                <?php 
+                $order_confirm = \App\EmailTemplateOrderConfirm::first();
+
+            ?>
                 <tr>
                     <td bgcolor="#ffffff" style="text-align: center;">
-                        <p><h2 style="color: #ff6400;">Hey {{$username}}, Thank You for submitting pickup!</h2></p>
-                        <img src="https://cdn2.iconfinder.com/data/icons/perfect-flat-icons-2/512/Order_tracking_online_offer_cart_shopping.png" alt="alt_text" border="0" align="center" style="width: 40%; max-width: 600px;">
+                        <p><h2 style="color: #ff6400;">Hey {{$username}}, {{$order_confirm->thank_you_text}}</h2></p>
+                        <img src="{{$order_confirm->image_link}}" alt="alt_text" border="0" align="center" style="width: 40%; max-width: 600px;">
                     </td>
                 </tr>
                 <!-- Hero Image, Flush : END -->
@@ -294,11 +298,11 @@
                 <tr>
                     <td style="padding: 40px 10px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;">
                         <!-- <webversion style="color:#cccccc; text-decoration:underline; font-weight: bold;">View as a Web Page</webversion> -->
-                        <a href="{{url('/')}}" target="_blank" style="color: #fff;">Visit our website</a>
+                        <a href="{{$order_confirm->website_link}}" target="_blank" style="color: #fff;">Visit our website</a>
                         <br><br>
-                        U-rang<br><span class="mobile-link--footer">15 Broad Street New York, NY 10005</span><br><span class="mobile-link--footer">(800)959-5785</span>
+                        U-rang<br><span class="mobile-link--footer">{{$order_confirm->address}}</span><br><span class="mobile-link--footer">{{$order_confirm->phone_no}}</span>
                         <br><br>
-                        <unsubscribe style="color:#888888; text-decoration:underline;">lisa@u-rang.com</unsubscribe>
+                        <unsubscribe style="color:#888888; text-decoration:underline;">{{$order_confirm->support_email}}</unsubscribe>
                     </td>
                 </tr>
             </table>

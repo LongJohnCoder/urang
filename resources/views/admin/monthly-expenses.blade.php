@@ -35,7 +35,7 @@
 	                           <th>No of orders</th>
 	                           <th>Total Money Earned</th>
 	                           <th>Total School Donation</th>
-	                           <th>Total Money Given to vendor</th>
+	                           <th>Total Money Given to Urang</th>
 	                           <th>Total Profit</th>
 	                        </tr>
 	                     </thead>

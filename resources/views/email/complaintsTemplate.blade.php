@@ -450,10 +450,175 @@
                     </td>
                 </tr>
             </table>               
-        </td>
+
+<div class="tblheading">            
+    <h1>Pick up confirmation</h1>
+    <img src="http://u-rang.com/images/logo.gif" alt="logo" class="img-responsive" />
+</div>
+<table class="body-wrap">
+    <tr>
         <td></td>
-    </tr>
-</table>
+        <td class="container" bgcolor="#FFFFFF">
+
+            <div class="content">
+            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
+                <tr>
+                    <td style="padding: 20px 0; text-align: center">
+                        <img src="http://u-rang.tier5-portfolio.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
+                    </td>
+                </tr>
+            </table>
+            <!-- Email Header : END -->
+            
+            <!-- Email Body : BEGIN -->
+            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
+                
+                <!-- Hero Image, Flush : BEGIN -->
+                <tr>
+                    <td bgcolor="#ffffff" style="text-align: center;">
+                        <p><h2 style="color: #ff6400;">Hey USERNAME, <br>{{$order_confirm->thank_you_text}}</h2></p>
+                        <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
+                                <textarea name="value" class="form-control" rows="2">
+                                    {{$order_confirm->thank_you_text}}
+                                </textarea>
+                                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                                    <input type="hidden" name="field_to_update" value="thank_you_text">
+                                    <br>
+                                    <button type="submit" class="btn btn-info btn-sm">Change</button>
+                                </form>
+                        <img src="{{$order_confirm->image_link}}" alt="alt_text" border="0" align="center" style="width: 40%; max-width: 600px;">
+                        <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
+                            <input name="value" class="form-control" value="{{$order_confirm->image_link}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="image_link">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td bgcolor="#ffffff" align="center" height="100%" valign="top" width="100%" style="padding-bottom: 40px">
+                        <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" style="max-width:560px;">
+                            <tr>
+                                <td align="center" valign="top" width="50%">
+                                    <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: left;">
+                                        <tr>
+                                            <td>
+                                                <div class="row"  style="margin-top: 20px;">
+                                                    <div class="col-xs-6" style="font-size: 18px;">
+                                                        <label for="cus_details" style="color: #ff6400;"><b>Customer Details:</b></label><br/>
+                                                        <label for="customer_name">Name: USERNAME</label><br/>
+                                                        <label for="customer_email">Email: EMAIL</label><br/>
+                                                        <label for="customer_no">Phone Number: PHONE NO</label><br/><br/>
+                                                    </div>
+                                                    <div class="col-xs-6" style="font-size: 18px;">
+                                                        <label for="cus_details" style="color: #ff6400;"><b>Order Details:</b></label><br/>
+                                                        <label for="invoice_no">Invoice #: INVOICE DETAILS</label><br/>
+                                                        <label for="date">Date: DATE_TODAY</label><br/>
+                                                        <label for="coupon">Coupon Applied: COUPON</label><br/><br/>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="wrapper" style="font-size: 18px;">
+                                                        <label for="order_details" style="color: #ff6400;"><b>Break Down:</b></label>
+                                                        <table>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Item</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Price</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                TABLE DATA
+                                                            </tbody>
+                                                        </table>
+                                                    </div><br>
+
+
+                                                        
+                                                    <div class="col-xs-6 pull-right" >
+                                                        <label for="subtotal">Subtotal: TOTAL AMOUNT</label><br/>
+                                                        <label for="discount">Discount: DISCOUNT AMOUNT</label><br/>
+                                                        <label for="total">Total: TOTAL </label>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    
+                                                    <div class="col-xs-12">
+                                                        <table>
+                                                            <tr>
+                    <td style="padding: 0 10px 40px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;">
+                        <!-- <webversion style="color:#cccccc; text-decoration:underline; font-weight: bold;">View as a Web Page</webversion> -->
+                        <a href="{{$order_confirm->website_link}}" target="_blank" style="">Visit our website</a>
+                        <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
+                            <input name="value" class="form-control" value="{{$order_confirm->website_link}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="website_link">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                        <br><br>
+                        U-rang1<br><span class="mobile-link--footer">{{$order_confirm->address}}</span>
+                        <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
+                            <input name="value" class="form-control" value="{{$order_confirm->address}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="address">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                        <br>
+                        <span class="mobile-link--footer">{{$order_confirm->phone_no}}</span>
+                        <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
+                            <input name="value" class="form-control" value="{{$order_confirm->phone_no}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="phone_no">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                        <br><br>
+                        <unsubscribe style="color:#888888; text-decoration:underline;">{{$order_confirm->support_email}}</unsubscribe>
+                        <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
+                            <input name="value" class="form-control" value="{{$order_confirm->support_email}}">
+                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="field_to_update" value="support_email">
+                            <br>
+                            <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </form>
+                    </td>
+                </tr>
+
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+            </table>
+            <!-- Email Body : END -->
+          
+            <!-- Email Footer : BEGIN -->
+            
+                
+            
+
+
     <div class="reset-password">
         <h1>Reset Password Email</h1>
         <p>{{$forget_pass->write_up}}<a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID</a>
@@ -471,6 +636,9 @@
         </p>
     </div>
 </div>
+
+
+
 
 
 

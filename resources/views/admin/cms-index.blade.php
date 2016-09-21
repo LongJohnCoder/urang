@@ -77,7 +77,7 @@
                                 @endif
                                 <div class="form-group">
                                 	<label for="image">Select Image:</label>
-                                	<input type="file" name="image" id="image" class="form-control"></input>
+                                	<input type="file" name="image" id="image" class="form-control" ></input>
                                 </div>
                                 <button type="submit" class="btn btn-outline btn-primary btn-lg btn-block" id="save_dry_clean">Save Details</button>
                                 <input type="hidden" name="_token" value="{{ Session::token() }}"></input>
