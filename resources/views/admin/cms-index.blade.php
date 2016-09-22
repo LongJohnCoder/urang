@@ -19,7 +19,7 @@
         		</div>
         	@else
         	@endif
-            <h1 class="page-header">Index Page Contents</h1>
+            <h1 class="page-header">Index Page Contents <a href="{{route('showIndexWysiwygControl')}}"><button type="button" class="btn btn-outline btn-primary btn-lg pull-right" >Go to WYSIWYG control</button></a></h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>

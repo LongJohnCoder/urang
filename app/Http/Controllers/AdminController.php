@@ -2510,4 +2510,12 @@ class AdminController extends Controller
         $customer_complaints->save();
         return redirect()->route('getEmailTemplates');
     }
+
+    public function showIndexWysiwygControl()
+    {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $cms =  IndexContent::first();
+        return view('admin.cms-index-wysiwyg', compact('site_details', 'cms'));
+    }
 }
