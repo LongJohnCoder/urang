@@ -27,21 +27,21 @@
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">Concierge Dry Cleaning Service</div>
-                      <!-- <form class="text-center" action="" method="post">
+                      <form class="text-center" action="" method="post">
                             <input type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
                             <br>
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
-                        </form> -->
+                        </form>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> Owned and Operated Facility in Manhattan</div>
-                      <!-- <form class="text-center" action="" method="post">
+                      <form class="text-center" action="" method="post">
                             <input type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
                             <br>
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
-                        </form> -->
+                        </form>
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
                           <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
                           <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
@@ -808,7 +808,7 @@
 <!-- ========================== -->
 <!-- HOME - BROWSERS  -->
 <!-- ========================== -->
-<section class="browsers-section with-bottom-effect">
+<section class="browsers-section with-bottom-effect ">
   <div class="bottom-effect"></div>
   <div class="container">
       <div class="row">

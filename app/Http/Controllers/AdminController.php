@@ -40,6 +40,7 @@ use App\EmailTemplateSignUp;
 use App\EmailTemplateForgetPassword;
 use App\Helper\SiteHelper;
 use App\EmailTemplateOrderConfirm;
+use App\IndexPageWysiwyg;
 
 class AdminController extends Controller
 {
@@ -2516,6 +2517,16 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $cms =  IndexContent::first();
-        return view('admin.cms-index-wysiwyg', compact('site_details', 'cms'));
+        $indexcontent = IndexPageWysiwyg::first();
+        return view('admin.cms-index-wysiwyg', compact('site_details', 'cms','indexcontent'));
+    }
+
+    public function postIndexWysiwygChange(Request $request)
+    {
+        $field_to_update = $request->field_to_update;
+        $customer_complaints = IndexPageWysiwyg::first();
+        $customer_complaints->$field_to_update = $request->value;
+        $customer_complaints->save();
+        return redirect()->route('showIndexWysiwygControl');
     }
 }

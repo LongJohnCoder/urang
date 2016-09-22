@@ -33,13 +33,13 @@
             </div>
             <div class="col-md-3 col-sm-3  wow fadeInRight">
                <a href="{{route('getSignUp')}}" class="btn btn-info ">Sign-Up Now</a>
-               <form class="text-center" action="" method="post">
+               <!-- <form class="text-center" action="" method="post">
                     <input type="text" name="value" value="">
                     <input type="hidden" name="_token" value="{{Session::token()}}">
                     <input type="hidden" name="field_to_update" value="cover_image">
                     <br>
                     <button type="submit" class="btn btn-info btn-sm">Change</button>
-                </form>
+                </form> -->
             </div>
          </div>
       </div>

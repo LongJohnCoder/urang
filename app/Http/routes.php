@@ -70,6 +70,7 @@ Route::post('/check-session', ['uses' => 'AdminController@checkForSession', 'as'
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/postComplaintsEmailChange', ['uses' => 'AdminController@postComplaintsEmailChange', 'as' => 'postComplaintsEmailChange']);
     Route::post('/postSignUpEmailChange', ['uses' => 'AdminController@postSignUpEmailChange', 'as' => 'postSignUpEmailChange']);
+    Route::post('/postIndexWysiwygChange', ['uses' => 'AdminController@postIndexWysiwygChange', 'as' => 'postIndexWysiwygChange']);
     Route::post('/postOrderConfirmEmailChange', ['uses' => 'AdminController@postOrderConfirmEmailChange', 'as' => 'postOrderConfirmEmailChange']);
     Route::post('/postForgotPasswordEmailChange', ['uses' => 'AdminController@postForgotPasswordEmailChange', 'as' => 'postForgotPasswordEmailChange']);
     Route::get('/email-templates', ['uses' => 'AdminController@getEmailTemplates', 'as' => 'getEmailTemplates']);

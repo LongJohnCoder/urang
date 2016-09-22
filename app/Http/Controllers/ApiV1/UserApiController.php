@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Response;
-
+use App\Helper\SiteHelper;
 use App\Helper\NavBarHelper;
 use App\Helper\ConstantsHelper;
 use App\User;
@@ -144,6 +144,22 @@ class UserApiController extends Controller
         $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
+
+        if(isset($request->isEmergency)) {
+                if ($pick_up_req->total_price > 0) {
+                    //dd($total_price);
+                    $total_price +=7;
+                    $pick_up_req->total_price = $total_price;
+                }
+            }
+            //coupon check
+            if ($pick_up_req->coupon != null) {
+                $calculate_discount = new SiteHelper();
+                $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
+                //dd($discounted_value);
+                $pick_up_req->discounted_value = $discounted_value;
+            }
+
         if($request->isDonate)
         {
             $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
