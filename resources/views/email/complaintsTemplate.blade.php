@@ -2,11 +2,11 @@
 @section('content')
     <style>
 
-		/* What it does: Remove spaces around the email design added by some email clients. */
-		/* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
+        /* What it does: Remove spaces around the email design added by some email clients. */
+        /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
         html,
         body {
-	        margin: 0 auto !important;
+            margin: 0 auto !important;
             padding: 0 !important;
             height: 100% !important;
             width: 100% !important;
@@ -102,6 +102,11 @@
             float: right;
             display: inline-block;
         }
+        .form-group{background:#F0F0F0; padding: 15px 0;}
+        input[type="text"]{border: 1px solid #ccc; padding: 5px;}
+        textarea.form-control{border: 1px solid #ccc; padding: 5px; border-radius: 0px;}
+        .login{background:#ff6400; border: none; color: #fff; padding: 5px; display: inline-block;}
+        .login:hover{color: #fff; text-decoration: none;}
 
     </style>
 
@@ -132,11 +137,11 @@
             </div>
             <!-- Email Header : BEGIN -->
             <!-- <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
-				<tr>
-					<td style="padding: 20px 0; text-align: center">
-						<img src="http://u-rang.tier5-portfolio.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
-					</td>
-				</tr>
+                <tr>
+                    <td style="padding: 20px 0; text-align: center">
+                        <img src="http://u-rang.tier5-portfolio.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
+                    </td>
+                </tr>
             </table> -->
             <!-- Email Header : END -->
             
@@ -146,17 +151,19 @@
                 
                 <!-- Hero Image, Flush : BEGIN -->
                 <tr>
-					<td bgcolor="#ffffff">
-						<img src="{{$complaintsEmail->cover_image}}" width="600" height="" alt="alt_text" border="0" align="center" style="width: 100%; max-width: 600px;">
-                        <br>
+                    <td bgcolor="#ffffff">
+                        <img src="{{$complaintsEmail->cover_image}}" width="600" height="" alt="alt_text" border="0" align="center" style="width: 100%; max-width: 600px;">
+                        <br><br>
                         <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
-                            <input type="text" name="value" value="{{$complaintsEmail->cover_image}}">
+                        <div class="form-group">
+                            <input required="required" type="text" name="value" value="{{$complaintsEmail->cover_image}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </div>    
                         </form>
-					</td>
+                    </td>
                 </tr>
                 <!-- Hero Image, Flush : END -->
 
@@ -164,38 +171,39 @@
                 <tr>
                     <td bgcolor="#ffffff">
                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                        	<tr>
-	                            <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
-	                            	<section name="customer_details" style="background:#d3d3d3;height: 250px;border-radius: 10px;">
-	                            			<div class="row">
-	                            				<div class="col-md-5"></div>
-	                            				<div class="col-md-2">
-	                            					<img src="http://u-rang.tier5-portfolio.com/public/images/cus_icon.png" alt="customer icon" style="height: 60px; width:60px;margin-top: 10px;">	
-	                            				</div>
-	                            				<div class="col-md-5"></div>
-	                            			</div>
-	                            			<div class="text-center">
-	                            				<label for="name"><b>Customer Name:</b> first last</label><br><br>
-	                               				<label for="email"><b>Customer Email:</b>email </label><br><br>
-	                               				<label for="no"><b>Phone Number:</b>phone </label>
-	                            			</div>
-	                            	</section>
-	                                <br><br>
-	                                <!-- Button : Begin -->
-	                                <!-- <table cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto;">
-	                                    <tr>
-	                                        <td style="border-radius: 3px; background: #222222; text-align: center;" class="button-td">
-	                                            <a href="http://www.google.com" style="background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
-				                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff">A Button</span>&nbsp;&nbsp;&nbsp;&nbsp;
-				                                </a>
-	                                        </td>
-	                                    </tr>
-	                                </table> -->
-	                                <!-- Button : END -->
-	                                <br>
-	                                <!-- Maecenas sed ante pellentesque, posuere leo id, eleifend dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent laoreet malesuada cursus. Maecenas scelerisque congue eros eu posuere. Praesent in felis ut velit pretium lobortis rhoncus ut&nbsp;erat. -->
-	                            </td>
-								</tr>
+                            <tr>
+                                <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
+                                    <section name="customer_details" style="background:#d3d3d3;height: 250px;border-radius: 10px;">
+                                            <div class="row">
+                                                <div class="col-md-5"></div>
+                                                <div class="col-md-2">
+                                                    <img src="http://u-rang.tier5-portfolio.com/public/images/cus_icon.png" alt="customer icon" style="height: 60px; width:60px;margin-top: 10px;"> 
+                                                </div>
+                                                <div class="col-md-5"></div>
+                                            </div>
+                                            <br>
+                                            <div class="text-center">
+                                                <label for="name"><b>Customer Name:</b> first last</label><br><br>
+                                                <label for="email"><b>Customer Email:</b>email </label><br><br>
+                                                <label for="no"><b>Phone Number:</b>phone </label>
+                                            </div>
+                                    </section>
+                                    <br><br>
+                                    <!-- Button : Begin -->
+                                    <!-- <table cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto;">
+                                        <tr>
+                                            <td style="border-radius: 3px; background: #222222; text-align: center;" class="button-td">
+                                                <a href="http://www.google.com" style="background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff">A Button</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table> -->
+                                    <!-- Button : END -->
+                                    <br>
+                                    <!-- Maecenas sed ante pellentesque, posuere leo id, eleifend dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent laoreet malesuada cursus. Maecenas scelerisque congue eros eu posuere. Praesent in felis ut velit pretium lobortis rhoncus ut&nbsp;erat. -->
+                                </td>
+                                </tr>
                         </table>
                     </td>
                 </tr>
@@ -246,44 +254,52 @@
                 <tr>
                     <td style="padding: 40px 10px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;" bgcolor="#ffffff">
                         <!-- <webversion style="color:#cccccc; text-decoration:underline; font-weight: bold;">View as a Web Page</webversion> -->
-                        <a href="http://u-rang.tier5-portfolio.com/" target="_blank" style="color: #fff;">Visit our website</a>
+                        <a href="http://u-rang.tier5-portfolio.com/" target="_blank" style="">Visit our website</a>
                         <br>
                         <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
-                            <input type="text" name="value" value="{{$complaintsEmail->website_link}}">
+                        <div class="form-group">
+                            <input required="required" type="text" name="value" value="{{$complaintsEmail->website_link}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="website_link">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </div>    
                         </form>
                         <br><br>
-                        U-rang
+                        <strong>U-rang</strong>
                         <br>
                         <span class="mobile-link--footer">{{$complaintsEmail->address}}</span>
                         <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
-                            <input type="text" name="value" value="{{$complaintsEmail->address}}">
+                            <div class="form-group">
+                            <input required="required" type="text" name="value" value="{{$complaintsEmail->address}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="address">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </div>
                         </form>
                         <br>
 
                         <span class="mobile-link--footer">{{$complaintsEmail->phone_no}}</span>
                         <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
-                            <input type="text" name="value" value="{{$complaintsEmail->phone_no}}">
+                            <div class="form-group">
+                            <input required="required" type="text" name="value" value="{{$complaintsEmail->phone_no}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="phone_no">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </div>
                         </form>
                         <br><br>
                         <unsubscribe style="color:#888888; text-decoration:underline;">{{$complaintsEmail->support_email}}</unsubscribe>
                         <form class="text-center" action="{{route('postComplaintsEmailChange')}}" method="post">
-                            <input type="text" name="value" value="{{$complaintsEmail->support_email}}">
+                            <div class="form-group">
+                            <input required="required" type="text" name="value" value="{{$complaintsEmail->support_email}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="support_email">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </div>
                         </form>
                     </td>
                 </tr>
@@ -342,42 +358,54 @@
                         <p><img src="{{$signup_temp->image_link}}" />
                         <br>
                         <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                            <input name="value" class="form-control" value="{{$signup_temp->image_link}}">
+                        <div class="form-group">
+                            <input required="required" type="text" name="value" class="" value="{{$signup_temp->image_link}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="image_link">
-                            <br>
+                           
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </div>
                         </form>
                         </p><!-- /hero -->
                         <!-- Callout Panel -->
-                        <p class="callout">
-                            You have successfully registered with u-rang, new york city's #1 laundry service. <a href="{{$signup_temp->login_link}}">Login Now! &raquo;</a>
+                        <p class="callout" style="text-align:center">
+                            You have successfully registered with u-rang, new york city's #1 laundry service. <a class="login" href="{{$signup_temp->login_link}}">Login Now! &raquo;</a>
                             <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                                <input name="value" class="form-control" value="{{$signup_temp->login_link}}">
+                            <div class="form-group">
+                                <input required="required" type="text" name="value" class="" value="{{$signup_temp->login_link}}">
                                 <input type="hidden" name="_token" value="{{Session::token()}}">
                                 <input type="hidden" name="field_to_update" value="login_link">
-                                <br>
+                                
                                 <button type="submit" class="btn btn-info btn-sm">Change</button>
+                                </div>
                             </form>
                         </p><!-- /Callout Panel -->
                         
                         <h3>Your Account Details</h3>
+                        <div style="width:48%; float:left">
                         <small><b>Login Credentials: </b></small><br/><br/>
                         <p>User email : customer@urang.com</p>
                         <p>Password: password</p>
+                        </div>
+                        <div style="width:48%; float:left">
                         <small><b>Other Details: </b></small><br/><br/>
                         <p>Name: Customer Name</p>
                         <p>Address: Customer Address</p>
                         <p>Phone Number: 0000000</p>
                         <p>Regards, </p>
                         <p>The Team at U-Rang.com</p>
-                        <a class="btn" href="{{$signup_temp->website_link}}">Our Website!</a>
+                        <a class="" href="{{$signup_temp->website_link}}">Our Website!</a>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <br>
                         <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                                <input name="value" class="form-control" value="{{$signup_temp->website_link}}">
+                                <div class="form-group">
+                                <input required="required" type="text" name="value" class="" value="{{$signup_temp->website_link}}">
                                 <input type="hidden" name="_token" value="{{Session::token()}}">
                                 <input type="hidden" name="field_to_update" value="website_link">
-                                <br>
+                                
                                 <button type="submit" class="btn btn-info btn-sm">Change</button>
+                                </div>
                             </form>                    
                         <br/>
                         <br/>                           
@@ -388,35 +416,43 @@
                             <p class="">
 
                             <a href="{{$signup_temp->fb_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a>
-                            <br>
+                            
                             <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                                <input name="value" class="form-control" value="{{$signup_temp->fb_link}}">
+                            <div class="form-group">
+                                <input required="required" type="text" name="value" class="" value="{{$signup_temp->fb_link}}" style="width:65%">
                                 <input type="hidden" name="_token" value="{{Session::token()}}">
                                 <input type="hidden" name="field_to_update" value="fb_link">
-                                <br>
+                                
                                 <button type="submit" class="btn btn-info btn-sm">Change</button>
+                                </div>
                             </form>
                             <br>
                              <a href="{{$signup_temp->twitter_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a>
-                             <br>
+                             
                             <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                                <input name="value" class="form-control" value="{{$signup_temp->twitter_link}}">
+                            <div class="form-group">
+                                <input required="required" type="text" name="value" class="" value="{{$signup_temp->twitter_link}}" style="width:65%;">
                                 <input type="hidden" name="_token" value="{{Session::token()}}">
                                 <input type="hidden" name="field_to_update" value="twitter_link">
-                                <br>
+                                
                                 <button type="submit" class="btn btn-info btn-sm">Change</button>
+                                </div>
                             </form>
                             <br>
 
                               <a href="{{$signup_temp->google_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
 
-                            <br>
+                            
                             <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                                <input name="value" class="form-control" value="{{$signup_temp->google_link}}">
+                            <div class="form-group">
+
+                                <input required="required" type="text" name="value" class="" value="{{$signup_temp->google_link}}" style="width:65%;">
                                 <input type="hidden" name="_token" value="{{Session::token()}}">
                                 <input type="hidden" name="field_to_update" value="google_link">
-                                <br>
+                                
                                 <button type="submit" class="btn btn-info btn-sm">Change</button>
+
+                             </div>   
                             </form>
                             <br>
                         </div>
@@ -425,21 +461,25 @@
                             <p>Phone: <strong>{{$signup_temp->phone_no}}</strong>
                             <br>
                             <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                                <input name="value" class="form-control" value="{{$signup_temp->phone_no}}">
+                            <div class="form-group">
+                                <input required="required" type="text" style="width:65%" name="value" class="" value="{{$signup_temp->phone_no}}">
                                 <input type="hidden" name="_token" value="{{Session::token()}}">
                                 <input type="hidden" name="field_to_update" value="phone_no">
-                                <br>
+                                
                                 <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </div>    
                             </form>
-                            <br>
+                            
                             <br/>Email: <strong><a href="{{$signup_temp->email_link}}">{{$signup_temp->email_link}}</a>
                             <br>
                             <form class="text-center" action="{{route('postSignUpEmailChange')}}" method="post">
-                                <input name="value" class="form-control" value="{{$signup_temp->email_link}}">
+                            <div class="form-group">
+                                <input required="required" type="text" name="value" class="" value="{{$signup_temp->email_link}}" style="width:65%;">
                                 <input type="hidden" name="_token" value="{{Session::token()}}">
                                 <input type="hidden" name="field_to_update" value="email_link">
-                                <br>
+                                
                                 <button type="submit" class="btn btn-info btn-sm">Change</button>
+                            </div>    
                             </form>
                             <br></strong></p>
                         </div>
@@ -488,11 +528,13 @@
                                 </form>
                         <img src="{{$order_confirm->image_link}}" alt="alt_text" border="0" align="center" style="width: 40%; max-width: 600px;">
                         <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
-                            <input name="value" class="form-control" value="{{$order_confirm->image_link}}">
+                        <div class="form-group">
+                            <input required="required" type="text" name="value" class="" value="{{$order_confirm->image_link}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="image_link">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </div>    
                         </form>
                     </td>
                 </tr>
@@ -508,15 +550,20 @@
                                                 <div class="row"  style="margin-top: 20px;">
                                                     <div class="col-xs-6" style="font-size: 18px;">
                                                         <label for="cus_details" style="color: #ff6400;"><b>Customer Details:</b></label><br/>
-                                                        <label for="customer_name">Name: USERNAME</label><br/>
-                                                        <label for="customer_email">Email: EMAIL</label><br/>
-                                                        <label for="customer_no">Phone Number: PHONE NO</label><br/><br/>
+                                                        <label style="font-weight:400; font-size:16px;" for="customer_name">
+                                                        <strong>Name:</strong> USERNAME</label><br/>
+                                                        <label style="font-weight:400; font-size:16px;" for="customer_email">
+                                                        <strong>Email:</strong> EMAIL</label><br/>
+                                                        <label style="font-weight:400; font-size:16px;" for="customer_no">
+                                                        <strong>Phone Number:</strong> PHONE NO</label><br/><br/>
                                                     </div>
                                                     <div class="col-xs-6" style="font-size: 18px;">
                                                         <label for="cus_details" style="color: #ff6400;"><b>Order Details:</b></label><br/>
-                                                        <label for="invoice_no">Invoice #: INVOICE DETAILS</label><br/>
-                                                        <label for="date">Date: DATE_TODAY</label><br/>
-                                                        <label for="coupon">Coupon Applied: COUPON</label><br/><br/>
+                                                        <label style="font-weight:400; font-size:16px;" for="invoice_no">
+                                                        <strong>Invoice #:</strong> INVOICE DETAILS</label><br/>
+                                                        <label style="font-weight:400; font-size:16px;" for="date"><strong>Date:</strong> DATE_TODAY</label><br/>
+                                                        <label style="font-weight:400; font-size:16px;" for="coupon">
+                                                        <strong>Coupon Applied:</strong> COUPON</label><br/><br/>
                                                     </div>
                                                 </div>
                                             </td>
@@ -550,44 +597,52 @@
                                                     <div class="clearfix"></div>
                                                     
                                                     <div class="col-xs-12">
-                                                        <table>
+                                                        <table width="100%;">
                                                             <tr>
                     <td style="padding: 0 10px 40px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;">
                         <!-- <webversion style="color:#cccccc; text-decoration:underline; font-weight: bold;">View as a Web Page</webversion> -->
                         <a href="{{$order_confirm->website_link}}" target="_blank" style="">Visit our website</a>
                         <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
-                            <input name="value" class="form-control" value="{{$order_confirm->website_link}}">
+                        <div class="form-group">
+                            <input required="required" type="text" name="value" class="" value="{{$order_confirm->website_link}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="website_link">
-                            <br>
+                           
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </div>    
                         </form>
                         <br><br>
                         U-rang1<br><span class="mobile-link--footer">{{$order_confirm->address}}</span>
                         <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
-                            <input name="value" class="form-control" value="{{$order_confirm->address}}">
+                        <div class="form-group">
+                            <input required="required" name="value" class="form-control" value="{{$order_confirm->address}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="address">
                             <br>
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </div>    
                         </form>
                         <br>
                         <span class="mobile-link--footer">{{$order_confirm->phone_no}}</span>
                         <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
-                            <input name="value" class="form-control" value="{{$order_confirm->phone_no}}">
+                        <div class="form-group">
+                            <input required="required" type="text" name="value" class="" value="{{$order_confirm->phone_no}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="phone_no">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </div>    
                         </form>
                         <br><br>
                         <unsubscribe style="color:#888888; text-decoration:underline;">{{$order_confirm->support_email}}</unsubscribe>
                         <form class="text-center" action="{{route('postOrderConfirmEmailChange')}}" method="post">
-                            <input name="value" class="form-control" value="{{$order_confirm->support_email}}">
+                        <div class="form-group">
+                            <input required="required" type="text" name="value" class="" value="{{$order_confirm->support_email}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="support_email">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
+                        </div>    
                         </form>
                     </td>
                 </tr>
@@ -621,16 +676,18 @@
 
     <div class="reset-password">
         <h1>Reset Password Email</h1>
-        <p>{{$forget_pass->write_up}}<a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID</a>
+        <p>{{$forget_pass->write_up}} <a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID</a>
 
         .
         <br>
         <form class="text-center" action="{{route('postForgotPasswordEmailChange')}}" method="post">
-            <input type="text" name="value" value="{{$forget_pass->write_up}}">
+            <div class="form-group">
+            <input required="required" type="text" name="value" value="{{$forget_pass->write_up}}">
             <input type="hidden" name="_token" value="{{Session::token()}}">
             <input type="hidden" name="field_to_update" value="write_up">
-            <br>
+            
             <button type="submit" class="btn btn-info btn-sm">Change</button>
+            </div>
         </form>
 
         </p>

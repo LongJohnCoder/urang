@@ -1,5 +1,51 @@
 @extends('admin.layouts.master-index-wysiwyg')
 @section('content')
+
+<style>
+.relative {position: relative; padding: 7px 0}
+.custom-form{position: absolute; right: 0; top: 0}
+.custom-form input[type="text"]{color: #fff; background:none; border: 1px solid #fff; padding: 5px 3px; line-height: 18px;}
+.custom-form .btn{padding: 5px 3px;}
+
+.section-heading input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;}
+.section-heading .btn{padding: 5px 3px;}
+
+.feature-item input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 70%; line-height: 18px;}
+.feature-item .btn{padding: 5px 3px;}
+
+.laptops input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 8px 3px; line-height: 18px;}
+.laptops .btn{padding: 5px 3px;}
+
+.content-logo input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 8px 3px; line-height: 18px;}
+.content-logo .btn{padding: 5px 3px;}
+
+.scroll-content-body{height: 349px;}
+
+.scroll-content-item input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 8px 3px; line-height: 18px;} 
+.scroll-content-item .btn{padding: 5px 3px;}
+.scroll-content-item form{margin: 12px 0}
+.scroll-content center{padding: 7px 0;}
+
+.step-item input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;} 
+.step-item .btn{padding: 5px 3px;}
+
+.video-chenger input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;} 
+.video-chenger .btn{padding: 5px 3px;}
+
+.media-body input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 67%; line-height: 18px;} 
+.media-body .btn{padding: 5px 3px;}
+
+.buy-section input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;} 
+.buy-section .btn{padding: 5px 3px;}
+.buy-section form{margin: 15px 0;}
+
+.footer-section input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 70%; line-height: 18px;}
+.footer-section .btn{padding: 5px 3px;}
+
+
+
+</style>
+
       <section class="top-header home-header with-bottom-effect transparent-effect dark">
   <div class="bottom-effect"></div>
   <div class="header-container">  
@@ -10,38 +56,47 @@
                       <img src="{{url('/')}}/public/new/img/sections/home-top-background.jpg"  alt="" />
                   </div>
                   <div class="slide-content ">
+                      <div class="relative">  
                       <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >We Are U-Rang</p>
-                        <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+
+                        <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                       </div> 
+                       <div class="relative">  
                       <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">New York City's #1</div>
-                      <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+                      <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                      </div> 
+                      <div class="relative">
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">Concierge Dry Cleaning Service</div>
-                      <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+                      <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                      </div> 
+                      <div class="relative">
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> Owned and Operated Facility in Manhattan</div>
-                      <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+                      <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                      </div>  
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
                           <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
                           <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
@@ -53,38 +108,46 @@
                       <img src="{{url('/')}}/public/new/img/sections/section-11.jpg" alt="" />
                   </div>
                   <div class="slide-content sp-layer">
+                      <div class="relative">  
                       <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >We Are U-Rang</p>
-                      <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+                      <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                      </div>
+                      <div class="relative">
                       <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">New York City's #1</div>
-                      <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+                      <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                      </div>  
+                      <div class="relative">
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">Concierge Dry Cleaning Service</div>
-                      <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+                      <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                      </div>
+                      <div class="relative">  
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> Owned and Operated Facility in Manhattan</div>
-                      <form class="text-center" action="" method="post">
-                            <input type="text" name="value" value="">
+                      <form class="text-center custom-form" action="" method="post">
+                            <input required="required" type="text" name="value" value="">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
                             <input type="hidden" name="field_to_update" value="cover_image">
-                            <br>
+                            
                             <button type="submit" class="btn btn-info btn-sm">Change</button>
                         </form>
+                      </div>  
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
                           <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
                           <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
@@ -105,10 +168,10 @@
       <div class="section-heading " >
           <div class="section-title">Our Services</div>
           <form class="text-center" action="" method="post">
-              <input type="text" name="value" value="">
+              <input required="required" type="text" name="value" value="">
               <input type="hidden" name="_token" value="{{Session::token()}}">
               <input type="hidden" name="field_to_update" value="cover_image">
-              <br>
+              
               <button type="submit" class="btn btn-primary btn-sm">Change</button>
           </form>
           <div class="section-subtitle"></div>
@@ -127,19 +190,19 @@
                       </div>
                       <div class="title">Dry Clean Only</div>
                       <form class="text-center" action="" method="post">
-                        <input type="text" name="value" value="">
+                        <input required="required" type="text" name="value" value="">
                         <input type="hidden" name="_token" value="{{Session::token()}}">
                         <input type="hidden" name="field_to_update" value="cover_image">
-                        <br>
+                        
                         <button type="submit" class="btn btn-primary btn-sm">Change</button>
                     </form>
                       <div class="text">
                           Dry Cleaners are not the same. We'll show you why.
                           <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                             
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form> 
                      </div>
@@ -156,20 +219,20 @@
                       </div>
                       <div class="title">Wash & Fold</div>
                       <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form>
                       <div class="text">
                           If you never tried our service you are 
                           in for a treat.
                           <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form>
                       </div>
@@ -186,20 +249,20 @@
                       </div>
                       <div class="title">Corporate</div>
                       <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form>
                       <div class="text">
                           Corporate Events from Catering and 
                           Uniforms to Large Sports Events.
                           <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form> 
                       </div>
@@ -216,19 +279,19 @@
                       </div>
                       <div class="title">Tailoring</div>
                       <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form>
                       <div class="text">
                           Tailoring how much simpler can it be, we have an onsite tailor that handles A to Zippers.
                           <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form>
                       </div>
@@ -245,10 +308,10 @@
                       </div>
                       <div class="title">Wet Cleaning</div>
                       <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form>
                       <div class="text">
@@ -256,10 +319,10 @@
                           fabric care using water and 
                           special non-toxic soaps.
                           <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
-                              <br>
+                              
                               <button type="submit" class="btn btn-primary btn-sm">Change</button>
                           </form>
                       </div>
@@ -294,10 +357,11 @@
       <div class="laptops text-center wow fadeInUp" data-wow-duration="1s">
           <img src="{{url('/')}}/public/new/img/laptop.jpg" alt="" class="img-responsive" />
           <form class="text-center" action="" method="post">
-              <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+              <center><input type="file"></center><br>
+              <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
               <input type="hidden" name="_token" value="{{Session::token()}}">
               <input type="hidden" name="field_to_update" value="cover_image">
-              <br>
+              
               <button type="submit" class="btn btn-primary btn-sm">Change</button>
           </form>
       </div>
@@ -306,10 +370,10 @@
       <div class="content-logo text-center wow fadeInUp"  data-wow-duration="1s">
           <img src="{{url('/')}}/public/new/img/content-logo.png" alt="" class="img-responsive" />
           <form class="text-center" action="" method="post">
-              <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+              <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
               <input type="hidden" name="_token" value="{{Session::token()}}">
               <input type="hidden" name="field_to_update" value="cover_image">
-              <br>
+              
               <button type="submit" class="btn btn-primary btn-sm">Change</button>
           </form>
       </div>
@@ -401,10 +465,10 @@
       <div class="section-heading">
           <div class="section-title">Neighborhoods We Service</div>
           <form class="text-center" action="" method="post">
-              <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+              <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
               <input type="hidden" name="_token" value="{{Session::token()}}">
               <input type="hidden" name="field_to_update" value="cover_image">
-              <br>
+              
               <button type="submit" class="btn btn-primary btn-sm">Change</button>
           </form>
           <div class="section-subtitle"></div>
@@ -416,11 +480,14 @@
       <div class="scroll-content">
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img1.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -429,11 +496,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img2.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -442,11 +512,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img3.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+               
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -455,11 +528,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img4.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -468,11 +544,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img5.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -481,11 +560,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img6.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -494,11 +576,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img7.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -507,11 +592,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img8.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+               
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -520,11 +608,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img9.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -533,11 +624,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img10.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -546,11 +640,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img11.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -559,11 +656,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img12.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -572,11 +672,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img13.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -585,11 +688,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img14.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -598,11 +704,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img15.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -611,11 +720,14 @@
           </div>
           <div class="scroll-content-item  ">
               <img src="{{url('/')}}/public/new/img/img16.jpg" alt="" />
+              <center>
+              <input type="file">
+              </center>
               <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
+                <input required="required" type="text" name="value" value="{{url('/')}}/public/new/img/laptop.jpg">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
               <div class="scroll-content-body">
@@ -640,18 +752,18 @@
       <div class="section-heading">
           <div class="section-title">Simple Steps . Quick Results</div>
           <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="">
+                <input required="required" type="text" name="value" value="">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
           <div class="section-subtitle">We make it easy, so you don't have to worry!</div>
           <form class="text-center" action="" method="post">
-                <input type="text" name="value" value="">
+                <input required="required" type="text" name="value" value="">
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <input type="hidden" name="field_to_update" value="cover_image">
-                <br>
+                
                 <button type="submit" class="btn btn-primary btn-sm">Change</button>
             </form>
           <div class="design-arrow"></div>
@@ -668,7 +780,7 @@
                       <h5>Place Your
                            Order .
                            <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
                               <br>
@@ -686,7 +798,7 @@
                   <div class="item-text">
                       <h5>We Pick-Up &amp; Clean .
                           <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
                               <br>
@@ -704,7 +816,7 @@
                   <div class="item-text">
                       <h5>We Return &amp; Deliver .
                           <form class="text-center" action="" method="post">
-                              <input type="text" name="value" value="">
+                              <input required="required" type="text" name="value" value="">
                               <input type="hidden" name="_token" value="{{Session::token()}}">
                               <input type="hidden" name="field_to_update" value="cover_image">
                               <br>
@@ -737,14 +849,15 @@
   </div>
 
 </section>
+<div class="video-chenger">
 <form class="text-center" action="" method="post">
-      <input type="text" name="value" value="">
+      <input required="required" type="text" name="value" value="">
       <input type="hidden" name="_token" value="{{Session::token()}}">
       <input type="hidden" name="field_to_update" value="cover_image">
-      <br>
+      
       <button type="submit" class="btn btn-primary btn-sm">Change</button>
   </form>
-
+</div>
   <br>
   <br>
   <br>
@@ -808,7 +921,7 @@
 <!-- ========================== -->
 <!-- HOME - BROWSERS  -->
 <!-- ========================== -->
-<section class="browsers-section with-bottom-effect ">
+<section class="browsers-section with-bottom-effect">
   <div class="bottom-effect"></div>
   <div class="container">
       <div class="row">
@@ -819,13 +932,14 @@
       </div>
   </div>
 </section>
+<div class="video-chenger">
 <form class="text-center" action="" method="post">
-    <input type="text" name="value" value="">
+    <input required="required" type="text" name="value" value="">
     <input type="hidden" name="_token" value="{{Session::token()}}">
     <input type="hidden" name="field_to_update" value="cover_image">
-    <br>
     <button type="submit" class="btn btn-primary btn-sm">Change</button>
 </form>
+</div>
 <br>
 <br>
 
@@ -847,26 +961,26 @@
                   <div class="media-body">
                       <h5>Eco-Freindly</h5>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p><em>best solutions that works</em></p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p>Environmentally conscious about what chemicals are used for our customers.</p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                   </div>
@@ -884,26 +998,26 @@
                   <div class="media-body">
                       <h5>Web & Mobile Based</h5>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p><em>Moving Forward.</em></p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p>Our site is designed mobile first, so you can browse from any device, phone, tablet or desktop.</p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                   </div>
@@ -921,26 +1035,26 @@
                   <div class="media-body">
                       <h5>Amazing Service</h5>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p><em>Direct Line to Owner</em></p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p>Direct Owner Mobile Number – #1 priority, for our clients.</p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                   </div>
@@ -967,26 +1081,26 @@
                   <div class="media-body">
                       <h5>Philanthropic</h5>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p><em>Give back to your Community</em></p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p>Donate to the school of your choice in your very own community.</p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                   </div>
@@ -1004,26 +1118,26 @@
                   <div class="media-body">
                       <h5>Affordable Pricing</h5>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p><em>Honest and Transparent</em></p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p>Affordable services with fair prices without mark-ups.
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       </p>
@@ -1042,28 +1156,28 @@
                   <div class="media-body">
                       <h5>Corporate</h5>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p><em>Putting your Best Foot Forward.</em></p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                       <p>We've worked in Corporate America as-well. Looking good and feeling good is the first step in winning
 
 business.</p>
                       <form class="text-center" action="" method="post">
-                          <input type="text" name="value" value="">
+                          <input required="required" type="text" name="value" value="">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="cover_image">
-                          <br>
+                          
                           <button type="submit" class="btn btn-primary btn-sm">Change</button>
                       </form>
                   </div>

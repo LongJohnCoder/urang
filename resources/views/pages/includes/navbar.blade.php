@@ -11,7 +11,7 @@
       </a>
 
       
-      <div class="navbar-collapse collapse floated" id="navbar-collapse" style="margin-left: 115px;">
+      <div class="navbar-collapse collapse floated" id="navbar-collapse" style="margin-left: 185px;">
           <ul class="nav navbar-nav navbar-with-inside clearfix navbar-right with-border"> 
               <li class="active">
                   @if(auth()->guard('users')->user() == null)
@@ -73,4 +73,3 @@
     </div>
   </nav>
 </header><!--./navigation -->
-
