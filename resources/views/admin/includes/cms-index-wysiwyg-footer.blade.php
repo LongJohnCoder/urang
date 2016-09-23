@@ -141,6 +141,15 @@
             </div>
             <div class="col-md-3 col-sm-3">
                <h5>Contact info</h5>
+               <form class="text-center" action="" method="post">
+                       <input required="required" type="text" name="value" value="">
+                       <input type="hidden" name="_token" value="{{Session::token()}}">
+                       <input type="hidden" name="field_to_update" value="cover_image">
+                       
+                       <button type="submit" class="btn btn-info btn-sm">Change</button>
+                     </form>
+
+               
                <ul class="contacts-list">
                   <li>
                      <p><i class="icon icon-House"></i>355 E 23rd Street New York, NY 10010
