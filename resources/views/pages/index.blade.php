@@ -10,10 +10,10 @@
                       <img src="{{url('/')}}/public/new/img/sections/home-top-background.jpg"  alt="" />
                   </div>
                   <div class="slide-content ">
-                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >We Are U-Rang</p>
-                      <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">New York City's #1</div>
-                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">Concierge Dry Cleaning Service</div>
-                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> Owned and Operated Facility in Manhattan</div>
+                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
+                      <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">{{$indexcontent->image_up_second_text}}</div>
+                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">{{$indexcontent->image_up_third_text}}</div>
+                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> {{$indexcontent->image_up_fourth_text}}</div>
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
                           <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
                           <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
@@ -25,10 +25,10 @@
                       <img src="{{url('/')}}/public/new/img/sections/section-11.jpg" alt="" />
                   </div>
                   <div class="slide-content sp-layer">
-                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >We Are U-Rang</p>
-                      <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">New York City's #1</div>
-                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">Concierge Dry Cleaning Service</div>
-                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> Owned and Operated Facility in Manhattan</div>
+                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
+                      <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">{{$indexcontent->image_up_second_text}}</div>
+                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">{{$indexcontent->image_up_third_text}}</div>
+                      <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> {{$indexcontent->image_up_fourth_text}}</div>
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
                           <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
                           <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
@@ -47,7 +47,7 @@
 <section class="features-section">
   <div class="container">
       <div class="section-heading " >
-          <div class="section-title">Our Services</div>
+          <div class="section-title">{{$indexcontent->section_one_header}}</div>
           <div class="section-subtitle"></div>
           <div class="design-arrow"></div>
       </div>
@@ -62,9 +62,9 @@
                               <a href="{{route('getStandAloneService', 'dry-clean')}}" target="_blank"><span class="icon icon-Carioca"></span></a>
                           </div>
                       </div>
-                      <div class="title">Dry Clean Only</div>
+                      <div class="title">{{$indexcontent->section_one_first_up_text}}</div>
                       <div class="text">
-                          Dry Cleaners are not the same. We'll show you why. 
+                          {{$indexcontent->section_one_first_bootom_text}} 
                      </div>
                   </div>
               </article>
@@ -77,10 +77,9 @@
                              <a href="{{route('getStandAloneService', 'washNfold')}}" target="_blank"><span class="icon icon-Heart"></span></a>
                           </div>
                       </div>
-                      <div class="title">Wash & Fold</div>
+                      <div class="title">{{$indexcontent->section_one_second_up_text}}</div>
                       <div class="text">
-                          If you never tried our service you are 
-                          in for a treat.
+                          {{$indexcontent->section_one_second_down_text}}
                       </div>
                   </div>
               </article>
@@ -93,10 +92,9 @@
                               <a href="{{route('getStandAloneService', 'corporate')}}" target="_blank"><span class="icon icon-Tools"></span></a>
                           </div>
                       </div>
-                      <div class="title">Corporate</div>
+                      <div class="title">{{$indexcontent->section_one_third_up_text}}</div>
                       <div class="text">
-                          Corporate Events from Catering and 
-                          Uniforms to Large Sports Events. 
+                          {{$indexcontent->section_one_third_down_text}}
                       </div>
                   </div>
               </article>
@@ -109,9 +107,9 @@
                               <a href="{{route('getStandAloneService', 'tailoring')}}" target="_blank"><span class="icon icon-Blog"></span></a>
                           </div>
                       </div>
-                      <div class="title">Tailoring</div>
+                      <div class="title">{{$indexcontent->section_one_fourth_up_text}}</div>
                       <div class="text">
-                          Tailoring how much simpler can it be, we have an onsite tailor that handles A to Zippers.
+                          {{$indexcontent->section_one_fourth_down_text}}
                       </div>
                   </div>
               </article>
@@ -124,11 +122,9 @@
                               <a href="{{route('getStandAloneService', 'wet-cleaning')}}" target="_blank"><span class="icon icon-Blog"></span></a>
                           </div>
                       </div>
-                      <div class="title">Wet Cleaning</div>
+                      <div class="title">{{$indexcontent->section_one_fifth_up_text}}</div>
                       <div class="text">
-                          Wet cleaning is professional 
-                          fabric care using water and 
-                          special non-toxic soaps.
+                          {{$indexcontent->section_one_fifth_down_text}}
                       </div>
                   </div>
               </article>
@@ -252,7 +248,7 @@
 <section class="latest-works-section clearfix">
   <div class="container">
       <div class="section-heading">
-          <div class="section-title">Neighborhoods We Service</div>
+          <div class="section-title">{{$indexcontent->section_three_heading}}</div>
           <div class="section-subtitle"></div>
           <div class="design-arrow"></div>
       </div>
@@ -372,8 +368,8 @@
   <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
   <div class="container">
       <div class="section-heading">
-          <div class="section-title">Simple Steps . Quick Results</div>
-          <div class="section-subtitle">We make it easy, so you don't have to worry!</div>
+          <div class="section-title">{{$indexcontent->section_four_heading_upper}}</div>
+          <div class="section-subtitle">{{$indexcontent->section_four_heading_bottom}}</div>
           <div class="design-arrow"></div>
       </div>
   </div>
@@ -385,8 +381,7 @@
                       <span class="icon icon-Pencil"></span>
                   </div>
                   <div class="item-text">
-                      <h5>Place Your <br />
-                           Order .
+                      <h5>{{$indexcontent->section_four_first_text}}
                       </h5>
                   </div>
               </div>
@@ -397,8 +392,7 @@
                       <span class="icon icon-Heart"></span>
                   </div>
                   <div class="item-text">
-                      <h5>We Pick-Up  <br />&amp; 
-                          Clean .
+                      <h5>{{$indexcontent->section_four_second_text}}
                       </h5>
                   </div>
               </div>
@@ -409,8 +403,7 @@
                       <span class="icon icon-Plaine"></span>
                   </div>
                   <div class="item-text">
-                      <h5>We Return <br />
-                          &amp; Deliver .
+                      <h5>{{$indexcontent->section_four_third_text}}
                       </h5>
                   </div>
               </div>
@@ -424,7 +417,7 @@
 <!-- ========================== -->
 
 <section class="video-section with-bottom-effect dark dark-strong">
-  <div class="video-play" id="video-play" data-property="{videoURL:'https://www.youtube.com/watch?v=un0cZhW-6jQ',containment:'#video-play',autoPlay:true, mute:true, startAt:0, opacity:1}"></div>
+  <div class="video-play" id="video-play" data-property="{videoURL:'{{$indexcontent->video_link}}',containment:'#video-play',autoPlay:true, mute:true, startAt:0, opacity:1}"></div>
   <div class="bottom-effect"></div>
   <div class="container dark-content">
       <div class="row">
@@ -524,9 +517,9 @@
                       </div>
                   </div>
                   <div class="media-body">
-                      <h5>Eco-Freindly</h5>
-                      <p><em>best solutions that works</em></p>
-                      <p>Environmentally conscious about what chemicals are used for our customers.</p>
+                      <h5>{{$indexcontent->section_five_first_text_up}}</h5>
+                      <p><em>{{$indexcontent->section_five_first_text_mid}}</em></p>
+                      <p>{{$indexcontent->section_five_first_text_bottom}}</p>
                   </div>
               </div>
           </div>
@@ -540,9 +533,9 @@
                       </div>
                   </div>
                   <div class="media-body">
-                      <h5>Web & Mobile Based</h5>
-                      <p><em>Moving Forward.</em></p>
-                      <p>Our site is designed mobile first, so you can browse from any device, phone, tablet or desktop.</p>
+                      <h5>{{$indexcontent->section_five_second_text_up}}</h5>
+                      <p><em>{{$indexcontent->section_five_second_text_mid}}</em></p>
+                      <p>{{$indexcontent->section_five_second_text_bottom}}</p>
                   </div>
               </div>
           </div>
@@ -556,9 +549,9 @@
                       </div>
                   </div>
                   <div class="media-body">
-                      <h5>Amazing Service</h5>
-                      <p><em>Direct Line to Owner</em></p>
-                      <p>Direct Owner Mobile Number – #1 priority, for our clients.</p>
+                      <h5>{{$indexcontent->section_five_third_text_up}}</h5>
+                      <p><em>{{$indexcontent->section_five_third_text_mid}}</em></p>
+                      <p>{{$indexcontent->section_five_third_text_bottom}}</p>
                   </div>
               </div>
           </div>
@@ -581,9 +574,9 @@
                       </div>
                   </div>
                   <div class="media-body">
-                      <h5>Philanthropic</h5>
-                      <p><em>Give back to your Community</em></p>
-                      <p>Donate to the school of your choice in your very own community.</p>
+                      <h5>{{$indexcontent->section_five_fourth_text_up}}</h5>
+                      <p><em>{{$indexcontent->section_five_fourth_text_mid}}</em></p>
+                      <p>{{$indexcontent->section_five_fourth_text_bottom}}</p>
                   </div>
               </div>
           </div>
@@ -597,9 +590,9 @@
                       </div>
                   </div>
                   <div class="media-body">
-                      <h5>Affordable Pricing</h5>
-                      <p><em>Honest and Transparent</em></p>
-                      <p>Affordable services with fair prices without mark-ups.
+                      <h5>{{$indexcontent->section_five_fifth_text_up}}</h5>
+                      <p><em>{{$indexcontent->section_five_fifth_text_mid}}</em></p>
+                      <p>{{$indexcontent->section_five_fifth_text_bottom}}
                       </p>
                   </div>
               </div>
@@ -614,11 +607,9 @@
                       </div>
                   </div>
                   <div class="media-body">
-                      <h5>Corporate</h5>
-                      <p><em>Putting your Best Foot Forward.</em></p>
-                      <p>We've worked in Corporate America as-well. Looking good and feeling good is the first step in winning
-
-business.</p>
+                      <h5>{{$indexcontent->section_five_sixth_text_up}}</h5>
+                      <p><em>{{$indexcontent->section_five_sixth_text_mid}}</em></p>
+                      <p>{{$indexcontent->section_five_sixth_text_bottom}}</p>
                   </div>
               </div>
           </div>

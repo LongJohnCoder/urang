@@ -34,6 +34,7 @@ use App\IndexContent;
 use Session;
 use App\Coupon;
 use App\Categories;
+use App\IndexPageWysiwyg;
 
 class MainController extends Controller
 {
@@ -61,7 +62,8 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $cms =  IndexContent::first();
-        return view('pages.index', compact('site_details', 'cms'));
+        $indexcontent = IndexPageWysiwyg::first();
+        return view('pages.index', compact('site_details', 'cms','indexcontent'));
     }
     public function getLogin() {
         $user = auth()->guard('users');
@@ -127,7 +129,8 @@ class MainController extends Controller
                     $card_info = new CustomerCreditCardInfo();
                     $card_info->user_id = $user_details->user_id;
                     $card_info->name = $request->cardholder_name;
-                    $card_info->card_no = $request->card_no;
+                    //$card_info->card_no = $request->card_no;
+                    $card_info->card_no = str_replace(' ', '', $request->card_no);
                     $card_info->card_type = $request->cardtype;
                     $card_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
                     $card_info->exp_month = $request->select_month;

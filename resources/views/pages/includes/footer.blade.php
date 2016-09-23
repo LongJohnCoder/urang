@@ -2,6 +2,9 @@
    <!-- ========================== -->
    <!-- SECTION -->
    <!-- ========================== -->
+   <?php
+      $indexcontent = App\IndexPageWysiwyg::first();
+    ?>
    <section class="buy-section with-icon">
       <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
       <div class="container">
@@ -12,8 +15,8 @@
                      <span class="icon icon-Like"></span> 
                   </div>
                   <div class="buy-text vcenter">
-                     <div class="top-text">U-Rang is New York City's #1 Concierge Service</div>
-                     <div class="bottom-text">With more than 10+ years in Business, we are the Best.</div>
+                     <div class="top-text">{{$indexcontent->section_six_first_text}}</div>
+                     <div class="bottom-text">{{$indexcontent->section_six_second_text}}</div>
                   </div>
                </div>
             </div>
@@ -30,11 +33,11 @@
       <div class="container">
          <div class="row">
             <div class="col-md-3 col-sm-3">
-               <h5>about us</h5>
-               <p>U-Rang has been servicing the many affluent neigborhoods of New York City for more than 10 years. Our goals are simple, provide the best service while giving back to the community.</p>
+               <h5>{{$indexcontent->footer_section_one_header}}</h5>
+               <p>{{$indexcontent->footer_section_one_first}}</p>
             </div>
             <div class="col-md-3 col-sm-3">
-               <h5>Sitemap</h5>
+               <h5>{{$indexcontent->footer_section_two_header}}</h5>
                <div class="row">
                   <div class="col-md-6">
                      <ul class="footer-nav">
@@ -55,27 +58,25 @@
                </div>
             </div>
             <div class="col-md-3 col-sm-3">
-               <h5>Contact info</h5>
+               <h5>{{$indexcontent->footer_section_three_header}}</h5>
                <ul class="contacts-list">
                   <li>
-                     <p><i class="icon icon-House"></i>15 Broad Street<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10005
+                     <p><i class="icon icon-House"></i>{{$indexcontent->footer_section_three_first}}
                      </p>
                   </li>
                   <li>
-                     <p><i class="icon icon-Phone2"></i>(800)959-5785</p>
+                     <p><i class="icon icon-Phone2"></i>{{$indexcontent->footer_section_three_second}}</p>
                   </li>
                   <li>
-                     <p><i class="icon icon-Mail"></i><a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a> </p>
+                     <p><i class="icon icon-Mail"></i><a href="mailto:lisa@u-rang.com">{{$indexcontent->footer_section_three_third}}</a> </p>
                   </li>
                </ul>
             </div>
             <div class="col-md-3 col-sm-3">
-               <h5>Contact info</h5>
+               <h5>{{$indexcontent->footer_section_four_header}}</h5>
                <ul class="contacts-list">
                   <li>
-                     <p><i class="icon icon-House"></i>355 E 23rd Street<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10010
+                     <p><i class="icon icon-House"></i>{{$indexcontent->footer_section_four_first}}
                      </p>
                   </li>
                </ul>

@@ -671,7 +671,8 @@ class AdminController extends Controller
                 $credit_info = new CustomerCreditCardInfo();
                 $credit_info->user_id = $user_details->user_id;
                 $credit_info->name = $request->card_name;
-                $credit_info->card_no = $request->card_no;
+                //$credit_info->card_no = $request->card_no;
+                $credit_info->card_no = str_replace(' ', '', $request->card_no);
                 $credit_info->card_type = $request->cardType;
                 $credit_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
                 $credit_info->exp_month = $request->SelectMonth;
@@ -1143,6 +1144,11 @@ class AdminController extends Controller
                 return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
             } else if ($sort == 'delivered') {
                 $pickups = Pickupreq::where('order_status', 4)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+                return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+            }
+            else if($sort == 'is_Emergency') {
+                $pickups = Pickupreq::where('is_emergency', 1)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
                 $donate_money_percentage = SchoolDonationPercentage::first();
                 return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
             }

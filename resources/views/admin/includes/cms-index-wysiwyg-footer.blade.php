@@ -12,19 +12,19 @@
                      <span class="icon icon-Like"></span> 
                   </div>
                   <div class="buy-text vcenter">
-                     <div class="top-text">U-Rang is New York City's #1 Concierge Service</div>
-                     <form class="text-center" action="" method="post">
-                          <input required="required" type="text" name="value" value="">
+                     <div class="top-text">{{$indexcontent->section_six_first_text}}</div>
+                     <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                          <input required="required" type="text" name="value" value="{{$indexcontent->section_six_first_text}}">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
-                          <input type="hidden" name="field_to_update" value="cover_image">
+                          <input type="hidden" name="field_to_update" value="section_six_first_text">
                           
                           <button type="submit" class="btn btn-info btn-sm">Change</button>
                       </form>
-                     <div class="bottom-text">With more than 10+ years in Business, we are the Best.</div>
-                     <form class="text-center" action="" method="post">
-                          <input required="required" type="text" name="value" value="">
+                     <div class="bottom-text">{{$indexcontent->section_six_second_text}}</div>
+                     <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                          <input required="required" type="text" name="value" value="{{$indexcontent->section_six_second_text}}">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
-                          <input type="hidden" name="field_to_update" value="cover_image">
+                          <input type="hidden" name="field_to_update" value="section_six_second_text">
                           
                           <button type="submit" class="btn btn-info btn-sm">Change</button>
                       </form>
@@ -33,13 +33,7 @@
             </div>
             <div class="col-md-3 col-sm-3  wow fadeInRight">
                <a href="{{route('getSignUp')}}" class="btn btn-info ">Sign-Up Now</a>
-               <form class="text-center" action="" method="post">
-                    <!-- <input type="text" name="value" value="">
-                    <input type="hidden" name="_token" value="{{Session::token()}}">
-                    <input type="hidden" name="field_to_update" value="cover_image"> 
-                    
-                    <button type="submit" class="btn btn-info btn-sm">Change</button> -->
-                </form>
+               
             </div>
          </div>
       </div>
@@ -51,29 +45,29 @@
       <div class="container">
          <div class="row">
             <div class="col-md-3 col-sm-3">
-               <h5>about us</h5>
-               <form class="text-center" action="" method="post">
-                    <input required="required" required="required" type="text" name="value" value="">
+               <h5>{{$indexcontent->footer_section_one_header}}</h5>
+               <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                    <input required="required" required="required" type="text" name="value" value="{{$indexcontent->footer_section_one_header}}">
                     <input type="hidden" name="_token" value="{{Session::token()}}">
-                    <input type="hidden" name="field_to_update" value="cover_image">
+                    <input type="hidden" name="field_to_update" value="footer_section_one_header">
                     
                     <button type="submit" class="btn btn-info btn-sm">Change</button>
                 </form>
-               <p>U-Rang has been servicing the many affluent neigborhoods of New York City for more than 10 years. Our goals are simple, provide the best service while giving back to the community.</p>
-               <form class="text-center" action="" method="post">
-                    <input required="required" required="required" type="text" name="value" value="">
+               <p>{{$indexcontent->footer_section_one_first}}</p>
+               <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                    <input required="required" required="required" type="text" name="value" value="{{$indexcontent->footer_section_one_first}}">
                     <input type="hidden" name="_token" value="{{Session::token()}}">
-                    <input type="hidden" name="field_to_update" value="cover_image">
+                    <input type="hidden" name="field_to_update" value="footer_section_one_first">
                     
                     <button type="submit" class="btn btn-info btn-sm">Change</button>
                 </form>
             </div>
             <div class="col-md-3 col-sm-3">
-               <h5>Sitemap</h5>
-               <form class="text-center" action="" method="post">
-                    <input required="required" required="required" type="text" name="value" value="">
+               <h5>{{$indexcontent->footer_section_two_header}}</h5>
+               <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                    <input required="required" required="required" type="text" name="value" value="{{$indexcontent->footer_section_two_header}}">
                     <input type="hidden" name="_token" value="{{Session::token()}}">
-                    <input type="hidden" name="field_to_update" value="cover_image">
+                    <input type="hidden" name="field_to_update" value="footer_section_two_header">
                     
                     <button type="submit" class="btn btn-info btn-sm">Change</button>
                 </form>
@@ -97,42 +91,42 @@
                </div>
             </div>
             <div class="col-md-3 col-sm-3">
-               <h5>Contact info</h5>
-               <form class="text-center" action="" method="post">
-                       <input required="required" required="required" type="text" name="value" value="">
+               <h5>{{$indexcontent->footer_section_three_header}}</h5>
+               <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                       <input required="required" required="required" type="text" name="value" value="{{$indexcontent->footer_section_three_header}}">
                        <input type="hidden" name="_token" value="{{Session::token()}}">
-                       <input type="hidden" name="field_to_update" value="cover_image">
+                       <input type="hidden" name="field_to_update" value="footer_section_three_header">
                        
                        <button type="submit" class="btn btn-info btn-sm">Change</button>
                    </form>
                <ul class="contacts-list">
                   <li>
-                     <p><i class="icon icon-House"></i>15 Broad Street New York, NY 10005
+                     <p><i class="icon icon-House"></i>{{$indexcontent->footer_section_three_first}}
                      </p>
-                     <form class="text-center" action="" method="post">
-                       <input required="required" required="required" type="text" name="value" value="">
+                     <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                       <input required="required" required="required" type="text" name="value" value="{{$indexcontent->footer_section_three_first}}">
                        <input type="hidden" name="_token" value="{{Session::token()}}">
-                       <input type="hidden" name="field_to_update" value="cover_image">
+                       <input type="hidden" name="field_to_update" value="footer_section_three_first">
                        
                        <button type="submit" class="btn btn-info btn-sm">Change</button>
                      </form>
                   </li>
                   <li>
-                     <p><i class="icon icon-Phone2"></i>(800)959-5785</p>
-                     <form class="text-center" action="" method="post">
-                       <input required="required" type="text" name="value" value="">
+                     <p><i class="icon icon-Phone2"></i>{{$indexcontent->footer_section_three_second}}</p>
+                     <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                       <input required="required" type="text" name="value" value="{{$indexcontent->footer_section_three_second}}">
                        <input type="hidden" name="_token" value="{{Session::token()}}">
-                       <input type="hidden" name="field_to_update" value="cover_image">
+                       <input type="hidden" name="field_to_update" value="footer_section_three_second">
                        
                        <button type="submit" class="btn btn-info btn-sm">Change</button>
                      </form>
                   </li>
                   <li>
-                     <p><i class="icon icon-Mail"></i><a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a> </p>
-                     <form class="text-center" action="" method="post">
-                       <input required="required" required="required" type="text" name="value" value="">
+                     <p><i class="icon icon-Mail"></i><a href="mailto:lisa@u-rang.com">{{$indexcontent->footer_section_three_third}}</a> </p>
+                     <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                       <input required="required" required="required" type="text" name="value" value="{{$indexcontent->footer_section_three_third}}">
                        <input type="hidden" name="_token" value="{{Session::token()}}">
-                       <input type="hidden" name="field_to_update" value="cover_image">
+                       <input type="hidden" name="field_to_update" value="footer_section_three_third">
                       
                        <button type="submit" class="btn btn-info btn-sm">Change</button>
                      </form>
@@ -140,11 +134,11 @@
                </ul>
             </div>
             <div class="col-md-3 col-sm-3">
-               <h5>Contact info</h5>
-               <form class="text-center" action="" method="post">
-                       <input required="required" type="text" name="value" value="">
+               <h5>{{$indexcontent->footer_section_four_header}}</h5>
+               <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                       <input required="required" type="text" name="value" value="{{$indexcontent->footer_section_four_header}}">
                        <input type="hidden" name="_token" value="{{Session::token()}}">
-                       <input type="hidden" name="field_to_update" value="cover_image">
+                       <input type="hidden" name="field_to_update" value="footer_section_four_header">
                        
                        <button type="submit" class="btn btn-info btn-sm">Change</button>
                      </form>
@@ -152,12 +146,12 @@
                
                <ul class="contacts-list">
                   <li>
-                     <p><i class="icon icon-House"></i>355 E 23rd Street New York, NY 10010
+                     <p><i class="icon icon-House"></i>{{$indexcontent->footer_section_four_first}}
                      </p>
-                     <form class="text-center" action="" method="post">
-                       <input required="required" required="required" type="text" name="value" value="">
+                     <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                       <input required="required" required="required" type="text" name="value" value="{{$indexcontent->footer_section_four_first}}">
                        <input type="hidden" name="_token" value="{{Session::token()}}">
-                       <input type="hidden" name="field_to_update" value="cover_image">
+                       <input type="hidden" name="field_to_update" value="footer_section_four_first">
                        
                        <button type="submit" class="btn btn-info btn-sm">Change</button>
                      </form>
