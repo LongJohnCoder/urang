@@ -23,7 +23,7 @@
             <div class="container">
                 <div class="section-heading">
                     <div class="section-title">How U-RANG Delivery Service Works...</div>
-                    <div class="section-subtitle">The box field that is on the home page EASY AS 1.2.3.....</div>
+                    <div class="section-subtitle"></div>
                     <div class="design-arrow"></div>
                 </div>
             </div>

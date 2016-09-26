@@ -195,7 +195,7 @@
                               @if($pickup->school_donations != null)
                                 <b>Donated Money :</b>
                                 @if($donate_money_percentage != null)
-                                $<span id="actual_school_donation_{{$pickup->id}}">{{($pickup->total_price*$donate_money_percentage->percentage)/100}}</span>
+                                $<span id="actual_school_donation_{{$pickup->id}}">{{$pickup->coupon != null ? (number_format((float)$pickup->discounted_value, 2, '.', '')*$donate_money_percentage->percentage)/100 : ($pickup->total_price*$donate_money_percentage->percentage)/100 }}</span>
                                 <span style="display:none" id="actual_school_donation_id_{{$pickup->id}}">{{$pickup->school_donations->id}}</span>
                                 @else
                                   Set Up Donation Percentage
@@ -1421,6 +1421,7 @@
             }
             else if (data == "403") 
             {
+              //console.log(data);
               $('#loaderBodyOrder').hide();
               $('.table').show();
               sweetAlert("Oops...", "At first make sure payment is done!", "error");

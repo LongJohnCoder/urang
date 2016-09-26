@@ -164,7 +164,14 @@ class UserApiController extends Controller
         {
             $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
             $percentage = SchoolDonationPercentage::first();
-            $new_percentage = $percentage->percentage/100;
+            if ($percentage == null) 
+            {
+                $new_percentage = 0;
+            }
+            else
+            {
+                $new_percentage = $percentage->percentage/100;
+            }
             $pick_up_req->school_donation_id = $request->school_donation_id;
             //$pick_up_req->school_donation_amount = $request->school_donation_amount;
             $search = SchoolDonations::find($request->school_donation_id);

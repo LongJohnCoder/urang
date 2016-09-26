@@ -51,7 +51,7 @@
                                                 <p class="no-margin">support@u-rang.com</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 clearfix">
+                                        <!-- <div class="col-md-12 clearfix">
                                             <div class="type-info pull-left">
                                                 <i class="icon icon-Mouse"></i>
                                                 Skype Chat
@@ -59,7 +59,7 @@
                                             <div class="info pull-right text-right">
                                                 <p class="no-margin">u-rang</p>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

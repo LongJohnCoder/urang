@@ -984,7 +984,8 @@ class MainController extends Controller
         if (count($last_row) > 0) {
            return $last_row;
         } else {
-            return 0;
+            $registered_details = UserDetails::where('user_id',$request->user_id)->first();
+            return $registered_details;
         }
     }
     public function checkCouponVailidity(Request $request) {

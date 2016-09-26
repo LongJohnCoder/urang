@@ -799,6 +799,7 @@ class AdminController extends Controller
 
     public function changeOrderStatusAdmin(Request $req)
     {
+
         //return $req->order_status;
         if (isset($req->order_status)) {
             if ($req->order_status == 1) {
@@ -813,6 +814,7 @@ class AdminController extends Controller
                 else
                 {
                     //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+
                     return 0;
                 }
             } elseif ($req->order_status == 2) {
@@ -844,10 +846,12 @@ class AdminController extends Controller
                     return 0;
                 }
             } else {
+
                 
                 $data['order_status'] = $req->order_status;
                 if ($req->payment_type == 1) {
                     //charge this card
+
                     $response = $this->ChargeCard($req->user_id, $req->chargable);
                     //dd($response);
                     //return $response;
@@ -874,7 +878,7 @@ class AdminController extends Controller
                         else
                         {
                             //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
-                            return 0;
+                            return "here is the problem";
                         }
                     }
                     else
@@ -884,6 +888,7 @@ class AdminController extends Controller
                     }
                     
                 } else {
+
                     //do not charge
                     $paidOrNOt = Pickupreq::where('id',$req->pickup_id)->first(); 
                     //dd($paidOrNOt);
