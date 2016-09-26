@@ -103,7 +103,7 @@ class StaffController extends Controller
             }
             else
             {
-                $pickups = Pickupreq::orderBy('id', 'desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $pickups = Pickupreq::where('order_status',1)->orderBy('id', 'desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
             }
 
             $donate_money_percentage = SchoolDonationPercentage::first();
