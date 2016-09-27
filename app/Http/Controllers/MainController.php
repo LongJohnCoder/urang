@@ -837,7 +837,7 @@ class MainController extends Controller
         Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
         function($message) use($request)
         {
-            $message->from('work@tier5.us');
+            $message->from('lisa@u-rang.com');
             $message->to($request->email, $request->name)->subject('U-rang Details');
         });
     }*/

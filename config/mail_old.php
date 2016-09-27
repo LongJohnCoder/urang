@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'work@tier5.us', 'name' => "U-rang.com"],
+    'from' => ['address' => 'lisa@u-rang.com', 'name' => "U-rang.com"],
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'username' => env('work@tier5.us'),
+    'username' => env('lisa@u-rang.com'),
 
     /*
     |--------------------------------------------------------------------------

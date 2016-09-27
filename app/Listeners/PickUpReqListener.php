@@ -43,7 +43,7 @@ class PickUpReqListener
             }
             else
             {
-                $email = "work@tier5.us";
+                $email = "lisa@u-rang.com";
                 $user_name = "undefined";
                 $number = 00000000;
             }
@@ -95,7 +95,7 @@ class PickUpReqListener
         }
         Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data), 
             function($message) use ($event){
-                $message->from("work@tier5.us", "Admin");
+                $message->from("lisa@u-rang.com", "Admin");
                 if ($event->req->identifier == "admin") {
                     $user_to_search = User::with('user_details')->find($event->req->user_id);
                     if ($user_to_search) {
@@ -106,7 +106,7 @@ class PickUpReqListener
                     }
                     else
                     {
-                        $email = "work@tier5.us";
+                        $email = "lisa@u-rang.com";
                         $user_name = "undefined";
                         $number = 00000000;
                     }

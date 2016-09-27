@@ -446,7 +446,7 @@ class UserApiController extends Controller
             $flag=Mail::send('pages.sendEmailContact', ['firstName'=>$firstname,'lastName'=>$lastname,'email'=>$email,'subject'=>$subject,'text'=>$text,'phone'=>$phone], function($msg) use($request)
                         {
                             $msg->from($request->email, 'U-rang');
-                            $msg->to("work@tier5.us", $request->firstName)->subject('U-rang Details');
+                            $msg->to("lisa@u-rang.com", $request->firstName)->subject('U-rang Details');
                         });
 
             if($flag==1)

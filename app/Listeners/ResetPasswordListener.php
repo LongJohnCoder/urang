@@ -29,7 +29,7 @@ class ResetPasswordListener
         Mail::send('email.reset-password', array('email'=>$event->req->email, 'id' => $event->req->id), 
         function($message) use ($event)
         {
-            $message->from("work@tier5.us", "Admin");
+            $message->from("lisa@u-rang.com", "Admin");
             $message->to($event->req->email, $event->req->user_details->name)->subject('Reset Password');
         });
     }
