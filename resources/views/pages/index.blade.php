@@ -182,10 +182,12 @@
               <div class="design-arrow inline-arrow"></div>
               <p class="large">{!! $cms !=null ? $cms->tag_line_4 : '' !!}</p>
               <p>{!! $cms !=null ? $cms->head_setion : '' !!}</p>
-              <p>
+              <br>
               <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
                   {!! $cms !=null ? $cms->contents : '' !!}
               <br />
+              <br>
+              <br>
                   <p class="large">{!! $cms !=null ? $cms->head_section_2 : '' !!}</p>
                   {!! $cms !=null ? $cms->contents_2 : '' !!}
               </ul>

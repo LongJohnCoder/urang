@@ -451,6 +451,7 @@
                     <button type="submit" class="btn btn-primary btn-sm">Change</button>
                 </form>
               <br />
+              <br>
                   <p class="large">{!! $cms !=null ? $cms->head_section_2 : '' !!}</p>
                   <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
                     <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->head_section_2 : '' !!}">
