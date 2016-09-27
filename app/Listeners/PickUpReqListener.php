@@ -30,9 +30,11 @@ class PickUpReqListener
     public function handle(PickUpReqEvent $event)
     {
         //dd($event->req);
+
         $table_data = ''; //detail pickup data
         $subtotal = 0.00;
         $discount = 0.00;
+        $emergency_money = 0;
         if ($event->req->identifier == "admin") {
             $user_to_search = User::with('user_details')->find($event->req->user_id);
             if ($user_to_search) {
@@ -65,6 +67,11 @@ class PickUpReqListener
             {
                 $table_data .= "<tr><td>".$format_items[$i]->item_name."</td><td>".$format_items[$i]->number_of_item."</td><td>".$format_items[$i]->item_price."</td></tr>";
                 $subtotal +=  $format_items[$i]->number_of_item*$format_items[$i]->item_price;
+            }
+            if(isset($event->req->isEmergency))
+            {
+                $subtotal += 7;
+                $emergency_money = 7;
             }
         }
         //fast pickup
@@ -100,7 +107,7 @@ class PickUpReqListener
             $discount = 0.00;
             $coupon = "No Coupon Applied";
         }
-        Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data), 
+        Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money), 
             function($message) use ($event){
                 $message->from("lisa@u-rang.com", "Admin");
                 if ($event->req->identifier == "admin") {
