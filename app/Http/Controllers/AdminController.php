@@ -2540,4 +2540,13 @@ class AdminController extends Controller
         $customer_complaints->save();
         return redirect()->route('showIndexWysiwygControl');
     }
+
+    public function postIndexWysiwygChangeIndexContent(Request $request)
+    {
+        $field_to_update = $request->field_to_update;
+        $customer_complaints = IndexContent::first();
+        $customer_complaints->$field_to_update = $request->value;
+        $customer_complaints->save();
+        return redirect()->route('showIndexWysiwygControl');
+    }
 }

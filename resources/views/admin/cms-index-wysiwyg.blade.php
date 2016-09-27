@@ -389,23 +389,93 @@
           <div class="col-md-7 col-sm-7 text-right">
               <div class="clearfix " style="padding-right: 3px;">
                   <div class="above-title">{!! $cms !=null ? $cms->tag_line : '' !!}</div>
+                  <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                      <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->tag_line : '' !!}">
+                      <input type="hidden" name="_token" value="{{Session::token()}}">
+                      <input type="hidden" name="field_to_update" value="tag_line">
+                      
+                      <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                  </form>
                   <h4>{!! $cms !=null ? $cms->header : '' !!}</h4>
+                  <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                      <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->header : '' !!}">
+                      <input type="hidden" name="_token" value="{{Session::token()}}">
+                      <input type="hidden" name="field_to_update" value="header">
+                      
+                      <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                  </form>
               </div>
               <div><em>{!! $cms !=null ? $cms->tag_line_2 : '' !!}</em></div>
+              <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                    <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->tag_line_2 : '' !!}">
+                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                    <input type="hidden" name="field_to_update" value="tag_line_2">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                </form>
               <p>{!! $cms !=null ? $cms->tag_line_3 : '' !!}</p>
+              <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                    <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->tag_line_3 : '' !!}">
+                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                    <input type="hidden" name="field_to_update" value="tag_line_3">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                </form>
               <div class="design-arrow inline-arrow"></div>
               <p class="large">{!! $cms !=null ? $cms->tag_line_4 : '' !!}</p>
+              <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                    <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->tag_line_4 : '' !!}">
+                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                    <input type="hidden" name="field_to_update" value="tag_line_4">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                </form>
               <p>{!! $cms !=null ? $cms->head_setion : '' !!}</p>
+              <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                    <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->head_setion : '' !!}">
+                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                    <input type="hidden" name="field_to_update" value="head_setion">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                </form>
               <p>
               <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
                   {!! $cms !=null ? $cms->contents : '' !!}
+                  <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                    <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->contents : '' !!}">
+                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                    <input type="hidden" name="field_to_update" value="contents">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                </form>
               <br />
                   <p class="large">{!! $cms !=null ? $cms->head_section_2 : '' !!}</p>
+                  <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                    <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->head_section_2 : '' !!}">
+                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                    <input type="hidden" name="field_to_update" value="head_section_2">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                </form>
                   {!! $cms !=null ? $cms->contents_2 : '' !!}
+                  <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                    <input required="required" type="text" name="value" value="{!! $cms !=null ? $cms->contents_2 : '' !!}">
+                    <input type="hidden" name="_token" value="{{Session::token()}}">
+                    <input type="hidden" name="field_to_update" value="contents_2">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                </form>
               </ul>
           </div>
           <div class="col-md-5 col-sm-5 text-center">
-              <img src="{{url('/')}}/public/dump_images/{{ $cms !=null ? $cms->image : ''}}" alt="image" class="img-responsive" />
+              <img src="{{ $cms !=null ? $cms->image : ''}}" alt="image" class="img-responsive" />
+              <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
+                  <input required="required" type="text" name="value" value="{{ $cms !=null ? $cms->image : ''}}">
+                  <input type="hidden" name="_token" value="{{Session::token()}}">
+                  <input type="hidden" name="field_to_update" value="image">
+                  
+                  <button type="submit" class="btn btn-primary btn-sm">Change</button>
+              </form>
           </div>
       </div>
   </div>

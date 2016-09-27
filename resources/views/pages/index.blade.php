@@ -191,7 +191,7 @@
               </ul>
           </div>
           <div class="col-md-5 col-sm-5 text-center">
-              <img src="{{url('/')}}/public/dump_images/{{ $cms !=null ? $cms->image : ''}}" alt="image" class="img-responsive" />
+              <img src="{{ $cms !=null ? $cms->image : ''}}" alt="image" class="img-responsive" />
           </div>
       </div>
   </div>
