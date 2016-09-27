@@ -41,7 +41,7 @@
 			            <th>Original Invoice</th>
 			            <th>Final Invoice</th>
 			            <th>Payment Status</th>
-			            <th>Delete</th>
+			            <!-- <th>Delete</th> -->
 			            <!-- @if(count($pick_up_req) > 0)
 			      			@foreach($pick_up_req as $req)
 			      				<th>{{$req->order_status != 5 ? "cancel order" : "undo"}}</th>
@@ -74,15 +74,15 @@
 					            <td>{{$req->OrderTrack->expected_return_date == null ? '2 , 3 business days' : date("F jS Y",strtotime($req->OrderTrack->expected_return_date))}}</td>
 					            <td>{{$req->OrderTrack->return_date == null ? 'Pending' :date("F jS Y",strtotime($req->OrderTrack->return_date)) }}</td>
 					            <td>{{$req->OrderTrack->original_invoice}}</td>
-					            <td>{{$req->OrderTrack->final_invoice == null ? "Pending" : number_format((float)$req->OrderTrack->final_invoice, 2, '.', '') }}</td>
+					            <td>{{$req->discounted_value == null ? $req->OrderTrack->final_invoice == null ? "Pending" : number_format((float)$req->OrderTrack->final_invoice, 2, '.', '') : number_format((float)$req->discounted_value, 2, '.', '')}}</td>
 					            <td>{{$req->payment_status == 0 ? "Pending" : "Paid"}}</td>
-				          		<td>
+				          		<!-- <td>
 				          			@if($req->order_status == 1 || $req->order_status == 5)
 				          				<button type="button" id="btn_{{$req->id}}" class="btn btn-danger btn-xs" onclick="DeleteOrder('{{$req->id}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 				          			@else
 				          				<button type="button" id="btn_{{$req->id}}" class="btn btn-danger btn-xs" disabled="true"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 				          			@endif
-				          		</td>
+				          		</td> -->
 				          		<td>
 				          			@if($req->order_status == 1)
 				          				<button type="button" class="btn btn-xs btn-warning" onclick="return CancelReq('{{$req->id}}', 'cancel');"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
