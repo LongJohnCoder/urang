@@ -80,7 +80,14 @@ class PickUpReqListener
             $discount_percentage = Coupon::where('coupon_code', $coupon)->first();
             //dd($discount_percentage);
             if ($discount_percentage != "" && $discount_percentage->isActive == 1) {
-                $discount = $subtotal*($discount_percentage->discount/100);
+                if(isset($event->req->isEmergency))
+                {
+                    $discount = ($subtotal+7)*($discount_percentage->discount/100);
+                }
+                else
+                {
+                    $discount = $subtotal*($discount_percentage->discount/100);
+                }
             }
             else
             {
