@@ -9,11 +9,11 @@
 .custom-form{position: absolute; right: 0; top: 0}
 .custom-form input[type="text"]{color: #fff; background:none; border: 1px solid #fff; padding: 5px 3px; line-height: 18px;}
 .custom-form .btn{padding: 5px 3px;}
-
+.section-heading form{padding: 10px 0;}
 .section-heading input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;}
 .section-heading .btn{padding: 5px 3px;}
 
-.feature-item input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 70%; line-height: 18px;}
+.feature-item input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 70%; line-height: 18px; font-size: 12px;}
 .feature-item .btn{padding: 5px 3px;}
 
 .laptops input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 8px 3px; line-height: 18px;}
@@ -29,23 +29,25 @@
 .scroll-content-item form{margin: 12px 0}
 .scroll-content center{padding: 7px 0;}
 
-.step-item input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;} 
+.step-item input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px; margin: 5px 0;} 
 .step-item .btn{padding: 5px 3px;}
 
 .video-chenger input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;} 
 .video-chenger .btn{padding: 5px 3px;}
 
-.media-body input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 67%; line-height: 18px;} 
+.media-body input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 66%; line-height: 18px; font-size: 12px;} 
 .media-body .btn{padding: 5px 3px;}
 
 .buy-section input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px;} 
 .buy-section .btn{padding: 5px 3px;}
 .buy-section form{margin: 15px 0;}
 
-.footer-section input[type="text"]{color: #fff; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 70%; line-height: 18px;}
+.footer-section input[type="text"]{color: #fff; background:none; border: 1px solid #ccc; padding: 5px 3px; width: 67%; line-height: 18px; font-size: 11px; }
 .footer-section .btn{padding: 5px 3px;}
-
-
+.form-style input[type="text"]{color: #000; background:none; border: 1px solid #ccc; padding: 5px 3px; line-height: 18px; font-size: 12px; font-weight: bold;}
+.form-style .btn{padding: 5px 3px;}
+.form-style form{text-align: right; padding: 10px 0;}
+.steps-list .step-item .item-text h5{text-align: center;}
 
 </style>
 
@@ -386,7 +388,7 @@
   <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
   <div class="container"> 
       <div class="row">
-          <div class="col-md-7 col-sm-7 text-right">
+          <div class="col-md-7 col-sm-7 text-right form-style">
               <div class="clearfix " style="padding-right: 3px;">
                   <div class="above-title">{!! $cms !=null ? $cms->tag_line : '' !!}</div>
                   <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
@@ -467,7 +469,7 @@
                 </form>
               </ul>
           </div>
-          <div class="col-md-5 col-sm-5 text-center">
+          <div class="col-md-5 col-sm-5 text-center form-style">
               <img src="{{ $cms !=null ? $cms->image : ''}}" alt="image" class="img-responsive" />
               <form class="text-center" action="{{route('postIndexWysiwygChangeIndexContent')}}" method="post">
                   <input required="required" type="text" name="value" value="{{ $cms !=null ? $cms->image : ''}}">
@@ -1028,7 +1030,7 @@
                   </div>
                   <div class="media-body">
                       <h5>{{$indexcontent->section_five_first_text_up}}</h5>
-                      <form class="text-center" action="{{route('postIndexWysiwygChange')}}" method="post">
+                      <form class="" action="{{route('postIndexWysiwygChange')}}" method="post">
                           <input required="required" type="text" name="value" value="{{$indexcontent->section_five_first_text_up}}">
                           <input type="hidden" name="_token" value="{{Session::token()}}">
                           <input type="hidden" name="field_to_update" value="section_five_first_text_up">
