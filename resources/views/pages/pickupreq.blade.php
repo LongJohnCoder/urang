@@ -153,7 +153,7 @@
             </div>
             <div class="clear"></div>
             <div class="form-group">
-                <select id="order_type" name="order_type" id="order_type" class="col-xs-5" required="true">
+                <select id="order_type" name="order_type" class="col-xs-5" required="true">
                   <option value="">Type of order</option>
                   <option value="1">Fast Pickup</option>
                   <option value="0">Detailed Pickup</option>
@@ -457,9 +457,12 @@
       //alert('test')
      var todays_date=  $.datepicker.formatDate('mm/dd/yy', new Date());
      $('#datepicker').val(todays_date);
+
      $('#order_type').change(function(){
       var value_type = $('#order_type').val();
-      if (!isNaN(value_type)) {
+      /*alert(value_type);
+      return;*/
+      if (value_type!="") {
         if (value_type == 0) 
         {
           $('#myModal').modal('show');
