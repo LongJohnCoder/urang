@@ -185,7 +185,7 @@
                         <tr>
                             <td>CVV2 (optional):</td>
                             <td>
-                                <input type="text"  id="cvv" name="cvv" maxlength="4" size="10" value="{{old('cvv')}}">
+                                <input type="password"  id="cvv" name="cvv" maxlength="4" size="10" value="{{old('cvv')}}">
                             </td>
                         </tr>
                         <tr>
