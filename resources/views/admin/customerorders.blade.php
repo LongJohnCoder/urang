@@ -235,7 +235,8 @@
                               @if($pickup->school_donations != null)
                                 <b>Donated Money :</b>
                                 @if($donate_money_percentage != null)
-                                $<span id="actual_school_donation_{{$pickup->id}}">{{($pickup->total_price*$donate_money_percentage->percentage)/100}}</span>
+                                <!-- $<span id="actual_school_donation_{{$pickup->id}}">{{($pickup->total_price*$donate_money_percentage->percentage)/100}}</span> -->
+                                order cancelled
                                 @else
                                   Set Up Donation Percentage
                                 @endif
