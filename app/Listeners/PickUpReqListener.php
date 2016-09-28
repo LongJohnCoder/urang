@@ -70,7 +70,7 @@ class PickUpReqListener
             }
             if(isset($event->req->isEmergency))
             {
-                $subtotal += 7;
+                //$subtotal += 7;
                 $emergency_money = 7;
             }
         }
