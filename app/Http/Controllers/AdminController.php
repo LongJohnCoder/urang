@@ -1689,11 +1689,29 @@ class AdminController extends Controller
                 $user->discounted_value = $discounted_value;
                 $user->save();
             }
-            return redirect()->route('getCustomerOrders')->with('success', 'Order successfully updated!');
+            if($request->ajax())
+            {
+                return 1;
+            }
+            else
+            {
+                return redirect()->route('getCustomerOrders')->with('success', 'Order successfully updated!');
+
+            }
+            
         }
         else
         {
-            return redirect()->route('getCustomerOrders')->with('error', 'Cannot update the order now!');
+            if($request->ajax())
+            {
+                return 0;
+            }
+            else
+            {
+                return redirect()->route('getCustomerOrders')->with('error', 'Cannot update the order now!');
+
+            }
+            
         }
     }
     public function fetchInvoice(Request $request) {

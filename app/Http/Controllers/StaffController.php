@@ -444,11 +444,27 @@ class StaffController extends Controller
                 $user->discounted_value = $discounted_value;
                 $user->save();
             }
-            return redirect()->route('getStaffOrders')->with('success', 'Order successfully updated!');
+            if($request->ajax())
+            {
+                return 1;
+            }
+            else
+            {
+                return redirect()->route('getStaffOrders')->with('success', 'Order successfully updated!');
+            }
+            
         }
         else
         {
-            return redirect()->route('getStaffOrders')->with('error', 'Cannot update the order now!');
+            if($request->ajax())
+            {
+                return 0;
+            }
+            else
+            {
+                return redirect()->route('getStaffOrders')->with('error', 'Cannot update the order now!');
+            }
+            
         }
     }
 

@@ -1359,7 +1359,32 @@
    {   
      if($('#list_items_json').val() != '')
      {
-      $('#edit_item_form').submit();
+      
+      var serializeArray = $('#edit_item_form').serializeArray();
+      
+      submitObj = {};
+      for(i=0;i<serializeArray.length;i++)
+      {
+        submitObj[serializeArray[i].name] = serializeArray[i].value;
+      }
+      var action_url = $('#edit_item_form').attr('action');
+
+      $.ajax({
+          url: action_url,
+          type: "POST",
+          data: submitObj,
+          success: function(data) {
+            
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else
+            {
+              sweetAlert("Oops!", "Cannot update try again!", "error");
+            }
+          }
+        });
      }
      else
      {
