@@ -65,7 +65,8 @@ class PickUpReqListener
             //dd();
             for($i=0; $i<count($format_items); $i++)
             {
-                $table_data .= "<tr><td>".$format_items[$i]->item_name."</td><td>".$format_items[$i]->number_of_item."</td><td>".$format_items[$i]->item_price."</td></tr>";
+                $table_data .= "<tr><td>".$format_items[$i]->item_name."</td><td>".$format_items[$i]->number_of_item."</td><td> $".$format_items[$i]->item_price."</td></tr>";
+
                 $subtotal +=  $format_items[$i]->number_of_item*$format_items[$i]->item_price;
             }
             if(isset($event->req->isEmergency))
