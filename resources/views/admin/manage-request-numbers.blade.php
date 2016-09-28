@@ -184,7 +184,7 @@
 								}
 								else
 								{
-									sweetAlert("Oops...", "Unknown Error occured! cannot mark the day as close", "error");
+									sweetAlert("Oops...", "Cannot mark the day as close, Make sure first you have entered all the time frames then you can mark it as Open or Close!", "error");
 								}
 							}
 						});
@@ -203,7 +203,7 @@
 								}
 								else
 								{
-									sweetAlert("Oops...", "Unknown Error occured! cannot mark the day as close", "error");
+									sweetAlert("Oops...", "Cannot mark the day as close, Make sure first you have entered all the time frames then you can mark it as Open or Close!", "error");
 								}
 							}
 						});
