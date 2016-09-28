@@ -185,8 +185,16 @@ class InvoiceController extends Controller
                     $find_pickup = Pickupreq::find($request->pick_up_req_id);
                     //return $find_pickup;
                     if ($find_pickup) {
-                        $find_pickup->total_price = $total_price;
-                        $find_pickup->save();
+                        if($find_pickup->is_emergency==0)
+                        {
+                            $find_pickup->total_price = $total_price;
+                            $find_pickup->save();
+                        }
+                        else
+                        {
+                            $find_pickup->total_price = $total_price+7;
+                            $find_pickup->save();
+                        }
                     }
                     //return $find_pickup->total_price;
                 }
