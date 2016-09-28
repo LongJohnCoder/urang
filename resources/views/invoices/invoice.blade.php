@@ -145,9 +145,9 @@
                    <p id="emergency"></p>
                    <p id="total">Total : ${{number_format((float)$one_iteration->pick_up_req->total_price, 2, '.', '')}}</p>
                    @if($one_iteration->pick_up_req->coupon !=  null)
-                    <p id="discount">Discount({{$school_donation_per->percentage}}%): ${{$one_iteration->pick_up_req->discounted_value}}</p>
+                    <p id="discount">Total Discounted Price (Applying coupon): ${{$one_iteration->pick_up_req->discounted_value}}</p>
                    @else
-                    <p id="discount">Discount(0%): ${{number_format((float)$one_iteration->pick_up_req->total_price, 2, '.', '')}}</p>
+                    <p id="discount">Total Price: ${{number_format((float)$one_iteration->pick_up_req->total_price, 2, '.', '')}}</p>
                    @endif
                 </td>
             </tr>
