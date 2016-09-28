@@ -39,8 +39,8 @@
                                         <i class="fa fa-plus-square-o fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">{{ count($pickups) }}</div>
-                                        <div>All Orders</div>
+                                        <div class="huge">{{ count($orders_to_pick_up) }}</div>
+                                        <div>New Orders</div>
                                     </div>
                                 </div>
                             </div>
