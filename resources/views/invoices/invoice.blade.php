@@ -132,8 +132,14 @@
                     </td>
                 </tr>
                 <tr class="details">
+
                     <td>{{$school_details->school_name}}</td>
-                    <td>${{($total_price*$school_donation_per->percentage)/100}}</td>
+
+                    @if($one_iteration->pick_up_req->coupon !=  null)
+                    <td>${{(($one_iteration->pick_up_req->discounted_value)*$school_donation_per->percentage)/100}}</td>
+                    @else
+                    <td>${{number_format((float)(($one_iteration->pick_up_req->total_price)*$school_donation_per->percentage)/100, 2, '.', '')}}</td>
+                    @endif
                 </tr>
             @endif
             <tr class="total">
