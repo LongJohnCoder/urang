@@ -274,7 +274,7 @@
 	    });
 		$('#order_type').change(function(){
 			var value_type = $('#order_type').val();
-	      	if (!isNaN(value_type)) {
+	      	if (value_type!="") {
 		        if (value_type == 0) 
 		        {
 		          $('#myModal').modal('show');

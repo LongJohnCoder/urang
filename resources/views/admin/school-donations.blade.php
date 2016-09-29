@@ -34,7 +34,7 @@
 	                  <table class="table">
 	                     <thead>
 	                        <tr>
-	                           <th>#</th>
+	                           <!-- <th>#</th> -->
 	                           <th>School Name</th>
 	                           <th>School Neighborhood</th>
 	                           <th>School Image</th>
@@ -49,7 +49,7 @@
 	                        @if(count($list_school) > 0)
 	                        	@foreach($list_school as $school)
 	                        		<tr>
-	                        			<td>{{$school->id}}</td>
+	                        			<!-- <td>{{$school->id}}</td> -->
 	                        			<td>{{$school->school_name}}</td>
 	                        			<td>
 	                        				@if($school->neighborhood_id == 0)
