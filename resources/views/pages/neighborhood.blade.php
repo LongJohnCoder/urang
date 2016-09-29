@@ -61,7 +61,7 @@
             </div>
             <div class="design-arrow inline-arrow"></div>
             <p>
-            <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
+            <ul style="text-align: left; font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
             <p>{!!$neighborhood[$i]->description!!}</p>
          </div>
          <div style="height: 60px;"></div>
