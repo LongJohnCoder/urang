@@ -207,6 +207,20 @@ Route::group (['prefix' => 'staff'], function () {
     Route::post('/pay-pending-money', ['uses' => 'StaffController@postPendingMoneyStaff', 'as' => 'postPendingMoneyStaff']);
     Route::get('/make-payments', ['uses' => 'StaffController@getMakePayments', 'as' => 'getMakePayments']);
     Route::get('/manual-payments', ['uses' => 'StaffController@getManualPayment', 'as' => 'getManualPayment']);
+
+    Route::get('/staff-oders-sort-delivered', ['uses' => 'StaffController@orderSortDeliveredStaff', 'as' => 'orderSortDeliveredStaff']);
+
+    Route::get('/staff-oders-sort-paid', ['uses' => 'StaffController@orderSortPaidStaff', 'as' => 'orderSortPaidStaff']);
+
+    Route::get('/staff-oders-sort-unpaid', ['uses' => 'StaffController@orderSortUnpaidStaff', 'as' => 'orderSortUnpaidStaff']);
+
+    Route::get('/staff-oders-sort-emergency', ['uses' => 'StaffController@orderSortEmergencyStaff', 'as' => 'orderSortEmergencyStaff']);
+
+    Route::get('/staff-oders-sort-total-price', ['uses' => 'StaffController@orderSortTotalPriceStaff', 'as' => 'orderSortTotalPriceStaff']);
+
+    Route::get('/staff-oders-sort-pick-up-date', ['uses' => 'StaffController@orderSortPickUpDateStaff', 'as' => 'orderSortPickUpDateStaff']);
+
+    Route::get('/staff-oders-sort-create-date', ['uses' => 'StaffController@orderSortCreatedAtStaff', 'as' => 'orderSortCreatedAtStaff']);
 });
 
 //API V.1 routes

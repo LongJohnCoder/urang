@@ -325,40 +325,7 @@ class StaffController extends Controller
         }
 
     }
-    public function getSort()
-    {
-        //$obj = new NavBarHelper();
-        //$user_data = $obj->getUserData();
-        //$site_details = $obj->siteData();
-        $input = Input::get('sort');
-        $sort = isset($input) ? $input : false;
-        if($sort)
-        {
-            if ($sort == 'paid') {
-                $pickups = Pickupreq::where('payment_status', 1)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
-                $donate_money_percentage = SchoolDonationPercentage::first();
-                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
-            } else if($sort == 'unpaid') {
-                $pickups = Pickupreq::where('payment_status', 0)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
-                $donate_money_percentage = SchoolDonationPercentage::first();
-                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
-            } else if ($sort == 'delivered') {
-                $pickups = Pickupreq::where('order_status', 4)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
-                $donate_money_percentage = SchoolDonationPercentage::first();
-                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
-            }
-             else {
-                $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
-                $donate_money_percentage = SchoolDonationPercentage::first();
-                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
-            }
-        }
-        else
-        {
-            return redirect()->route('getStaffOrders');
-        }
-
-    }
+    
 
     public function addItemCustom(Request $request)
     {
@@ -568,5 +535,134 @@ class StaffController extends Controller
         {
             return redirect()->route('getStaffLogin');
         }
+    }
+
+    public function getSort()
+    {
+        //$obj = new NavBarHelper();
+        //$user_data = $obj->getUserData();
+        //$site_details = $obj->siteData();
+        $input = Input::get('sort');
+        $sort = isset($input) ? $input : false;
+        if($sort)
+        {
+            if ($sort == 'paid') 
+            {
+                return redirect()->route('orderSortPaidStaff');
+            } 
+            else if($sort == 'unpaid') 
+            {
+                return redirect()->route('orderSortUnpaidStaff');
+            }
+            else if ($sort == 'delivered') 
+            {
+                return redirect()->route('orderSortDeliveredStaff');
+            }
+            else if($sort == 'is_Emergency') {
+
+                return redirect()->route('orderSortEmergencyStaff');
+            }
+            else if($sort == 'total_price')
+            {
+                return redirect()->route('orderSortTotalPriceStaff');
+            }
+            else if($sort == 'pick_up_date')
+            {
+                return redirect()->route('orderSortPickUpDateStaff');
+            }
+            else if($sort == 'created_at')
+            {
+                return redirect()->route('orderSortCreatedAtStaff');
+            }
+            else {
+                $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+            }
+        }
+        else
+        {
+            return redirect()->route('getStaffOrders');
+        }
+
+    }
+
+    public function orderSortDeliveredStaff()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+
+        $pickups = Pickupreq::where('order_status', 4)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+        
+        return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+    }
+
+    public function orderSortPaidStaff()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+
+        $pickups = Pickupreq::where('payment_status', 1)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+        
+        return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+    }
+
+    public function orderSortUnpaidStaff()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+
+        $pickups = Pickupreq::where('payment_status', 0)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+        return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+    }
+
+    public function orderSortEmergencyStaff()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+
+        $pickups = Pickupreq::where('is_emergency', 1)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+        return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+    }
+
+    public function orderSortTotalPriceStaff()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+
+        $pickups = Pickupreq::orderBy('total_price','desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+        return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+    }
+
+    public function orderSortPickUpDateStaff()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+
+        $pickups = Pickupreq::orderBy('pick_up_date','desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+        return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+    }
+
+    public function orderSortCreatedAtStaff()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+
+        $pickups = Pickupreq::orderBy('created_at','desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+        return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
     }
 }
