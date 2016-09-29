@@ -243,7 +243,7 @@
                                                         @if($emergency_money!=0)
                                                             <label for="emergency">Emergency: ${{$emergency_money}}</label><br/>
                                                             <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount}}</label><br/>
-                                                            <label for="total">Total: {{$invoice_num == 0 ? 0 : ($subtotal - $discount)+$emergency_money}} </label>
+                                                            <label for="total">Total: ${{$invoice_num == 0 ? 0 : ($subtotal - $discount)+$emergency_money}} </label>
                                                         @else
                                                             <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount}}</label><br/>
                                                             <label for="total">Total: ${{$invoice_num == 0 ? 0 : $subtotal - $discount}} </label>
