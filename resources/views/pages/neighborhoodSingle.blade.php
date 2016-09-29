@@ -56,7 +56,7 @@
 	        <div class="design-arrow inline-arrow"></div>
 	        <p>
 	        <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
-	        <p style="text-align: left;">{!!$find->description!!}</p>
+	        <p>{!!$find->description!!}</p>
 	     </div>
 	     <div style="height: 60px;"></div>
 	     <div class="col-md-5 col-sm-5 text-center">
