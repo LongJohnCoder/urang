@@ -154,6 +154,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/email-template', ['uses' => 'AdminController@getEmailTemplate', 'as' => 'getEmailTemplate']);
     Route::post('/search-by-item', ['uses' => 'AdminController@postSearchSchool', 'as' => 'postSearchSchool']);
     Route::get('/search-of-button', ['uses' => 'AdminController@postSearchByButton', 'as' => 'postSearchByButton']);
+
+
+    Route::get('/oders-sort-delivered', ['uses' => 'AdminController@orderSortDelivered', 'as' => 'orderSortDelivered']);
+
+    Route::get('/oders-sort-paid', ['uses' => 'AdminController@orderSortPaid', 'as' => 'orderSortPaid']);
+
+    Route::get('/oders-sort-unpaid', ['uses' => 'AdminController@orderSortUnpaid', 'as' => 'orderSortUnpaid']);
+
+    Route::get('/oders-sort-emergency', ['uses' => 'AdminController@orderSortEmergency', 'as' => 'orderSortEmergency']);
+
+    Route::get('/oders-sort-total-price', ['uses' => 'AdminController@orderSortTotalPrice', 'as' => 'orderSortTotalPrice']);
+
+    Route::get('/oders-sort-pick-up-date', ['uses' => 'AdminController@orderSortPickUpDate', 'as' => 'orderSortPickUpDate']);
+
+    Route::get('/oders-sort-create-date', ['uses' => 'AdminController@orderSortCreatedAt', 'as' => 'orderSortCreatedAt']);
+
 });
 //invoice routes
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);
