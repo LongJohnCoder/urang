@@ -34,45 +34,29 @@
       <div class="row">
       @endif
          <div class="col-md-4">
-            <div class="plans">
-               <h2>{{$category->name}}<i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i></h2>
-               <div class="product">
-               @foreach($category->pricelists as $pricelist)
-                  <div class="product-section">
-                        <div class="col-md-2">
-                           <!-- <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive"> -->
-                        </div>
-                        <div class="col-md-6">
-                           <div class="row">
-                              <h3>{{$pricelist->item}}</h3>
+               <div class="plans">
+                  <h2>{{$category->name}}<i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i></h2>
+                  <div class="product">
+                  @foreach($category->pricelists as $pricelist)
+                     <div class="product-section">
+                           <div class="col-md-2">
+                              <!-- <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive"> -->
                            </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="row">
-                              <h3>${{$pricelist->price}}</h3>
+                           <div class="col-md-6">
+                              <div class="row">
+                                 <h3>{{$pricelist->item}}</h3>
+                              </div>
                            </div>
-                        </div>
+                           <div class="col-md-4">
+                              <div class="row">
+                                 <h3>${{$pricelist->price}}</h3>
+                              </div>
+                           </div>
+                     </div>
+                     @endforeach
                   </div>
-                  @endforeach
-                  <!-- <div class="product-section">
-                        <div class="col-md-3">
-                           <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive">
-                        </div>
-                        <div class="col-md-6">
-                           <div class="row">
-                              <h3>product name</h3>
-                           </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="row">
-                              <h3>$40.00</h3>
-                           </div>
-                        </div>
-                  </div> -->
                </div>
-             </div>
-            
-           </div>
+         </div>
 
          @if(($i%3)==0)
          </div>
@@ -82,84 +66,108 @@
          
 
          @endforeach
-         <!-- <div class="col-md-4">
-            <div class="plans">
-               <h2>Household Items <i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i></h2>
+
+         
+      </div>
+   </div>
+</section>
+<section class="features-section pricing-page">
+   <div class="container">
+      <div class="row">
+         <h2>ABC</h2>
+         <div class="item-container">
+            <div class="col-md-6">
                <div class="product">
                   <div class="product-section">
-                        <div class="col-md-3">
-                           <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive">
-                        </div>
-                        <div class="col-md-6">
-                           <div class="row">
-                              <h3>product name</h3>
-                           </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="row">
-                              <h3>$40.00</h3>
-                           </div>
-                        </div>
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
                   </div>
+               </div>
+               <div class="product">
                   <div class="product-section">
-                        <div class="col-md-3">
-                           <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive">
-                        </div>
-                        <div class="col-md-6">
-                           <div class="row">
-                              <h3>product name</h3>
-                           </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="row">
-                              <h3>$40.00</h3>
-                           </div>
-                        </div>
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
                   </div>
                </div>
             </div>
          </div>
-         <div class="col-md-4">
-            <div class="plans">
-               <h2>Bedding <i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i></h2>
+      </div>
+      <div class="row">
+         <h2>ABC</h2>
+         <div class="item-container">
+            <div class="col-md-6">
                <div class="product">
                   <div class="product-section">
-                        <div class="col-md-3">
-                           <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive">
-                        </div>
-                        <div class="col-md-6">
-                           <div class="row">
-                              <h3>product name</h3>
-                           </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="row">
-                              <h3>$40.00</h3>
-                           </div>
-                        </div>
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
                   </div>
+               </div>
+               <div class="product">
                   <div class="product-section">
-                        <div class="col-md-3">
-                           <img src="http://localhost/html/urang/public/images/demo.png" class="img-responsive">
-                        </div>
-                        <div class="col-md-6">
-                           <div class="row">
-                              <h3>product name</h3>
-                           </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="row">
-                              <h3>$40.00</h3>
-                           </div>
-                        </div>
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
                   </div>
                </div>
             </div>
-         </div> -->
+            <div class="col-md-6">
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+               <div class="product">
+                  <div class="product-section">
+                     <div class="col-md-7"><h3>Item Name</h3></div>
+                     <div class="col-md-5"><h3>$199.00</h3></div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
    </div>
 </section>
 @endsection
+
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript">
    $(document).ready(function(){

@@ -1185,7 +1185,6 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 }
 
 .plans h2{
-    
     text-align: center;
     padding: 20px 0;
     font-size: 20px;
@@ -1201,7 +1200,6 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 }
 
 .plans .product{
-    
     transition: 0.5s;
     background: #F5F5F5;
 }
@@ -1211,6 +1209,32 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
     text-transform: capitalize;
     margin: 24px 0 0;
     color: #333;
+}
+
+.pricing-page h2{
+    padding: 20px 0 10px;
+    font-size: 24px;
+}
+
+.item-container{
+    background: #F7F7F7;
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    border: 1px solid #eee;
+    border-bottom: 5px solid #eee;   
+}
+
+.pricing-page .product {
+    padding-bottom: 20px;
+}
+
+.pricing-page .product h3 {
+    font-size: 14px;
+    text-transform: capitalize;
+    margin: 15px 0;
+    color: #333;
+    font-weight: normal;
 }
 
 @media only screen and ( min-width: 992px ) and ( max-width: 1199px ){
