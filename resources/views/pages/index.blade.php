@@ -10,7 +10,7 @@
                       <img src="{{url('/')}}/public/new/img/sections/home-top-background.jpg"  alt="" />
                   </div>
                   <div class="slide-content ">
-                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
+                      <p style="text-align: center;" class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
                       <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">{{$indexcontent->image_up_second_text}}</div>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">{{$indexcontent->image_up_third_text}}</div>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> {{$indexcontent->image_up_fourth_text}}</div>
@@ -25,7 +25,7 @@
                       <img src="{{url('/')}}/public/new/img/sections/section-11.jpg" alt="" />
                   </div>
                   <div class="slide-content sp-layer">
-                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
+                      <p style="text-align: center;" class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
                       <div class="title sp-layer" data-show-transition="right" data-hide-transition="up" data-show-delay="500" data-hide-delay="150">{{$indexcontent->image_up_second_text}}</div>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">{{$indexcontent->image_up_third_text}}</div>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> {{$indexcontent->image_up_fourth_text}}</div>
