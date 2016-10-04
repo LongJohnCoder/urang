@@ -62,7 +62,7 @@
                   </div>
                   <div class="slide-content ">
                       <div class="relative">  
-                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
+                      <p style="text-align: center;" class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
 
                         <form class="text-center custom-form" action="{{route('postIndexWysiwygChange')}}" method="post">
                             <input required="required" type="text" name="value" value="{{$indexcontent->image_up_first_text}}">
@@ -114,7 +114,7 @@
                   </div>
                   <div class="slide-content sp-layer">
                       <div class="relative">  
-                      <p class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
+                      <p style="text-align: center;" class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
                       <form class="text-center custom-form" action="{{route('postIndexWysiwygChange')}}" method="post">
                             <input required="required" type="text" name="value" value="{{$indexcontent->image_up_first_text}}">
                             <input type="hidden" name="_token" value="{{Session::token()}}">
