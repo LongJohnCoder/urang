@@ -37,8 +37,6 @@
       <div class="row">
          <h2 style="color: #ff6400;">{{$category->name}}</h2>
          <div class="item-container">
-
-
          @foreach($category->pricelists as $pricelist)
             <div class="col-md-6">
                <div class="product">
