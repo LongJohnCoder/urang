@@ -292,7 +292,14 @@
           //mandetory address
           $('#address_line_1').text(data.address);
           //optional addressline 2
-          $('#address_line_2').text(data.address_line_2);
+          if(data.address_line_2==null)
+          {
+            $('#address_line_2').text("");
+          }
+          else
+          {
+            $('#address_line_2').text(data.address_line_2);
+          }
           //apartment number
           $('#apt_no').val(data.apt_no);
           //schedule
