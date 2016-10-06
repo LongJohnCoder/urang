@@ -672,7 +672,7 @@
                   </tr>
                </thead>
                <tbody>
-                  <form role="form" method="post" action="{{route('postInvoice')}}">
+                  <form role="form" method="post" action="{{route('postInvoice')}}" id="invoice_form_tosubmit">
                      @if(count($price_list) > 0)
                      @foreach($price_list as $list)
                      <tr>
@@ -697,7 +697,7 @@
             </table>
          </div>
          <div class="modal-footer">
-         <button type="submit" class="btn btn-primary btn-lg btn-block" id="btn_create_inv">Create Invoice</button>
+         <button type="button" class="btn btn-primary btn-lg btn-block" onclick="createInvoiceForm();" id="btn_create_inv">Create Invoice</button>
          <input type="hidden" id="pick_up_req_id" name="pick_up_req_id"></input>
          <input type="hidden" id="req_user_id" name="req_user_id"></input>
          <input type="hidden" name="identifier" value="staff"></input>
@@ -1460,6 +1460,41 @@
       } else {
         submitMyForm(pick_up_id2);
       }
+  }
+
+  function createInvoiceForm()
+  {
+    //alert('invoice_form_tosubmit');
+    var serializeArray = $('#invoice_form_tosubmit').serializeArray();
+      
+      submitObj = {};
+      for(i=0;i<serializeArray.length;i++)
+      {
+        submitObj[serializeArray[i].name] = serializeArray[i].value;
+      }
+      var action_url = $('#invoice_form_tosubmit').attr('action');
+
+
+      $.ajax({
+          url: action_url,
+          type: "POST",
+          data: submitObj,
+          success: function(data) {
+            
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else if(data == 2)
+            {
+              sweetAlert("Oops!", "Please select atleast one list item!", "error");
+            }
+            else
+            {
+              sweetAlert("Oops!", "Some error occured failed to update total price!", "error");
+            }
+          }
+        });
   }
 </script>
 @endsection

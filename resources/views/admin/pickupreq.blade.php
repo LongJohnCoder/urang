@@ -257,14 +257,17 @@
 	      if (value == 0) {
 	        //sweetAlert("now")
 	        $('#time_frame').show();
-	        $('#time_frame_start').timepicker({'step': 1});
-	        $('#time_frame_end').timepicker({'step': 1});
+	        $('#time_frame_start').timepicker({'step': 30});
+	        $('#time_frame_start').timepicker('option', { 'timeFormat': 'h:i A' });
+	        $('#time_frame_end').timepicker({'step': 30});
+	        $('#time_frame_end').timepicker('option', { 'maxTime': '11:59pm' , 'timeFormat': 'h:i A' });
 	      } else {
 	        $('#time_frame').hide();
 	      }
 	    });
 	    $('#time_frame_start').change(function(){
 	        start_time = $('#time_frame_start').val();
+	        $('#time_frame_end').timepicker('option', { 'minTime': start_time, 'maxTime': '11:59pm' , 'timeFormat': 'h:i A' });
 	        checkTime();
 	        //console.log(start_time);
 	    });
@@ -462,13 +465,13 @@
 	      //console.log(time_end);
 	      if ($.trim(start_time) && $.trim(end_time)) 
 	      {
-	        if (start_time < end_time) 
+	        if (convertTo24(start_time) < convertTo24(end_time)) 
 	        {
 	          //console.log('ok');
 	          $('#errorTime').html('');
 	          $('#schedule_pick_up').attr('type', 'submit');
 	        }
-	        else if (start_time > end_time) {
+	        else if (convertTo24(start_time) > convertTo24(end_time)) {
 	          //console.log('not ok');
 	          $('#errorTime').html('* start time cannot be greater than end time. Wrong Input!');
 	          $('#schedule_pick_up').attr('type', 'button');
@@ -483,6 +486,20 @@
 	        }
 	        //return false;
 	      } 
+	    }
+	    function convertTo24(time)
+	    {
+	       //console.log(time);
+	        var hours = Number(time.match(/^(\d+)/)[1]);
+	        var minutes = Number(time.match(/:(\d+)/)[1]);
+	        var AMPM = time.match(/\s(.*)$/)[1];
+	        if (AMPM == "PM" && hours < 12) hours = hours + 12;
+	        if (AMPM == "AM" && hours == 12) hours = hours - 12;
+	        var sHours = hours.toString();
+	        var sMinutes = minutes.toString();
+	        if (hours < 10) sHours = "0" + sHours;
+	        if (minutes < 10) sMinutes = "0" + sMinutes;
+	        return (sHours +':'+sMinutes);
 	    }
 	    //coupon validity
 	     $(document).on('input', '#coupon',  function() {    

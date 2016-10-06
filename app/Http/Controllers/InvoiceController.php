@@ -99,21 +99,25 @@ class InvoiceController extends Controller
              $search_pickupreq->total_price = $total_price;
              if ($search_pickupreq->save()) {
                 if ($request->identifier == 'staff') {
-                    return redirect()->route('getStaffOrders')->with('success', "Invoice Successfully created");
+                    //return redirect()->route('getStaffOrders')->with('success', "Invoice Successfully created");
+                    return 1;
                 }
 
                 else  {
-                   return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
+                   //return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
+                    return 1;
                 }
             }
             else
             {
                 if ($request->identifier == 'staff') {
-                    return redirect()->route('getStaffOrders')->with('fail', "Some error occured failed to update total price");
+                    //return redirect()->route('getStaffOrders')->with('fail', "Some error occured failed to update total price");
+                    return 0;
                 }
                 else
                 {
-                    return redirect()->route('getCustomerOrders')->with('fail', "Some error occured failed to update total price");
+                    //return redirect()->route('getCustomerOrders')->with('fail', "Some error occured failed to update total price");
+                    return 0;
                 }
                 
             }
@@ -121,11 +125,13 @@ class InvoiceController extends Controller
         else
         {
             if ($request->identifier == 'staff') {
-                return redirect()->route('getStaffOrders')->with('fail', "Please select atleast one list item");
+                //return redirect()->route('getStaffOrders')->with('fail', "Please select atleast one list item");
+                return 2;
             }
             else
             {
-                return redirect()->route('getCustomerOrders')->with('fail', "Please select atleast one list item");
+                //return redirect()->route('getCustomerOrders')->with('fail', "Please select atleast one list item");
+                return 2;
             }
         }
     }
