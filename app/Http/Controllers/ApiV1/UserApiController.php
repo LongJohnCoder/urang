@@ -1118,7 +1118,20 @@ class UserApiController extends Controller
 
     public function getProgileDetails(Request $request)
     {
-        $customer_details = User::with('user_details', 'card_details','pickup_req')->where('id' , $request->user_id)->first();
-        return $customer_details;
+        $search = User::find($request->user_id);
+        if($search)
+        {
+            $customer_details = User::with('user_details', 'card_details','pickup_req')->where('id' , $request->user_id)->first();
+            return $customer_details;
+        }
+        else
+        {
+            return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "User Does not exists!"        
+                                ));
+        }
+        
     } 
 }
