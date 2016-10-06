@@ -1114,5 +1114,11 @@ class UserApiController extends Controller
                                     'message' => "Invalid coupon"        
                                 ));
         }
+    }
+
+    public function getProgileDetails(Request $request)
+    {
+        $customer_details = User::with('user_details', 'card_details','pickup_req')->where('id' , $request->user_id)->first();
+        return $customer_details;
     } 
 }
