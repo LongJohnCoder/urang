@@ -2483,7 +2483,16 @@ class AdminController extends Controller
         $pickupreq = Pickupreq::find($request->pick_up_req_id);
         if($pickupreq->delete())
         {
-            return 1;
+            $trackOrder = OrderTracker::where('pick_up_req_id',$request->pick_up_req_id)->first();
+            if($trackOrder->delete())
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
         else
         {
