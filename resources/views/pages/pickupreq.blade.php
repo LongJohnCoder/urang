@@ -392,13 +392,17 @@
       if (value == 0) {
         //sweetAlert("now")
         $('#time_frame').show();
-        $('#time_frame_start').timepicker({'step': 1});
-        $('#time_frame_end').timepicker({'step': 1});
+        $('#time_frame_start').timepicker({'step': 30});
+        $('#time_frame_start').timepicker('option', { 'timeFormat': 'h:i A' });
+        $('#time_frame_end').timepicker({'step': 30});
+        $('#time_frame_end').timepicker('option', { 'maxTime': '11:59pm' , 'timeFormat': 'h:i A' });
+        
       } else {
         $('#time_frame').hide();
       }
       $('#time_frame_start').change(function(){
         time_start = $('#time_frame_start').val();
+        $('#time_frame_end').timepicker('option', { 'minTime': time_start, 'maxTime': '11:59pm' , 'timeFormat': 'h:i A' });
         checkTime();
       });
       $('#time_frame_end').change(function(){
@@ -412,13 +416,14 @@
       //console.log(time_end);
       if ($.trim(time_start) && $.trim(time_end)) 
       {
-        if (time_start < time_end) 
+        console.log("start time "+convertTo24(time_start)+" end time "+convertTo24(time_end));
+        if (convertTo24(time_start) < convertTo24(time_end)) 
         {
           //console.log('ok');
           $('#errorTime').html('');
           $('#schedule_pick_up').attr('type', 'submit');
         }
-        else if (time_start > time_end) {
+        else if (convertTo24(time_start) > convertTo24(time_end)) {
           //console.log('not ok');
           $('#errorTime').html('* start time cannot be greater than end time. Wrong Input!');
           $('#schedule_pick_up').attr('type', 'button');
@@ -434,6 +439,22 @@
         //return false;
       } 
     }
+
+    function convertTo24(time)
+    {
+       //console.log(time);
+        var hours = Number(time.match(/^(\d+)/)[1]);
+        var minutes = Number(time.match(/:(\d+)/)[1]);
+        var AMPM = time.match(/\s(.*)$/)[1];
+        if (AMPM == "PM" && hours < 12) hours = hours + 12;
+        if (AMPM == "AM" && hours == 12) hours = hours - 12;
+        var sHours = hours.toString();
+        var sMinutes = minutes.toString();
+        if (hours < 10) sHours = "0" + sHours;
+        if (minutes < 10) sMinutes = "0" + sMinutes;
+        return (sHours +':'+sMinutes);
+    }
+
     $(".fixed-div").click(function(){
 
        $(this).toggleClass("open");
