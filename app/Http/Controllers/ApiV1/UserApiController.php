@@ -1122,7 +1122,11 @@ class UserApiController extends Controller
         if($search)
         {
             $customer_details = User::with('user_details', 'card_details','pickup_req')->where('id' , $request->user_id)->first();
-            return $customer_details;
+            return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'response' => $customer_details        
+                                ));
         }
         else
         {
