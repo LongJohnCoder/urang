@@ -467,7 +467,7 @@ class UserApiController extends Controller
 			    	));
             }
     }
-    public function updateProfile(Request $request)
+    /*public function updateProfile(Request $request)
     {
 
         $update_id = $request->user_id;
@@ -539,7 +539,7 @@ class UserApiController extends Controller
 			            'message' => "Could not save your user details!"        
 			    	));
         }
-    }
+    }*/
     public function changePassword(Request $request)
     {
     	if ($request->new_password == $request->conf_password) {
@@ -1137,5 +1137,46 @@ class UserApiController extends Controller
                                 ));
         }
         
+    }
+
+    public function updateProfile(Request $request)
+    {
+
+        $update_id = $request->user_id;
+        //dd($update_id);
+        $user = User::find($update_id);
+        //dd($user);
+        $user->email = $request->email;
+        if ($user->save()) {
+            $user_details = UserDetails::where('user_id', $update_id)->first();
+            //dd($user_details);
+            $user_details->user_id = $update_id;
+            $user_details->name = $request->name;
+            $user_details->address = $request->address;
+            $user_details->personal_ph = $request->personal_phone;
+            $user_details->cell_phone = $request->cell_phone != null ? $request->cell_phone : '';
+            $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
+            $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction: '';
+            $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
+            
+            if ($user_details->save()) 
+            {
+
+                return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'message' => "Details Updated successfully."        
+                                ));
+            }
+               
+        }
+        else
+        {
+            return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Cannot update now!"        
+                                ));
+        }
     } 
 }

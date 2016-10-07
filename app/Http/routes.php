@@ -253,4 +253,6 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/postCoupon', ['uses' => 'ApiV1\UserApiController@checkCoupon', 'as' => 'checkCoupon']);
     Route::post('/getProgileDetails', ['uses' => 'ApiV1\UserApiController@getProgileDetails', 'as' => 'getProgileDetails']);
 
+    Route::post('/updateProfile', ['uses' => 'ApiV1\UserApiController@updateProfile', 'as' => 'updateProfile']);
+
 }); 
