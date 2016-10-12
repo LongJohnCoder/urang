@@ -1,5 +1,25 @@
 @extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
 @section('content')
+<style type="text/css">
+    .alert-info {
+        font-size: 13px;
+        text-align: center;
+        border: none;
+        width: 100%;
+        margin-bottom: 3%;
+        border-radius: 0;
+        background-image: url("public/dump_images/ribbon.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        /*background-color: #fff;*/
+        background-position-x: 7%;
+        background-position-y: 5px;
+    }
+    .notify {
+        margin-right: 3%;
+        color: #fff;
+    }
+</style>
            <!-- ========================== -->
         <!-- SERVICES - HEADER -->
         <!-- ========================== -->
@@ -73,6 +93,9 @@
                     	@endif
                     <div class="plus">
                         <a href="{{route('getSignUp')}}" class="plus-ico">+</a>
+                    </div>
+                    <div class="alert alert-info">
+                        <span class="notify"><i class="fa fa-info-circle" aria-hidden="true"></i> Note</span> If you do not see the school you would like us to donate to, please email us at lisa@u-rang.com and we will add that school in the list.
                     </div>
                 </div>
             </div>

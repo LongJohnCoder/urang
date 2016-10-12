@@ -43,12 +43,15 @@
                       </li>
                       <li>
                         <a href="{{route('getServices')}}">Services <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+                        <?php
+                          $services_helper = (new \App\Helper\NavBarHelper)->getCmsData();
+                        ?>
                         <ul style="width: 160%">
-                          <li class="dryclean"><a  href="{{route('getStandAloneService', 'dry-clean')}}">DRY CLEAN ONLY</a></li>
-                          <li class="washnfold"><a  href="{{route('getStandAloneService', 'washNfold')}}">WASH & FOLD</a></li>
-                          <li><a  href="{{route('getStandAloneService', 'corporate')}}">CORPOARTE</a></li>
-                          <li><a  href="{{route('getStandAloneService', 'tailoring')}}">TAILORING</a></li>
-                          <li><a  href="{{route('getStandAloneService', 'wet-cleaning')}}">WET CLEANING</a></li>
+                          <li class="dryclean"><a  href="{{route('getStandAloneService', 'dry-clean')}}">{{$services_helper['dry_clean'] != null && $services_helper['dry_clean']->page_name != null ? $services_helper['dry_clean']->page_name : "dry clean only"}}</a></li>
+                          <li class="washnfold"><a  href="{{route('getStandAloneService', 'washNfold')}}">{{$services_helper['wash_n_fold']!= null && $services_helper['wash_n_fold']->page_name != null ? $services_helper['wash_n_fold']->page_name : "wash and fold"}}</a></li>
+                          <li><a  href="{{route('getStandAloneService', 'corporate')}}">{{$services_helper['corporate'] != null && $services_helper['corporate']->page_name != null ? $services_helper['corporate']->page_name : "corporate"}}</a></li>
+                          <li><a  href="{{route('getStandAloneService', 'tailoring')}}">{{$services_helper['tailoring'] != null && $services_helper['tailoring']->page_name != null ? $services_helper['tailoring']->page_name : "Tailoring"}}</a></li>
+                          <li><a  href="{{route('getStandAloneService', 'wet-cleaning')}}">{{$services_helper['wet_clean'] != null && $services_helper['wet_clean']->page_name != null ? $services_helper['wet_clean']->page_name : "Wet cleaning"}}</a></li>
                         </ul>
                       </li>
                       <li role="presentation"><a href="{{route('getFaqList')}}">FAQs</a></li>

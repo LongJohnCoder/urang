@@ -7,6 +7,7 @@ use App\User;
 use App\CustomerCreditCardInfo;
 use App\UserDetails;
 use App\Neighborhood;
+use App\Cms;
 class NavBarHelper 
 {
 	public function getUserData() {
@@ -43,5 +44,20 @@ class NavBarHelper
 		$staff = auth()->guard('staffs')->user();
 
 		return $staff;
+	}
+	public function getCmsData() {
+		$dry_clean = Cms::where('identifier', 0)->first();
+		$wash_n_fold = Cms::where('identifier', 1)->first();
+		$corporate = Cms::where('identifier', 2)->first();
+		$tailoring = Cms::where('identifier', 3)->first();
+		$wet_clean = Cms::where('identifier', 4)->first();
+		$data_feed = array(
+			'dry_clean' => $dry_clean,
+			'wash_n_fold' => $wash_n_fold,
+			'corporate' => $corporate,
+			'tailoring' => $tailoring,
+			'wet_clean' => $wet_clean
+		);
+		return $data_feed;
 	}
 }

@@ -38,6 +38,10 @@
                                     <label for="title">Title:</label>
                                     <input class="form-control" type="text" name="title" id="title"/>
                                 </div>
+                                <div class="form-group"> 
+                                    <label for="page_name">Page Name:</label>
+                                    <input type="text" class="form-control" name="page_name" id="page_name"></input>
+                                </div>
                                 <div class="form-group">
                                     <label for="keywords">Meta Keywords:</label>
                                     <input class="form-control" type="text" name="keywords" id="keywords" />
@@ -90,7 +94,7 @@
 			$('#keywords').val("{{$cms_data->meta_keywords}}");
 			$('#description').val("{{$cms_data->meta_description}}");
 			$('#heading').val("{{$cms_data->page_heading}}");
-			//$('#tags').val("{{$cms_data->tags}}");
+			$('#page_name').val("{{$cms_data->page_name}}");
 			$('#imagePreview').attr('src',"{{url('/')}}/public/dump_images/{{$cms_data->background_image}}");
 		});
 	</script>
