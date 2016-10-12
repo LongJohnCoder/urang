@@ -8,7 +8,7 @@
         width: 100%;
         margin-bottom: 3%;
         border-radius: 0;
-        background-image: url("public/dump_images/ribbon.png");
+        background-image: url("public/new/img/ribbon.png");
         background-repeat: no-repeat;
         background-size: contain;
         /*background-color: #fff;*/
