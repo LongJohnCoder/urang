@@ -129,7 +129,7 @@ class PickUpReqListener
                 }
                 else
                 {
-                    $message->to(auth()->guard('users')->user()->email, auth()->guard('users')->user()->user_details->name)->subject('Pickuprequest Details U-rang');
+                    $message->to(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"$event->req->user_name")->subject('Pickuprequest Details U-rang');
                 }   
             });
     }
