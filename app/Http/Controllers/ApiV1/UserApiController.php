@@ -291,6 +291,35 @@ class UserApiController extends Controller
         }
     }
 
+    private function returnData($day) {
+        switch ($day) {
+            case 'Monday':
+                return  PickUpTime::where('day', 1)->first();
+                break;
+            case 'Tuesday':
+                return  PickUpTime::where('day', 2)->first();
+                break;
+            case 'Wednesday':
+                return  PickUpTime::where('day', 3)->first();
+                break;
+            case 'Thursday':
+                return  PickUpTime::where('day', 4)->first();
+                break;
+            case 'Friday':
+                return  PickUpTime::where('day', 5)->first();
+                break;
+            case 'Saturday':
+                return  PickUpTime::where('day', 6)->first();
+                break;
+            case 'Sunday':
+                return  PickUpTime::where('day', 7)->first();
+                break;
+            default:
+                return "E500";
+                break;
+        }
+    }
+
 
     public function checkEmail(Request $request)
     {
