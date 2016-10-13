@@ -140,6 +140,8 @@ class UserApiController extends Controller
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
 
         $request->user_email = User::find($request->user_id)->email;
+        $request->user_name = isset(UserDetails::where('user_id',$request->user_id)->first()->name)?UserDetails::where('user_id',$request->user_id)->first()->name:"Not Registered Yet";
+        $request->user_number = isset(UserDetails::where('user_id',$request->user_id)->first()->personal_ph)?UserDetails::where('user_id',$request->user_id)->first()->personal_ph:"Number Not Registered Yet";
         //return $user_email;
 
         $data_table = json_decode($request->list_items_json);

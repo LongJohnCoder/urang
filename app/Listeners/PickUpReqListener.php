@@ -56,8 +56,8 @@ class PickUpReqListener
         else
         {
             $email = isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email; //user email
-            $user_name = auth()->guard('users')->user()->user_details->name; //user name
-            $number =  auth()->guard('users')->user()->user_details->personal_ph; //phon number
+            $user_name = isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:$event->req->user_name; //user name
+            $number =  isset(auth()->guard('users')->user()->user_details->personal_ph)?auth()->guard('users')->user()->user_details->personal_ph:$event->req->user_number; //phon number
         }
         //details pick up
         if ($event->req->list_items_json != '') {
