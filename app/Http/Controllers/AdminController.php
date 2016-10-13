@@ -1212,7 +1212,7 @@ class AdminController extends Controller
         return view('admin.cms-dry-clean', compact('user_data', 'cms_data'));
     }
     public function postCmsDryClean(Request $request) {
-        //dd($request->bgimage);
+        //dd($request);
         $isDataExists = Cms::where('identifier', 0)->first();
         if ($isDataExists != null) {
             //upadte data
@@ -1220,7 +1220,7 @@ class AdminController extends Controller
             $isDataExists->meta_keywords = $request->keywords;
             $isDataExists->meta_description = $request->description;
             $isDataExists->page_heading = $request->heading;
-            //$isDataExists->tags = $request->tags;
+            $isDataExists->page_name = $request->page_name;
             $isDataExists->content = $request->content;
             if ($request->bgimage) {
                 $image = $request->bgimage;
@@ -1251,6 +1251,7 @@ class AdminController extends Controller
             $new_data->meta_description = $request->description;
             $new_data->page_heading = $request->heading;
             //$new_data->tags = $request->tags;
+            $new_data->page_name = $request->page_name;
             $new_data->content = $request->content;
             if ($request->bgimage != null) {
                 $image = $request->bgimage;
@@ -1291,7 +1292,7 @@ class AdminController extends Controller
             $isDataExists->meta_keywords = $request->keywords;
             $isDataExists->meta_description = $request->description;
             $isDataExists->page_heading = $request->heading;
-            //$isDataExists->tags = $request->tags;
+            $isDataExists->page_name = $request->page_name;
             $isDataExists->content = $request->content;
             if ($request->bgimage) {
                 $image = $request->bgimage;
@@ -1321,7 +1322,7 @@ class AdminController extends Controller
             $new_data->meta_keywords = $request->keywords;
             $new_data->meta_description = $request->description;
             $new_data->page_heading = $request->heading;
-            //$new_data->tags = $request->tags;
+            $new_data->page_name = $request->page_name;
             $new_data->content = $request->content;
             if ($request->bgimage != null) {
                 $image = $request->bgimage;
@@ -1363,7 +1364,7 @@ class AdminController extends Controller
             $isDataExists->meta_keywords = $request->keywords;
             $isDataExists->meta_description = $request->description;
             $isDataExists->page_heading = $request->heading;
-            //$isDataExists->tags = $request->tags;
+            $isDataExists->page_name = $request->page_name;
             $isDataExists->content = $request->content;
             if ($request->bgimage) {
                 $image = $request->bgimage;
@@ -1393,7 +1394,7 @@ class AdminController extends Controller
             $new_data->meta_keywords = $request->keywords;
             $new_data->meta_description = $request->description;
             $new_data->page_heading = $request->heading;
-            //$new_data->tags = $request->tags;
+            $new_data->page_name = $request->page_name;
             $new_data->content = $request->content;
             if ($request->bgimage != null) {
                 $image = $request->bgimage;
@@ -1434,7 +1435,7 @@ class AdminController extends Controller
             $isDataExists->meta_keywords = $request->keywords;
             $isDataExists->meta_description = $request->description;
             $isDataExists->page_heading = $request->heading;
-            //$isDataExists->tags = $request->tags;
+            $isDataExists->page_name = $request->page_name;
             $isDataExists->content = $request->content;
             if ($request->bgimage) {
                 $image = $request->bgimage;
@@ -1464,7 +1465,7 @@ class AdminController extends Controller
             $new_data->meta_keywords = $request->keywords;
             $new_data->meta_description = $request->description;
             $new_data->page_heading = $request->heading;
-            //$new_data->tags = $request->tags;
+            $new_data->page_name = $request->page_name;
             $new_data->content = $request->content;
             if ($request->bgimage != null) {
                 $image = $request->bgimage;
@@ -1505,7 +1506,7 @@ class AdminController extends Controller
             $isDataExists->meta_keywords = $request->keywords;
             $isDataExists->meta_description = $request->description;
             $isDataExists->page_heading = $request->heading;
-            //$isDataExists->tags = $request->tags;
+            $isDataExists->page_name = $request->page_name;
             $isDataExists->content = $request->content;
             if ($request->bgimage) {
                 $image = $request->bgimage;
@@ -1535,7 +1536,7 @@ class AdminController extends Controller
             $new_data->meta_keywords = $request->keywords;
             $new_data->meta_description = $request->description;
             $new_data->page_heading = $request->heading;
-            //$new_data->tags = $request->tags;
+            $new_data->page_name = $request->page_name;
             $new_data->content = $request->content;
             if ($request->bgimage != null) {
                 $image = $request->bgimage;
