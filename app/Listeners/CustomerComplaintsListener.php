@@ -31,7 +31,7 @@ class CustomerComplaintsListener
             function($message) use ($event)
             {
             $message->from($event->req->email, $event->req->firstName."".$event->req->lastName);
-            $message->to("kingsuk.majumder@gmail.com", $event->req->firstName)->subject($event->req->subject);
+            $message->to("work@tier5.us", $event->req->firstName)->subject($event->req->subject);
         });
         //dd($event->req);
     }
