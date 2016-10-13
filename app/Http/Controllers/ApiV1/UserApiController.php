@@ -221,11 +221,12 @@ class UserApiController extends Controller
                 }
                 //create invoice
                 //dd($data);
+                $global_invoice_id = "";
                 for ($j=0; $j < count($data) ; $j++) { 
                     $invoice = new Invoice();
                     $invoice->user_id = $request->user_id;
                     $invoice->pick_up_req_id = $pick_up_req->id;
-                    $invoice->invoice_id = time();
+                    $invoice->invoice_id = $global_invoice_id = time();
                     $invoice->item = $data[$j]->item_name;
                     $invoice->quantity = $data[$j]->number_of_item;
                     $invoice->price = $data[$j]->item_price;
@@ -233,7 +234,7 @@ class UserApiController extends Controller
                     //$invoice->coupon = $request->coupon;
                     $invoice->save();
                 }
-                Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
+                Event::fire(new PickUpReqEvent($request, $global_invoice_id));
                 return Response::json(array(
                     'status' => true,
                     'status_code' => 200,
