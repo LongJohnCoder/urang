@@ -32,6 +32,7 @@ use App\SchoolPreferences;
 use App\Invoice;
 use App\Events\SendEmailOnSignUp;
 use App\Events\SendCustomerComplaints;
+use App\Events\PickUpReqEvent;
 use App\Events\ResetPassword;
 use Illuminate\Support\Facades\Event;
 use App\Coupon;
@@ -194,17 +195,18 @@ class UserApiController extends Controller
             $tracker->save();
             if ($request->order_type == 1) {
                 //fast pick up
-                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                Event::fire(new PickUpReqEvent($request, 0));
                 return Response::json(array(
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!"        
+                    'message' => "Order Placed successfully!".$expected_time        
                 ));
             }
             else
             {
-                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //detailed pick up
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
@@ -231,11 +233,12 @@ class UserApiController extends Controller
                     //$invoice->coupon = $request->coupon;
                     $invoice->save();
                 }
+                Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
                 return Response::json(array(
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!"        
+                    'message' => "Order Placed successfully!".$expected_time        
                 ));
             }
         }
@@ -248,6 +251,47 @@ class UserApiController extends Controller
             ));
         }
     }
+
+
+    public function SayMeTheDate($pick_up_date, $created_at) {
+        //dd($pick_up_date);
+        $date = $pick_up_date;
+        $time = $created_at->toTimeString();
+        $data = $this->returnData(date('l', strtotime($date)));
+        if ($data != "E500" && $data != null) {
+            if ($data->closedOrNot !=1) {
+
+                if (strtotime($data->opening_time) <= strtotime($time) && strtotime($data->closing_time) >= strtotime($time)) {
+                    $show_expected = "pick up day ". date('F j , Y', strtotime($date))."\n"."before ".date("h:i a", strtotime($data->closing_time));
+                    return $show_expected;
+                }
+                else if (strtotime($data->closing_time) < strtotime($time)) {
+                    $new_date = date('Y-m-d',strtotime($date)+86400);
+                    return $this->SayMeTheDate($new_date, $created_at);
+                }
+                else if (strtotime($data->opening_time) > strtotime($time)) {
+                    $new_date = date('Y-m-d',strtotime($date)-86400);
+                    return $this->SayMeTheDate($new_date, $created_at);
+                }
+                else
+                {
+                    $show_expected = "Can't tell you real expected time admin might not set it up yet";
+                   return $show_expected;
+                }
+            }
+            else
+            {
+                $new_pickup_date = date('Y-m-d',strtotime($date)+86400);
+                return $this->SayMeTheDate($new_pickup_date, $created_at);
+            }
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+
     public function checkEmail(Request $request)
     {
         if(User::where('email',$request->email)->first()) 
