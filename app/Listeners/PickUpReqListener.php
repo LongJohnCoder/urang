@@ -55,7 +55,7 @@ class PickUpReqListener
         }
         else
         {
-            $email = auth()->guard('users')->user()->email; //user email
+            $email = isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$request->user_email; //user email
             $user_name = auth()->guard('users')->user()->user_details->name; //user name
             $number =  auth()->guard('users')->user()->user_details->personal_ph; //phon number
         }

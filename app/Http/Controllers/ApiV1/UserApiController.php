@@ -138,6 +138,10 @@ class UserApiController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = $request->coupon;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
+
+        $request->user_email = User::find($request->user_id)->email;
+        //return $user_email;
+
         $data_table = json_decode($request->list_items_json);
         for ($i=0; $i< count($data_table); $i++) {
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
