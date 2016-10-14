@@ -107,8 +107,8 @@ class PickUpReqListener
             $discount = 0.00;
             $coupon = "No Coupon Applied";
         }
-        //dd();
-        $some = Mail::send('email.pickupemail', array('username'=>"User Name", 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money), 
+        dd($user_name);
+        $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money), 
             function($message) use ($event){
                 $message->from("lisa@u-rang.com", "Admin");
                 if ($event->req->identifier == "admin") {
