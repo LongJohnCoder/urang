@@ -410,6 +410,15 @@
         checkTime();
       });
     });
+
+    $('#time_frame_start').keyup(function() {
+      $('#errorTime').html('* Please select from the dropdown.');
+      $('#schedule_pick_up').attr('type', 'button');
+    });
+    $('#time_frame_end').keyup(function(){
+      $('#errorTime').html('* Please select from the dropdown.');
+      $('#schedule_pick_up').attr('type', 'button');
+    });
     //check time
     function checkTime() {
       //console.log(time_start);
