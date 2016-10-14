@@ -29,7 +29,7 @@ class PickUpReqListener
      */
     public function handle(PickUpReqEvent $event)
     {
-        
+
         $table_data = ''; //detail pickup data
         $subtotal = 0.00;
         $discount = 0.00;
@@ -132,6 +132,6 @@ class PickUpReqListener
                     $message->to(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"$event->req->user_name")->subject('Pickuprequest Details U-rang');
                 }   
             });
-        dd($some);
+        dd($event->req->user_email);
     }
 }
