@@ -17,6 +17,7 @@ class PickUpReqEvent extends Event
      */
     public function __construct($req, $inv_id)
     {
+        dd($req);
         $this->req = $req;
         $this->inv_id = $inv_id;
     }
