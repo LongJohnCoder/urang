@@ -202,6 +202,7 @@ class UserApiController extends Controller
             if ($request->order_type == 1) {
                 //fast pick up
                 $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                dd($request);
                 Event::fire(new PickUpReqEvent($request, 0));
                 return Response::json(array(
                     'status' => true,
@@ -240,6 +241,7 @@ class UserApiController extends Controller
                     //$invoice->coupon = $request->coupon;
                     $invoice->save();
                 }
+                dd($request);
                 Event::fire(new PickUpReqEvent($request, $global_invoice_id));
                 return Response::json(array(
                     'status' => true,
