@@ -29,8 +29,7 @@ class PickUpReqListener
      */
     public function handle(PickUpReqEvent $event)
     {
-        dd($event->req->identifier);
-
+        
         $table_data = ''; //detail pickup data
         $subtotal = 0.00;
         $discount = 0.00;
