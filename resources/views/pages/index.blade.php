@@ -184,12 +184,12 @@
               <p style="text-align: right;">{!! $cms !=null ? $cms->head_setion : '' !!}</p>
               <br>
               <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
-                  {!! $cms !=null ? $cms->contents : '' !!}
+                 <p>{!! $cms !=null ? $cms->contents : '' !!}</p> 
               <br />
               <br>
               <br>
                   <p style="text-align: right;" class="large">{!! $cms !=null ? $cms->head_section_2 : '' !!}</p>
-                  {!! $cms !=null ? $cms->contents_2 : '' !!}
+                  <p>{!! $cms !=null ? $cms->contents_2 : '' !!}</p>
               </ul>
           </div>
           <div class="col-md-5 col-sm-5 text-center">
