@@ -1262,7 +1262,7 @@ class UserApiController extends Controller
         }
     }
     public function lastPickUp(Request $request) {
-        $getLastPickup = Pickupreq::where('id', $request->id)->orderBy('created_at', 'desc')->first();
+        $getLastPickup = Pickupreq::where('user_id', $request->id)->orderBy('created_at', 'desc')->first();
         if ($getLastPickup) {
             return Response::json(array(
                 'status' => true,
