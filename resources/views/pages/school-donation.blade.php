@@ -95,7 +95,7 @@
                         <a href="{{route('getSignUp')}}" class="plus-ico">+</a>
                     </div>
                     <div class="alert alert-info">
-                        <span class="notify"><i class="fa fa-info-circle" aria-hidden="true"></i> Note</span> If you do not see the school you would like us to donate to, please email us at lisa@u-rang.com and we will add that school in the list.
+                        <span class="notify"><i class="fa fa-info-circle" aria-hidden="true"></i> Note</span> If you do not see the school you would like us to donate to, please email us at <a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a> and we will add that school in the list.
                     </div>
                 </div>
             </div>

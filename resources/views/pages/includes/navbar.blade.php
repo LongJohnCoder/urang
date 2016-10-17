@@ -68,9 +68,9 @@
                   @else
                   @endif
               </li>
-              <li>
+              <!-- <li>
                 <a href="{{route('getComplaints')}}">Complaints</a>
-              </li>
+              </li> -->
           </ul>
       </div>
     </div>
