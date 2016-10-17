@@ -1260,5 +1260,23 @@ class UserApiController extends Controller
                                     'message' => "Cannot update now!"        
                                 ));
         }
+    }
+    public function lastPickUp(Request $request) {
+        $getLastPickup = Pickupreq::where('id', $request->id)->orderBy('created_at', 'desc')->first();
+        if ($getLastPickup) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => $getLastPickup
+            ));
+        }
+        else
+        {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => 'No pickup is related to this user id'
+            ));
+        }
     } 
 }

@@ -51,7 +51,7 @@
                         <tr>
                             <td>Email: <span style="color: red;">*</span></td>
                             <td>
-                                <input type="email" id="email" name="email" style="width:270px;" onkeyup="return IsValidEmail();" value="{{old('email')}}">
+                                <input type="email" id="email" name="email" style="width:270px;" onkeyup="return IsValidEmail();">
                                 <div id="emailExist"></div>
                                 <div id="errorInputEmail" style="color: red;"></div>
                             </td>
@@ -166,7 +166,7 @@
                         <tr>
                             <td>Credit Card No: <span style="color: red;">*</span></td>
                             <td>
-                                <input type="text" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" style="width:270px;" value="{{old('card_no')}}">
+                                <input type="text" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" style="width:270px;">
                                 <div id="errorInputCardNo" style="color: red;"></div>
                             </td>
                         </tr>
@@ -241,8 +241,8 @@
                             </td>
                         </tr>
                         <tr>
-                          <td>Tell Us the Referer Name (optional) :</td>
-                          <td><input type="text" name="ref_name" value="{{old('ref_name')}}"></input></td>
+                          <td>Tell Us the Referer Email (optional) :</td>
+                          <td><input type="email" name="ref_name" value="{{old('ref_name')}}"></input></td>
                         </tr>
                 </table>
                 <button type="submit" style="margin-top: 10px" onclick="IsValid(event);">Sign Up</button>
@@ -455,5 +455,8 @@
         return false;
        }
     } 
+    $(function(){
+      
+    });
 </script>
 @endsection

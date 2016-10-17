@@ -35,6 +35,7 @@ use Session;
 use App\Coupon;
 use App\Categories;
 use App\IndexPageWysiwyg;
+use App\ref;
 
 class MainController extends Controller
 {
@@ -112,6 +113,12 @@ class MainController extends Controller
         if ($request->password == $request->conf_password) {
             $user = new User();
             $user->email = $request->email;
+            //search for email refer table
+            $is_ref = ref::where('referred_person', $request->email)->first();
+            if ($is_ref != null) {
+                $is_ref->discount_status = 1;
+                $is_ref->save();
+            }
             $user->password = bcrypt($request->password);
             $user->block_status = 0;
             if ($user->save()) {
@@ -124,8 +131,27 @@ class MainController extends Controller
                 $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : NULL;
                 $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
                 $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : NULL;
-                $user_details->referred_by = $request->ref_name;
                 if ($user_details->save()) {
+
+                    //referrel
+                    if ($request->ref_name != null) {
+                        if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
+                            $user_details->referred_by = $request->ref_name;
+                            //storing into ref table for future reference
+                            $ref                    = new ref();
+                            $ref->user_id           = $user->id;
+                            $ref->referred_person   = $request->ref_name;
+                            $ref->discount_status   = 0; //this should be 1 to get the discount
+                            $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
+                            $ref->save();
+                        }
+                        else
+                        {
+                            $user_details->delete();
+                            $user->delete();
+                            return redirect()->route('getSignUp')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
+                        }
+                    }
                     $card_info = new CustomerCreditCardInfo();
                     $card_info->user_id = $user_details->user_id;
                     $card_info->name = $request->cardholder_name;

@@ -34,7 +34,7 @@
 		                	<form role="form" action="{{route('postAddNewCustomer')}}" method="post" id="add_customer">
 								<div class="form-group">
 								    <label>Customer Name</label>
-								    <input class="form-control" name="name" type="text"  id="name" onkeyup="$('#name').removeAttr('style'); $('#errorInputName').html('');" value="{{old('name')}}">
+								    <input class="form-control" name="name" type="text"  id="name" onkeyup="$('#name').removeAttr('style'); $('#errorInputName').html('');">
 								    <div id="errorInputName" style="color: red;"></div>
 								</div>
 								<div class="form-group">
@@ -99,7 +99,7 @@
 								</div> -->
 								<div class="form-group">
 								    <label for="name">Card No</label>
-								    <input type="text" class="form-control" id="card_no" name="card_no" onkeyup="return creditCardValidate();" value="{{old('card_no')}}"/>
+								    <input type="text" class="form-control" id="card_no" name="card_no" onkeyup="return creditCardValidate();"/>
 								    <p class="log"></p>
 								    <div id="errorInputCardNo" style="color: red;"></div>
 								</div>
@@ -143,8 +143,8 @@
 								   <div id="errorInputDate" style="color: red;"></div>
 								</div>
 								<div class="form-group">
-								    <label for="name">Reffered By (Optional)</label>
-								    <input type="text" class="form-control" id="ref_name" name="ref_name" value="{{old('ref_name')}}" />
+								    <label for="name">Reffered email (Optional)</label>
+								    <input type="email" class="form-control" id="ref_name" name="ref_name" value="{{old('ref_name')}}" />
 								</div>
 								<button type="submit" class="btn btn-primary btn-lg btn-block" onclick="IsValid(event);">Add</button>
 								<input type="hidden" id="email_checker"></input>
