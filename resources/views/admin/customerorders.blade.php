@@ -160,7 +160,7 @@
                            <td>{{ $payment_type }}</td>
                            <!-- <td>{{ $pickup->client_type }} </td> -->
                            <form id="change_status_form">
-                              <td>${{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') : number_format((float)$pickup->total_price, 2, '.', '') }}</td>
+                              <td>${{$pickup->coupon != null || $pickup->ref_discount == 1 ? number_format((float)$pickup->discounted_value, 2, '.', '') : number_format((float)$pickup->total_price, 2, '.', '') }}</td>
                               <td>
                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
@@ -776,7 +776,7 @@
     //color the tr of table according to condition
     @foreach($pickups as $pickup)
       //value load chargable
-      if ('{{$pickup->coupon}}') 
+      if ('{{$pickup->coupon}}' || '{{$pickup->ref_discount}}' == 1) 
       {
         $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->discounted_value == NULL ? $pickup->total_price : $pickup->discounted_value, 2, '.', '')}}');
       }
@@ -851,7 +851,13 @@
             $('#emergency').hide();
           }
           $('#total_price').text("$"+"{{number_format((float)$pickup->total_price, 2, '.', '')}}");
-          $('#gross_price').text("$"+"{{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') :number_format((float)$pickup->total_price, 2, '.', '')}}");
+
+          if ("{{$pickup->coupon}}" || "{{$pickup->ref_discount}}" == 1) {
+            $('#gross_price').text("${{number_format((float)$pickup->discounted_value, 2, '.', '')}}");
+          }
+          else {
+            $('#gross_price').text("${{number_format((float)$pickup->total_price, 2, '.', '')}}");
+          }
           @foreach($pickup->invoice as $invoice)
           
             $('#user_name').text('{{$pickup->user_detail->name}}');
@@ -982,10 +988,9 @@
           type: "POST",
           data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}", custom_item_add_id: custom_item_add_id},
           success: function(data) {
-            /*console.log(data);
-            return;*/
             $('.extraItemBtn').text("Add an extra item");
-            //console.log(data);
+           /* console.log(data);
+            return;*/
             if (data == 1) 
             {
               location.reload();
@@ -1374,7 +1379,8 @@
           type: "POST",
           data: submitObj,
           success: function(data) {
-            
+            /*console.log(data);
+            return;*/
             if (data == 1) 
             {
               location.reload();

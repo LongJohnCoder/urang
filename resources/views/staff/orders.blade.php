@@ -177,7 +177,7 @@
                         <td>{{ $payment_type }}</td>
                         <td>{{ $pickup->client_type }} </td>
                         <form id="change_status_form_staff">
-                           <td>${{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') : number_format((float)$pickup->total_price, 2, '.', '') }}</td>
+                           <td>${{$pickup->coupon != null || $pickup->ref_discount == 1 ? number_format((float)$pickup->discounted_value, 2, '.', '') : number_format((float)$pickup->total_price, 2, '.', '') }}</td>
                            <td>
                               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                               <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
@@ -730,7 +730,7 @@
           //value load chargable
 
          //value load chargable
-          if ('{{$pickup->coupon}}') 
+          if ('{{$pickup->coupon}}' || '{{$pickup->ref_discount}}' == 1) 
           {
             $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->discounted_value == NULL ? $pickup->total_price : $pickup->discounted_value, 2, '.', '')}}');
           }
@@ -871,7 +871,7 @@
     {
       console.log("Developer's guide");
     }
-    console.log(jsonString);
+    //console.log(jsonString);
     $('#list_items_json').val(jsonString);
     //console.log(jsonString);
   }
@@ -1013,7 +1013,8 @@
           type: "POST",
           data: submitObj,
           success: function(data) {
-            
+            /*console.log(data);
+            return;*/
             if (data == 1) 
             {
               location.reload();
@@ -1107,7 +1108,13 @@
                 $('#emergency').hide();
               }
               $('#total_price').text("$"+"{{number_format((float)$pickup->total_price, 2, '.', '')}}");
-              $('#gross_price').text("$"+"{{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') :number_format((float)$pickup->total_price, 2, '.', '')}}");
+              if ("{{$pickup->coupon}}" || "{{$pickup->ref_discount}}" == 1) {
+                $('#gross_price').text("${{number_format((float)$pickup->discounted_value, 2, '.', '')}}");
+              }
+              else {
+                $('#gross_price').text("${{number_format((float)$pickup->total_price, 2, '.', '')}}");
+              }
+              //$('#gross_price').text("$"+"{{$pickup->coupon != null ? number_format((float)$pickup->discounted_value, 2, '.', '') :number_format((float)$pickup->total_price, 2, '.', '')}}");
               @foreach($pickup->invoice as $invoice)
                  if ('{{$invoice->pick_up_req_id}}' == id) 
                  {

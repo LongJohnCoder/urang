@@ -6,7 +6,7 @@
 <div class="main-content nycpick">
 <div class="fixed-div">
   <h2><label>Contact Us:</label> (800)959-5785</h2>
-  <h2><label>Email-Id:</label> lisa@u-rang.com</h2>
+  <h2><label>Email-Id:</label> <a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a></h2>
   <div class="open-square"><i class="fa fa-comments-o" aria-hidden="true"></i> Support</div>
 </div>
     <div class="container">
@@ -199,7 +199,7 @@
                   <label>
                   <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isDonate">
                   Donate to a school in your neighborhood ?
-                  <p style="color: red;font-weight: bold;">We believe in investing in our community. We will donate 10% of our profit to the school of your choice. Please send us an email if you do not see the school listed. our email support@u-rang.com</p>                
+                  <p style="color: red;font-weight: bold;">We believe in investing in our community. We will donate 10% of our profit to the school of your choice. Please send us an email if you do not see the school listed. our email <a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a></p>                
                   </label>
                 </div>
             </div>
@@ -476,7 +476,7 @@
         }
       else{
         $( this ).animate({
-            left: "-275px"
+            left: "-240px"
           }, 500, function() {
           });
       }

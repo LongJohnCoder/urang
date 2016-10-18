@@ -135,7 +135,12 @@ class MainController extends Controller
 
                     //referrel
                     if ($request->ref_name != null) {
-                        if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
+                        $search_email = User::where('email', $request->ref_name)->first();
+                        if ($search_email) {
+                            return redirect()->route('getSignUp')->with('fail', 'referel email already exist .Please try another one')->withInput();
+                        }
+                        else {
+                            if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
                             $user_details->referred_by = $request->ref_name;
                             //storing into ref table for future reference
                             $ref                    = new ref();
@@ -144,12 +149,13 @@ class MainController extends Controller
                             $ref->discount_status   = 0; //this should be 1 to get the discount
                             $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
                             $ref->save();
-                        }
-                        else
-                        {
-                            $user_details->delete();
-                            $user->delete();
-                            return redirect()->route('getSignUp')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
+                            }
+                            else
+                            {
+                                $user_details->delete();
+                                $user->delete();
+                                return redirect()->route('getSignUp')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
+                            }
                         }
                     }
                     $card_info = new CustomerCreditCardInfo();
@@ -616,9 +622,31 @@ class MainController extends Controller
                     $pick_up_req->total_price = $total_price;
                 }
             }
+            $calculate_discount = new SiteHelper();
+            //now check this pick up req related to any ref or not
+            if ($request->identifier == "admin") {
+                $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();     
+            }
+            else
+            {
+                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->first();
+            }
+            //dd($total_price);
+            if ($check_ref) {
+                $pick_up_req->ref_discount  =  1;
+                $check_ref->is_expired      =  1;
+                $check_ref->save();
+                if ($total_price > 0.0) {
+                    $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
+                    //dd($total_price);
+                    $pick_up_req->discounted_value = $total_price;
+                }                
+            }
+            
+
             //coupon check
             if ($pick_up_req->coupon != null) {
-                $calculate_discount = new SiteHelper();
+                //helper function loading this
                 $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
                 //dd($discounted_value);
                 $pick_up_req->discounted_value = $discounted_value;

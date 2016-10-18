@@ -676,7 +676,12 @@ class AdminController extends Controller
             if ($user_details->save()) {
                 //referrel
                 if ($request->ref_name != null) {
-                    if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
+                    $search_email = User::where('email', $request->ref_name)->first();
+                    if ($search_email) {
+                        return redirect()->route('getAddNewCustomers')->with('fail', 'referel email already exist .Please try another one')->withInput();
+                    }
+                    else {
+                        if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
                         $user_details->referred_by = $request->ref_name;
                         //storing into ref table for future reference
                         $ref                    = new ref();
@@ -685,13 +690,15 @@ class AdminController extends Controller
                         $ref->discount_status   = 0; //this should be 1 to get the discount
                         $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
                         $ref->save();
+                        }
+                        else
+                        {
+                            $user_details->delete();
+                            $user->delete();
+                            return redirect()->route('getAddNewCustomers')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
+                        }
                     }
-                    else
-                    {
-                        $user_details->delete();
-                        $user->delete();
-                        return redirect()->route('getAddNewCustomers')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
-                    }
+                    
                 }
                 $credit_info = new CustomerCreditCardInfo();
                 $credit_info->user_id = $user_details->user_id;
@@ -1590,7 +1597,8 @@ class AdminController extends Controller
     }
 
     public function addItemCustomAdmin(Request $request)
-    {
+    {   
+        //return $request; //this is firing through ajax so for debuging use return ie. view customerorders and function submitMyForm() //js
         //dd($request);
         $data = json_decode($request->list_items_json);
         $user = Pickupreq::find($request->row_id);
@@ -1658,6 +1666,12 @@ class AdminController extends Controller
                 $user->total_price += $inv->quantity*$inv->price;
             }
         }
+        //return $user->ref_discount;
+        if ($user->ref_discount == 1) {
+            $calculate_discount = new SiteHelper();
+            $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($user->total_price);
+            $user->save();
+        }
         if($user->save())
         {
             //$7 emergency extra
@@ -1670,8 +1684,17 @@ class AdminController extends Controller
             //dd($user);
             if ($user->coupon != null) {
                 $calculate_discount = new SiteHelper();
+                //return $user->total_price;
                 $discounted_value = $calculate_discount->discountedValue($user->coupon, $user->total_price);
-                $user->discounted_value = $discounted_value;
+                if ($user->ref_discount == 1) {
+                    $calculate_discount = new SiteHelper();
+                    $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
+                }
+                else
+                {
+                    $user->discounted_value = $discounted_value;
+                }
+                
                 $user->save();
             }
             if($request->ajax())
@@ -2295,7 +2318,7 @@ class AdminController extends Controller
 
     public function postDeleteItemByID(Request $request)
     {
-
+        //return $request;
         //return $request->item_id.$request->user_id.$request->pick_up_id.$request->item_name;
         $searchInvoice['list_item_id'] = $request->item_id;
         $searchInvoice['pick_up_req_id'] = $request->pick_up_id;
@@ -2308,8 +2331,9 @@ class AdminController extends Controller
         $pickups = Pickupreq::where('id',$pick_up_req_id)->first();
 
         //return $pick_up_req_id;
-
+        //return $pickups->total_price;
         $previous_price = $pickups->total_price;
+        
         if($previous_price>0)
         {
             $nowquantity = $invoice->quantity;
@@ -2321,10 +2345,28 @@ class AdminController extends Controller
 
             $pickups->save();
         }
+        if ($pickups->ref_discount == 1) {
+            $nowquantity = $invoice->quantity;
+            $nowPriceEach = $invoice->price;
+            $total_price_to_deduct = $nowquantity * $nowPriceEach;
+            
+            $pickups->total_price = $previous_price - $total_price_to_deduct;
+
+            $pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
+            $pickups->save();
+        }
         if ($pickups->coupon != null) {
             $calculate_discount = new SiteHelper();
             $discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->total_price);
-            $pickups->discounted_value = $discounted_value;
+            if ($pickups->ref_discount == 1) {
+                $calculate_discount = new SiteHelper();
+                $pickups->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
+            }
+            else
+            {
+                $pickups->discounted_value = $discounted_value;
+            }
+            //$pickups->discounted_value = $discounted_value;
             $pickups->save();
         }
         if($invoice->delete())
@@ -2370,11 +2412,20 @@ class AdminController extends Controller
         //return $pick_up_req_id;
 
         $previous_price = $pickups->total_price;
-
+        
 
 
         $invoice = Invoice::where('custom_item_add_id',$request->custom_item_add_id)->first();
+        if ($pickups->ref_discount == 1) {
+            $nowquantity = $invoice->quantity;
+            $nowPriceEach = $invoice->price;
+            $total_price_to_deduct = $nowquantity * $nowPriceEach;
+            
+            $pickups->total_price = $previous_price - $total_price_to_deduct;
 
+            $pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
+            $pickups->save();
+        }
         if($previous_price>0)
         {
             $nowquantity = $invoice->quantity;
@@ -2389,8 +2440,18 @@ class AdminController extends Controller
         if ($pickups->coupon != null) {
             $calculate_discount = new SiteHelper();
             $discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->total_price);
-            $pickups->discounted_value = $discounted_value;
+            if ($pickups->ref_discount == 1) {
+                $calculate_discount = new SiteHelper();
+                $pickups->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
+            }
+            else
+            {
+                $pickups->discounted_value = $discounted_value;
+            }
+            //$pickups->discounted_value = $discounted_value;
             $pickups->save();
+            //$pickups->discounted_value = $discounted_value;
+            //$pickups->save();
         }
 
         if($invoice->delete())

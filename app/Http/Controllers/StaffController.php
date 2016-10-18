@@ -329,6 +329,7 @@ class StaffController extends Controller
 
     public function addItemCustom(Request $request)
     {
+        //return $request;
         //dd($request);
         $data = json_decode($request->list_items_json);
         $user = Pickupreq::find($request->row_id);
@@ -396,6 +397,10 @@ class StaffController extends Controller
                 $user->total_price += $inv->quantity*$inv->price;
             }
         }
+        if ($user->ref_discount == 1) {
+            $calculate_discount = new SiteHelper();
+            $user->discounted_value = $calculate_discount->updateTotalPriceOnRef($user->total_price);
+        }
         if($user->save())
         {
             //$7 emergency extra
@@ -408,7 +413,15 @@ class StaffController extends Controller
             if ($user->coupon != null) {
                 $calculate_discount = new SiteHelper();
                 $discounted_value = $calculate_discount->discountedValue($user->coupon, $user->total_price);
-                $user->discounted_value = $discounted_value;
+                if ($user->ref_discount == 1) {
+                    $calculate_discount = new SiteHelper();
+                    $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
+                }
+                else
+                {
+                    $user->discounted_value = $discounted_value;
+                }
+                //$user->discounted_value = $discounted_value;
                 $user->save();
             }
             if($request->ajax())

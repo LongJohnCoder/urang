@@ -34,12 +34,12 @@
 		                	<form role="form" action="{{route('postAddNewCustomer')}}" method="post" id="add_customer">
 								<div class="form-group">
 								    <label>Customer Name</label>
-								    <input class="form-control" name="name" type="text"  id="name" onkeyup="$('#name').removeAttr('style'); $('#errorInputName').html('');">
+								    <input class="form-control" name="name" type="text"  id="name" onkeyup="$('#name').removeAttr('style'); $('#errorInputName').html('');" value="{{old('name')}}">
 								    <div id="errorInputName" style="color: red;"></div>
 								</div>
 								<div class="form-group">
 								    <label>Customer Email</label>
-								    <input class="form-control" id="email" name="email" type="email"  onkeyup="return IsValidEmail();" value="{{old('email')}}">
+								    <input class="form-control" id="email" name="email" type="email"  onkeyup="return IsValidEmail();">
 								    <div id="errorInputEmail" style="color: red;"></div>
 								</div>
 								<div class="form-group">
@@ -146,10 +146,12 @@
 								    <label for="name">Reffered email (Optional)</label>
 								    <input type="email" class="form-control" id="ref_name" name="ref_name" value="{{old('ref_name')}}" />
 								</div>
+								<div id="email_identifier_noti"></div>
 								<button type="submit" class="btn btn-primary btn-lg btn-block" onclick="IsValid(event);">Add</button>
 								<input type="hidden" id="email_checker"></input>
 								<input type="hidden" id="card_no_checker"></input>
 								<input type="hidden" name="_token" value="{{Session::token()}}"></input>
+								<input type="hidden" id="email_checker_ref" value="0"></input>
 		                	</form>
 		                </div>
 		            </div>
@@ -293,16 +295,17 @@
        var pass_check=PassWordCheck();
        var email_check = $('#email_checker').val();
        var card_no_checker = $('#card_no_checker').val();
+       var ref_email_checker = $('#email_checker_ref').val();
        if ($.trim(email) && $.trim(password) && $.trim(conf_password) && $.trim(name) && $.trim(add) && $.trim(phone) && $.trim(name_on_card) && $.trim(card_number) && $.trim(month_val) && $.trim(year_val)) 
        {
-          if(pass_check && $.trim(email_check) == 1 && $.trim(card_no_checker) == 1)
+          if(pass_check && $.trim(email_check) == 1 && $.trim(card_no_checker) == 1 && ref_email_checker != 1)
           {
             $('#add_customer').submit();
           }
          else
          {
             //alert('some error occured form cannot be submitted');
-            sweetAlert("Oops..", "Error Occured Hint: 1. make sure password and confirm password is same, 2. Email is available, 3. Credit card number is valid", "error");
+            sweetAlert("Oops..", "Error Occured Hint: 1. make sure password and confirm password is same, 2. Email is available, 3. Credit card number is valid", "4. check reference email","error");
             return false;
          }
        } else {
@@ -361,5 +364,32 @@
         return false;
        }
     } 
+    $(function(){
+      $('#ref_name').on('input propertychange',function(){
+        var email = $(this).val();
+        if ($.trim(email)) {
+          $.ajax({
+             url : "{{route('postEmailChecker')}}",
+                type: "POST",
+                data: {email: email, _token: "{{Session::token()}}"},
+                success : function(data){
+                  if (data == 1) {
+                    $('#email_identifier_noti').html('');
+                    $('#email_checker_ref').val(0);
+                  }
+                  else
+                  {
+                    $('#email_identifier_noti').html('<div style="color:red;">Email is already exist in our databse . Please refer someone else.</div>');
+                    $('#email_checker_ref').val(1);
+                  }
+                }
+          });
+        }
+        else
+        {
+          return false;
+        }
+      });
+    });
 	</script>
 @endsection
