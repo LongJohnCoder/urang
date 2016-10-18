@@ -5,6 +5,11 @@
    <?php
       $indexcontent = App\IndexPageWysiwyg::first();
     ?>
+    <style type="text/css">
+         .footer-text {
+            text-align: center;
+         }
+    </style>
    <section class="buy-section with-icon">
       <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
       <div class="container">
@@ -85,7 +90,7 @@
       </div>
    </section>
    <section class="copyright-section">
-      <p>©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
+      <p class="footer-text">©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
    </section>
 </footer>
 <script src="{{url('/')}}/public/new/js/custom.js" type="text/javascript"></script>
