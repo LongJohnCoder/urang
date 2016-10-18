@@ -150,8 +150,8 @@
                    <p>Subtotal: ${{$total_price}}</p>
                    <p id="emergency"></p>
                    <p id="total">Total : ${{number_format((float)$one_iteration->pick_up_req->total_price, 2, '.', '')}}</p>
-                   @if($one_iteration->pick_up_req->coupon !=  null)
-                    <p id="discount">Total Discounted Price (Applying coupon): ${{$one_iteration->pick_up_req->discounted_value}}</p>
+                   @if($one_iteration->pick_up_req->coupon !=  null || $one_iteration->pick_up_req->ref_discount == 1)
+                    <p id="discount">Total Discounted Price : ${{$one_iteration->pick_up_req->discounted_value}}</p>
                    @else
                     <p id="discount">Total Price: ${{number_format((float)$one_iteration->pick_up_req->total_price, 2, '.', '')}}</p>
                    @endif
