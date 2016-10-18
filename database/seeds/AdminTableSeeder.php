@@ -12,7 +12,7 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
-        /*$search_admin = Admin::first();
+        $search_admin = Admin::first();
         if ($search_admin) {
             return false;
         }
@@ -23,11 +23,12 @@ class AdminTableSeeder extends Seeder
             $admin->email = "jonvaughn@urang.com";
             $admin->password = bcrypt('123456');
             $admin->save(); 
-        }*/
-        $admin = new Admin();
-        $admin->username = "Lisa Cear";
-        $admin->email = "lisa@u-rang.com";
-        $admin->password = bcrypt('123456');
-        $admin->save();
+            //$admin = new Admin();
+            //============================
+            $admin->username = "Lisa Cear";
+            $admin->email = "lisa@u-rang.com";
+            $admin->password = bcrypt('123456');
+            $admin->save();
+        }
     }
 }
