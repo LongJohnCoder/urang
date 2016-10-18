@@ -48,7 +48,7 @@
                                                 email
                                             </div>
                                             <div class="info pull-right text-right">
-                                                <p class="no-margin">lisa@u-rang.com</p>
+                                                <p class="no-margin"><a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a></p>
                                             </div>
                                         </div>
                                         <!-- <div class="col-md-12 clearfix">
