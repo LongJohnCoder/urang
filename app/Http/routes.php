@@ -28,6 +28,7 @@ Route::get('/neighborhoods', ['uses' => 'MainController@getNeiborhoodPage', 'as'
 Route::get('/neighborhood/{slug}', ['uses' => 'MainController@getStandAloneNeighbor', 'as' => 'getStandAloneNeighbor']);
 Route::get('/faqs', ['uses' => 'MainController@getFaqList', 'as' => 'getFaqList']);
 Route::post('/email-checker', ['uses' => 'MainController@emailChecker', 'as' => 'postEmailChecker']);
+Route::post('/email-checker-ref', ['uses' => 'MainController@postEmailCheckerRef', 'as' => 'postEmailCheckerRef']);
 Route::get('/contact-us',['uses' => 'MainController@getContactUs', 'as' => 'getContactUs']);
 Route::post('/postContactForm',['uses' => 'MainController@postContactForm', 'as' => 'postContactForm']);
 Route::get('/school-donations', ['uses' => 'MainController@getSchoolDonations', 'as' => 'getSchoolDonations']);

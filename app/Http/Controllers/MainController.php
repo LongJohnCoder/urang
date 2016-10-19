@@ -140,22 +140,30 @@ class MainController extends Controller
                             return redirect()->route('getSignUp')->with('fail', 'referel email already exist .Please try another one')->withInput();
                         }
                         else {
-                            if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
-                            $user_details->referred_by = $request->ref_name;
-                            //storing into ref table for future reference
-                            $ref                    = new ref();
-                            $ref->user_id           = $user->id;
-                            $ref->referred_person   = $request->ref_name;
-                            $ref->discount_status   = 0; //this should be 1 to get the discount
-                            $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
-                            $ref->save();
+                            $search_in_refs = ref::where('referred_person', $request->ref_name)->first();
+                            if ($search_in_refs) {
+                                return redirect()->route('getSignUp')->with('fail', 'referel email already exist .Please try another one')->withInput();
                             }
                             else
                             {
-                                $user_details->delete();
-                                $user->delete();
-                                return redirect()->route('getSignUp')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
+                                if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
+                                $user_details->referred_by = $request->ref_name;
+                                //storing into ref table for future reference
+                                $ref                    = new ref();
+                                $ref->user_id           = $user->id;
+                                $ref->referred_person   = $request->ref_name;
+                                $ref->discount_status   = 0; //this should be 1 to get the discount
+                                $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
+                                $ref->save();
+                                }
+                                else
+                                {
+                                    $user_details->delete();
+                                    $user->delete();
+                                    return redirect()->route('getSignUp')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
+                                }
                             }
+                            
                         }
                     }
                     $card_info = new CustomerCreditCardInfo();
@@ -425,7 +433,24 @@ class MainController extends Controller
             return 1;
         }
     }
-
+    public function postEmailCheckerRef(Request $request) {
+        $email = $request->email;
+        $find_email = User::where('email', $email)->first();
+        if ($find_email != null) {
+           return 0;
+        }
+        else
+        {
+            $search_email_ref = ref::where('referred_person', $email)->first();
+            if ($search_email_ref != null) {
+               return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    }
     public function getContactUs()
     {
 

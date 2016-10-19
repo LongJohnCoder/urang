@@ -367,27 +367,35 @@
     $(function(){
       $('#ref_name').on('input propertychange',function(){
         var email = $(this).val();
-        if ($.trim(email)) {
-          $.ajax({
-             url : "{{route('postEmailChecker')}}",
-                type: "POST",
-                data: {email: email, _token: "{{Session::token()}}"},
-                success : function(data){
-                  if (data == 1) {
-                    $('#email_identifier_noti').html('');
-                    $('#email_checker_ref').val(0);
-                  }
-                  else
-                  {
-                    $('#email_identifier_noti').html('<div style="color:red;">Email is already exist in our databse . Please refer someone else.</div>');
-                    $('#email_checker_ref').val(1);
-                  }
-                }
-          });
+        if (email.length > 0) {
+        	if ($.trim(email) && $.trim(email) != $.trim($('#email').val())) {
+	          $.ajax({
+	             url : "{{route('postEmailCheckerRef')}}",
+	                type: "POST",
+	                data: {email: email, _token: "{{Session::token()}}"},
+	                success : function(data){
+	                  if (data == 1) {
+	                    $('#email_identifier_noti').html('');
+	                    $('#email_checker_ref').val(0);
+	                  }
+	                  else
+	                  {
+	                    $('#email_identifier_noti').html('<div style="color:red;">Email is already exist in our databse . Please refer someone else.</div>');
+	                    $('#email_checker_ref').val(1);
+	                  }
+	                }
+	          });
+	        }
+	        else
+	        {
+	          //return false;
+	          $('#email_identifier_noti').html('<div style="color:red;">Sign Up email and refer email could not be the same</div>');
+	          $('#email_checker_ref').val(1);
+	        }
         }
         else
         {
-          return false;
+        	return true;
         }
       });
     });
