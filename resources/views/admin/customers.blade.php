@@ -58,19 +58,6 @@
 			                            			<td>{{$customer->user_details->name}}</td>
 				                            		<td>{{$customer->user_details->personal_ph}}</td>
 				                            		<td>{{$customer->user_details->address}}</td>
-				                            		<!-- @if(count($refs) > 0)
-					                            		@foreach($refs as $ref)
-					                            			<td>
-					                            				@if($ref->referred_person == $customer->email)
-					                            					{{$ref->user->user_details->name}} ({{$ref->user->email}})
-					                            				@else
-					                            					Non refereed user
-					                            				@endif
-					                            			</td>
-					                            		@endforeach
-					                            	@else
-					                            		<td>No reference</td>
-					                            	@endif -->
 					                            	<td>
 					                            		<?php
 					                            		$helper = (new App\Helper\SiteHelper)->refOrNot($customer->email) 
