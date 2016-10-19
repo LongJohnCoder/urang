@@ -3,6 +3,7 @@ namespace App\Helper;
 use Session;
 use App\CustomerCreditCardInfo;
 use App\Coupon;
+use App\ref;
 class SiteHelper 
 {
 	public function showCardNumber($user_id) {
@@ -31,6 +32,16 @@ class SiteHelper
     public function updateTotalPriceOnRef($total_price) {
         $total_price -= ($total_price*10)/100;
         return $total_price;
+    }
+    public function refOrNot($email) {
+        $is_ref = ref::where('referred_person', $email)->where('discount_status', 1)->first();
+        if ($is_ref) {
+            return $is_ref->user->user_details->name;
+        }
+        else
+        {
+            return 0;
+        }
     }
 	
 }
