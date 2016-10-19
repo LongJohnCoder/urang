@@ -468,6 +468,8 @@
                 type: "POST",
                 data: {email: email, _token: "{{Session::token()}}"},
                 success : function(data){
+                  /*console.log(data);
+                  return;*/
                   if (data == 1) {
                     $('#email_identifier_noti').html('');
                     $('#email_checker_ref').val(0);

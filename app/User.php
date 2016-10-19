@@ -20,7 +20,7 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     public function order_details() {
         return $this->hasMany('App\OrderDetails', 'user_id', 'id');
     }
-    /*public function refs() {
+    public function refs() {
         return $this->hasOne('App\ref', 'user_id', 'id');
-    }*/
+    }
 }
