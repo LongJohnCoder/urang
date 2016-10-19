@@ -414,8 +414,8 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $customers = User::with('user_details')->paginate(10);
-        
-        return view('admin.customers', compact('user_data', 'site_details', 'customers'));
+        $refs = ref::with('user')->get();
+        return view('admin.customers', compact('user_data', 'site_details', 'customers', 'refs'));
     }
     public function getEditCustomer($id) {
         $id = base64_decode($id);
@@ -547,6 +547,16 @@ class AdminController extends Controller
                             foreach ($orders as $each_order) {
                                 $each_order->delete();
                             }
+                        }
+                        $order_tracker = OrderTracker::where('user_id', $id)->get();
+                        if ($order_tracker) {
+                            foreach($order_tracker as $track) {
+                                $track->delete();
+                            }
+                        }
+                        $reference = ref::where('referred_person', $user->email)->first();
+                        if ($reference) {
+                            $reference->delete();
                         }
                         return 1;
                 }
