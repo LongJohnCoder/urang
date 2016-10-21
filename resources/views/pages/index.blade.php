@@ -1,6 +1,6 @@
 @extends('pages.layouts.master')
 @section('content')
-      <section class="top-header home-header with-bottom-effect transparent-effect dark">
+  <section class="top-header home-header with-bottom-effect transparent-effect dark">
   <div class="bottom-effect"></div>
   <div class="header-container">  
       <div class="wrap-section-slider" id="topSlider">
@@ -618,4 +618,17 @@
       </div>
   </div>
 </section>
+<script type="text/javascript">
+  $(function(){
+    $('.top-bar-banner').show();
+    $('.header .navbar').attr('style', 'top:40px;');
+    $(document).scroll(function(){
+      $('.header .navbar').attr('style', 'top:0;');
+    });
+    $('.close-top-banner').click(function(){
+      $('.top-bar-banner').remove();
+      $('.header .navbar').attr('style', 'top:0;');
+    });
+  });
+</script>
 @endsection

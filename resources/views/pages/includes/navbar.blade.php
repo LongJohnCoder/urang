@@ -1,4 +1,9 @@
+
 <header class="header scrolling-header">
+<div class="top-bar-banner">
+  <p>10% off on your order for new sign up with us</p>
+  <a href="#" class="close-top-banner">x</a>
+</div>
   <nav id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container relative-nav-container">
       <a class="toggle-button visible-xs-block" data-toggle="collapse" data-target="#navbar-collapse">
