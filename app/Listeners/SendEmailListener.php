@@ -33,23 +33,28 @@ class SendEmailListener
             $message->from("lisa@u-rang.com", "Urang");
             $message->to($event->req->email, $event->req->name)->subject('Signup Details');
             });
-        if ($flag) {
-            /** MailChimp API credentials */
+
+            if ($flag) {
+                preg_match('#^(\w+\.)?\s*([\'\’\w]+)\s+([\'\’\w]+)\s*(\w+\.?)?$#', $event->req->name, $subscriberName);
+                $firstName = $subscriberName[2];
+                $lastName = $subscriberName[3];
+
+                /** MailChimp API credentials */
                 $apiKey = 'cd02d89596497b4cc0fb86308432d7dc-us11';
                 $listID = 'aff6e8384a';
 
                 /** MailChimp API URL */
-                $memberID = md5(strtolower($email));
+                $memberID = md5(strtolower($event->req->email));
                 $dataCenter = substr($apiKey,strpos($apiKey,'-')+1);
                 $url = 'https://' . $dataCenter . '.api.mailchimp.com/3.0/lists/' . $listID . '/members/' . $memberID;
 
                 /** member information */
                 $json = json_encode([
-                    'email_address' => $email,
+                    'email_address' => $event->req->email,
                     'status'        => 'subscribed',
                     'merge_fields'  => [
-                        'FNAME'     => $firstName,
-                        'LNAME'     => $lastName
+                        'FNAME'     => $event->req->firstName,
+                        'LNAME'     => $event->req->lastName
                     ]
                 ]);
 
