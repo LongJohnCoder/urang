@@ -44,6 +44,7 @@
 <!-- ========================== -->
 <!-- HOME - FEATURES -->
 <!-- ========================== -->
+<div class="sticky-text">10% off on new sign up</div>
 <section class="features-section">
   <div class="container">
       <div class="section-heading " >
