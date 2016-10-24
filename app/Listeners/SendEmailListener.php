@@ -35,6 +35,7 @@ class SendEmailListener
             });
 
             if ($flag) {
+                $email = $event->req->name;
                 preg_match('#^(\w+\.)?\s*([\'\’\w]+)\s+([\'\’\w]+)\s*(\w+\.?)?$#', $event->req->name, $subscriberName);
                 $firstName = $subscriberName[2];
                 $lastName = $subscriberName[3];
@@ -50,11 +51,11 @@ class SendEmailListener
 
                 /** member information */
                 $json = json_encode([
-                    'email_address' => $event->req->email,
+                    'email_address' => $email,
                     'status'        => 'subscribed',
                     'merge_fields'  => [
-                        'FNAME'     => $event->req->firstName,
-                        'LNAME'     => $event->req->lastName
+                        'FNAME'     => $firstName,
+                        'LNAME'     => $lastName
                     ]
                 ]);
 
