@@ -178,7 +178,7 @@ class MainController extends Controller
                     if ($card_info->save()) {
                         //confirmation mail event driven approach
                         Event::fire(new SendEmailOnSignUp($request));
-                         return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
+                        return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
                     {
@@ -486,6 +486,38 @@ class MainController extends Controller
 
             if($flag==1)
             {
+                /** MailChimp API credentials */
+                $apiKey = 'cd02d89596497b4cc0fb86308432d7dc-us11';
+                $listID = '7a9f424b4a';
+
+                /** MailChimp API URL */
+                $memberID = md5(strtolower($email));
+                $dataCenter = substr($apiKey,strpos($apiKey,'-')+1);
+                $url = 'https://' . $dataCenter . '.api.mailchimp.com/3.0/lists/' . $listID . '/members/' . $memberID;
+
+                /** member information */
+                $json = json_encode([
+                    'email_address' => $email,
+                    'status'        => 'subscribed',
+                    'merge_fields'  => [
+                        'FNAME'     => $firstName,
+                        'LNAME'     => $lastName
+                    ]
+                ]);
+
+                /** send a HTTP POST request with curl */
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_USERPWD, 'user:' . $apiKey);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+                $result = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+
                 return redirect()->route('getContactUs')->with('success', 'Thank you for contacting us, We will get back to you shortly');
             }
             else
