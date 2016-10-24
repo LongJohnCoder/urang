@@ -1163,7 +1163,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 
 .sticky-text{
     position: fixed;
-    top: 270px;
+    top: 136px;
     right: 0;
     color: white;
     z-index: 10001;

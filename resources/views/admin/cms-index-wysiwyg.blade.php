@@ -48,10 +48,9 @@
 .form-style .btn{padding: 5px 3px;}
 .form-style form{text-align: right; padding: 10px 0;}
 .steps-list .step-item .item-text h5{text-align: center;}
-
 </style>
 
-      <section class="top-header home-header with-bottom-effect transparent-effect dark">
+  <section class="top-header home-header with-bottom-effect transparent-effect dark">
   <div class="bottom-effect"></div>
   <div class="header-container">  
       <div class="wrap-section-slider" id="topSlider">
@@ -168,6 +167,14 @@
 <!-- ========================== -->
 <!-- HOME - FEATURES -->
 <!-- ========================== -->
+<form role="form" method="post" action="{{route('postStickyText')}}">
+  <div class="sticky-text">
+    <input type="text" name="note" id="note-text" value="{{$indexcontent->sticky_note_text}}" style="color: black;"></input>
+    <input type="checkbox" name="disable_sticky_note" id="disable_sticky_note"></input>
+    <button type="submit" id="btn_sticky_note" class="btn btn-primary" style="background: #fff; color: black;">Change</button>
+    <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+  </div>
+</form>
 <section class="features-section">
   <div class="container">
       <div class="section-heading " >
@@ -1255,4 +1262,15 @@
       </div>
   </div>
 </section>
+<script type="text/javascript">
+  $(function(){
+    if ('{{$indexcontent->is_sticky_active}}' == 1) {
+      $('#disable_sticky_note').attr('checked', true);
+    }
+    else
+    {
+      $('#disable_sticky_note').removeAttr('checked');
+    }
+  });
+</script>
 @endsection

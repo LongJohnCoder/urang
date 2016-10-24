@@ -2763,4 +2763,18 @@ class AdminController extends Controller
                 $donate_money_percentage = SchoolDonationPercentage::first();
         return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
     }
+    public function postStickyText(Request $request) {
+        //dd($request);
+        $save_data =  IndexPageWysiwyg::first();
+        $save_data->sticky_note_text = $request->note;
+        if (isset($request->disable_sticky_note)) {
+            $save_data->is_sticky_active = 1;
+        }
+        else
+        {
+            $save_data->is_sticky_active = 0;
+        }
+        $save_data->save();
+        return redirect()->route('showIndexWysiwygControl');
+    }
 }

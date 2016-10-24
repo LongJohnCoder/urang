@@ -44,7 +44,9 @@
 <!-- ========================== -->
 <!-- HOME - FEATURES -->
 <!-- ========================== -->
-<div class="sticky-text">10% off on new sign up</div>
+@if($indexcontent->is_sticky_active == 1)
+  <div class="sticky-text">{{$indexcontent->sticky_note_text}}</div>
+@endif
 <section class="features-section">
   <div class="container">
       <div class="section-heading " >
@@ -619,17 +621,4 @@
       </div>
   </div>
 </section>
-<script type="text/javascript">
-  $(function(){
-    $('.top-bar-banner').show();
-    $('.header .navbar').attr('style', 'top:40px;');
-    $(document).scroll(function(){
-      $('.header .navbar').attr('style', 'top:0;');
-    });
-    $('.close-top-banner').click(function(){
-      $('.top-bar-banner').remove();
-      $('.header .navbar').attr('style', 'top:0;');
-    });
-  });
-</script>
 @endsection

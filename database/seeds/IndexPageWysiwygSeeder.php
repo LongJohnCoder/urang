@@ -96,7 +96,8 @@ class IndexPageWysiwygSeeder extends Seeder
 
         	$indexCms->footer_section_four_header = "CONTACT INFO";
         	$indexCms->footer_section_four_first = "355 E 23rd Street New York, NY 10010";
-
+            $indexCms->sticky_note_text = "10% off on new sign up";
+            $indexCms->is_sticky_active = 1;
 
         	$indexCms->save();
         }
