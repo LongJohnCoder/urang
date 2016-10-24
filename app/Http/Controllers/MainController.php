@@ -500,8 +500,8 @@ class MainController extends Controller
                     'email_address' => $email,
                     'status'        => 'subscribed',
                     'merge_fields'  => [
-                        'FNAME'     => $firstName,
-                        'LNAME'     => $lastName
+                        'FNAME'     => $firstname,
+                        'LNAME'     => $lastname
                     ]
                 ]);
 
