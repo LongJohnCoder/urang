@@ -9,6 +9,7 @@ use App\Coupon;
 use App\User;
 use App\UserDetails;
 use Mail;
+use App\Helper\ConstantsHelper;
 class PickUpReqListener
 {
     /**
@@ -44,7 +45,7 @@ class PickUpReqListener
             }
             else
             {
-                $email = App\Helper\ConstantsHelper::getClintEmail();
+                $email = \App\Helper\ConstantsHelper::getClintEmail();
                 $user_name = "undefined";
                 $number = 00000000;
             }
@@ -110,7 +111,7 @@ class PickUpReqListener
         //dd($user_name);
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money), 
             function($message) use ($event){
-                $message->from(App\Helper\ConstantsHelper::getClintEmail(), "Admin");
+                $message->from(\App\Helper\ConstantsHelper::getClintEmail(), "Admin");
                 if ($event->req->identifier == "admin") {
                     $user_to_search = User::with('user_details')->find($event->req->user_id);
                     if ($user_to_search) {
@@ -121,7 +122,7 @@ class PickUpReqListener
                     }
                     else
                     {
-                        $email = App\Helper\ConstantsHelper::getClintEmail();
+                        $email = \App\Helper\ConstantsHelper::getClintEmail();
                         $user_name = "undefined";
                         $number = 00000000;
                     }

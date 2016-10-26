@@ -73,7 +73,7 @@
                      <p><i class="icon icon-Phone2"></i>{{$indexcontent->footer_section_three_second}}</p>
                   </li>
                   <li>
-                     <p><i class="icon icon-Mail"></i><a href="mailto:{{App\Helper\ConstantsHelper::getClintEmail()}}">{{$indexcontent->footer_section_three_third}}</a> </p>
+                     <p><i class="icon icon-Mail"></i><a href="mailto:{{\App\Helper\ConstantsHelper::getClintEmail()}}">{{$indexcontent->footer_section_three_third}}</a> </p>
                   </li>
                </ul>
             </div>

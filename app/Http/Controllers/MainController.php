@@ -36,6 +36,7 @@ use App\Coupon;
 use App\Categories;
 use App\IndexPageWysiwyg;
 use App\ref;
+use App\Helper\ConstantsHelper;
 
 class MainController extends Controller
 {
@@ -481,7 +482,7 @@ class MainController extends Controller
             $flag=Mail::send('pages.sendEmailContact', ['firstName'=>$firstname,'lastName'=>$lastname,'email'=>$email,'subject'=>$subject,'text'=>$text,'phone'=>$phone], function($msg) use($request)
                         {
                             $msg->from($request->email, 'U-rang');
-                            $msg->to(App\Helper\ConstantsHelper::getClintEmail(), $request->firstName)->subject('U-rang Details');
+                            $msg->to(\App\Helper\ConstantsHelper::getClintEmail(), $request->firstName)->subject('U-rang Details');
                         });
 
             if($flag==1)
@@ -918,7 +919,7 @@ class MainController extends Controller
         Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
         function($message) use($request)
         {
-            $message->from(App\Helper\ConstantsHelper::getClintEmail());
+            $message->from(\App\Helper\ConstantsHelper::getClintEmail());
             $message->to($request->email, $request->name)->subject('U-rang Details');
         });
     }*/
