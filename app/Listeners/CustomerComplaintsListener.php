@@ -31,7 +31,7 @@ class CustomerComplaintsListener
             function($message) use ($event)
             {
             $message->from($event->req->email, $event->req->firstName."".$event->req->lastName);
-            $message->to("lisa@u-rang.com", $event->req->firstName)->subject($event->req->subject);
+            $message->to(App\Helper\ConstantsHelper::getClintEmail(), $event->req->firstName)->subject($event->req->subject);
         });
         //dd($event->req);
     }

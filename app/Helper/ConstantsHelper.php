@@ -9,12 +9,12 @@ use App\UserDetails;
 use App\Neighborhood;
 class ConstantsHelper 
 {
-	public function getPagination() {
+	public static function getPagination() {
 		return 10;
 	}
-	public function getClintEmail()
+	public static function getClintEmail()
 	{
-		return "lisa@u-rang.com";
+		return "work@tier5.us";
 	}
 	
 }
