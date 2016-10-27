@@ -52,7 +52,7 @@
 								    <label for="name">Name on Card</label>
 								    <input type="text" class="form-control" id="card_name" name="card_name" required="" value="{{$user->card_details != null ? $user->card_details->name : 'No data exist' }}" />
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 								    <label for="name">Card Type</label>
 								    <select class="form-control" id="cardType" name="cardType">
 								    	<option value="">Select Card Type</option>
@@ -60,7 +60,7 @@
 								    	<option value="AmericanExpress">American Express</option>
 								    	<option value="Mastercard">Mastercard</option>
 								    </select>
-								</div>
+								</div> -->
 								<div class="form-group">
 								    <label for="name">Card No</label>
 								    <input type="text" class="form-control" id="card_no" name="card_no" required="" value="{{$user->card_details != null ? substr_replace($user->card_details->card_no, str_repeat("*", 8), 4, 8) : 'No data exist' }}" 
@@ -122,10 +122,9 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		if ('{{$user->card_details}}') 
-		{
+@if($user->card_details)
+	<script type="text/javascript">
+		$(function(){
 			var SelectCardType = $.trim('{{$user->card_details->card_type}}');
 			var SelectMonth = $.trim('{{$user->card_details->exp_month}}');
 			var SelectYear = $.trim('{{$user->card_details->exp_year}}');
@@ -135,14 +134,10 @@
 			$('#cardType').val(SelectCardType);
 			$('#selectYear').val(SelectYear);
 			$('#SelectMonth').val(SelectMonth);
-		}
-		else
-		{
-			$('#cardType').val("");
-			$('#selectYear').val("");
-			$('#SelectMonth').val("");
-		}
-	});
+		});
+	</script>
+@endif
+<script type="text/javascript">
 	function creditCardValidate(){
 			$('#card_no').validateCreditCard(function(result) {
 				err=0

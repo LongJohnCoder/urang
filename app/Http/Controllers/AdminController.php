@@ -611,7 +611,20 @@ class AdminController extends Controller
                        }
                        else
                        {
-                        return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+                          $credit_info_new_record = new CustomerCreditCardInfo();
+                          $credit_info_new_record->name = $request->card_name;
+                          $credit_info_new_record->card_no = $request->card_no;
+                          $credit_info_new_record->cvv = isset($request->cvv) ? $request->cvv : NULL;
+                          /*$credit_info_new_record->card_type = $request->cardType;*/
+                          $credit_info_new_record->exp_month = $request->SelectMonth;
+                          $credit_info_new_record->exp_year = $request->selectYear;
+                          if($credit_info_new_record->save()) {
+                            return redirect()->route('getAllCustomers')->with('successUpdate', 'Records Updated Successfully!');
+                          }
+                          else
+                          {
+                            return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+                          }
                        }
                     }
                     else
