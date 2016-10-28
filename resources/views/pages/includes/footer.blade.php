@@ -50,6 +50,7 @@
                         <li><a href="{{route('index')}}">About Us</a></li>
                         <li><a href="{{route('getLogin')}}">Login</a></li>
                         <li><a href="{{route('getSignUp')}}">Sign-Up</a></li>
+                        <li><a href="{{url('/')}}/sitemap.xml">sitemap</a></li>
                      </ul>
                   </div>
                   <div class="col-md-6">
