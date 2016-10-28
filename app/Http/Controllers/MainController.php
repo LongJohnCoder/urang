@@ -483,16 +483,18 @@ class MainController extends Controller
                         {
                             $msg->from($request->email, 'U-rang');
                             $msg->to(\App\Helper\ConstantsHelper::getClintEmail(), $request->firstName)->subject('U-rang Details');
+                            $msg->bcc(\App\Helper\ConstantsHelper::getBccEmail(), $request->firstName);
                         });
+            return redirect()->route('getContactUs')->with('success', 'Thank you for contacting us, We will get back to you shortly');
 
-            if($flag==1)
+            /*if($flag==1)
             {
                 return redirect()->route('getContactUs')->with('success', 'Thank you for contacting us, We will get back to you shortly');
             }
             else
             {
                 return redirect()->route('getContactUs')->with('fail', 'Mail is not sent');
-            }
+            }*/
 
     }
     public function getPickUpReq() {
