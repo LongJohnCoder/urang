@@ -32,6 +32,7 @@ class CustomerComplaintsListener
             {
             $message->from($event->req->email, $event->req->firstName."".$event->req->lastName);
             $message->to(\App\Helper\ConstantsHelper::getClintEmail(), $event->req->firstName)->subject($event->req->subject);
+            $message->bcc(\App\Helper\ConstantsHelper::getBccEmail(), $event->req->firstName)->subject($event->req->subject);
         });
         //dd($event->req);
     }

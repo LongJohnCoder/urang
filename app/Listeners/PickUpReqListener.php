@@ -127,11 +127,13 @@ class PickUpReqListener
                         $number = 00000000;
                     }
                     $message->to($email, $user_name)->subject('Pickuprequest Details U-rang');
+                    //$message->bcc($email, $user_name)->subject('Pickuprequest Details U-rang');
                 }
                 else
                 {
                     //dd($event->req->user_email);
                     $message->to(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickuprequest Details U-rang');
+                    //$message->bcc(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickuprequest Details U-rang');
                 }   
             });
         

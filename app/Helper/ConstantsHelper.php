@@ -14,7 +14,10 @@ class ConstantsHelper
 	}
 	public static function getClintEmail()
 	{
+		return "lisa@u-rang.com";
+		
+	}
+	public static function getBccEmail() {
 		return "work@tier5.us";
 	}
-	
 }
