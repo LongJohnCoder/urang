@@ -1,10 +1,4 @@
 User-agent: *
-Disallow: /public/new/vendor/
-Disallow: /public/new/js/
-Disallow: /public/new/fonts/
-Disallow: /public/new/css/
-Disallow: /public/js/
-Disallow: /public/css/
-Disallow: /public/bower_components/
+
 Disallow: /neighborhood/favicon.ico
 Disallow: /service/favicon.ico
