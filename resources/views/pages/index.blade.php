@@ -45,7 +45,7 @@
 <!-- HOME - FEATURES -->
 <!-- ========================== -->
 @if($indexcontent->is_sticky_active == 1)
-  <div class="sticky-text">{{$indexcontent->sticky_note_text}}</div>
+  <div class="sticky-text">{!!$indexcontent->sticky_note_text!!}</div>
 @endif
 <section class="features-section">
   <div class="container">
