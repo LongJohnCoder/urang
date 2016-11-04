@@ -96,7 +96,7 @@
             <div class="design-arrow inline-arrow"></div>
             <p>
             <ul style="text-align: left; font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
-            <p>Laundrapp – UK’s #1 laundry & dry cleaning app. Bringing professional & quality Laundry & Dry Cleaning to Your Door. Trusted by thousands of customers across the UK. *DRY CLEANING *LAUNDRY *IRONING SERVICE *SHIRT SERVICE *DUVET CLEANING *SHOE REPAIRS *SHOE SHINE *CLOTHING REPAIRS *BEDDING SERVICE *HOMEWARE *ACCESSORIES *SUITS *DRESSES *SKIRTS *TROUSERS *OUTDOOR CLOTHING *BLOUSES *COAT CLEANING *FOLDED & HUNG SHIRTS *TOWELLING *KNITWEAR *AND MORE</p>
+            <p>U-rang app – USA’s #1 laundry & dry cleaning app. Bringing professional & quality Laundry & Dry Cleaning to Your Door. Trusted by thousands of customers across the USA. *DRY CLEANING *LAUNDRY *IRONING SERVICE *SHIRT SERVICE *DUVET CLEANING *SHOE REPAIRS *SHOE SHINE *CLOTHING REPAIRS *BEDDING SERVICE *HOMEWARE *ACCESSORIES *SUITS *DRESSES *SKIRTS *TROUSERS *OUTDOOR CLOTHING *BLOUSES *COAT CLEANING *FOLDED & HUNG SHIRTS *TOWELLING *KNITWEAR *AND MORE</p>
          </div>
          <div style="height: 60px;"></div>
          <div class="col-md-5 col-sm-5 text-center">
@@ -118,7 +118,7 @@
             <div class="design-arrow inline-arrow"></div>
             <p>
             <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
-            <p>Laundrapp – UK’s #1 laundry & dry cleaning app. Bringing professional & quality Laundry & Dry Cleaning to Your Door. Trusted by thousands of customers across the UK. *DRY CLEANING *LAUNDRY *IRONING SERVICE *SHIRT SERVICE *DUVET CLEANING *SHOE REPAIRS *SHOE SHINE *CLOTHING REPAIRS *BEDDING SERVICE *HOMEWARE *ACCESSORIES *SUITS *DRESSES *SKIRTS *TROUSERS *OUTDOOR CLOTHING *BLOUSES *COAT CLEANING *FOLDED & HUNG SHIRTS *TOWELLING *KNITWEAR *AND MORE</p>
+            <p>U-rang app – USA’s #1 laundry & dry cleaning app. Bringing professional & quality Laundry & Dry Cleaning to Your Door. Trusted by thousands of customers across the USA. *DRY CLEANING *LAUNDRY *IRONING SERVICE *SHIRT SERVICE *DUVET CLEANING *SHOE REPAIRS *SHOE SHINE *CLOTHING REPAIRS *BEDDING SERVICE *HOMEWARE *ACCESSORIES *SUITS *DRESSES *SKIRTS *TROUSERS *OUTDOOR CLOTHING *BLOUSES *COAT CLEANING *FOLDED & HUNG SHIRTS *TOWELLING *KNITWEAR *AND MORE</p>
          </div>
       </div>
    </div>
