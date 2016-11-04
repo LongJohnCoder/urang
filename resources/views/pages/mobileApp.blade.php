@@ -105,14 +105,13 @@
       </div>
    </div>
    
-   <div class="container">
+   <!-- <div class="container">
       <div class="row">
          <div class="col-md-5 col-sm-5 text-center">
             <img src="{{url('/')}}/public/new/img/mobile-app/ios.png" alt="image" class="img-responsive" />
          </div>
          <div class="col-md-7 col-sm-7 text-left">
             <div class="clearfix " style="padding-right: 3px;">
-               <!-- <div class="above-title">Neighborhoods</div> -->
                <h4>ios</h4>
             </div>
             <div class="design-arrow inline-arrow"></div>
@@ -121,6 +120,6 @@
             <p>U-rang app – USA’s #1 laundry & dry cleaning app. Bringing professional & quality Laundry & Dry Cleaning to Your Door. Trusted by thousands of customers across the USA. *DRY CLEANING *LAUNDRY *IRONING SERVICE *SHIRT SERVICE *DUVET CLEANING *SHOE REPAIRS *SHOE SHINE *CLOTHING REPAIRS *BEDDING SERVICE *HOMEWARE *ACCESSORIES *SUITS *DRESSES *SKIRTS *TROUSERS *OUTDOOR CLOTHING *BLOUSES *COAT CLEANING *FOLDED & HUNG SHIRTS *TOWELLING *KNITWEAR *AND MORE</p>
          </div>
       </div>
-   </div>
+   </div> -->
 </section>
 @endsection
