@@ -215,6 +215,8 @@ Route::group (['prefix' => 'staff'], function () {
 
     Route::get('/staff-oders-sort-create-date', ['uses' => 'StaffController@orderSortCreatedAtStaff', 'as' => 'orderSortCreatedAtStaff']);
 });
+//mobile page route
+Route::get('/mobile-app', ['uses' => 'MainController@getMobileAppPage', 'as' => 'getMobileAppPage']);
 
 //API V.1 routes
 Route::group(['prefix' => 'V1'], function () {

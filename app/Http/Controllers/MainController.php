@@ -1093,4 +1093,16 @@ class MainController extends Controller
         }
         
     }
+    public function getMobileAppPage() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $login_check = $obj->getCustomerData();
+        $neighborhood = $obj->getNeighborhood();
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'logged_user', 'neighborhood'));
+        } else {
+            return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
+        }
+    }
 }
