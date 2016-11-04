@@ -165,7 +165,7 @@
       <p>©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
    </section>
 </footer>
-<script src="{{url('/')}}/public/new/js/custom.js" type="text/javascript"></script>
+<script src="{{url('/')}}/public/new/js/custom.min.js" type="text/javascript"></script>
 <script type="text/javascript">
    $(document).ready(function(){
       var block_status = "";

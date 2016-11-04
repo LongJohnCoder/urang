@@ -26,9 +26,9 @@
 
     <!-- Custom Fonts -->
     <link href="{{url('/')}}/public/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/jquery-ui.min.css">
     <!--time frame css-->
-    <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/js/time-picker/jquery.timepicker.css">
+    <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/js/time-picker/jquery.timepicker.min.css">
     <script src="{{url('/')}}/public/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,11 +37,11 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/sweetalert.css"/>
-    <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/sweetalert.min.css"/>
+    <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.min.js"></script>
     <script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
-    <script type="text/javascript" src="{{url('/')}}/public/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{url('/')}}/public/js/jquery-ui.min.js"></script>
     <!--time frame js-->
     <script type="text/javascript" src="{{url('/')}}/public/js/time-picker/jquery.timepicker.min.js"></script>
 </head>

@@ -1,9 +1,5 @@
 @extends('admin.layouts.master-index-wysiwyg')
 @section('content')
-<link href="bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-<script src="bootstrap-editable/js/bootstrap-editable.js"></script>
-
-
 <style>
 .relative {position: relative; padding: 7px 0}
 .custom-form{position: absolute; right: 0; top: 0}
