@@ -67,7 +67,7 @@
                       </li>
                       <li><a href="{{route('getLogout')}}"><i class="fa fa-power-off" aria-hidden="true"></i></a></li>
                       <!-- <li><a href="{{route('getComplaints')}}">Complaints</a></li> -->
-                      <li><a href="{{route('getMobileAppPage')}}">Download App</a></li>
+                      <!-- <li><a href="{{route('getMobileAppPage')}}">Download App</a></li> -->
                     </ul>
                 
                   </div><!-- /.navbar-collapse -->

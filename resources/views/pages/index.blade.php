@@ -7,7 +7,7 @@
           <div class="sp-slides">
               <div class="slide-item sp-slide">
                   <div class="slide-image">
-                      <img src="{{url('/')}}/public/new/img/sections/home-top-background.jpg"  alt="" />
+                      <img src="{{url('/')}}/public/new/img/sections/home-top-background.jpg"  alt="Homepage image" />
                   </div>
                   <div class="slide-content ">
                       <p style="text-align: center;" class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
@@ -17,6 +17,14 @@
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
                           <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
                           <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
+                      </div>
+                      <div class="col-md-12 col-sm-12 col-xs-12">
+                        <p style="text-align: center;">
+                          <!-- <a href="https://play.google.com/store/apps/details?id=us.tier5.u_rang&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank"><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' style="height: 50px;" /></a> -->
+                          <input type="image" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" style="height: 50px;"></input>
+                          <input type="image" src="{{url('/')}}/public/new/img/mobile-app/appstore.png" style="height: 50px;"></input>
+                        <!-- <a href="#" target="_blank"><img alt='Get it on Google Play' src="{{url('/')}}/public/new/img/mobile-app/appstore.png" style="height: 50px; border-radius: none;" /></a> -->
+                        </p>
                       </div>
                   </div>
               </div>
@@ -32,6 +40,14 @@
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
                           <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
                           <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
+                      </div>
+                      <div class="col-md-12 col-sm-12 col-xs-12">
+                        <p style="text-align: center;">
+                          <!-- <a href="https://play.google.com/store/apps/details?id=us.tier5.u_rang&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank"><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' style="height: 50px;" /></a>
+                          <a href="#" target="_blank"><img alt='Get it on Google Play' src="{{url('/')}}/public/new/img/mobile-app/appstore.png" style="height: 50px;" /></a> -->
+                          <input type="image" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" style="height: 50px;"></input>
+                          <input type="image" src="{{url('/')}}/public/new/img/mobile-app/appstore.png" style="height: 50px;"></input>
+                        </p>
                       </div>
                   </div>
               </div>

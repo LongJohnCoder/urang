@@ -100,7 +100,7 @@
          </div>
          <div style="height: 60px;"></div>
          <div class="col-md-5 col-sm-5 text-center">
-            <img src="{{url('/')}}/public/new/img/mobile-app/1.jpg" alt="image" class="img-responsive" style="height: 500px;" />
+            <img src="{{url('/')}}/public/new/img/mobile-app/u-rang_android.png" alt="image" class="img-responsive" style="height: 500px;" />
          </div>
       </div>
    </div>
