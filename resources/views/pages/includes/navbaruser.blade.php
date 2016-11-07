@@ -65,6 +65,9 @@
                           <li role="presentation"><a href="{{route('getChangePassword')}}"><i class="fa fa-cog" aria-hidden="true"></i> Change Password</a></li>
                         </ul>
                       </li>
+                      <li id="push_panel_li">
+                        <a href="{{route('getListNotification')}}" id="push_noti"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+                      </li>
                       <li><a href="{{route('getLogout')}}"><i class="fa fa-power-off" aria-hidden="true"></i></a></li>
                       <!-- <li><a href="{{route('getComplaints')}}">Complaints</a></li> -->
                       <!-- <li><a href="{{route('getMobileAppPage')}}">Download App</a></li> -->
@@ -78,3 +81,26 @@
         </div>
     </div>
   </header>
+  <script type="text/javascript">
+    $(function(){
+      //alert('test')
+      $.ajax({
+        url: "{{route('checkPushNotification')}}",
+        type:"POST",
+        data: {user_id: "{{auth()->guard('users')->user()->id}}", _token:"{{Session::token()}}"},
+        success:function(data) {
+          /*console.log(data);
+          console.log(data.length);*/
+          if (data != 0) {
+            $('#push_noti').attr('style', 'background: red;color: #fff;');
+            $('#push_panel_li').attr('title', "you have "+ data.length + " unread notifications");
+          } else {
+            $('#push_noti').removeAttr('style');
+          }
+        }
+      });
+      /*$('#push_noti').click(function(){
+        $(this).removeAttr('style');
+      });*/
+    });
+  </script>

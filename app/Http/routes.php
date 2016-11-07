@@ -36,12 +36,23 @@ Route::post('/last-insterted-record', ['uses' => 'MainController@lastPickUpReq',
 Route::get('/forgot-password', ['uses' => 'MainController@getForgotPassword', 'as' => 'getForgotPassword']);
 Route::post('/forgot-password', ['uses' => 'MainController@postForgotPassword', 'as' => 'postForgotPassword']);
 Route::get('/confirm-reset-password/{id}', ['uses' => 'MainController@getResetUserPassword', 'as' => 'getresetUserPassword']);
+//push notification
+Route::post('/push-noti', ['uses' => 'MainController@postPushNotification', 'as' => 'postPushNotification']);
+Route::post('/check-noti', ['uses' => 'MainController@checkPushNotification', 'as' => 'checkPushNotification']);
+
 Route::post('/reset-password-save', ['uses' => 'MainController@postResetPassword', 'as' => 'postResetPassword']);
 /*after login user functionality in middleware*/
 Route::get('/login', ['uses' => 'MainController@getLogin' ,'as' => 'getLogin']);
 Route::post('/login-attempt', ['uses' => 'MainController@postCustomerLogin', 'as' => 'postCustomerLogin']);
 Route::post('/save-pickup-request', ['uses' => 'MainController@postPickUp', 'as' => 'postPickUpReq']);
 Route::group(['middleware' => ['user']], function () {
+    Route::get('/notifications',['uses' => 'MainController@getListNotification', 'as' => 'getListNotification']);
+
+
+    Route::get('/show-notification-detail/{id}', ['uses' => 'MainController@showmail', 'as' => 'getShowMail']);
+
+
+
     Route::get('/user-dashboard', ['uses' => 'MainController@getDashboard','as' => 'getCustomerDahsboard']);
     Route::get('/profile', ['uses' => 'MainController@getProfile', 'as' => 'get-user-profile']);
     Route::post('/profile', ['uses' => 'MainController@postProfile', 'as' => 'post-user-profile']);

@@ -93,10 +93,14 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
+        /*'attribute-name' => [
             'rule-name' => 'custom-message',
-        ],
+        ],*/
+        'push_noti_text' => [
+            'required' => 'Push Notification message body is required!',
+         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

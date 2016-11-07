@@ -37,6 +37,7 @@ use App\Categories;
 use App\IndexPageWysiwyg;
 use App\ref;
 use App\Helper\ConstantsHelper;
+use App\PushNotification;
 
 class MainController extends Controller
 {
@@ -1103,6 +1104,52 @@ class MainController extends Controller
             return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'logged_user', 'neighborhood'));
         } else {
             return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
+        }
+    }
+    public function postPushNotification(Request $request){
+        //dd();
+        $this->validate($request, [
+            'push_noti_text' => 'required',
+            'pick_up_id' => 'required',
+            'user_id' => 'required'
+        ]);
+        $insert = new PushNotification();
+        $insert->pick_up_req_id = $request->pick_up_id;
+        $insert->user_id = $request->user_id;
+        $insert->author = Auth::user()->username;
+        $insert->description = $request->push_noti_text;
+        $insert->is_read = 0;
+        if ($insert->save()) {
+            return redirect()->route('getCustomerOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
+        } else {
+            return redirect()->route('getCustomerOrders')->with('fail', '<i class="fa fa-times" aria-hidden="true"></i> error while sending notification please try again later!');
+        }
+    }
+    public function checkPushNotification(Request $request) {
+        //return $request;
+        $find_notification = PushNotification::where('user_id', $request->user_id)->where('is_read', 0)->orderBy('created_at', 'DESC')->get();
+        if (count($find_notification) > 0) {
+            return $find_notification;
+        } else {
+            return 0;
+        }
+    }
+    public function getListNotification() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $logged_user = $obj->getCustomerData();
+        $find_notification = PushNotification::where('user_id', auth()->guard('users')->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        return view('pages.notifications', compact('site_details', 'logged_user', 'find_notification'));
+    }
+    public function showmail($id) {
+        $id = base64_decode($id);
+        $update_read_status = PushNotification::find($id);
+        if ($update_read_status) {
+            $update_read_status->is_read = 1;
+            $update_read_status->save();
+            
+        } else {
+            //return to previous page
         }
     }
 }

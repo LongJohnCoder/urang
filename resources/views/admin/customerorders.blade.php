@@ -5,13 +5,22 @@
       <div class="col-lg-12">
          <div class="panel-heading">
             @if(Session::has('fail'))
-            <div class="alert alert-danger">{{Session::get('fail')}}
-               <a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            </div>
+              <div class="alert alert-danger">{!!Session::get('fail')!!}
+                 <a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              </div>
             @else
             @endif
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @if(Session::has('success'))
-            <div class="alert alert-success">{{Session::get('success')}}
+            <div class="alert alert-success">{!!Session::get('success')!!}
                <a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
             @else
@@ -47,7 +56,7 @@
                               <option value="delivered">Delivered Orders</option>
                            </select>
                         </div>
-                        <div class="col-md-3"></div>
+                        <div class="col-md-3"><button type="button" id="multiple_push_noti" class="btn btn-xs btn-warning"><i class="fa fa-bell" aria-hidden="true"></i> Push Notification</button></div>
                         <div class="col-md-4">
                            <!-- <button type="submit" class="btn btn-default">Sort</button> -->
                         </div>
@@ -75,6 +84,7 @@
                   <table class="table table-bordered" style="overflow-x: scroll;display: block;">
                      <thead>
                         <tr>
+                           <th><input type="checkbox" name="select_all" id="select_all"></input></th>
                            <th>Pickup Date</th>
                            <th>Customer Email</th>
                            <th>Pickup Address</th>
@@ -88,6 +98,7 @@
                            <th>Mark As</th>
                            <th>Coupon Applied</th>
                            <th>School Donation</th>
+                           <th></th>
                            <th></th>
                            <th></th>
                            <th></th>
@@ -141,6 +152,7 @@
                            
                            ?>
                         <tr id="color_{{$pickup->id}}">
+                            <td><input type="checkbox" name="select_order_cus" id="select_order_cus_{{$pickup->id}}"></input></td>
                            <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
                            <td>{{ $pickup->user->email }}</td>
                            <td>{{ $pickup->address }}</td>
@@ -253,6 +265,7 @@
                                 </form>
                             </td>
                            @endif
+                           <td><button type="button" id="btn_notify_{{$pickup->id}}" class="btn btn-warning" onclick="return notifyCust('{{$pickup->id}}', '{{$pickup->user_detail->id}}')"><i class="fa fa-bell" aria-hidden="true"></i> Notify</button></td>
                         </tr>
                         @endforeach
                      </tbody>
@@ -263,6 +276,35 @@
          </div>
       </div>
    </div>
+</div>
+<!-- Modal -->
+<div id="modalPush" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create Push Notifications <i class="fa fa-bell" aria-hidden="true"></i></h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" action="{{route('postPushNotification')}}" method="POST">
+          <div class="form-group">
+            <label for="push_noti_text">Message</label>
+            <textarea class="form-control" name="push_noti_text" rows="10" placeholder="Text you want to deliver..." required="true"></textarea>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" id="push_submit" type="submit">Send</button>
+          <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+          <input type="hidden" name="pick_up_id" id="pick_up_id"></input>
+          <input type="hidden" name="user_id" id="user_id"></input>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+      </div>
+    </div>
+
+  </div>
 </div>
 @foreach($pickups as $pickup) 
 @if(count($pickup->invoice)>0)
@@ -1662,7 +1704,25 @@
           }
         });
   }
-
+  function notifyCust(pickup_id, user_id){
+    $('#modalPush').modal('show');
+    $('#pick_up_id').val(pickup_id);
+    $('#user_id').val(user_id);
+    return;
+    /*if ($.trim(pickup_id) && $.trim(user_id)) {
+      $.ajax({
+        url: "{{route('postPushNotification')}}",
+        type: "POST",
+        data: {pickup_id: pickup_id, user_id: user_id, _token:"{{Session::token()}}"},
+        success:function(data){
+          console.log(data);
+        }
+      });
+    }
+    else {
+      swal("Oops!","could not find a pickup request id", "error");
+    }*/
+  }
   /*function show_detail_modal_on_load()
   {
     alert('detail');
