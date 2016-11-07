@@ -1107,7 +1107,7 @@ class MainController extends Controller
         }
     }
     public function postPushNotification(Request $request){
-        //dd();
+        //dd(isset($request->whoiam));
         $this->validate($request, [
             'push_noti_text' => 'required',
             'pick_up_id' => 'required',
@@ -1116,7 +1116,7 @@ class MainController extends Controller
         $insert = new PushNotification();
         $insert->pick_up_req_id = $request->pick_up_id;
         $insert->user_id = $request->user_id;
-        $insert->author = isset($request->whoiam) ? Auth::user()->username : auth()->guard('staffs')->user()->user_name;
+        $insert->author = isset($request->whoiam) ? auth()->guard('staffs')->user()->user_name : Auth::user()->username ;
         $insert->description = $request->push_noti_text;
         $insert->is_read = 0;
         if ($insert->save()) {
