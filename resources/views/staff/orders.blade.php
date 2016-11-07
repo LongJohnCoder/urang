@@ -300,6 +300,7 @@
           <input type="hidden" name="_token" value="{{Session::token()}}"></input>
           <input type="hidden" name="pick_up_id" id="pick_up_id"></input>
           <input type="hidden" name="user_id" id="user_id"></input>
+          <input type="hidden" name="whoiam" value="1"></input>
         </form>
       </div>
       <div class="modal-footer">
