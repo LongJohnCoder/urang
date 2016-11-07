@@ -1,4 +1,21 @@
 
+<style type="text/css">
+   
+   body{position: relative; overflow-x: hidden;} 
+  .nav > li > a{padding: 10px 7px;}
+
+
+  @media only screen and (max-width:767px){
+
+  .sticky-text{right: -210px !important;}
+  .sticky-text:hover{right: 0px !important;}
+  .header .navbar .navbar-brand{width: 180px;}
+
+}
+
+
+</style>
+
 <header class="header scrolling-header">
   <nav id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container relative-nav-container">
@@ -6,13 +23,13 @@
           <i class="fa fa-navicon"></i>
       </a>
       <a class="navbar-brand scroll" href="{{route('index')}}">
-          <img class="normal-logo hidden-xs" src="{{url('/')}}/public/new/img/logo-white.png" alt="logo" style="height: 51px; width: 132px; margin-left: -40px;" />
+          <img class="normal-logo hidden-xs" src="{{url('/')}}/public/new/img/logo-white.png" alt="logo" style="height: 51px; width: 132px; " />
           <img class="scroll-logo hidden-xs" src="{{url('/')}}/public/new/img/logo.png" alt="logo" />
           <img class="scroll-logo visible-xs-block" src="{{url('/')}}/public/new/img/logo-white.png" alt="logo" />
       </a>
 
       
-      <div class="navbar-collapse collapse floated" id="navbar-collapse" style="margin-left: 185px;">
+      <div class="navbar-collapse collapse floated" id="navbar-collapse" >
           <ul class="nav navbar-nav navbar-with-inside clearfix navbar-right with-border"> 
               <li class="active">
                   @if(auth()->guard('users')->user() == null)
