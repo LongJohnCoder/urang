@@ -56,7 +56,7 @@
                               <option value="delivered">Delivered Orders</option>
                            </select>
                         </div>
-                        <div class="col-md-3"><button type="button" id="multiple_push_noti" class="btn btn-xs btn-warning"><i class="fa fa-bell" aria-hidden="true"></i> Push Notification</button></div>
+                        <!-- <div class="col-md-3"><button type="button" id="multiple_push_noti" class="btn btn-xs btn-warning"><i class="fa fa-bell" aria-hidden="true"></i> Push Notification</button></div> -->
                         <div class="col-md-4">
                            <!-- <button type="submit" class="btn btn-default">Sort</button> -->
                         </div>
@@ -297,6 +297,7 @@
           <input type="hidden" name="_token" value="{{Session::token()}}"></input>
           <input type="hidden" name="pick_up_id" id="pick_up_id"></input>
           <input type="hidden" name="user_id" id="user_id"></input>
+          <input type="hidden" name="multiple" id="multiple"></input>
         </form>
       </div>
       <div class="modal-footer">
@@ -1732,5 +1733,55 @@
   {
     alert('showDetails_function_at_load');
   }*/
+  //multiple selection
+  $(function(){
+      $('#select_all').click(function(){
+        if ($(this)[0].checked == true) {
+            checkOrNot(1);
+        } else if($(this)[0].checked == false) {
+          checkOrNot(0);
+        } else {
+          swal('Oops!','something went wrong', 'error');
+        }
+      }); 
+  });
+  function checkOrNot(flag = null) {
+    //1 -> check all , 0= uncheck all
+    var required_pickup_array = new Array();
+    var required_userid_array = new Array();
+    if (flag == 1) {
+      if ('{{ count($pickups) > 0 }}') {
+        @foreach($pickups as $pickup)
+          $('#select_order_cus_{{$pickup->id}}')[0].checked = true;
+          required_pickup_array.push('{{$pickup->id}}');
+          required_userid_array.push('{{$pickup->user->id}}');
+          //console.log(required_pickup_array + " " + required_userid_array);
+        @endforeach
+        $('#modalPush').modal('show');
+        $('#pick_up_id').val(required_pickup_array);
+        $('#user_id').val(required_userid_array);
+        $('#multiple').val(1);
+      } else {
+      return;
+      }
+    } else if(flag == 0) {
+      if ('{{ count($pickups) > 0 }}') {
+        @foreach($pickups as $pickup)
+          $('#select_order_cus_{{$pickup->id}}')[0].checked = false;
+          required_pickup_array.splice('{{$pickup->id}}');
+          required_userid_array.splice('{{$pickup->user->id}}');
+        @endforeach
+        $('#modalPush').modal('hide');
+        $('#pick_up_id').val(required_pickup_array);
+        $('#user_id').val(required_userid_array);
+        $('#multiple').val('');
+      } else {
+      return;
+      }
+    } else {
+      swal('Oops!', "Developer Hint : Wrong flag", "error");
+    }
+    
+  }
 </script>
 @endsection

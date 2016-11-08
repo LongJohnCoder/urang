@@ -1107,39 +1107,69 @@ class MainController extends Controller
         }
     }
     public function postPushNotification(Request $request){
+        //dd($request);
         //dd(isset($request->whoiam));
+        $array_pickup = array();
+        $array_user_id = array();
         $this->validate($request, [
             'push_noti_text' => 'required',
             'pick_up_id' => 'required',
             'user_id' => 'required'
         ]);
-        $insert = new PushNotification();
-        $insert->pick_up_req_id = $request->pick_up_id;
-        $insert->user_id = $request->user_id;
-        $insert->author = isset($request->whoiam) ? auth()->guard('staffs')->user()->user_name : Auth::user()->username ;
-        $insert->description = $request->push_noti_text;
-        $insert->is_read = 0;
-        if ($insert->save()) {
+        if ($request->multiple == 1) {
+            $array_pickup = explode(",", $request->pick_up_id);
+            $array_user_id = explode(",", $request->user_id);
+            for($i=0; $i < count($array_pickup); $i++) {
+                $insert_mul = new PushNotification();
+                $insert_mul->pick_up_req_id = $array_pickup[$i];
+                $insert_mul->user_id = $array_user_id[$i];
+                $insert_mul->description = $request->push_noti_text;
+                $insert_mul->author = isset($request->whoiam) ? auth()->guard('staffs')->user()->user_name : Auth::user()->username ;
+                $insert_mul->is_read = 0;
+                $insert_mul->save();
+            }
             if ($request->whoiam) {
-                //staff route
-                return redirect()->route('getStaffOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
+                    //staff route
+                    return redirect()->route('getStaffOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
             }
             else
             {
                 return redirect()->route('getCustomerOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
             }
-            
-        } else {
-            if ($request->whoiam) {
-                //staff route
-                return redirect()->route('getStaffOrders')->with('fail', '<i class="fa fa-times" aria-hidden="true"></i> error while sending notification please try again later!');
-            }
-            else
-            {
-               return redirect()->route('getCustomerOrders')->with('fail', '<i class="fa fa-times" aria-hidden="true"></i> error while sending notification please try again later!'); 
-            }
-            
         }
+        else
+        {
+            //single goes here
+            $insert = new PushNotification();
+            $insert->pick_up_req_id = $request->pick_up_id;
+            $insert->user_id = $request->user_id;
+            $insert->author = isset($request->whoiam) ? auth()->guard('staffs')->user()->user_name : Auth::user()->username ;
+            $insert->description = $request->push_noti_text;
+            $insert->is_read = 0;
+            if ($insert->save()) {
+                if ($request->whoiam) {
+                    //staff route
+                    return redirect()->route('getStaffOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
+                }
+                
+            } else {
+                if ($request->whoiam) {
+                    //staff route
+                    return redirect()->route('getStaffOrders')->with('fail', '<i class="fa fa-times" aria-hidden="true"></i> error while sending notification please try again later!');
+                }
+                else
+                {
+                   return redirect()->route('getCustomerOrders')->with('fail', '<i class="fa fa-times" aria-hidden="true"></i> error while sending notification please try again later!'); 
+                }
+                
+            }
+
+        }
+        
     }
     public function checkPushNotification(Request $request) {
         //return $request;
