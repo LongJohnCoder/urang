@@ -86,9 +86,9 @@
                   @else
                   @endif
               </li>
-              <!-- <li>
+              <li>
                 <a href="{{route('getMobileAppPage')}}">Download App</a>
-              </li> -->
+              </li>
               <!-- <li>
                 <a href="{{route('getComplaints')}}">Complaints</a>
               </li> -->
