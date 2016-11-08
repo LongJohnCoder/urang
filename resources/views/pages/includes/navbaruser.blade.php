@@ -88,7 +88,7 @@
                       <li id="push_panel_li">
                         <a href="{{route('getListNotification')}}" id="push_noti">
                           <i class="fa fa-bell-o" aria-hidden="true"></i>
-                          <span class="notifi-count">10</span>
+                          <span class="notifi-count"></span>
                         </a>
                       </li>
                       <li><a href="{{route('getLogout')}}"><i class="fa fa-power-off" aria-hidden="true"></i></a></li>
@@ -116,10 +116,11 @@
           console.log(data.length);*/
           if (data != 0) {
             $('#push_noti .notifi-count').show();
+            $('.notifi-count').text(data.length);
             $('#push_panel_li').attr('title', "you have "+ data.length + " unread notifications");
           } else {
             $('#push_noti').removeAttr('style');
-            $('#push_noti .notifi-count')hide();
+            $('#push_noti .notifi-count').hide();
           }
         }
       });
