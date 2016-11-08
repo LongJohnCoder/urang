@@ -21,10 +21,27 @@
 				  <tbody>
 				  	@if(count($find_notification) > 0)
 				  		@foreach($find_notification as $notification)
-					  		<tr>
-						    	<td style="width:20%">{{$notification->author}}</td>
-						    	<td style="width:80%" id="des_{{$notification->id}}"><a href="{{route('getShowMail' , base64_encode($notification->id))}}">{{$notification->description}}</a></td>
-						    </tr>
+				  			@if($notification->is_read == 0)
+						  		<tr style="background-color: #C0C0C0;">
+							    	<td style="width:30%"><i class="fa fa-envelope-o" aria-hidden="true"></i> {{$notification->author}}</td>
+							    	<!--unread-->
+							    	@if(strlen($notification->description) >= 100)
+							    		<td style="width:70%" id="des_{{$notification->id}}"><a href="{{route('getShowMail' , base64_encode($notification->id))}}">{{substr($notification->description, 0, 100)}}....<u>view more..</u></a></td>
+							    	@else
+							    		<td style="width:70%" id="des_{{$notification->id}}"><a href="{{route('getShowMail' , base64_encode($notification->id))}}">{{$notification->description, 0, 100}}</a></td>
+							    	@endif
+							    </tr>
+							    @else
+							    	<tr>
+								    	<td style="width:30%"><i class="fa fa-inbox" aria-hidden="true"></i> {{$notification->author}}</td>
+								    	<!--read-->
+								    	@if(strlen($notification->description) >= 100)
+								    		<td style="width:70%" id="des_{{$notification->id}}"><a href="{{route('getShowMail' , base64_encode($notification->id))}}">{{substr($notification->description, 0, 100)}}.....<u>view more..</u></a></td>
+								    	@else
+								    		<td style="width:70%" id="des_{{$notification->id}}"><a href="{{route('getShowMail' , base64_encode($notification->id))}}">{{$notification->description, 0, 100}}</a></td>
+								    	@endif
+								    </tr>
+							    @endif
 						@endforeach
 				  	@else
 				  		<tr><td>No Data</td></tr>

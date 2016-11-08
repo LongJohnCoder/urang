@@ -1163,9 +1163,20 @@ class MainController extends Controller
         if ($update_read_status) {
             $update_read_status->is_read = 1;
             $update_read_status->save();
+            //dd($update_read_status);
+            //Session::put('noti_id', $id);
+            return redirect()->route('showDetailsNotification', base64_encode($id));
             
         } else {
-            //return to previous page
+            return redirect()->route('getListNotification')->with('fail', "Sorry! Unable to open email right now");
         }
+    }
+    public function showDetailsNotification($id) {
+        $noti_id = base64_decode($id);
+        $getDetails = PushNotification::find($noti_id);
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $logged_user = $obj->getCustomerData();
+        return view('pages.notification_details', compact('site_details', 'logged_user', 'getDetails'));
     }
 }

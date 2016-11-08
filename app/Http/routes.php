@@ -47,7 +47,7 @@ Route::post('/login-attempt', ['uses' => 'MainController@postCustomerLogin', 'as
 Route::post('/save-pickup-request', ['uses' => 'MainController@postPickUp', 'as' => 'postPickUpReq']);
 Route::group(['middleware' => ['user']], function () {
     Route::get('/notifications',['uses' => 'MainController@getListNotification', 'as' => 'getListNotification']);
-
+    Route::get('/notification-details/{id}', ['uses' => 'MainController@showDetailsNotification', 'as' => 'showDetailsNotification']);
 
     Route::get('/show-notification-detail/{id}', ['uses' => 'MainController@showmail', 'as' => 'getShowMail']);
 
