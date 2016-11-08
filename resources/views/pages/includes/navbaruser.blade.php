@@ -1,3 +1,23 @@
+<style type="text/css">
+  #push_noti{
+    position: relative;
+  }
+  #push_noti i{
+    font-size: 20px;
+  }
+  .notifi-count{
+    background: #FF1E1E;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 1px 1px 1px 1px #999;
+  }
+</style>
 <header>
     <div class="container-fluid">
         <div class="row">
@@ -66,7 +86,10 @@
                         </ul>
                       </li>
                       <li id="push_panel_li">
-                        <a href="{{route('getListNotification')}}" id="push_noti"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+                        <a href="{{route('getListNotification')}}" id="push_noti">
+                          <i class="fa fa-bell-o" aria-hidden="true"></i>
+                          <span class="notifi-count">10</span>
+                        </a>
                       </li>
                       <li><a href="{{route('getLogout')}}"><i class="fa fa-power-off" aria-hidden="true"></i></a></li>
                       <!-- <li><a href="{{route('getComplaints')}}">Complaints</a></li> -->
@@ -92,10 +115,11 @@
           /*console.log(data);
           console.log(data.length);*/
           if (data != 0) {
-            $('#push_noti').attr('style', 'background: red;color: #fff;');
+            $('#push_noti .notifi-count').show();
             $('#push_panel_li').attr('title', "you have "+ data.length + " unread notifications");
           } else {
             $('#push_noti').removeAttr('style');
+            $('#push_noti .notifi-count')hide();
           }
         }
       });
