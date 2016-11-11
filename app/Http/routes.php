@@ -48,11 +48,7 @@ Route::post('/save-pickup-request', ['uses' => 'MainController@postPickUp', 'as'
 Route::group(['middleware' => ['user']], function () {
     Route::get('/notifications',['uses' => 'MainController@getListNotification', 'as' => 'getListNotification']);
     Route::get('/notification-details/{id}', ['uses' => 'MainController@showDetailsNotification', 'as' => 'showDetailsNotification']);
-
     Route::get('/show-notification-detail/{id}', ['uses' => 'MainController@showmail', 'as' => 'getShowMail']);
-
-
-
     Route::get('/user-dashboard', ['uses' => 'MainController@getDashboard','as' => 'getCustomerDahsboard']);
     Route::get('/profile', ['uses' => 'MainController@getProfile', 'as' => 'get-user-profile']);
     Route::post('/profile', ['uses' => 'MainController@postProfile', 'as' => 'post-user-profile']);
@@ -133,6 +129,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/index-page-control', ['uses' => 'AdminController@getCmsIndexPage', 'as' => 'getCmsIndexPage']);
         Route::post('/save-index-content', ['uses' => 'AdminController@postSaveCmsIndex', 'as' => 'postSaveCmsIndex']);
         Route::get('/index-wysiwyg', ['uses' => 'AdminController@showIndexWysiwygControl', 'as' => 'showIndexWysiwygControl']);
+        Route::get('/mobile-app-wysiwig', ['uses' => 'AdminController@getMobilePageWyswig', 'as' => 'getMobilePageWyswig']);
+        Route::post('/save-mobile-wysiwyg-data', ['uses' => 'AdminController@postMobileAppWysiwyg', 'as' => 'postMobileAppWysiwyg']);
     });
     Route::post('/add-item-custom-Admin',['uses' => 'AdminController@addItemCustomAdmin','as'=>'addItemCustomAdmin']);
     Route::get('/pending-payments', ['uses' => 'PaymentController@getManageClientPayment', 'as' => 'getManageClientPayment']);
@@ -227,7 +225,7 @@ Route::group (['prefix' => 'staff'], function () {
     Route::get('/staff-oders-sort-create-date', ['uses' => 'StaffController@orderSortCreatedAtStaff', 'as' => 'orderSortCreatedAtStaff']);
 });
 //mobile page route
-Route::get('/mobile-app', ['uses' => 'MainController@getMobileAppPage', 'as' => 'getMobileAppPage']);
+Route::get('/NYC-Dry-Clean-Mobile-app', ['uses' => 'MainController@getMobileAppPage', 'as' => 'getMobileAppPage']);
 
 //API V.1 routes
 Route::group(['prefix' => 'V1'], function () {

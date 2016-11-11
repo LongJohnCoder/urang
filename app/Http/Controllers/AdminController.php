@@ -42,6 +42,7 @@ use App\Helper\SiteHelper;
 use App\EmailTemplateOrderConfirm;
 use App\IndexPageWysiwyg;
 use App\ref;
+use App\MobileAppWys;
 
 class AdminController extends Controller
 {
@@ -2789,5 +2790,41 @@ class AdminController extends Controller
         }
         $save_data->save();
         return redirect()->route('showIndexWysiwygControl');
+    }
+    public function getMobilePageWyswig() {
+        $data = MobileAppWys::first();
+        return view('admin.mobile-app-wysiwyg', compact('data'));
+    }
+    public function postMobileAppWysiwyg(Request $request) {
+        $isData = MobileAppWys::first();
+        $newData = new MobileAppWys();
+        if ($isData) {
+            return $this->insertRecord($isData, $request);
+        } else {
+            return $this->insertRecord($newData, $request);
+        }
+    }
+    public function insertRecord($object, $request) {
+
+       //==============================save records ==============================//
+        $object->title                  = isset($request->title) ? $request->title : $object->title;
+        $object->tagLine                = isset($request->tagLine) ? $request->tagLine : $object->tagLine;
+        $object->above_title            = isset($request->above_title) ? $request->above_title : $object->above_title;
+        $object->description_android    = isset($request->descriptionAndroid) ? $request->descriptionAndroid : $object->description_android;
+        if ($request->imageChooser) {
+            $image = $request->imageChooser;
+            $extension =$image->getClientOriginalExtension();
+            $destinationPath = 'public/dump_images/';
+            $fileName = rand(111111111,999999999).'.'.$extension;
+            $image->move($destinationPath, $fileName);
+            $object->image_android = $fileName;
+        } else {
+            $object->image_android = $object->image_android;
+        }
+        if ($object->save()) {
+            return redirect()->route('getMobilePageWyswig')->with('success', "Records saved successfully!");
+        } else {
+            return redirect()->route('getMobilePageWyswig')->with('fail', "Cannot save data some error occured!");
+        }
     }
 }

@@ -38,6 +38,7 @@ use App\IndexPageWysiwyg;
 use App\ref;
 use App\Helper\ConstantsHelper;
 use App\PushNotification;
+use App\MobileAppWys;
 
 class MainController extends Controller
 {
@@ -1099,11 +1100,12 @@ class MainController extends Controller
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
         $neighborhood = $obj->getNeighborhood();
+        $page_data = MobileAppWys::first();
         if ($login_check != null) {
             $logged_user= $obj->getCustomerData();
-            return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'logged_user', 'neighborhood'));
+            return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'logged_user', 'neighborhood', 'page_data'));
         } else {
-            return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
+            return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'page_data'));
         }
     }
     public function postPushNotification(Request $request){

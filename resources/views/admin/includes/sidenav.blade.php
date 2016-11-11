@@ -82,6 +82,9 @@
                         <li>
                             <a href="{{route('getWetCleaning')}}">Wet Cleaning Page</a>
                         </li>
+                        <li>
+                            <a href="{{route('getMobilePageWyswig')}}">Mobile App Page</a>
+                        </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
