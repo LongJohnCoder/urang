@@ -77,7 +77,7 @@
                       <li role="presentation"><a href="{{route('getFaqList')}}">FAQs</a></li>
                       <li role="presentation"><a href="{{route('getContactUs')}}">Contact</a></li>
                     </ul>
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav new-nav">
                       <div style="display: none;">{{$logged_user= (new \App\Helper\NavBarHelper)->getCustomerData()}}</div>
                       <li role="presentation" class="welcome-user"><a href="#">Welcome <span>{{$logged_user->user_details->name}}</span></a>
                         <ul>

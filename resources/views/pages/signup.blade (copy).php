@@ -2,8 +2,9 @@
 @section('content')
 
 <style type="text/css">
-   .form2 .message{color: #333;}
-   p{font-size: 14px;}
+   
+   .white-bg{background: #fff;} 
+   .txt-left{text-align: left;}
 </style>
 
 
@@ -46,317 +47,63 @@
             <form class="login-form" role="form2" method="post" action="{{route('postSignUp')}}">
                 <h2>Customer Registration</h2>
                 <h3>Individual Clients</h3>
-                <p class="message">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery. </p><br>
+                <p class="message">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery. </p>
                 <span class="required">NOTE:</span> If you already have an account with us, please login at the <a href="{{route('getLogin')}}">login page.</a>
                 <span class="warning" style="padding-left:18px;" align="left">
                 <span class="warning" style="padding-left:18px;" align="left">
                 <span class="warning" style="padding-left:18px;" align="left">
                 <div style="height: 40px;"></div>
                 <div class="txt-left">
-                <div class="row custom-margin">
+                <div class="row">
                   <div class="col-md-4 col-sm-4">
-                  Today's Date:
+                  ewr
                   </div>
                   <div class="col-md-6 col-sm-6">
-                  <?= date('l,');?>&nbsp;<?= date('F d, Y');?>
+                  ert
                   </div>
-                </div>
-                <hr>
-                <div class="row custom-margin">
-                  <div class="col-md-4 col-sm-4">
-                    <label>Email:</label> <span style="color: red;">*</span>
-                  </div>
-                  <div class="col-md-6 col-sm-6">
-                    <input type="email" id="email" name="email" style="" onkeyup="return IsValidEmail();">
-                      <div id="emailExist"></div>
-                      <div id="errorInputEmail" style="color: red;">
-                      </div>
-                  </div>
-                </div>
-                <div class="row custom-margin">
-                  <div class="col-md-4 col-sm-4">
-                    <label>Password:</label> <span style="color: red;">*</span>
-                  </div>
-                  <div class="col-md-6 col-sm-6">
-                    <input type="password"  id="password" name="password" style="" onkeyup="return PassWordCheck();">
-                    <div id="errorInputPassword" style="color: red;"></div>
-                  </div>
-                </div>
-                <div class="row custom-margin">
-                  <div class="col-md-4 col-sm-4">
-                    <label>Confirm Password:</label> <span style="color: red;">*</span>
-                  </div>
-                  <div class="col-md-6 col-sm-6">
-                    <input type="password"  id="conf_password" name="conf_password" style="" onkeyup="return PassWordCheck();">
-                    <div id="errorInputConfPassword" style="color: red;"></div>
-                  </div>
-                </div>
-                <div class="row custom-margin">
-                  <div class="col-md-4 col-sm-4">
-                  &nbsp;
-                  </div>
-                  <div class="col-md-6 col-sm-6">
-                    <div id="passcheck"></div>
-                  </div>
-                </div> 
-                <div class="row custom-margin">
-                  <div class="col-md-12 col-sm-12">
-                    <div class="page_sub_heading">
-                    <label>Personal Info:</label></div>
-                  </div>
-                </div>
-                <div class="row custom-margin">
-                  <div class="col-md-4 col-sm-4">
-                    <label>Name:</label> <span style="color: red;">*</span>
-                  </div>
-                  <div class="col-md-6 col-sm-6">
-                    <input type="text" id="name" name="name" style="" value="{{old('name')}}" onkeyup="$('#name').attr('style', 'width:270px;'); $('#errorInputName').html('');">
-                      <div id="errorInputName" style="color: red;"></div>
-                  </div>
-                </div>
-                <div class="row custom-margin">
-                  <div class="col-md-4 col-sm-4">
-                    <label>Address:</label> <span style="color: red;">*</span>
-                  </div>
-                  <div class="col-md-6 col-sm-6">
-                    <textarea cols="30" rows="3"  id="txtAddress" name="address" onkeyup="$('#txtAddress').attr('style', 'width:270px;'); $('#errorInputAddress').html('');">{{old('address')}}</textarea>
-                    <div id="errorInputAddress" style="color: red;"></div>
-                  </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Phone:</label> <span style="color: red;">*</span>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <input type="number" id="Phone" placeholder="Format: 5555555555" name="personal_phone" value="{{old('personal_phone')}}" onkeyup="$('#Phone').attr('style', ''); $('#errorInputPhone').html('');" />
-                      <div id="errorInputPhone" style="color: red;"></div>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Cell phone (optional):</label>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <input type="number" id="cellphone" placeholder="Format: 5555555555" name="cell_phone" value="{{old('cell_phone')}}" />
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Office phone (optional):</label>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <input type="number" id="officephone" placeholder="Format: 5555555555" name="office_phone" value="{{old('office_phone')}}" />
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-12 col-sm-12">
-                      <div class="page_sub_heading">
-                      <label>Special Instructions:</label>
-                      </div>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-12 col-sm-12">
-                      <p>
-                        We will pick-up and deliver on the designated date but not at a specific time unless specified under specific instructions.  Unless otherwise noted pick-up will be at addressed listed above.
-                      </p>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Default Special Instructions (optional):</label>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                    <textarea  cols="30" rows="3" name="spcl_instruction" style="margin-top: 10px;">{{old('spcl_instruction')}}</textarea>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Default Driving Instructions (optional):</label>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <textarea  cols="30" rows="3" name="driving_instruction" style="margin-top: 10px;">{{old('driving_instruction')}}</textarea>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-12 col-sm-12">
-                      <div class="page_sub_heading">
-                      <label>Credit Card Info:</label>
-                      </div>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-12 col-sm-12">
-                      <p>
-                        It is corporate policy to use our services we must have a credit card on file. You may choose another form of payment but for security purposes we need your credit info. <strong>Your credit card is NOT being charged at this time and is only being kept on file for security purposes.</strong>
-                      </p>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Card Holder Name:</label> <span style="color: red;">*</span>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <input type="text" style="" id="cardholder" name="cardholder_name"  value="{{ old('cardholder_name') }}" onkeyup="$('#cardholder').attr('style', 'width:270px;'); $('#errorInputCardHolder').html('');" >
-                        <div id="errorInputCardHolder" style="color: red;"></div>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Credit Card No:</label> <span style="color: red;">*</span>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <input type="text" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" style="">
-                      <div id="errorInputCardNo" style="color: red;"></div>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                   &nbsp;
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                    <p class="log"></p>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                   &nbsp;
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <div class="required">
-                        [ Please do not enter spaces or hyphens (-) ]
-                      </div>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                    <label>CVV2 (optional):</label>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                    <input type="password"  id="cvv" name="cvv" maxlength="4" size="10" value="{{old('cvv')}}">
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      &nbsp;
-                   </div>
-                   <div class="col-md-6 col-sm-6 required">
-                      <p>
-                        [ CVV2 is a 3-digit value at the end of your account number printed on the back of your credit card. On American Express cards, CVV2 number consists of 3-4 digits located on the front of the card.] 
-                      </p>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Expiration Date:</label> <span style="color: red;">*</span>
-                   </div>
-                   <div class="col-md-4 col-sm-4">
-                      <select id="select_month" name="select_month" onchange="$('#select_month').removeAttr('style'); $('#errorInputDate').html('');" style="position:static; margin:0;">
-                                    <option value="">Select Month</option>
-                                    <option value="01">January</option>
-                                    <option value="02">February</option>
-                                    <option value="03">March</option>
-                                    <option value="04">April</option>
-                                    <option value="05">May</option>
-                                    <option value="06">June</option>
-                                    <option value="07">July</option>
-                                    <option value="08">August</option>
-                                    <option value="09">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                      </select>
-                   </div>
-                   <div class="col-md-4 col-sm-4">
-                      <select id="select_year" name="select_year" onchange="$('#select_year').removeAttr('style'); $('#errorInputDate').html('');" style="position:static; margin:0;">
-                                    <option value="">Select Year</option>
-                                    <option value="16">2016</option>
-                                    <option value="17">2017</option>
-                                    <option value="18">2018</option>
-                                    <option value="19">2019</option>
-                                    <option value="20">2020</option>
-                                    <option value="21">2021</option>
-                                    <option value="22">2022</option>
-                                    <option value="23">2023</option>
-                                    <option value="24">2024</option>
-                                    <option value="25">2025</option>
-                                    <option value="26">2026</option>
-                                    <option value="27">2027</option>
-                                    <option value="28">2028</option>
-                      </select>
 
-                   </div>
-                   <div id="errorInputDate" style="color: red;"></div>
-                </div>
-                <hr>
-                <div class="row custom-margin">
-                  <div class="col-md-12 col-sm-12">
-                  <strong>Referrals - 10 percent discount on your next order if you refer a friend.</strong><br><br>
-                  </div>
                 </div>  
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">
-                      <label>Tell Us the Referer Email (optional) :</label>
-                   </div>
-                   <div class="col-md-6 col-sm-6">
-                      <input type="email" name="ref_name" id="ref_name" value="{{old('ref_name')}}"></input>
-                      <div id="email_identifier_noti"></div>
-                   </div>
-                </div>
-                <div class="row custom-margin">
-                   <div class="col-md-4 col-sm-4">&nbsp;</div> 
-                   <div class="col-md-4 col-sm-4">
-                        <button type="submit" style="margin-top: 10px" onclick="IsValid(event);" id="sign_up_cus">Sign Up</button>
-                      <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-                      <input type="hidden" id="email_checker"></input>
-                      <input type="hidden" id="card_no_checker"></input>
-                      <input type="hidden" id="email_checker_ref" value="0"></input>
-                   </div>
-                </div>
-
-
-
                 </div>
                 <table>
                     <tr>
                         <td>
-                        <!-- <tr>
+                        <tr>
                             <td width="169">Today's Date:</td>
                             <td width="443"><?= date('l,');?>&nbsp;<?= date('F d, Y');?></td>
-                        </tr> -->
+                        </tr>
                          <div style="height: 40px;"></div>
                         <tr>
-                            <!-- <td>Email: <span style="color: red;">*</span></td>
+                            <td>Email: <span style="color: red;">*</span></td>
                             <td>
                                 <input type="email" id="email" name="email" style="width:270px;" onkeyup="return IsValidEmail();">
                                 <div id="emailExist"></div>
                                 <div id="errorInputEmail" style="color: red;"></div>
-                            </td> -->
+                            </td>
                         </tr>
                         <tr>
-                            <!-- <td>Password: <span style="color: red;">*</span></td>
+                            <td>Password: <span style="color: red;">*</span></td>
                             <td>
                                 <input type="password"  id="password" name="password" style="width:270px;" onkeyup="return PassWordCheck();">
                                 <div id="errorInputPassword" style="color: red;"></div>
-                            </td> -->
+                            </td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <td>Confirm Password: <span style="color: red;">*</span></td>
                             <td>
                                 <input type="password"  id="conf_password" name="conf_password" style="width:270px;" onkeyup="return PassWordCheck();">
                                 <div id="errorInputConfPassword" style="color: red;"></div>
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                            <td></td>
                            <td>
                               <div id="passcheck"></div>
                            </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Personal Info:</td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>
                                 Name: <span style="color: red;">*</span>
                             </td>
@@ -364,9 +111,9 @@
                                 <input type="text" id="name" name="name" style="width:270px;" value="{{old('name')}}" onkeyup="$('#name').attr('style', 'width:270px;'); $('#errorInputName').html('');">
                                 <div id="errorInputName" style="color: red;"></div>
                             </td>
-                        </tr> -->
+                        </tr>
                         
-                        <!-- <tr>
+                        <tr>
                             <td>
                                 Address: <span style="color: red;">*</span>
                             </td>
@@ -374,61 +121,61 @@
                               <textarea cols="30" rows="3"  id="txtAddress" name="address" onkeyup="$('#txtAddress').attr('style', 'width:270px;'); $('#errorInputAddress').html('');">{{old('address')}}</textarea>
                               <div id="errorInputAddress" style="color: red;"></div>
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>Phone: <span style="color: red;">*</span></td>
                             <td>
                                 <input type="number" id="Phone" placeholder="Format: 5555555555" name="personal_phone" value="{{old('personal_phone')}}" onkeyup="$('#Phone').attr('style', 'width:270px;'); $('#errorInputPhone').html('');" />
                                 <div id="errorInputPhone" style="color: red;"></div>
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>Cell phone (optional):</td>
                             <td>
                                 <input type="number" id="cellphone" placeholder="Format: 5555555555" name="cell_phone" value="{{old('cell_phone')}}" />
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>Office phone (optional):</td>
                             <td>
                                 <input type="number" id="officephone" placeholder="Format: 5555555555" name="office_phone" value="{{old('office_phone')}}" />
                             </td>
-                        </tr> -->
-                        <!-- <tr><td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Special Instructions:</td></tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr><td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Special Instructions:</td></tr>
+                        <tr>
                             <td colspan="2">
                                 We will pick-up and deliver on the designated date but not at a specific time unless specified under specific instructions.  Unless otherwise noted pick-up will be at addressed listed above.
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>
                                 Default Special Instructions (optional):
                             </td>
                             <td>
                                 <textarea  cols="30" rows="3" name="spcl_instruction" style="margin-top: 10px;">{{old('spcl_instruction')}}</textarea>
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>
                                 Default Driving Instructions (optional):
                             </td>
                             <td>
                                 <textarea  cols="30" rows="3" name="driving_instruction" style="margin-top: 10px;">{{old('driving_instruction')}}</textarea>
                             </td>
-                        </tr> -->
-                        <!-- <tr><td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Credit Card Info:</td></tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr><td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Credit Card Info:</td></tr>
+                        <tr>
                             <td colspan="2">
                                 It is corporate policy to use our services we must have a credit card on file. You may choose another form of payment but for security purposes we need your credit info. <strong>Your credit card is NOT being charged at this time and is only being kept on file for security purposes.</strong>
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>Card Holder Name: <span style="color: red;">*</span></td>
                             <td>
                                 <input type="text" style="width:270px;" id="cardholder" name="cardholder_name"  value="{{ old('cardholder_name') }}" onkeyup="$('#cardholder').attr('style', 'width:270px;'); $('#errorInputCardHolder').html('');" >
                                 <div id="errorInputCardHolder" style="color: red;"></div>
                             </td>
-                        </tr> -->
+                        </tr>
                         <!-- <tr>
                             <td>Card Type</td>
                             <td>
@@ -440,14 +187,14 @@
                               </select>
                             </td>
                         </tr> -->
-                        <!-- <tr>
+                        <tr>
                             <td>Credit Card No: <span style="color: red;">*</span></td>
                             <td>
                                 <input type="text" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" style="width:270px;">
                                 <div id="errorInputCardNo" style="color: red;"></div>
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                            <td></td>
                            <td>
                               <p class="log"></p>
@@ -458,20 +205,20 @@
                             <td class="required">
                                 [ Please do not enter spaces or hyphens (-) ] 
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>CVV2 (optional):</td>
                             <td>
                                 <input type="password"  id="cvv" name="cvv" maxlength="4" size="10" value="{{old('cvv')}}">
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>&nbsp;</td>
                             <td class="required">
                                 [ CVV2 is a 3-digit value at the end of your account number printed on the back of your credit card. On American Express cards, CVV2 number consists of 3-4 digits located on the front of the card.] 
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>Expiration Date: <span style="color: red;">*</span></td>
                               <td>
                                 <select id="select_month" name="select_month" onchange="$('#select_month').removeAttr('style'); $('#errorInputDate').html('');">
@@ -511,24 +258,24 @@
                            <td>
                              <div id="errorInputDate" style="color: red;"></div>
                            </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td colspan="2" style="font-weight:bold;">
                                 Referrals - 10 percent discount on your next order if you refer a friend.
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                           <td>Tell Us the Referer Email (optional) :</td>
                           <td><input type="email" name="ref_name" id="ref_name" value="{{old('ref_name')}}"></input>
                           <div id="email_identifier_noti"></div>
                           </td>
-                        </tr> -->
+                        </tr>
                 </table>
-                <!-- <button type="submit" style="margin-top: 10px" onclick="IsValid(event);" id="sign_up_cus">Sign Up</button>
+                <button type="submit" style="margin-top: 10px" onclick="IsValid(event);" id="sign_up_cus">Sign Up</button>
                 <input type="hidden" name="_token" value="{{Session::token()}}"></input>
                 <input type="hidden" id="email_checker"></input>
                 <input type="hidden" id="card_no_checker"></input>
-                <input type="hidden" id="email_checker_ref" value="0"></input> -->
+                <input type="hidden" id="email_checker_ref" value="0"></input>
             </form>
           </div>
               </div>  

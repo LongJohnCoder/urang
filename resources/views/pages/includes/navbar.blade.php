@@ -5,13 +5,26 @@
   .nav > li > a{padding: 10px 7px;}
 
 
-  @media only screen and (max-width:767px){
+  /*@media only screen and (max-width:767px){
 
   .sticky-text{right: -210px !important;}
   .sticky-text:hover{right: 0px !important;}
   .header .navbar .navbar-brand{width: 180px;}
 
-}
+  }*/
+
+  @media only screen and (max-width:767px){
+
+  .sticky-text{right: -125px !important;     -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Safari */
+    transform: rotate(-90deg); /* Standard syntax */ }
+  .sticky-text:hover{right: -87px !important;}
+  .header .navbar .navbar-brand{width: 180px;}
+
+  div.sticky-text{position: fixed !important;}
+
+  }
+
 
 
 </style>
