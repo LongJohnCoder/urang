@@ -1,6 +1,6 @@
 @extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
 @section('content')
-<section class="top-header neighborhood-header with-bottom-effect transparent-effect dark">
+<section class="top-header top-header1 neighborhood-header with-bottom-effect transparent-effect dark" style="">
    <div class="bottom-effect"></div>
    <div class="header-container wow fadeInUp">
       <div class="header-title">
