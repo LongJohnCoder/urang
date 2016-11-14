@@ -19,6 +19,7 @@ Route::get('/neighborhoods', ['uses' => 'MainController@getNeiborhoodPage', 'as'
 Route::get('/neighborhood/{slug}', ['uses' => 'MainController@getStandAloneNeighbor', 'as' => 'getStandAloneNeighbor']);
 Route::get('/faqs', ['uses' => 'MainController@getFaqList', 'as' => 'getFaqList']);
 Route::post('/email-checker', ['uses' => 'MainController@emailChecker', 'as' => 'postEmailChecker']);
+Route::post('/email-referal-checker', ['uses' => 'MainController@emailReferalChecker', 'as' => 'postEmailReferalChecker']);
 Route::post('/email-checker-ref', ['uses' => 'MainController@postEmailCheckerRef', 'as' => 'postEmailCheckerRef']);
 Route::get('/contact-us',['uses' => 'MainController@getContactUs', 'as' => 'getContactUs']);
 Route::post('/postContactForm',['uses' => 'MainController@postContactForm', 'as' => 'postContactForm']);
@@ -97,6 +98,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/edit-customer/{id}', ['uses' => 'AdminController@getEditCustomer', 'as' => 'getEditCustomer']);
 	Route::post('/block-user', ['uses' => 'AdminController@postBlockCustomer', 'as' => 'postBlockCustomer']);
 	Route::post('/delete-user', ['uses' => 'AdminController@DeleteCustomerNew', 'as'=> 'postDeleteCustomer']);
+
+    Route::post('/deactivate-referral-user', ['uses' => 'AdminController@deactivateReferral', 'as'=> 'deactivateReferral']);
+    Route::post('/activate-referral-user', ['uses' => 'AdminController@activateReferral', 'as'=> 'activateReferral']);
+
 	Route::post('/edit-customer', ['uses' => 'AdminController@postEditCustomer', 'as' => 'postEditCustomer']);
 	Route::get('/add-new-customer', ['uses' => 'AdminController@getAddNewCustomer', 'as' => 'getAddNewCustomers']);
 	Route::post('/add-new-customer', ['uses' => 'AdminController@postAddNewCustomer', 'as' => 'postAddNewCustomer']);
@@ -153,6 +158,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/change-status-coupon', ['uses' => 'AdminController@ChangeStatusCoupon', 'as' => 'ChangeStatusCoupon']);
     Route::post('/delete-coupon', ['uses' => 'AdminController@postDeleteCoupon', 'as' => 'postDeleteCoupon']);
     Route::get('/payment-history', ['uses' => 'AdminController@getPaymentLog', 'as' => 'getPaymentLog']);
+    Route::get('/user-referral', ['uses' => 'AdminController@getReferralPage', 'as' => 'getReferralPage']);
     Route::get('/email-template', ['uses' => 'AdminController@getEmailTemplate', 'as' => 'getEmailTemplate']);
     Route::post('/search-by-item', ['uses' => 'AdminController@postSearchSchool', 'as' => 'postSearchSchool']);
     Route::get('/search-of-button', ['uses' => 'AdminController@postSearchByButton', 'as' => 'postSearchByButton']);

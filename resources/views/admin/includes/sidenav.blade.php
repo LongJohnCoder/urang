@@ -106,6 +106,9 @@
                 <li>
                     <a href="{{route('getEmailTemplates')}}"><i class="fa fa-envelope" aria-hidden="true"></i> Email Template</a>
                 </li>
+                <li>
+                    <a href="{{route('getReferralPage')}}"><i class="fa fa-users" aria-hidden="true"></i> User Referral</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

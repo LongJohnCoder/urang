@@ -7,7 +7,7 @@
           <div class="sp-slides">
               <div class="slide-item sp-slide">
                   <div class="slide-image">
-                      <img src="{{url('/')}}/public/new/img/sections/home-top-background.jpg"  alt="Homepage image" />
+                      <img src="{{url('/')}}/public/new/img/mobileapp-mytrip.jpg"  alt="Homepage image" />
                   </div>
                   <div class="slide-content ">
                       <p style="text-align: center;" class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>
@@ -30,7 +30,7 @@
               </div>
               <div class="slide-item sp-slide">
                   <div class="slide-image">
-                      <img src="{{url('/')}}/public/new/img/sections/section-11.jpg" alt="" />
+                      <img src="{{url('/')}}/public/new/img/mobileapp-mytrip.jpg" alt="" />
                   </div>
                   <div class="slide-content sp-layer">
                       <p style="text-align: center;" class="top-title sp-layer"  data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="100" >{{$indexcontent->image_up_first_text}}</p>

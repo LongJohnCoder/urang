@@ -155,6 +155,7 @@ class MainController extends Controller
                                 $ref                    = new ref();
                                 $ref->user_id           = $user->id;
                                 $ref->referred_person   = $request->ref_name;
+                                $ref->referral_email    = $request->email;
                                 $ref->discount_status   = 0; //this should be 1 to get the discount
                                 $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
                                 $ref->save();
@@ -436,6 +437,30 @@ class MainController extends Controller
             return 1;
         }
     }
+
+    public function emailReferalChecker(Request $request) {
+        //return $request->email;
+        $email = $request->email;
+        $find_email = User::where('email', $email)->first();
+        //return $find_email;
+        if ($find_email != null) {
+           return 0;
+        }
+        else
+        {
+            $ref = ref::where('referred_person',$email)->first();
+            if($ref != null)
+            {
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
+            
+        }
+    }
+
     public function postEmailCheckerRef(Request $request) {
         $email = $request->email;
         $find_email = User::where('email', $email)->first();
@@ -570,12 +595,30 @@ class MainController extends Controller
                 break;
         }
     }
+
+    public function checkIfReferalInserted($request)
+    {
+        //dd($request);
+        if($request->email_checker_referal!=0)
+        {
+            $ref = new ref();
+            $ref->user_id = auth()->guard('users')->user()->id;
+            $ref->referred_person   = $request->emailReferal;
+            $ref->referral_email    = auth()->guard('users')->user()->email;
+            $ref->discount_status   = 0; //this should be 1 to get the discount
+            $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
+            $ref->save();
+        }
+        
+    }
+
     public function postPickUp (Request $request) {
         //dd($request);
         if ($request->time_frame_start != null && $request->time_frame_end != null) {
             $start_time = strtotime($request->time_frame_start);
             $end_time = strtotime($request->time_frame_end);
             if ($start_time < $end_time) {
+                $this->checkIfReferalInserted($request);
                 return $this->postMyPickup($request);
             }
             else if ($start_time > $end_time) {
@@ -601,6 +644,7 @@ class MainController extends Controller
         }
         else
         {
+            $this->checkIfReferalInserted($request);
             return $this->postMyPickup($request);
         }
     }

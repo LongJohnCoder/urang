@@ -2323,6 +2323,17 @@ class AdminController extends Controller
         //$coupon_list = Coupon::orderBy('created_at', 'DESC')->get();
         return view('admin.payment-log', compact('user_data', 'site_details', 'payment_log'));
     }
+
+    public function getReferralPage() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $refs = ref::paginate(20);
+        //$coupon_list = Coupon::orderBy('created_at', 'DESC')->get();
+        return view('admin.referral', compact('user_data', 'site_details', 'refs'));
+    }
+
+
     public function postSearchSchool(Request $request) {
         $search_result = SchoolDonations::where('school_name', 'LIKE', '%'.$request->search.'%')->groupBy('school_name')->get();
         return $search_result;
@@ -2825,6 +2836,35 @@ class AdminController extends Controller
             return redirect()->route('getMobilePageWyswig')->with('success', "Records saved successfully!");
         } else {
             return redirect()->route('getMobilePageWyswig')->with('fail', "Cannot save data some error occured!");
+        }
+    }
+
+    public function deactivateReferral(Request $request)
+    {
+        $ref = ref::find($request->id);
+        $ref->discount_status  = 0;
+        if($ref->save())
+        {
+            return 1;
+        }
+        else
+        {
+            return "Sorry cannot change the referral to deactivated right now!";
+        }
+        
+    }
+
+    public function activateReferral(Request $request)
+    {
+        $ref = ref::find($request->id);
+        $ref->discount_status  = 1;
+        if($ref->save())
+        {
+            return 1;
+        }
+        else
+        {
+            return "Sorry cannot change the referral to activated right now!";
         }
     }
 }

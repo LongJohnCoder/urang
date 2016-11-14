@@ -216,6 +216,17 @@
                   </select>
                 </span>
             </div>
+            <div class="form-group">
+                <label for="name">Refer Someone?(Optional)</label>
+
+
+                <input type="email" placeholder="Enter email here" class="form-control" id="emailReferal" name="emailReferal" onkeyup="return IsValidReferalEmail();">
+                <input type="hidden" name="email_checker_referal" id="email_checker_referal" value="0">
+                      <div id="emailExist"></div>
+                      <div id="errorInputEmail" style="color: red;">
+                      </div>
+                <p style="color: red;font-weight: bold;">The person you refer will be eligible for referral on the time of registration. If he/she is not already registered or have refered before then they will not be eligible.</p>
+              </div>
                <button type="submit" class="btn btn-default" id="schedule_pick_up">Schedule Pick up</button>
                <input type="hidden" name="_token" value="{{Session::token()}}"></input>
             <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
@@ -329,17 +340,17 @@
           }
           //delivary type
           if (data.delivary_type == "Boxed") {
-            $('#boxed').prop('checked', true);
+            //$('#boxed').prop('checked', true);
           }
           else if (data.delivary_type == "Hung") {
-            $('#hung').prop('checked', true);
+            //$('#hung').prop('checked', true);
           }
           else
           {
             $('#boxed').prop('checked', false);
           }
           //starch type
-          $('#strach_type').val(data.starch_type);
+          //$('#strach_type').val(data.starch_type);
           //wash and fold
           if (data.wash_n_fold == 1) 
           {
@@ -605,5 +616,64 @@
   {
     $('#schoolNameDropDown').toggle();
   }
+
+  function IsValidReferalEmail() {
+       //return true;
+       $('#emailReferal').attr('style', 'width: 270px');
+       $('#errorInputEmail').html("");
+       var email = $('#emailReferal').val();
+       var isValidEmail = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+       if ($.trim(email)) 
+       {
+          //return isValidEmail.test(email);
+          if (isValidEmail.test(email)) 
+          {
+             //$('#emailExist').html('');
+             $.ajax({
+                url : "{{route('postEmailReferalChecker')}}",
+                type: "POST",
+                data: {email: email, _token: "{{Session::token()}}"},
+                success : function(data){
+                   //$('#email_checker').val(data);
+                   //console.log(data);
+                   //alert(data)
+                   //return data;
+                   //$('#emailExist').html(data);
+                   //console.log("data :: "+data);
+                   if (data == 1) 
+                   {
+                      $('#emailExist').html("<div class='alert alert-danger'><i class='fa fa-check' aria-hidden='true'></i> Email address is already in referal list ! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+                      $('#email_checker_referal').val(0);
+                      return false;
+
+                   }
+                   else if(data==2)
+                   {
+                      $('#emailExist').html("<div class='alert alert-success'><i class='fa fa-check' aria-hidden='true'></i> Email address is valid! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+                      $('#email_checker_referal').val(1);
+                      return true;
+                   }
+                   else
+                   {
+                      $('#emailExist').html("<div class='alert alert-danger'><i class='fa fa-times-circle' aria-hidden='true'></i> Hold on! email already exists! try another one. <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+                      $('#email_checker_referal').val(0);
+                      return false;
+                   }
+                   //return data;
+                }
+             });
+          }
+          else
+          {
+             $('#emailExist').html("<div class='alert alert-danger'><i class='fa fa-times-circle' aria-hidden='true'></i> Not A Valid Email Address! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+             return false;
+          }
+       }
+       else
+       {
+          $('#emailExist').html("<div class='alert alert-danger'><i class='fa fa-times-circle' aria-hidden='true'></i> Please Enter an Email Address! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+          return false;
+       }
+    }
 </script>
 @endsection
