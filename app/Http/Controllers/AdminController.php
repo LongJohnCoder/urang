@@ -1483,6 +1483,13 @@ class AdminController extends Controller
         $cms_data = Cms::where('identifier', 3)->first();
         return view('admin.cms-tailoring', compact('user_data', 'cms_data'));
     }
+
+    public function getMobileAppPage() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $cms_data = Cms::where('identifier', 3)->first();
+        return view('admin.cms-mobile-app', compact('user_data', 'cms_data'));
+    }
     public function postTailoring(Request $request) {
         $isDataExists = Cms::where('identifier', 3)->first();
         if ($isDataExists != null) {
@@ -2866,5 +2873,22 @@ class AdminController extends Controller
         {
             return "Sorry cannot change the referral to activated right now!";
         }
+    }
+
+    public function postMobileAppWysiwygMetaData(Request $request)
+    {
+        //return $request->fieldToUpdate;
+        $field_to_update = $request->fieldToUpdate;
+        $customer_complaints = MobileAppWys::first();
+        $customer_complaints->$field_to_update = $request->value;
+        if($customer_complaints->save())
+        {
+            return "Changed Successfully.";
+        }
+        else
+        {
+            return 0;
+        }
+        
     }
 }

@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth']], function () {
     	Route::get('/corporate', ['uses' => 'AdminController@getCorporate', 'as' => 'getCorporate']);
     	Route::post('/save-corporate', ['uses' => 'AdminController@postCorpoarte' , 'as' => 'postCorpoarte']);
     	Route::get('/tailoring', ['uses' => 'AdminController@getTailoring', 'as' => 'getTailoring']);
+        Route::get('/mobile-app-page', ['uses' => 'AdminController@getMobileAppPage', 'as' => 'getMobileAppPage']);
     	Route::post('/save-tailoring', ['uses' => 'AdminController@postTailoring', 'as' => 'postTailoring']);
     	Route::get('/wet-cleaning', ['uses' => 'AdminController@getWetCleaning', 'as' => 'getWetCleaning']);
     	Route::post('/save-wet-cleaning',['uses' => 'AdminController@postWetCleaning', 'as' => 'postWetCleaning']);
@@ -136,6 +137,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/index-wysiwyg', ['uses' => 'AdminController@showIndexWysiwygControl', 'as' => 'showIndexWysiwygControl']);
         Route::get('/mobile-app-wysiwig', ['uses' => 'AdminController@getMobilePageWyswig', 'as' => 'getMobilePageWyswig']);
         Route::post('/save-mobile-wysiwyg-data', ['uses' => 'AdminController@postMobileAppWysiwyg', 'as' => 'postMobileAppWysiwyg']);
+
+        Route::post('/save-mobile-wysiwyg-meta-data', ['uses' => 'AdminController@postMobileAppWysiwygMetaData', 'as' => 'postMobileAppWysiwygMetaData']);
     });
     Route::post('/add-item-custom-Admin',['uses' => 'AdminController@addItemCustomAdmin','as'=>'addItemCustomAdmin']);
     Route::get('/pending-payments', ['uses' => 'PaymentController@getManageClientPayment', 'as' => 'getManageClientPayment']);

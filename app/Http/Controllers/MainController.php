@@ -1145,6 +1145,7 @@ class MainController extends Controller
         $login_check = $obj->getCustomerData();
         $neighborhood = $obj->getNeighborhood();
         $page_data = MobileAppWys::first();
+        $site_details = MobileAppWys::first();
         if ($login_check != null) {
             $logged_user= $obj->getCustomerData();
             return view('pages.mobileApp', compact('site_details', 'login_check' , 'price_list', 'logged_user', 'neighborhood', 'page_data'));
