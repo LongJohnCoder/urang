@@ -18,6 +18,7 @@
 	                                    <th>Referred By</th>
 	                                    <th>Referred Person</th>
 	                                    <th>Referred On</th>
+	                                    <th>Offer Count</th>
 	                                    <th>Status</th>
 	                                    <th>Action</th>
 	                                </tr>
@@ -32,9 +33,13 @@
 		                            			{{$ref->created_at}}
 		                            			
 		                            			</td>
-		                            			<td>{{$ref->discount_status==1?"Active":"Deactive"}}</td>
+		                            			<td> 
+		                            				<span id="discountCountValue{{$ref->id}}" class="btn btn-warning btn-xs">{{$ref->discount_count}}</span> 
+		                            				<button id="change_discount_count" onclick="changeDiscountCount({{$ref->id}})" class="btn btn-xs" type="button"><i class="fa fa-pencil"></i></button>
+		                            			</td>
+		                            			<td>{{$ref->is_expired==0?"Active":"Deactive"}}</td>
 		                            			<td>
-		                            				@if($ref->discount_status==1)
+		                            				@if($ref->is_expired==0)
 		                            					<button id="change_ref_action" onclick="deactiveReferral({{$ref->id}})" class="btn btn-primary btn-xs" type="button">Make Deactive</button>
 		                            				@else
 		                            					<button id="change_ref_action" onclick="activeReferral({{$ref->id}})" class="btn btn-primary btn-xs" type="button">Make Active</button>
@@ -119,6 +124,75 @@
 								}
 							}
 						});
+				});
+	}
+	function changeDiscountCount(rowid)
+	{
+		//alert(rowid);
+		/*swal({   
+				title: "Are you sure?",   
+				text: "The offer count will be changed!", 
+				type: "warning",   
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Yes, Change it!",   
+				closeOnConfirm: false }, 
+				function(){
+					$.ajax({
+							url: baseUrl+"/change-ref-offer-count",
+							type: "POST",
+							data: {id: rowid, value: $('#discountCountValue'+rowid).text(), _token: '{!!csrf_token()!!}'},
+							success: function(data) {
+								if(data==1)
+								{
+									location.reload();
+								}
+								else
+								{
+									swal("Sorry!", data, "error");
+								}
+							}
+						});
+				});*/
+
+				swal({
+				  title: "Enter Number",
+				  text: "Enter the new count number here.",
+				  type: "input",
+				  showCancelButton: true,
+				  closeOnConfirm: false,
+				  animation: "slide-from-top",
+				  inputPlaceholder: "Enter the new count",
+				  showLoaderOnConfirm: true
+				},
+				function(inputValue){
+				  if (inputValue === false) return false;
+				  
+				  if (inputValue === "") {
+				    swal.showInputError("The count cannot be empty!");
+				    return false;
+				  }
+				  if(isNaN(inputValue))
+				  {
+				  	swal.showInputError("Count have to be a number!");
+				    return false;
+				  }
+				  $.ajax({
+							url: baseUrl+"/change-ref-offer-count",
+							type: "POST",
+							data: {id: rowid, value: inputValue, _token: '{!!csrf_token()!!}'},
+							success: function(data) {
+								if(data==1)
+								{
+									location.reload();
+								}
+								else
+								{
+									swal("Sorry!", data, "error");
+								}
+							}
+						});
+				  //swal("Nice!", "You wrote: " + inputValue, "success");
 				});
 	}
 </script>

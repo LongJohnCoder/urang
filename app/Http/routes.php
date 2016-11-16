@@ -102,6 +102,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/deactivate-referral-user', ['uses' => 'AdminController@deactivateReferral', 'as'=> 'deactivateReferral']);
     Route::post('/activate-referral-user', ['uses' => 'AdminController@activateReferral', 'as'=> 'activateReferral']);
 
+
+    Route::post('/change-ref-offer-count', ['uses' => 'AdminController@changeRefOfferCount', 'as'=> 'changeRefOfferCount']);
+
+
 	Route::post('/edit-customer', ['uses' => 'AdminController@postEditCustomer', 'as' => 'postEditCustomer']);
 	Route::get('/add-new-customer', ['uses' => 'AdminController@getAddNewCustomer', 'as' => 'getAddNewCustomers']);
 	Route::post('/add-new-customer', ['uses' => 'AdminController@postAddNewCustomer', 'as' => 'postAddNewCustomer']);

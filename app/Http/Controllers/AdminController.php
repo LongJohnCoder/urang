@@ -677,11 +677,11 @@ class AdminController extends Controller
         //dd($request);
         $user = new User();
         $user->email = $request->email;
-        $is_ref = ref::where('referred_person', $request->email)->first();
+        /*$is_ref = ref::where('referred_person', $request->email)->first();
         if ($is_ref != null) {
             $is_ref->discount_status = 1;
             $is_ref->save();
-        }
+        }*/
         $user->password = bcrypt($request->conf_password);
         $user->block_status = 0;
         if ($user->save()) {
@@ -2850,6 +2850,8 @@ class AdminController extends Controller
     {
         $ref = ref::find($request->id);
         $ref->discount_status  = 0;
+        $ref->is_expired = 1;
+        $ref->discount_count = 0;
         if($ref->save())
         {
             return 1;
@@ -2864,7 +2866,9 @@ class AdminController extends Controller
     public function activateReferral(Request $request)
     {
         $ref = ref::find($request->id);
-        $ref->discount_status  = 1;
+        $ref->is_expired  = 0;
+        $ref->discount_status = 1;
+        $ref->discount_count = 1;
         if($ref->save())
         {
             return 1;
@@ -2890,5 +2894,20 @@ class AdminController extends Controller
             return 0;
         }
         
+    }
+
+    public function changeRefOfferCount(Request $request)
+    {
+        //return $request->value;
+        $ref = ref::find($request->id);
+        $ref->discount_count = $request->value;
+        if($ref->save())
+        {
+            return 1;
+        }
+        else
+        {
+            return "Sorry cannot change the count now!";
+        }
     }
 }

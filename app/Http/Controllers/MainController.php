@@ -117,11 +117,11 @@ class MainController extends Controller
             $user = new User();
             $user->email = $request->email;
             //search for email refer table
-            $is_ref = ref::where('referred_person', $request->email)->first();
+            /*$is_ref = ref::where('referred_person', $request->email)->first();
             if ($is_ref != null) {
                 $is_ref->discount_status = 1;
                 $is_ref->save();
-            }
+            }*/
             $user->password = bcrypt($request->password);
             $user->block_status = 0;
             if ($user->save()) {
@@ -595,6 +595,32 @@ class MainController extends Controller
                 break;
         }
     }
+    public function checkIfReferalInsertedAdmin($request)
+    {
+        $user_data = User::find($request->user_id);
+
+        if($user_data)
+        {
+            if($request->email_checker_referal!=0)
+            {
+                $ref = new ref();
+                $ref->user_id = $request->user_id;
+                $ref->referred_person   = $request->emailReferal;
+                $ref->referral_email    = $user_data->email;
+                $ref->discount_status   = 0; //this should be 1 to get the discount
+                $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
+                $ref->save();
+            }
+
+            $is_ref = ref::where('referred_person', auth()->guard('users')->user()->email)->where('is_expired',0)->where('is_referal_done',0)->first();
+            if ($is_ref != null) {
+                $is_ref->discount_status = 1;
+                $is_ref->is_referal_done = 1;
+                $is_ref->save();
+            }
+        }
+        
+    }
 
     public function checkIfReferalInserted($request)
     {
@@ -609,6 +635,13 @@ class MainController extends Controller
             $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
             $ref->save();
         }
+
+        $is_ref = ref::where('referred_person', auth()->guard('users')->user()->email)->where('is_expired',0)->where('is_referal_done',0)->first();
+            if ($is_ref != null) {
+                $is_ref->discount_status = 1;
+                $is_ref->is_referal_done=1;
+                $is_ref->save();
+            }
         
     }
 
@@ -618,7 +651,7 @@ class MainController extends Controller
             $start_time = strtotime($request->time_frame_start);
             $end_time = strtotime($request->time_frame_end);
             if ($start_time < $end_time) {
-                $this->checkIfReferalInserted($request);
+                //$this->checkIfReferalInserted($request);
                 return $this->postMyPickup($request);
             }
             else if ($start_time > $end_time) {
@@ -644,7 +677,7 @@ class MainController extends Controller
         }
         else
         {
-            $this->checkIfReferalInserted($request);
+            //$this->checkIfReferalInserted($request);
             return $this->postMyPickup($request);
         }
     }
@@ -656,10 +689,12 @@ class MainController extends Controller
             $pick_up_req = new Pickupreq();
             if ($request->identifier == "admin") {
                $pick_up_req->user_id = $request->user_id;
+               $this->checkIfReferalInsertedAdmin($request);
             }
             else
             {
                 $pick_up_req->user_id = auth()->guard('users')->user()->id;
+                $this->checkIfReferalInserted($request);
             }
             $pick_up_req->address = $request->address;
             $pick_up_req->address_line_2 = $request->address_line_2;
@@ -708,7 +743,17 @@ class MainController extends Controller
             //dd($total_price);
             if ($check_ref) {
                 $pick_up_req->ref_discount  =  1;
-                $check_ref->is_expired      =  1;
+                if($check_ref->discount_count>1)
+                {
+                    $check_ref->discount_count = $check_ref->discount_count-1;
+                    $check_ref->is_expired      =  0;
+                }
+                else
+                {
+                    $check_ref->is_expired      =  1;
+                    $check_ref->discount_count = 0;
+                }
+                
                 $check_ref->save();
                 if ($total_price > 0.0) {
                     $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
