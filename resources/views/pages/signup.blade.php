@@ -289,11 +289,7 @@
                    <div id="errorInputDate" style="color: red;"></div>
                 </div>
                 <hr>
-                <div class="row custom-margin">
-                  <div class="col-md-12 col-sm-12">
-                  <strong>Referal - 10 percent discount on your next order if you refer a friend.</strong><br><br>
-                  </div>
-                </div>  
+               
                 <div class="row custom-margin">
                    <div class="col-md-4 col-sm-4">
                       <label>Tell Us the Referrer Email (optional) :</label>
@@ -303,6 +299,11 @@
                       <div id="email_identifier_noti"></div>
                    </div>
                 </div>
+                 <div class="row custom-margin">
+                  <div class="col-md-12 col-sm-12">
+                    <span style="color: red;">Note: </span><strong style="font-size: 14px;">You will become eligible for a discount when the person you recommended signs up at U-Rang.Com and places their first order. If your submission is presently a client, you will not qualify for a discount.</strong><br><br>
+                  </div>
+                </div>  
                 <div class="row custom-margin">
                    <div class="col-md-4 col-sm-4">&nbsp;</div> 
                    <div class="col-md-4 col-sm-4">
