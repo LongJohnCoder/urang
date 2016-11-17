@@ -225,11 +225,12 @@
                       <div id="emailExist"></div>
                       <div id="errorInputEmail" style="color: red;">
                       </div>
-                <p style="color: red;font-weight: bold;">You will become eligible for a discount when the person you recommended signs up at U-Rang.Com and places their first order. If your submission is presently a client, you will not qualify for a discount.</p>
+                
               </div>
                <button type="submit" class="btn btn-default" id="schedule_pick_up">Schedule Pick up</button>
                <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-            <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
+            <!-- <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p> -->
+            <p class="offer">You will become eligible for a discount when the person you recommended signs up at U-Rang.Com and places their first order. If your submission is presently a client, you will not qualify for a discount.</p>
             </div>
            
             

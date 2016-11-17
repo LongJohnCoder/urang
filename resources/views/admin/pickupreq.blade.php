@@ -199,7 +199,7 @@
 				                      <div id="emailExist"></div>
 				                      <div id="errorInputEmail" style="color: red;">
 				                      </div>
-				                <p style="color: red;font-weight: bold;">The person you refer will be eligible for referral on the time of registration. If he/she is not already registered or have refered before then they will not be eligible.</p>
+				                <p style="color: red;font-weight: bold;">You will become eligible for a discount when the person you recommended signs up at U-Rang.Com and places their first order. If your submission is presently a client, you will not qualify for a discount.</p>
 				              </div>
 
 
