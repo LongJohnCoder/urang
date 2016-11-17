@@ -291,12 +291,12 @@
                 <hr>
                 <div class="row custom-margin">
                   <div class="col-md-12 col-sm-12">
-                  <strong>Referrals - 10 percent discount on your next order if you refer a friend.</strong><br><br>
+                  <strong>Referal - 10 percent discount on your next order if you refer a friend.</strong><br><br>
                   </div>
                 </div>  
                 <div class="row custom-margin">
                    <div class="col-md-4 col-sm-4">
-                      <label>Tell Us the Referer Email (optional) :</label>
+                      <label>Tell Us the Referrer Email (optional) :</label>
                    </div>
                    <div class="col-md-6 col-sm-6">
                       <input type="email" name="ref_name" id="ref_name" value="{{old('ref_name')}}"></input>
