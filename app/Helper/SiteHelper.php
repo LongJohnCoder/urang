@@ -34,7 +34,7 @@ class SiteHelper
         return $total_price;
     }
     public function refOrNot($email) {
-        $is_ref = ref::where('referred_person', $email)->where('discount_status', 1)->with('userDetails')->first();
+        $is_ref = ref::where('referred_person', $email)->with('userDetails')->first();
         if ($is_ref) {
             return $is_ref;
         }

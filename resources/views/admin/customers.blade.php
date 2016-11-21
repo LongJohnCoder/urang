@@ -59,8 +59,9 @@
 				                            		<td>{{$customer->user_details->personal_ph}}</td>
 				                            		<td>{{$customer->user_details->address}}</td>
 					                            	<td>
+					                            
 					                            		<?php
-					                            		$helper = (new App\Helper\SiteHelper)->refOrNot($customer->email) 
+					                            		$helper = (new App\Helper\SiteHelper)->refOrNot($customer->email);
 					                            		?>
 					                            		{{$helper == '0' || !isset($helper->userDetails->name) ? "Non Referred" : $helper->userDetails->name}}
 					                            	</td>

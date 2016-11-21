@@ -524,6 +524,7 @@ class AdminController extends Controller
                 if($user_details->delete())
                 {
                         $card_details = CustomerCreditCardInfo::where('user_id', $id)->first();
+                        //return $card_details;
                         if($card_details)
                         {
                             $card_details->delete();
@@ -555,9 +556,16 @@ class AdminController extends Controller
                                 $track->delete();
                             }
                         }
-                        $reference = ref::where('referred_person', $user->email)->first();
-                        if ($reference) {
+                        //$reference = ref::where('referred_person', $user->email)->first();
+                        /*if ($reference) {
                             $reference->delete();
+                        }*/
+                        $del_ref_user =ref::where('user_id', $id)->get();
+                        //return $del_ref_user;
+                        if ($del_ref_user) {
+                            foreach ($del_ref_user as $reff_Del) {
+                                $reff_Del->delete();
+                            }
                         }
                         return 1;
                 }
