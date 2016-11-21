@@ -134,7 +134,7 @@
                <div class="clear50"></div>
                <button type="submit" class="btn btn-default">Save Details</button>
                <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-               <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
+               <p class="offer">You Will Become Eligible For A Discount When The Person You Recommended Signs Up At U-Rang.Com And Places Their First Order. If Your Submission Is Presently A Client, You Will Not Qualify For A Discount.</p>
             </form>
          </div>
       </div>
