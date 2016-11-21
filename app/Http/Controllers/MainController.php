@@ -612,12 +612,20 @@ class MainController extends Controller
                 $ref->save();
             }
 
-            $is_ref = ref::where('referred_person', auth()->guard('users')->user()->email)->where('is_expired',0)->where('is_referal_done',0)->first();
-            if ($is_ref != null) {
-                $is_ref->discount_status = 1;
-                $is_ref->is_referal_done = 1;
-                $is_ref->save();
+            //if(!is_null(auth()->guard('users')->user()) && !is_null(auth()->guard('users')->user()->email)) {
+            //auth()->guard('users')->user()->email
+            //dd($user_data);
+            if (!is_null($user_data->email)) {
+                $is_ref = ref::where('referred_person', $user_data->email)->where('is_expired',0)->where('is_referal_done',0)->first();
+                if ($is_ref != null) {
+                    $is_ref->discount_status = 1;
+                    $is_ref->is_referal_done = 1;
+                    $is_ref->save();
+                }
             }
+            
+
+            //}
         }
         
     }
