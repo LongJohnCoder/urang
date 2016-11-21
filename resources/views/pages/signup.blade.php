@@ -158,7 +158,7 @@
                 <div class="row custom-margin">
                    <div class="col-md-12 col-sm-12">
                       <p>
-                        We will pick-up and deliver on the designated date but not at a specific time unless specified under specific instructions.  Unless otherwise noted pick-up will be at addressed listed above.
+                        We will pick-up and deliver on the designated date but not at a specific time unless specified under specific instructions.  Unless otherwise noted pick-up will be at address listed above.
                       </p>
                    </div>
                 </div>

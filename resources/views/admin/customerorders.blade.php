@@ -200,6 +200,12 @@
                                     @endif
                                   @endif
                                 </select>  
+                                <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
+                                 <input type="hidden" name="user_id" value="{{$pickup->user_id}}" id="user_id_{{$pickup->id}}"></input>
+                                 <input type="hidden" name="payment_type" id="payment_type_{{$pickup->id}}" value="{{ $pickup->payment_type }}"></input>
+                                 <input type="hidden" name="chargable" id
+                                 ="chargable_{{$pickup->id}}"></input>
+                                 <button type="button" style="margin-top: 3%;" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
                               </td>
                               <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
 
@@ -214,14 +220,9 @@
                                 @endif
                               @endif
                               </td>
-                              <td>
-                                 <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
-                                 <input type="hidden" name="user_id" value="{{$pickup->user_id}}" id="user_id_{{$pickup->id}}"></input>
-                                 <input type="hidden" name="payment_type" id="payment_type_{{$pickup->id}}" value="{{ $pickup->payment_type }}"></input>
-                                 <input type="hidden" name="chargable" id
-                                 ="chargable_{{$pickup->id}}"></input>
-                                 <button type="button" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
-                              </td>
+                              <!-- <td>
+                                 
+                              </td> -->
                            </form>
                             @if(count($pickup->invoice) > 0)
                               <td><button type="button" class="btn btn-primary btn-xs" id="showInv_{{$pickup->id}}" onclick="showDetails('{{$pickup->id}}')"><i class="fa fa-info-circle" aria-hidden="true"></i> Show Details</button></td>
