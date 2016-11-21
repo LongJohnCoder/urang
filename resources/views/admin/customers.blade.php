@@ -62,7 +62,7 @@
 					                            		<?php
 					                            		$helper = (new App\Helper\SiteHelper)->refOrNot($customer->email) 
 					                            		?>
-					                            		{{$helper == '0' ? "Non Referred" : $helper}}
+					                            		{{$helper == '0' ? "Non Referred" : $helper->user->user_details->name}}
 					                            	</td>
 				                            		<td><button type="submit" id="block_{{$customer->id}}" class="btn btn-primary btn-xs"><i class="fa fa-ban" aria-hidden="true"></i> {{$customer->block_status == 0 ? 'Block' : 'Unblock'}}</button></td>
 				                            		<td><a href="{{route('getEditCustomer', ['id' => base64_encode($customer->id)])}}"><button type="submit" id="edit_{{$customer->id}}" data-toggle="modal" data-target="#myModal" class="btn btn-warning btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></a></td>
