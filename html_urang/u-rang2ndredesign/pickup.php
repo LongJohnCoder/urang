@@ -173,7 +173,7 @@ else {
 								<tbody>
 								  	<tr>
 										<td colspan="2" align="left">
-											<span class="page_heading">Individual Clients</span> <br /><br />
+											<span class="page_heading">Individual Clients1</span> <br /><br />
 												We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery. 													
 										</td>
 									</tr>

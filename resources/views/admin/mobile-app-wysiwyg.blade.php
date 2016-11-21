@@ -44,7 +44,8 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #4286f4;
+    /*background-color: #4286f4;*/
+    background: rgb(67,85,94);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -76,16 +77,41 @@
    /* padding: 16px;*/
 }
 
-.side-menu-icon {
+/*.side-menu-icon {
   color: #fff;
   font-size: 12px;
-  left: 36px;
+  left: 6px;
   position: absolute;
   top: 32px;
   vertical-align: top;
   z-index: 8888;
   cursor: pointer;
+}*/
+
+.side-menu-icon {
+  background: rgb(218, 85, 0) none repeat scroll 0 0;
+  border: 1px solid #fff;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  left: -132px;
+  padding: 1px 6px 7px 4px;
+  position: fixed;
+  top: 32px;
+  vertical-align: top;
+  z-index: 8888;
+  transition: all 0.5s ease;
 }
+.side-menu-icon i{font-size: 18px;}
+.side-menu-icon span {
+  display: inline-block;
+  font-size: 11px;
+  padding: 4px 0 0;
+  vertical-align: top;
+}
+.side-menu-icon:hover {left: -2px;}
+
 .side-menu-icon strong{font-size: 30px;}
 .sidenav{z-index: 99999;}
 .sidenav input[type="text"] {
@@ -179,7 +205,11 @@ $(document).ready(function(){
 
 <section class="side-menu-icon">
 
-  <span onclick="openButtonClick()" data-toggle="tooltip" title="Open Page Meta Data Editor"><strong> &#9776;</strong> </span>
+  <span onclick="openButtonClick()" data-toggle="" title="Open Page "><!-- <strong> &#9776;</strong> --> 
+  <span>Open Meta Data Editor</span>
+    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+
+  </span>
 
 </section>
 
