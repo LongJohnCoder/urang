@@ -22,7 +22,7 @@
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;margin-left: 1%; display: none;" id="reset">close</button>
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_school" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Add School</button>
 	               <form role="form" method="get" id="searchForm" action="{{route('postSearchByButton')}}" style="margin-left: 55%;">
-	               		<input type="text" name="search_school" id="search_school" onkeypress ="return SearchRes();"  placeholder="school name" />
+	               		<input type="text" name="search_school" id="search_school" onkeypress ="return SearchRes();" onkeyup="return clearTheBox();" placeholder="school name" />
 	               		<button type="submit" id="search_school" class="btn btn-xs btn-primary"><i class="fa fa-search" aria-hidden="true"></i> search</button>
 	               		<div id="res_temp"></div>
 	               </form>
@@ -297,11 +297,9 @@
 			$('#reset').hide();
 		});
 		function SearchRes() {
-			//console.log($('#search_school').val());
-			
-			
 			setTimeout(function() {
 				var searchKeys = $('#search_school').val();
+				//console.log(searchKeys);
 				if($.trim(searchKeys))
 				{
 					
@@ -313,7 +311,7 @@
 						type: "POST",
 						data: {search: searchKeys, _token: "{{Session::token()}}"},
 						success: function(data) {
-							console.log(data);
+							//console.log(data);
 							
 							if (data.length > 0) 
 							{
@@ -331,6 +329,7 @@
 							}
 							else
 							{
+
 								$('#res_temp').html("");
 							}
 						}
@@ -338,9 +337,9 @@
 				}
 				else
 				{
+					
 					$('#res_temp').html("");
 				}
-				
 			}, 100);
 		}
 
@@ -359,5 +358,12 @@
 				alert('hi');
 			});
 		});*/
+		function clearTheBox() {
+			//console.log('clear')
+			var searchKeys = $('#search_school').val();
+			if (!$.trim(searchKeys)) {
+				$('#res_temp').html("");
+			}
+		}
 	</script>
 @endsection
