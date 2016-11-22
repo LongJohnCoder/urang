@@ -56,7 +56,7 @@
       <div class="row">
          <div class="col-md-7 col-sm-7 text-right">
             <div class="clearfix " style="padding-right: 3px;">
-               <div class="above-title">Neighborhoods</div>
+               <!-- <div class="above-title">Neighborhoods</div> -->
                <h4>{{$neighborhood[$i]->name}}</h4>
             </div>
             <div class="design-arrow inline-arrow"></div>
