@@ -46,7 +46,13 @@
 	                            				<td>{{$items->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}</td>
 	                            				<td>{{$items->payment_type == 2 ? "Cash On Delivary" : "Check Payment"}}</td>
 	                            				<td>{{date("F jS Y",strtotime($items->created_at->toDateString()))}}</td>
-	                            				<td>{{number_format((float)$items->total_price, 2, '.', '') ==0.00 ? "Hold On invoice is not ready yet" : number_format((float)$items->total_price, 2, '.', '')}}</td>
+	                            				<td>
+	                            					@if($items->coupon || $items->ref_discount == 1)
+	                            						{{number_format((float)$items->discounted_value, 2, '.', '')}}
+	                            					@else
+	                            						{{number_format((float)$items->total_price, 2, '.', '')}}
+	                            					@endif
+	                            				</td>
 	                            				<td>
 	                            				@if($items->payment_status == 1)
 	                            					<label style="color: green;"><i class="fa fa-check" aria-hidden="true"></i> Paid</label>
