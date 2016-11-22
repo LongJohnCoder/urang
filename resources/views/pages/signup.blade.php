@@ -4,6 +4,9 @@
 <style type="text/css">
    .form2 .message{color: #333;}
    p{font-size: 14px;}
+   /*.required{font-size: 13px;}*/
+   #select_month{margin: 0;}
+   #select_year{margin: 0; right: 0;}
 </style>
 
 
