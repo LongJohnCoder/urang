@@ -10,11 +10,12 @@
       /*border-radius: 6px;*/
    }
    .customBtn {
-    margin-right: 82%;
-    width: 33%;
+    /*margin-right: 82%;
+    width: 33%;*/
     height: 44px;
     text-align: center;
     padding-top: 13px;
+    margin-top: 10px;
    }
    .textTagLine {
       margin-left: 53%;
@@ -29,8 +30,8 @@
       padding-top: 11px;
       font-family: sans-serif;
       font-style: normal;
-      width: 33%;
-      margin-right: 66%;
+      /*width: 33%;*/
+     /* margin-right: 66%;*/
       margin-top: 10px;
    }
    .customTextArea{
@@ -128,9 +129,37 @@
 .sidenav-wrap{width: 90%; margin: 0 auto;}
 .sidenav-wrap label{color: #fff; font-size: 13px; padding-bottom: 7px;}
 
-@media screen and (max-height: 450px) {
+.form-control{background: #fff; padding-left: 15px;}
+.separate{margin: 0 0 5px; display: block;}
+
+ .top-header .header-container .header-title{padding-top: 13%;}
+
+
+@media screen and (min-width: 3000px) and (max-width: 10000px) { 
+
+  .top-header .header-container .header-title{padding-top: 4%;}
+
+}
+
+
+
+@media screen and (min-device-width: 1280px) and (max-device-width: 3000px) { 
+
+  .top-header .header-container .header-title{padding-top: 8%;}
+
+}
+
+
+@media screen and (max-width: 767px) {
+
+  .top-header .header-container .header-title{padding-top: 15%;}
+
+  }
+
+@media screen and (max-width: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+  .top-header .header-container .header-title{padding-top: 5%;}
 }
 
 </style>
@@ -156,7 +185,7 @@ $(document).ready(function(){
     <label>Meta Keywords</label>
     <input type="text" id="meta_keywords_content" value="{{$data != null && $data->page_meta_keywords != null ? $data->page_meta_keywords : ''}}" placeholder="enter page meta keywords here" name="page_meta_keywords"></input>
     <input type="button" id="meta_keywords" class="changeMetaContent" onclick="changeMetaContent()"  value="change">
-    <br>
+    
     <br>
     <label>Meta Description</label>
     <input type="text" id="meta_description_content" value="{{$data != null && $data->page_meta_description != null ? $data->page_meta_description : ''}}" placeholder="enter page meta description here" name="page_meta_description"></input>
@@ -173,31 +202,38 @@ $(document).ready(function(){
          <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
          <a href="" id="scroll_here_n"></a>
          <div class="title">
-
+         <div class="container">
+         <div class="row">
             <form role="form" action="{{route('postMobileAppWysiwyg')}}" method="POST">
-               <div class="col-md-8">
-                  <input type="text" name="title" id="title" class="textTitle" value="{{$data != null && $data->title != null ? $data->title : ''}}"></input>
+               <div class="col-md-8 col-sm-8">
+                  <input type="text" name="title" id="title" class="form-control" value="{{$data != null && $data->title != null ? $data->title : ''}}"></input>
                </div>
-               <div class="col-md-4">
+               <div class="col-md-4 col-sm-4">
                   <button type="submit" class="btn btn-primary customBtn">save</button>
                   <div id="main">
   
                   <input type="hidden" name="_token" value="{{Session::token()}}"></input>
                </div>
             </form>
-            
+         </div>   
+         </div>   
          </div>
+         <span class="separate"></span>
+         <div class="container">
+         <div class="row">
          <em style="color: whitesmoke;">
             <form role="form" action="{{route('postMobileAppWysiwyg')}}" method="POST">
-               <div class="col-md-8">
-                  <input type="text" name="tagLine" id="tagLine" class="textTagLine" value="{{$data != null && $data->tagLine != null ? $data->tagLine : ''}}"></input>
+               <div class="col-md-8 col-sm-8">
+                  <input class="form-control" type="text" name="tagLine" id="tagLine" class="textTagLine" value="{{$data != null && $data->tagLine != null ? $data->tagLine : ''}}"></input>
                </div>
-               <div class="col-md-4">
+               <div class="col-md-4 col-sm-4">
                   <button type="submit" class="btn btn-primary custom-btn">save</button>
                   <input type="hidden" name="_token" value="{{Session::token()}}"></input>
                </div>
             </form>
          </em>
+         </div>
+         </div>
       </div>
    </div>
    <!--container-->
