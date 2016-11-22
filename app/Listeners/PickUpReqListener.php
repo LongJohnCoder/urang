@@ -126,13 +126,13 @@ class PickUpReqListener
                         $user_name = "undefined";
                         $number = 00000000;
                     }
-                    $message->to($email, $user_name)->subject('Pickuprequest Details U-rang');
+                    $message->to($email, $user_name)->subject('Pickup Request Details U-rang');
                     //$message->bcc($email, $user_name)->subject('Pickuprequest Details U-rang');
                 }
                 else
                 {
                     //dd($event->req->user_email);
-                    $message->to(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickuprequest Details U-rang');
+                    $message->to(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickup Request Details U-rang');
                     //$message->bcc(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickuprequest Details U-rang');
                 }   
             });
