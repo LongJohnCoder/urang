@@ -10,7 +10,8 @@
     <meta name="keyword" content="{{ isset($site_details) && $site_details!=null && $site_details->meta_keywords!= null ? $site_details->meta_keywords : 'U-rang'}}">
 
     <title>{{ isset($site_details) && $site_details!=null && $site_details->site_title!= null ? $site_details->site_title : 'U-rang'}}</title>
-
+    <!-- fav icon -->
+    <link rel="icon" type="image/png" href="{{url('/')}}/public/favicon.ico">
     <!-- Bootstrap Core CSS -->
     <link href="{{url('/')}}/public/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 

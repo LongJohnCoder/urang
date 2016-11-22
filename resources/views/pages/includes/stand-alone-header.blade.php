@@ -6,7 +6,8 @@
 <meta http-equiv="expires" content="0">
 <meta name="description" content="{{$data != null ? $data->meta_description : 'U-rang services meta description'}}">
 <meta name="keywords" content="{{$data != null ? $data->meta_keywords : 'U-rang services meta keywords'}}">
-
+<!-- fav icon -->
+<link rel="icon" type="image/png" href="{{url('/')}}/public/favicon.ico">
 
 <!-- Styles -->
 <link href="{{url('/')}}/public/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">

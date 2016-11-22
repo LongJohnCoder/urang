@@ -6,7 +6,8 @@
 <meta http-equiv="expires" content="0">
 <meta name="description" content="{{isset($site_details) && $site_details!= null && $site_details->meta_keywords!=null ? $site_details->meta_keywords : 'U-rang'}}">
 <meta name="keywords" content="{{isset($site_details) && $site_details!= null && $site_details->meta_description!=null ? $site_details->meta_description : 'U-rang'}}">
-
+<!-- fav icon -->
+<link rel="icon" type="image/png" href="{{url('/')}}/public/favicon.ico">
 <!-- Styles -->
 <link href="{{url('/')}}/public/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>

@@ -4,7 +4,8 @@
     $site_details = $obj->siteData();
 ?>
 <title>{{ isset($site_details) && $site_details!=null && $site_details->site_title!= null ? $site_details->site_title : 'U-rang'}}</title>
-
+<!-- fav icon -->
+<link rel="icon" type="image/png" href="{{url('/')}}/public/favicon.ico">
 <style>
 .invoice-box{
     max-width:800px;
