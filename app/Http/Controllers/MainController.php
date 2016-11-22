@@ -107,7 +107,7 @@ class MainController extends Controller
             'conf_password' => 'required|min:6|same:password',
             'name' => 'required',
             'address' => 'required',
-            'personal_phone' => 'required|numeric',
+            'personal_phone' => 'required',
             'cardholder_name' => 'required',
             'card_no' => 'required',
             'select_month' => 'required',

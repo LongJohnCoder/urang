@@ -1,5 +1,10 @@
 @extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
 @section('content')
+<style type="text/css">
+    label.error { color: red; }
+    input.error{ border-bottom: 1px solid red; margin-bottom: 4%;}
+    textarea.error {border-bottom: 1px solid red;}
+</style>
 	<section class="top-header countact-us-header with-bottom-effect transparent-effect dark dark-strong">
             <div class="bottom-effect"></div>
             <div class="header-container">	
@@ -103,7 +108,7 @@
                                     </div> 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="email" required id="email" placeholder="EMAIL" class="form-control" required/>
+                                            <input type="email" name="email" required id="email" placeholder="EMAIL" class="form-control" required/>
                                         </div>
                                     </div> 
                                     <div class="col-md-12">
@@ -113,7 +118,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea class="form-control" name="message"  placeholder="your query"></textarea>
+                                            <textarea class="form-control" name="message" id="message" placeholder="YOUR QUERY" required="true"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -155,4 +160,35 @@
                 </div>
             </div>
         </section>
+        <script src="{{url('/')}}/public/new/vendor/jq-validation/jquery.validate.min.js"></script>
+        <script src="{{url('/')}}/public/new/vendor/jq-validation/additional-methods.min.js"></script>
+        <script>
+            $( "#contact-form" ).validate({
+              rules: {
+                firstName: {
+                    required : true
+                },
+                lastName : {
+                    required : true
+                },
+                phone: {
+                  required: true,
+                  phoneUS: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                }
+
+              },
+              messages: {
+                    firstName: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please enter your first name !',
+                    lastName: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please enter your last name !',
+                    phone: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please enter a valid phone number !',
+                    email: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please enter a valid email address !',
+                    subject: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please give a valid subject line !',
+                    message: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please enter a valid message this is a required field !'
+                }
+            });
+        </script>
 @endsection

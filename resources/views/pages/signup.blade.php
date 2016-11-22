@@ -43,7 +43,7 @@
               <button>create</button>
               <p class="message">Already registered? <a href="#">Sign In</a></p>
             </form>-->
-            <form class="login-form" role="form2" method="post" action="{{route('postSignUp')}}">
+            <form class="login-form" role="form2" method="post" action="{{route('postSignUp')}}" id="signUpForm">
                 <h2>Customer Registration</h2>
                 <h3>Individual Clients</h3>
                 <p class="message">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery. </p><br>
@@ -128,7 +128,7 @@
                       <label>Phone:</label> <span style="color: red;">*</span>
                    </div>
                    <div class="col-md-6 col-sm-6">
-                      <input type="number" id="Phone" placeholder="Format: 5555555555" name="personal_phone" value="{{old('personal_phone')}}" onkeyup="$('#Phone').attr('style', ''); $('#errorInputPhone').html('');" />
+                      <input type="text" id="Phone" placeholder="Format: 123-456-7890" name="personal_phone" value="{{old('personal_phone')}}" onkeyup="$('#Phone').attr('style', ''); $('#errorInputPhone').html('');" />
                       <div id="errorInputPhone" style="color: red;"></div>
                    </div>
                 </div>
@@ -137,7 +137,8 @@
                       <label>Cell phone (optional):</label>
                    </div>
                    <div class="col-md-6 col-sm-6">
-                      <input type="number" id="cellphone" placeholder="Format: 5555555555" name="cell_phone" value="{{old('cell_phone')}}" />
+                      <input type="text" id="cellphone" placeholder="Format: 123-456-7890" name="cell_phone" value="{{old('cell_phone')}}" onkeyup="$('#cellphone').attr('style', ''); $('#errorInputCellPhone').html('');"/>
+                      <div id="errorInputCellPhone" style="color: red;"></div>
                    </div>
                 </div>
                 <div class="row custom-margin">
@@ -145,7 +146,8 @@
                       <label>Office phone (optional):</label>
                    </div>
                    <div class="col-md-6 col-sm-6">
-                      <input type="number" id="officephone" placeholder="Format: 5555555555" name="office_phone" value="{{old('office_phone')}}" />
+                      <input type="text" id="officephone" placeholder="Format: 123-456-7890" name="office_phone" value="{{old('office_phone')}}" onkeyup="$('#officephone').attr('style', ''); $('#errorInputOfficePhone').html('');" />
+                      <div id="errorInputOfficePhone" style="color: red;"></div>
                    </div>
                 </div>
                 <div class="row custom-margin">
@@ -539,6 +541,8 @@
 
           
         </div>
+        <!-- <script src="{{url('/')}}/public/new/vendor/jq-validation/jquery.validate.min.js"></script>
+        <script src="{{url('/')}}/public/new/vendor/jq-validation/additional-methods.min.js"></script> -->
 <script>
     var err;
     function PassWordCheck() {
@@ -677,11 +681,28 @@
        var email_check = $('#email_checker').val();
        var card_no_checker = $('#card_no_checker').val();
        var ref_email_checker = $('#email_checker_ref').val();
+       var cellphone = $('#cellphone').val();
+       var officephone = $('#officephone').val();
        if ($.trim(email) && $.trim(password) && $.trim(conf_password) && $.trim(name) && $.trim(add) && $.trim(phone) && $.trim(name_on_card) && $.trim(card_number) && $.trim(month_val) && $.trim(year_val)) 
        {
           if(pass_check && $.trim(email_check) == 1 && $.trim(card_no_checker) == 1 && ref_email_checker != 1)
           {
-            $('.login-form').submit();
+            var isUs = checkUsPhoneOrNOt(phone, cellphone, officephone);
+            if (isUs == 200) {
+              $('.login-form').submit();
+            } else if (isUs == 1)  {
+              $('#Phone').attr('style', 'border-color: red;');
+              $('#errorInputPhone').html("Phone number is not valid!");
+            } else if (isUs == 2) {
+              //cell
+              $('#cellphone').attr('style', 'border-color: red;');
+              $('#errorInputCellPhone').html("Phone number is not valid!");
+            } else {
+              //office
+              $('#officephone').attr('style', 'border-color: red;');
+              $('#errorInputOfficePhone').html("Phone number is not valid!");
+            }
+            
           }
          else
          {
@@ -718,7 +739,7 @@
         if (!phone) 
         {
           $('#Phone').attr('style', 'border-color: red;');
-                $('#errorInputPhone').html("This Field is Required!");
+          $('#errorInputPhone').html("This Field is Required!");
         }      
         if (!name_on_card) 
         {
@@ -743,6 +764,33 @@
         return false;
        }
     } 
+    function checkUsPhoneOrNOt(phone, cellphone=null, officephone= null) {
+      
+      var regex = /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/;
+      var checkUsCell = true;
+      var checkUsOffice = true;
+
+      var checkUsPhone = regex.test(phone);
+      
+      if ($.trim(cellphone)) {
+        checkUsCell = regex.test(cellphone);
+      }
+      if ($.trim(officephone)) {
+        checkUsOffice = regex.test(officephone);
+      }
+      //console.log(regex.test(phone));
+      //console.log(checkUsPhone+ " " + checkUsCell + " " + checkUsOffice);
+      if (checkUsPhone && checkUsCell && checkUsOffice) {
+        return 200;
+       } else if (!checkUsPhone) {
+        return 1;
+       } else if (!checkUsCell) {
+        return 2;
+       } else {
+        return 3;
+       }
+      //return true;
+    }
     $(function(){
       $('#ref_name').on('input propertychange',function(){
         var email = $(this).val();
@@ -776,5 +824,6 @@
         }
       });
     });
+
 </script>
 @endsection

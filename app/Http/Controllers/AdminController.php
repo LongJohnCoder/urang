@@ -670,7 +670,7 @@ class AdminController extends Controller
             'conf_password' => 'required|min:6|same:password',
             'name' => 'required',
             'address' => 'required',
-            'personal_ph' => 'required|numeric',
+            'personal_ph' => 'required',
             'card_name' => 'required',
             'card_no' => 'required',
             'SelectMonth' => 'required',

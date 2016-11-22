@@ -63,16 +63,19 @@
 								</div>
 								<div class="form-group">
 								    <label>Personal Phone Number</label>
-								    <input class="form-control" name="personal_ph" id="Phone" type="number" onkeyup="$('#Phone').removeAttr('style', 'width:270px;'); $('#errorInputPhone').html('');" value="{{old('personal_ph')}}">
+								    <input class="form-control" placeholder="Format: 123-456-7890" name="personal_ph" id="Phone" type="text" onkeyup="$('#Phone').removeAttr('style', 'width:270px;'); $('#errorInputPhone').html('');" value="{{old('personal_ph')}}">
 								    <div id="errorInputPhone" style="color: red;"></div>
 								</div>
 								<div class="form-group">
 								    <label for="name">Cell Phone Number (optional)</label>
-								    <input class="form-control" name="cellph_no" type="number" value="{{old('cellph_no')}}">
+								    <input class="form-control" name="cellph_no" id="cellphone" type="text" value="{{old('cellph_no')}}" placeholder="Format: 123-456-7890"
+								    onkeyup="$('#cellphone').removeAttr('style', 'width:270px;'); $('#errorInputCellPhone').html('');">
+								    <div id="errorInputCellPhone" style="color: red;"></div>
 								</div>
 								<div class="form-group">
 								    <label for="name">Office Phone Number (optional)</label>
-								    <input class="form-control" name="officeph_no" type="number" value="{{old('officeph_no')}}">
+								    <input class="form-control" name="officeph_no" id="officephone" type="text" value="{{old('officeph_no')}}" placeholder="Format: 123-456-7890" onkeyup="$('#officephone').removeAttr('style', 'width:270px;'); $('#errorInputOfficePhone').html('');">
+								    <div id="errorInputOfficePhone" style="color: red;"></div>
 								</div>
 								<div class="form-group">
 								    <label for="name">Special Instructions (optional)</label>
@@ -296,11 +299,28 @@
        var email_check = $('#email_checker').val();
        var card_no_checker = $('#card_no_checker').val();
        var ref_email_checker = $('#email_checker_ref').val();
+       var cellphone = $('#cellphone').val();
+       var officephone = $('#officephone').val();
        if ($.trim(email) && $.trim(password) && $.trim(conf_password) && $.trim(name) && $.trim(add) && $.trim(phone) && $.trim(name_on_card) && $.trim(card_number) && $.trim(month_val) && $.trim(year_val)) 
        {
           if(pass_check && $.trim(email_check) == 1 && $.trim(card_no_checker) == 1 && ref_email_checker != 1)
           {
-            $('#add_customer').submit();
+            //$('#add_customer').submit();
+             var isUs = checkUsPhoneOrNOt(phone, cellphone, officephone);
+            if (isUs == 200) {
+              $('#add_customer').submit();
+            } else if (isUs == 1)  {
+              $('#Phone').attr('style', 'border-color: red;');
+              $('#errorInputPhone').html("Phone number is not valid!");
+            } else if (isUs == 2) {
+              //cell
+              $('#cellphone').attr('style', 'border-color: red;');
+              $('#errorInputCellPhone').html("Phone number is not valid!");
+            } else {
+              //office
+              $('#officephone').attr('style', 'border-color: red;');
+              $('#errorInputOfficePhone').html("Phone number is not valid!");
+            }
           }
          else
          {
@@ -364,6 +384,33 @@
         return false;
        }
     } 
+    function checkUsPhoneOrNOt(phone, cellphone=null, officephone= null) {
+      
+      var regex = /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/;
+      var checkUsCell = true;
+      var checkUsOffice = true;
+
+      var checkUsPhone = regex.test(phone);
+      
+      if ($.trim(cellphone)) {
+        checkUsCell = regex.test(cellphone);
+      }
+      if ($.trim(officephone)) {
+        checkUsOffice = regex.test(officephone);
+      }
+      //console.log(regex.test(phone));
+      //console.log(checkUsPhone+ " " + checkUsCell + " " + checkUsOffice);
+      if (checkUsPhone && checkUsCell && checkUsOffice) {
+        return 200;
+       } else if (!checkUsPhone) {
+        return 1;
+       } else if (!checkUsCell) {
+        return 2;
+       } else {
+        return 3;
+       }
+      //return true;
+    }
     $(function(){
       $('#ref_name').on('input propertychange',function(){
         var email = $(this).val();
