@@ -397,19 +397,20 @@ class StaffController extends Controller
                 $user->total_price += $inv->quantity*$inv->price;
             }
         }
+        //$7 emergency extra
+        if ($user->is_emergency == 1) {
+            if ($user->total_price > 0) {
+                $user->total_price +=7;
+                $user->save();
+            }
+        }
         if ($user->ref_discount == 1) {
             $calculate_discount = new SiteHelper();
             $user->discounted_value = $calculate_discount->updateTotalPriceOnRef($user->total_price);
         }
         if($user->save())
         {
-            //$7 emergency extra
-            if ($user->is_emergency == 1) {
-                if ($user->total_price > 0) {
-                    $user->total_price +=7;
-                    $user->save();
-                }
-            }
+            
             if ($user->coupon != null) {
                 $calculate_discount = new SiteHelper();
                 $discounted_value = $calculate_discount->discountedValue($user->coupon, $user->total_price);

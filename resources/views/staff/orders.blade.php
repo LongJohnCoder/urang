@@ -1016,7 +1016,7 @@
         type: "POST",
         data: {item_name: $('#item2_'+id).text(),user_id: DELETE_user_id,pick_up_id: DELETE_pick_up_id,item_id: id, _token: "{{Session::token()}}"},
         success: function(data) {
-            console.log(data);
+            //console.log(data);
             if(data!=0)
             {
               $('#tr_identifier_'+data).hide();
