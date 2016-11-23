@@ -1705,21 +1705,27 @@ class AdminController extends Controller
                 $user->total_price += $inv->quantity*$inv->price;
             }
         }
+        //$7 emergency extra
+        if ($user->is_emergency == 1) {
+            if ($user->total_price > 0) {
+                $user->total_price +=7;
+                /*if ($user->is_emergency == 1) {
+                    # code...
+                }*/
+                $user->save();
+            }
+        }
+        //return $user->total_price;
         //return $user->ref_discount;
         if ($user->ref_discount == 1) {
             $calculate_discount = new SiteHelper();
             $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($user->total_price);
-            $user->save();
+            //$user->save();
         }
+        //return $user->discounted_value;
         if($user->save())
         {
-            //$7 emergency extra
-            if ($user->is_emergency == 1) {
-                if ($user->total_price > 0) {
-                    $user->total_price +=7;
-                    $user->save();
-                }
-            }
+            
             //dd($user);
             if ($user->coupon != null) {
                 $calculate_discount = new SiteHelper();
@@ -2368,8 +2374,10 @@ class AdminController extends Controller
 
     public function postDeleteItemByID(Request $request)
     {
+        //its by ajax so use return $request rather dd
         //return $request;
         //return $request->item_id.$request->user_id.$request->pick_up_id.$request->item_name;
+        //return $request;
         $searchInvoice['list_item_id'] = $request->item_id;
         $searchInvoice['pick_up_req_id'] = $request->pick_up_id;
         $searchInvoice['user_id'] = $request->user_id;
@@ -2392,23 +2400,33 @@ class AdminController extends Controller
             $total_price_to_deduct = $nowquantity * $nowPriceEach;
 
             $pickups->total_price = $previous_price - $total_price_to_deduct;
-
+            //return $pickups->total_price;
             $pickups->save();
+            
         }
+        //return $pickups->total_price;
         if ($pickups->ref_discount == 1) {
             $nowquantity = $invoice->quantity;
             $nowPriceEach = $invoice->price;
             $total_price_to_deduct = $nowquantity * $nowPriceEach;
+            //return $total_price_to_deduct;
+            if ($previous_price == 0) {
+                $pickups->total_price = 0;
+            } else {
+                $pickups->total_price = $previous_price - $total_price_to_deduct;
+            }
             
-            $pickups->total_price = $previous_price - $total_price_to_deduct;
-
+            //return $pickups->total_price;
             $pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
             $pickups->save();
         }
+        //return $pickups->total_price;
         if ($pickups->coupon != null) {
+
             $calculate_discount = new SiteHelper();
             $discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->total_price);
             if ($pickups->ref_discount == 1) {
+                //return "Im here";
                 $calculate_discount = new SiteHelper();
                 $pickups->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
             }
@@ -2419,6 +2437,13 @@ class AdminController extends Controller
             //$pickups->discounted_value = $discounted_value;
             $pickups->save();
         }
+        //emergency here for $7 extra
+        if ($pickups->is_emergency == 1 && $pickups->total_price == 7) {
+            $pickups->total_price = 0;
+            $pickups->discounted_value = 0;
+            $pickups->save();      
+        }
+
         if($invoice->delete())
         {
             $searchDetails['items'] = $request->item_name;
