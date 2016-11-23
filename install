@@ -76,5 +76,5 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     Deny from all
 </Files>
 EOF
-echo "Set up successfully done! regards - Devil"
+echo "Set up successfully done!"
 
