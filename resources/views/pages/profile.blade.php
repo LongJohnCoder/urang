@@ -38,15 +38,15 @@
                   <h4>Personal Info:</h4>
                   <div class="form-group">
                      <label for="phone">Phone</label>
-                     <input type="number" class="form-control" id="Phone" placeholder="Format: 5555555555" name="personal_phone" required="" value="{{$logged_user->user_details->personal_ph}}">
+                     <input type="number" class="form-control" id="Phone" placeholder="Format: 123-456-7890" name="personal_phone" required="" value="{{$logged_user->user_details->personal_ph}}">
                   </div>
                   <div class="form-group">
                      <label for="cellphone">Cell Phone (optional)</label>
-                     <input type="number" class="form-control" id="cellphone" placeholder="Format: 5555555555" name="cell_phone" value="{{$logged_user->user_details->cell_phone ==0 ? '' : $logged_user->user_details->cell_phone}}">
+                     <input type="number" class="form-control" id="cellphone" placeholder="Format: 123-456-7890" name="cell_phone" value="{{$logged_user->user_details->cell_phone ==0 ? '' : $logged_user->user_details->cell_phone}}">
                   </div>
                   <div class="form-group">
                      <label for="officephone">Office Phone (optional)</label>
-                     <input type="number" class="form-control" id="officephone" placeholder="Format: 5555555555" name="office_phone" value="{{$logged_user->user_details->off_phone ==0 ? '' : $logged_user->user_details->off_phone}}">
+                     <input type="number" class="form-control" id="officephone" placeholder="Format: 123-456-7890" name="office_phone" value="{{$logged_user->user_details->off_phone ==0 ? '' : $logged_user->user_details->off_phone}}">
                   </div>
                   <div class="form-group">
                      <label for="school_donation_id">Selected School</label>
