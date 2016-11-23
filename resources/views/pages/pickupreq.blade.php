@@ -351,7 +351,7 @@
             $('#boxed').prop('checked', false);
           }
           //starch type
-          //$('#strach_type').val(data.starch_type);
+          $('#strach_type').val(data.starch_type);
           //wash and fold
           if (data.wash_n_fold == 1) 
           {
