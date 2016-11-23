@@ -164,7 +164,7 @@ class MainController extends Controller
                                 {
                                     $user_details->delete();
                                     $user->delete();
-                                    return redirect()->route('getSignUp')->with('fail', 'referrel type should be type of email. please paste an email of the person you wana refer')->withInput();
+                                    return redirect()->route('getSignUp')->with('fail', 'Referrel type should be type of email. Please paste an email of the person you want to refer')->withInput();
                                 }
                             }
                             
