@@ -4081,6 +4081,8 @@ body.fixed-header .scrolling-header .navbar .navbar-nav li a {
 }
 .form2 textarea {
     border: 1px solid #333;
+    padding: 10px;
+    font-size: 14px;
 }
 .form2 button {
     font-family: "Roboto", sans-serif;
