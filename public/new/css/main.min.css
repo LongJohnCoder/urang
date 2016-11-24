@@ -247,7 +247,7 @@ textarea {
     float: right;
     width: 83%}
 .header .navbar .navbar-nav>li>a {
-    font-size: 12px;
+    font-size: 12px; 
 }
 body.fixed-header .scrolling-header .navbar {
     background: rgba(255, 255, 255, .9);
