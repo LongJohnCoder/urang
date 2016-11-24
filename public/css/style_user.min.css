@@ -1269,8 +1269,8 @@ p.schedule-pick a {
 }
 .notify{margin-bottom: 36px !important; display: block !important;} 
 .logo{display: block; text-align: center;}
-
-
+.wrap-timeline .time-item .dateLeft{margin-left: 0; text-align: center;}
+.wrap-timeline .time-item .dateRight {margin-right: 0; text-align: center;}
 
 
 }
