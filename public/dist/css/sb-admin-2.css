@@ -355,16 +355,13 @@ table.dataTable thead .sorting:after {
     color: #df8a13;
 }
 
-
+.schedule-radio .radio input[type="radio"]{position: relative;}
 
 
 
 @media(max-width:768px) {
 
     .navbar-top-links{float: right;}
-
-
-
 
 
 }
