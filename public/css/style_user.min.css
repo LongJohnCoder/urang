@@ -150,7 +150,7 @@ header {
     position: fixed;
     background: #fff;
     z-index: 9999;
-    padding: 20px;
+    padding: 17px 32px 20px 20px;
     left: -238px;
     box-shadow: 0 0 10px 0 #999;
 }
