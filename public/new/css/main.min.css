@@ -3591,6 +3591,8 @@ body.fixed-header .scrolling-header .navbar .navbar-search .input-group .search-
 }
 .form2 textarea {
     background: #f2f2f2;
+    padding: 15px;
+    font-size: 14px;
 }
 .form2 .message {
     font-size: 14px;
