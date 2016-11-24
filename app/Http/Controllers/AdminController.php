@@ -2216,43 +2216,58 @@ class AdminController extends Controller
     }
     public function postSetTime(Request $request) {
         //dd($request);
-        if (strcmp($request->strt_tym, $request->end_tym) == 0) {
-            return redirect()->route('manageReqNo')->with('error', 'Sorry! Start time and end time could not be same!');
+        switch ($request->day) {
+            case 'day1':
+               return $this->saveOrUpdate($request, 1);
+                break;
+            case 'day2':
+               return $this->saveOrUpdate($request, 2);
+                break;
+            case 'day3':
+               return $this->saveOrUpdate($request, 3);
+                break;
+            case 'day4':
+               return $this->saveOrUpdate($request, 4);
+                break;
+            case 'day5':
+               return $this->saveOrUpdate($request, 5);
+                break;
+            case 'day6':
+               return $this->saveOrUpdate($request, 6);
+                break;
+            case 'day7':
+               return $this->saveOrUpdate($request, 7);
+                break;
+            default:
+                return redirect()->route('manageReqNo')->with('error', "Wrong day. ie. it should be in between Monday to Sunday!");
+                break;
         }
-        else
-        {
-            /*$start_time = $request->strt_tym;
-            $end_time  = $request->end_tym;
-            $start = new DateTime($start_time);
-            $end = new DateTime($end_time);
-            if($start->getTimestamp() > $end->getTimestamp()) {
-                return redirect()->route('manageReqNo')->with('error', 'Sorry! Start time cannot be greater than end time');
-            }
-            else
-            {*/
-                $search_first = PickUpTime::where('day', $request->day)->first();
-                if ($search_first != null) {
-                    $search_first->opening_time = $request->strt_tym;
-                    $search_first->closing_time = $request->end_tym;
-                    if ($search_first->save()) {
-                        return redirect()->route('manageReqNo')->with('success', 'Time successfully saved!');
-                    } else {
-                        return redirect()->route('manageReqNo')->with('error', 'Sorry! could not update your details some error occurred');
-                    }
-                } else {
-                    $pick_up_time = new PickUpTime();
-                    $pick_up_time->day = $request->day;
-                    $pick_up_time->opening_time = $request->strt_tym;
-                    $pick_up_time->closing_time = $request->end_tym;
-                    $pick_up_time->closedOrNot = 0;
-                    if ($pick_up_time->save()) {
-                        return redirect()->route('manageReqNo')->with('success', 'Time successfully saved!');
-                    } else {
-                        return redirect()->route('manageReqNo')->with('error', 'Sorry! could not save your details some error occurred');
-                    }
-                }
-            //}
-            
+    }
+    public function saveOrUpdate($request, $day) {
+        $isDataExist = PickUpTime::where('day', $day)->first();
+        if ($isDataExist) {
+            $isDataExist->opening_time = $request->opening_time;
+            $isDataExist->closing_time = $request->closing_time;
+            $isDataExist->pickup_start = $request->pickup_start;
+            $isDataExist->pickup_end = $request->pickup_end;
+            if ($isDataExist->save()) {
+                 return redirect()->route('manageReqNo')->with('success', "Record successfully updated!");
+             } else {
+                return redirect()->route('manageReqNo')->with('error', "Cannot update data please try again later!");
+             }
+        } else {
+            $new_record = new PickUpTime();
+            $new_record->day = $day;
+            $new_record->opening_time = $request->opening_time;
+            $new_record->closing_time = $request->closing_time;
+            $new_record->pickup_start = $request->pickup_start;
+            $new_record->pickup_end = $request->pickup_end;
+            $new_record->closedOrNot = 0;
+            if ($new_record->save()) {
+                 return redirect()->route('manageReqNo')->with('success', "Record successfully saved!");
+             } else {
+                return redirect()->route('manageReqNo')->with('error', "Cannot save data please try again later!");
+             }
         }
     }
     public function setToClose(Request $request) {
