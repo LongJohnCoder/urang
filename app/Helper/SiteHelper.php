@@ -4,6 +4,7 @@ use Session;
 use App\CustomerCreditCardInfo;
 use App\Coupon;
 use App\ref;
+use App\refPercentage;
 class SiteHelper 
 {
 	public function showCardNumber($user_id) {
@@ -29,8 +30,17 @@ class SiteHelper
     }
 
     //this function calculate referrel price
-    public function updateTotalPriceOnRef($total_price) {
-        $total_price -= ($total_price*10)/100;
+    public static function updateTotalPriceOnRef($total_price) {
+        $setPercentage = 0.00;
+        $getPercentage = refPercentage::first();
+        //dd($getPercentage);
+        if ($getPercentage) {
+            $setPercentage = $getPercentage->percentage;
+        } else {
+            $setPercentage = 10.00;
+        }
+        $total_price -= ($total_price*$setPercentage)/100;
+        //dd($total_price);
         return $total_price;
     }
     public function refOrNot($email) {

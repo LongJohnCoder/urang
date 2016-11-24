@@ -184,6 +184,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/oders-sort-pick-up-date', ['uses' => 'AdminController@orderSortPickUpDate', 'as' => 'orderSortPickUpDate']);
 
     Route::get('/oders-sort-create-date', ['uses' => 'AdminController@orderSortCreatedAt', 'as' => 'orderSortCreatedAt']);
+    Route::post('/save-referral-percentage', ['uses' => 'AdminController@postSavePercentageRef', 'as' => 'postSavePercentageRef']);
 
 });
 //invoice routes

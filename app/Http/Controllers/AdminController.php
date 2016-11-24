@@ -43,6 +43,7 @@ use App\EmailTemplateOrderConfirm;
 use App\IndexPageWysiwyg;
 use App\ref;
 use App\MobileAppWys;
+use App\refPercentage;
 
 class AdminController extends Controller
 {
@@ -2350,8 +2351,9 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $refs = ref::paginate(20);
+        $getCurrentRefPercentage = refPercentage::first();
         //$coupon_list = Coupon::orderBy('created_at', 'DESC')->get();
-        return view('admin.referral', compact('user_data', 'site_details', 'refs'));
+        return view('admin.referral', compact('user_data', 'site_details', 'refs', 'getCurrentRefPercentage'));
     }
 
 
@@ -2417,7 +2419,8 @@ class AdminController extends Controller
             }
             
             //return $pickups->total_price;
-            $pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
+            $pickups->discounted_value = SiteHelper::updateTotalPriceOnRef($pickups->total_price);
+            //$pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
             $pickups->save();
         }
         //return $pickups->total_price;
@@ -2479,6 +2482,7 @@ class AdminController extends Controller
 
     public function deleteItemFromInvoice(Request $request)
     {
+        //$obj = new SiteHelper();
         $previous_price = 0;
 
         $pick_up_req_id = $request->pickupid;
@@ -2497,8 +2501,8 @@ class AdminController extends Controller
             $total_price_to_deduct = $nowquantity * $nowPriceEach;
             
             $pickups->total_price = $previous_price - $total_price_to_deduct;
-
-            $pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
+            $pickups->discounted_value = SiteHelper::updateTotalPriceOnRef($pickups->total_price);
+            //$pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
             $pickups->save();
         }
         if($previous_price>0)
@@ -2941,6 +2945,26 @@ class AdminController extends Controller
         else
         {
             return "Sorry cannot change the count now!";
+        }
+    }
+    public function postSavePercentageRef(Request $request) {
+        $isDataExist = refPercentage::first();
+        if ($isDataExist) {
+            $isDataExist->percentage = $request->percentage;
+            if($isDataExist->save()) {
+                return 1;
+            } else {
+                return "Error while updating previous record";
+            }
+        } else {
+            //no data create new 
+            $setPercentageRef = new refPercentage();
+            $setPercentageRef->percentage = $request->percentage;
+            if ($setPercentageRef->save()) {
+                return 1;
+            } else {
+                return "Error while inserting new record";
+            }
         }
     }
 }

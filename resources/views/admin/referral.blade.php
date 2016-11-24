@@ -12,6 +12,15 @@
 								<p>Please wait...</p>
 								<img src="{{url('/')}}/public/img/reload.gif">
 							</div>
+							<div class="col-md-12 col-sm-12 col-cs-12" style="border: 1px solid #DCDCDC;">
+								<div class="col-md-7 col-sm-7 col-cs-7">
+									<p style="font-size: 20px;margin-left: -23px;">User Referral ( Currently Set as : {{$getCurrentRefPercentage->percentage}} % )</p>
+								</div>
+								<div class="col-md-5 col-sm-5 col-cs-5">
+									<button class="btn btn-danger btn-xs" type="button" style="float: right;margin-top: 1%;margin-right: 3%;" id="set_ref_per">Set Referral %</button>
+								</div>
+							</div>
+							<hr>
 	                        <table class="table">
 	                            <thead>
 	                                <tr>
@@ -128,32 +137,7 @@
 	}
 	function changeDiscountCount(rowid)
 	{
-		//alert(rowid);
-		/*swal({   
-				title: "Are you sure?",   
-				text: "The offer count will be changed!", 
-				type: "warning",   
-				showCancelButton: true,   
-				confirmButtonColor: "#DD6B55",   
-				confirmButtonText: "Yes, Change it!",   
-				closeOnConfirm: false }, 
-				function(){
-					$.ajax({
-							url: baseUrl+"/change-ref-offer-count",
-							type: "POST",
-							data: {id: rowid, value: $('#discountCountValue'+rowid).text(), _token: '{!!csrf_token()!!}'},
-							success: function(data) {
-								if(data==1)
-								{
-									location.reload();
-								}
-								else
-								{
-									swal("Sorry!", data, "error");
-								}
-							}
-						});
-				});*/
+		
 
 				swal({
 				  title: "Enter Number",
@@ -195,5 +179,49 @@
 				  //swal("Nice!", "You wrote: " + inputValue, "success");
 				});
 	}
+	$(function(){
+		$('#set_ref_per').click(function(){
+			swal({
+				  title: "Enter Percentage",
+				  text: "Enter the referral percentage",
+				  type: "input",
+				  showCancelButton: true,
+				  closeOnConfirm: false,
+				  animation: "slide-from-top",
+				  inputPlaceholder: "Set referral percentage",
+				  showLoaderOnConfirm: true
+				},
+				function(inputValue){
+				  if (inputValue === false) return false;
+				  
+				  if (inputValue === "") {
+				    swal.showInputError("The count cannot be empty!");
+				    return false;
+				  }
+				  if (isNaN(inputValue)) {
+				  	swal.showInputError("Percentage should be a number!");
+				    return false;
+				  }
+				  if (inputValue%1 == 0 || inputValue%1 != 0) {
+				  	$.ajax({
+							url: "{{route('postSavePercentageRef')}}",
+							type: "POST",
+							data: {percentage: inputValue, _token: '{!!csrf_token()!!}'},
+							success: function(data) {
+								console.log(data);
+								if (data == 1) {
+									location.reload();
+								} else {
+									swal.showInputError("Some Error occured please try again later!");
+									console.log("Developer Hint:" + " " + data);
+				    				return false;
+								}
+							}
+					});
+				  }
+				  
+				});
+		});
+	});
 </script>
 @endsection
