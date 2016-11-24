@@ -286,9 +286,9 @@ header {
     -webkit-transform: translateY(0);
     transform: translateY(0);
 }
-.login form .btn-default:hover {
+/*.login form .btn-default:hover {
     background: none;
-}
+}*/
 .signup form .btn-default {
     display: block;
     margin: 0 auto;
@@ -1252,6 +1252,9 @@ p.schedule-pick a {
  
 
 .notify{margin-right: 6% !important; }
+.individual-form {
+  margin-bottom: 45px;
+}
 
 @media only screen and ( max-width: 760px ) {
 
