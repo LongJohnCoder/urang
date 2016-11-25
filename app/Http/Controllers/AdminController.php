@@ -2270,23 +2270,18 @@ class AdminController extends Controller
              }
         }
     }
-    public function setToClose(Request $request) {
-        //return $request->value;
-        $find = PickUpTime::where('day', $request->day)->first();
-        //return $find;
+    public function updateManageReqNoStatus(Request $request) {
+        //return $request;
+        $find = PickUpTime::find($request->id);
         if ($find) {
-            $find->closedOrNot = $request->value;
+            $find->closedOrNot = $request->status;
             if ($find->save()) {
                 return 1;
+            } else {
+                return "Error while updating data";
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
+        } else {
+            return "Unable to find record! Please Try Again Later!";
         }
     }
     public function getCoupon() {
