@@ -42,9 +42,16 @@
 	    border-radius: 0px !important;
 	    width: 100px !important;
 	    font-weight: bold !important;
+	    margin-top: -28px !important;
 	}
 	tr {
 		background: #DCDCDC;
+	}
+	#show_my_calender:hover {
+		cursor: pointer;
+	}
+	#show_my_calender:active {
+		cursor: pointer;
 	}
 </style>
 	<div id="page-wrapper">
@@ -76,7 +83,7 @@
 	        <div class="col-lg-12">
 	            <div class="panel panel-default">
 	                <div class="panel-heading">
-	                    Manage Request Numbers
+	                    <p style="display: inline;"><div id="show_my_calender"><i class="fa fa-calendar" aria-hidden="true"></i></div> Manage Request Numbers</p>
 	                    <button type="button" class="btn btn-primary btn-xs custom-xs-btn" id="time_set_btn" data-toggle="modal" data-target="#myModal">Setup Time</button>
 	                </div>
 	                <div class="panel-body">
@@ -481,7 +488,7 @@
 			function editDateTime(id) {
 				<?php foreach ($pick_up_schedule as $key => $data_to_update): ?>
 					if ('{{isset($data_to_update) && $data_to_update != null ? $data_to_update->id: ""}}' ==id) {
-						console.log('<?php echo $data_to_update?>');
+						//console.log('<?php echo $data_to_update?>');
 						$('#myModal').modal('show');
 						$('#opening_time').removeAttr('disabled');
 						$('#closing_time').removeAttr('disabled');
@@ -498,4 +505,50 @@
 			}
 		</script>
 	@endif
+	<script type="text/javascript">
+		//date picker script
+		$(function(){
+			var date = new Date();
+			var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString();
+			console.log(dateString);
+			$('#show_my_calender').click(function(){
+				var events = [ 
+				    { Title: "Five K for charity", Date: new Date(dateString) }, 
+				    { Title: "Dinner", Date: new Date() }, 
+				    { Title: "Meeting with manager", Date: new Date() }
+				];
+				$("#show_my_calender").datepicker({
+				    beforeShowDay: function(date) {
+				        var result = [true, '', null];
+				        var matching = $.grep(events, function(event) {
+				            return event.Date.valueOf() === date.valueOf();
+				        });
+				        
+				        if (matching.length) {
+				            result = [true, 'highlight', null];
+				        }
+				        return result;
+				    },
+				    onSelect: function(dateText) {
+				        var date,
+			            selectedDate = new Date(dateText),
+			            i = 0,
+			            event = null;
+				        
+				        while (i < events.length && !event) {
+				            date = events[i].Date;
+
+				            if (selectedDate.valueOf() === date.valueOf()) {
+				                event = events[i];
+				            }
+				            i++;
+				        }
+				        if (event) {
+				            alert(event.Title);
+				        }
+				    }
+				});
+			});
+		});
+	</script>
 @endsection
