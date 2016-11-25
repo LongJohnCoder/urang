@@ -53,5 +53,33 @@ class SiteHelper
             return 0;
         }
     }
+    public static function getWeekDays($number) {
+        switch ($number) {
+            case '1':
+                return "Monday";
+                break;
+            case '2':
+                return "Tuesday";
+                break;
+            case '3':
+                return "Wednesday";
+                break;
+            case '4':
+                return "Thursday";
+                break;
+            case '5':
+                return "Friday";
+                break;
+            case '6':
+                return "Saturday";
+                break;
+            case '7':
+                return "Sunday";
+                break;
+            default:
+                return "Sorry! could not get the day";
+                break;
+        }
+    }
 	
 }

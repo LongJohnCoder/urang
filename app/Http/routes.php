@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/expenses', ['uses' => 'AdminController@getExpenses', 'as' => 'getExpenses']);
     Route::get('/allocate-pick-up-req', ['uses' => 'AdminController@getPickUpReqAdmin', 'as' =>'getPickUpReqAdmin']);
     Route::post('/set-times', ['uses' => 'AdminController@postSetTime', 'as' => 'postSetTime']);
-    Route::post('/set-day-as-close', ['uses' => 'AdminController@setToClose', 'as' => 'setToClose']);
+    Route::post('/set-day-as-close-or-open', ['uses' => 'AdminController@updateManageReqNoStatus', 'as' => 'updateManageReqNoStatus']);
     Route::post('/check-slug-exists', ['uses' => 'AdminController@checkSlugNeighborhood', 'as' => 'checkSlugNeighborhood']);
     Route::get('/generate-coupon', ['uses' => 'AdminController@getCoupon', 'as' => 'getCoupon']);
     Route::post('/save-coupon', ['uses' => 'AdminController@postSaveCoupon', 'as' => 'postSaveCoupon']);
