@@ -711,7 +711,7 @@ class MainController extends Controller
             $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
             $pick_up_req->schedule = $request->schedule;
             $pick_up_req->delivary_type = $request->boxed_or_hung;
-            $pick_up_req->starch_type = $request->strach_type;
+            $pick_up_req->starch_type = isset($request->strach_type) || $request->strach_type != null ? $request->strach_type : "No";
             $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
             $pick_up_req->door_man = $request->doorman;
             $pick_up_req->time_frame_start = $request->time_frame_start;
@@ -839,7 +839,7 @@ class MainController extends Controller
                 $tracker->save();
                 if ($request->order_type == 1) {
                     //fast pick up
-                    $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                    //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                     //dd($expected_time);
                     if ($request->identifier == "admin") {
 
@@ -848,20 +848,20 @@ class MainController extends Controller
                             'inv_id' => 0
                         );*/
                         Event::fire(new PickUpReqEvent($request, 0));
-                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order ".$expected_time);
+                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
                     }
                     else
                     {
                         //dd($request->request);
                         Event::fire(new PickUpReqEvent($request, 0));
-                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order ".$expected_time);
+                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
 
                     }
                     
                 }
                 else
                 {
-                    $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                    //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                     //detailed pick up
                     $data = json_decode($request->list_items_json);
                     for ($i=0; $i< count($data); $i++) {
@@ -907,13 +907,13 @@ class MainController extends Controller
                             'inv_id' => $invoice->invoice_id
                         );*/
                         Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
-                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order ".$expected_time);
+                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
                     }
                     else
                     {
                         //dd($request->request);
                         Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
-                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order ".$expected_time);
+                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
 
                     }
                 }

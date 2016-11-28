@@ -94,7 +94,7 @@
                   <input type="radio" name="boxed_or_hung" id="hung" value="Hung"> Hung
                 </label>
               </div>
-              <select name="strach_type" required="" id="strach_type">
+              <select name="strach_type" id="strach_type" style="display: none;">
                 <option value="No">No Starch</option>
                 <option value="Very_light_starch">Very Light Starch</option>
                 <option value="Light_starch">Light Starch</option>
@@ -430,6 +430,12 @@
     $('#time_frame_end').keyup(function(){
       $('#errorTime').html('* Please select from the dropdown.');
       $('#schedule_pick_up').attr('type', 'button');
+    });
+    //starch show on select boxed or hung
+    $('input[type=radio][name=boxed_or_hung]').change(function() {
+      //alert(this.value);
+      $('#strach_type').show();
+      $('#starch_type').attr('required', 'true');
     });
     //check time
     function checkTime() {
