@@ -1,6 +1,10 @@
 <?php
 	$query_url = $_SERVER['REQUEST_URI'];
-	$search_keyword = explode('/', $query_url)[3];
+	if ($_SERVER['HTTP_HOST'] == 'localhost') {
+		$search_keyword = explode('/', $query_url)[3];
+	} else {
+		$search_keyword = explode('/', $query_url)[2];
+	}
 	$seo_data = App\Helper\NavBarHelper::getSeoDetailsNeighborhoodSingle($search_keyword);
 ?>
 <title>{{ $seo_data!= false ? $seo_data->page_title : "U-rang|Neighborhoods"}}</title>
