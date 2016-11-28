@@ -8,9 +8,10 @@ use App\CustomerCreditCardInfo;
 use App\UserDetails;
 use App\Neighborhood;
 use App\Cms;
+use App\NeighborhoodSeo;
 class NavBarHelper 
 {
-	public function getUserData() {
+	public static function getUserData() {
 		$user_data = Auth::user();
 		return $user_data;
 	}
@@ -18,7 +19,7 @@ class NavBarHelper
 		$site_details = SiteConfig::first();
 		return $site_details;
 	}
-	public function getCustomerData() {
+	public static function getCustomerData() {
 		if (auth()->guard('users')->user() != null) {
 			$logged_id = auth()->guard('users')->user()->id;
 			$customer_details = User::with('user_details', 'card_details')->where('id' , $logged_id)->first();
@@ -59,5 +60,13 @@ class NavBarHelper
 			'wet_clean' => $wet_clean
 		);
 		return $data_feed;
+	}
+	public static function getNeighborhoodSeo() {
+		$seo_data = NeighborhoodSeo::first();
+		if ($seo_data) {
+			return $seo_data;
+		} else {
+			return false;
+		}
 	}
 }

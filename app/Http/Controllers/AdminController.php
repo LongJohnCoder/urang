@@ -44,6 +44,7 @@ use App\IndexPageWysiwyg;
 use App\ref;
 use App\MobileAppWys;
 use App\refPercentage;
+use App\NeighborhoodSeo;
 
 class AdminController extends Controller
 {
@@ -213,8 +214,8 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $neighborhood = Neighborhood::with('admin')->paginate(10);  
-        //dd($neighborhood);
-        return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
+        $neighborhood_seo = NeighborhoodSeo::first();
+        return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood', 'neighborhood_seo'));
     }
     public function checkSlugNeighborhood(Request $request) {
         $find = Neighborhood::where('url_slug',$request->slug)->first();
@@ -2964,6 +2965,32 @@ class AdminController extends Controller
                 return 1;
             } else {
                 return "Error while inserting new record";
+            }
+        }
+    }
+    public function postSeoNeighborhood(Request $request){
+        //dd($request);
+        $find_record = NeighborhoodSeo::first();
+        if ($find_record) {
+            //update rec
+            $find_record->page_title = isset($request->page_title) ? $request->page_title : $find_record->page_title;
+            $find_record->meta_keywords = isset($request->meta_keys) ? $request->meta_keys : $find_record->meta_keywords;
+            $find_record->meta_description = isset($request->meta_des) ? $request->meta_des : $find_record->meta_description;
+            if($find_record->save()) {
+                return redirect()->route('get-neighborhood')->with('success', "Record successfully updated!");
+            } else {
+                return redirect()->route('get-neighborhood')->with('fail', "error while saving the record!");
+            }
+        } else {
+            //new rec goes here
+            $new_rec = new NeighborhoodSeo();
+            $new_rec->page_title = $request->page_title;
+            $new_rec->meta_keywords = $request->meta_keys;
+            $new_rec->meta_description = $request->meta_des;
+            if($new_rec->save()) {
+                return redirect()->route('get-neighborhood')->with('success', "Record successfully added!");
+            } else {
+                return redirect()->route('get-neighborhood')->with('fail', "error while saving the record!");
             }
         }
     }

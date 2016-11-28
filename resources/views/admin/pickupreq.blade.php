@@ -85,8 +85,8 @@
 						                </label>
 								</div>
 								<div class="form-group">
-									<label>Strach type:</label>
-				                  <select name="strach_type" required="" class="form-control" id="strach_type">
+									<label id="str_typ" style="display: none;">Strach type:</label>
+				                  <select name="strach_type" class="form-control" id="strach_type" style="display: none;">
 					                <option value="No">No Starch</option>
 					                <option value="Very_light_starch">Very Light Starch</option>
 					                <option value="Light_starch">Light Starch</option>
@@ -389,7 +389,7 @@
 			            $('#inlineRadio1').prop('checked', false);
 			          }
 			          //delivary type
-			          if (data.delivary_type == "Boxed") {
+			          /*if (data.delivary_type == "Boxed") {
 			            $('#boxed').prop('checked', true);
 			          }
 			          else if (data.delivary_type == "Hung") {
@@ -398,9 +398,9 @@
 			          else
 			          {
 			            $('#boxed').prop('checked', false);
-			          }
+			          }*/
 			          //starch type
-			          $('#strach_type').val(data.starch_type);
+			          //$('#strach_type').val(data.starch_type);
 			          //wash and fold
 			          if (data.wash_n_fold == 1) 
 			          {
@@ -472,6 +472,12 @@
 	        }
         	$('#myModal').modal('hide');
         	swal("Success!", "Your items are select now please place an order", "success");
+     	});
+     	//starch show on select boxed or hung
+     	$('input[type=radio][name=boxed_or_hung]').change(function() {
+     		$('#strach_type').show();
+     		$('#str_typ').show();
+     		$('#starch_type').attr('required', 'true');
      	});
      	//check time
 	    function checkTime() {

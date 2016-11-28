@@ -19,6 +19,7 @@
 	                	@endif
 	                	<div class="alert alert-success" id="success" style="display: none;"></div>
 	                   View Neighborhood
+	                   <button type="button" class="btn btn-primary btn-xs" style="margin-left: 67%;" data-toggle="modal" data-target="#seoModal" id="add_seo"><i class="fa fa-globe" aria-hidden="true"></i> Seo</button>
 	                   <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_neighbor"><i class="fa fa-plus" aria-hidden="true"></i> Add Neighborhood</button>
 	                </div>
 	                <!-- /.panel-heading -->
@@ -111,6 +112,37 @@
 	      </div>
 	      <div class="modal-footer">
 	        
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+	<!-- Modal for add  -->
+	<div id="seoModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title"><i class="fa fa-globe" aria-hidden="true"></i> Search Engine Optimization Manager</h4>
+	      </div>
+	      <div class="modal-body">
+			<form role="form" method="post" action="{{route('postSeoNeighborhood')}}">
+			  <div class="form-group">
+			    <label for="name">Page Title:</label>
+			    <input class="form-control" id="page_title" name="page_title" type="text" placeholder="page title" value="{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->page_title : ""}}">
+			  </div>
+			  <div class="form-group">
+			    <label for="name">Meta Keywords:</label>
+			    <input class="form-control" id="meta_keys" name="meta_keys" type="text" placeholder="meta keywords" value="{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_keywords : ""}}">
+			  </div>
+			  <div class="form-group">
+			    <label for="name">Meta Description:</label>
+			    <input class="form-control" id="meta_des" name="meta_des" type="text" placeholder="meta description" value="{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_description : ""}}">
+			  </div>
+			  <button type="submit" class="btn btn-primary btn-lg btn-block">Change</button>
+			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+			</form>
 	      </div>
 	    </div>
 

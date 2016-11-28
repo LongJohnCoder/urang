@@ -1,4 +1,4 @@
-@extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
+@extends('pages.layouts.master-neighborhood')
 @section('content')
 <section class="top-header top-header1 neighborhood-header with-bottom-effect transparent-effect dark" style="">
    <div class="bottom-effect"></div>
