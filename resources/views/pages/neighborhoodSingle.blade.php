@@ -1,4 +1,4 @@
-@extends('pages.layouts.master-neighborhood')
+@extends('pages.layouts.master-neighborhood-single')
 @section('content')
 <section class="top-header neighborhood-header with-bottom-effect transparent-effect dark">
    <div class="bottom-effect"></div>

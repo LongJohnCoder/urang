@@ -1,11 +1,16 @@
-<title>{{isset($site_details) && $site_details!= null && $site_details->site_title!=null ? $site_details->site_title : "U-rang"}}</title>
+<?php
+	$query_url = $_SERVER['REQUEST_URI'];
+	$search_keyword = explode('/', $query_url)[3];
+	$seo_data = App\Helper\NavBarHelper::getSeoDetailsNeighborhoodSingle($search_keyword);
+?>
+<title>{{ $seo_data!= false ? $seo_data->page_title : "U-rang|Neighborhoods"}}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="cache-control" content="private, max-age=0, no-cache">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="0">
-<meta name="keywords" content="{{isset($site_details) && $site_details!= null && $site_details->meta_keywords!=null ? $site_details->meta_keywords : 'U-rang'}}">
-<meta name="description" content="{{isset($site_details) && $site_details!= null && $site_details->meta_description!=null ? $site_details->meta_description : 'U-rang'}}">
+<meta name="description" content="{{ $seo_data!= false ? $seo_data->meta_description : 'U-rang neighborhoods'}}">
+<meta name="keywords" content="{{ $seo_data!= false ? $seo_data->meta_keywords : 'U-rang neighborhoods'}}">
 <!-- fav icon -->
 <link rel="icon" type="image/png" href="{{url('/')}}/public/favicon.ico">
 <!-- Styles -->

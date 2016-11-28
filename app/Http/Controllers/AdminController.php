@@ -226,6 +226,7 @@ class AdminController extends Controller
         }
     }
     public function postNeighborhood(Request $request) {
+        //dd($request);
         $name = $request->name;
         $description = $request->description;
         $slug = $request->url_slug;
@@ -243,6 +244,9 @@ class AdminController extends Controller
         $data->description = $description;
         $data->image = $fileName;
         $data->url_slug = $slug;
+        $data->page_title = $request->each_title;
+        $data->meta_keywords = $request->each_meta_keys;
+        $data->meta_description = $request->each_meta_des;
         if ($data->save()) {
            //return 1;
             return redirect()->route('get-neighborhood')->with('success', 'Neighborhood added Successfully');
@@ -271,6 +275,9 @@ class AdminController extends Controller
                 $search->image = $fileName;
             }
             $search->url_slug = $request->url_slug_edit;
+            $search->page_title = $request->each_title_edit;
+            $search->meta_keywords = $request->each_meta_keys_edit;
+            $search->meta_description = $request->each_meta_des_edit;
             if ($search->save()) {
                 return redirect()->route('get-neighborhood')->with('success', 'Neighborhood updated Successfully');
             }

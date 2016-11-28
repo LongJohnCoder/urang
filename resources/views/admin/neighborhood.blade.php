@@ -90,6 +90,10 @@
 		        	<img src="{{url('/')}}/public/img/reload.gif">
 		    </div>
 			<form role="form" id="add-modal-form" enctype="multipart/form-data" method="post" action="{{route('postneighborhood')}}">
+			<div class="form-group">
+				<label for="each_title">Page Title</label>
+				<input type="text" name="each_title" id="each_title" class="form-control"></input>
+			</div>
 			  <div class="form-group">
 			    <label for="name">Name</label>
 			    <input class="form-control" id="name" name="name" type="text" required="">
@@ -106,6 +110,14 @@
 			  <div class="form-group">
 				<input type="file" name="image" class="form-control" required="" />			  
 			  </div>
+			  <div class="form-group">
+				<label for="each_meta_keys">Meta Keywords</label>
+				<textarea class="form-control" name="each_meta_keys" id="each_meta_keys" rows="3"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="each_meta_keys">Meta Description</label>
+					<textarea class="form-control" name="each_meta_des" id="each_meta_des" rows="5"></textarea>
+				</div>
 			  <button type="button" class="btn btn-primary btn-lg btn-block" id="postneighbor">Add Neighborhood</button>
 			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
 			</form>
@@ -134,11 +146,13 @@
 			  </div>
 			  <div class="form-group">
 			    <label for="name">Meta Keywords:</label>
-			    <input class="form-control" id="meta_keys" name="meta_keys" type="text" placeholder="meta keywords" value="{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_keywords : ""}}">
+			    <!-- <input class="form-control" id="meta_keys" name="meta_keys" type="text" placeholder="meta keywords" value="{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_keywords : ""}}"> -->
+			    <textarea class="form-control" id="meta_keys" name="meta_keys" placeholder="meta keywords" rows="3">{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_keywords : ""}}</textarea>
 			  </div>
 			  <div class="form-group">
 			    <label for="name">Meta Description:</label>
-			    <input class="form-control" id="meta_des" name="meta_des" type="text" placeholder="meta description" value="{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_description : ""}}">
+			    <!-- <input class="form-control" id="meta_des" name="meta_des" type="text" placeholder="meta description" value="{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_description : ""}}"> -->
+			    <textarea class="form-control" id="meta_des" name="meta_des" placeholder="meta description" rows="5">{{isset($neighborhood_seo) && $neighborhood_seo != null ? $neighborhood_seo->meta_description : ""}}</textarea>
 			  </div>
 			  <button type="submit" class="btn btn-primary btn-lg btn-block">Change</button>
 			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
@@ -167,6 +181,10 @@
 					        	<img src="{{url('/')}}/public/img/reload.gif">
 					  </div>
 					<form role="form" id="edit-modal-form-{{$neighbor->id}}" enctype="multipart/form-data" method="post" action="{{route('editneighborhood')}}">
+					<div class="form-group">
+						<label for="each_title">Page Title</label>
+						<input type="text" name="each_title_edit" id="each_title_edit" class="form-control" value="{{$neighbor->page_title}}"></input>
+					</div>
 					  <div class="form-group">
 					    <label for="nameEdit">Name</label>
 					    <input class="form-control" id="nameEdit" name="nameEdit" type="text" value="{{$neighbor->name}}">
@@ -180,6 +198,14 @@
 					    <label for="descriptionEdit">Description</label>
 					    <textarea class="form-control ckeditor" id="descriptionEdit" name="descriptionEdit">{!! $neighbor->description !!}</textarea>
 					  </div>
+					  <div class="form-group">
+						<label for="each_meta_keys">Meta Keywords</label>
+						<textarea class="form-control" name="each_meta_keys_edit" id="each_meta_keys_edit" rows="3">{{$neighbor->meta_keywords}}</textarea>
+						</div>
+						<div class="form-group">
+							<label for="each_meta_keys">Meta Description</label>
+							<textarea class="form-control" name="each_meta_des_edit" id="each_meta_des_edit" rows="5">{{$neighbor->meta_description}}</textarea>
+						</div>
 					  <div class="form-group">
 					  	<div id="imagePreview"><img src="{{url('/')}}/public/dump_images/{{$neighbor->image}}" style="height: 100px; width: 100px;"></div>
 					    <input type="file" name="image" id="image" class="form-control"/>

@@ -69,4 +69,12 @@ class NavBarHelper
 			return false;
 		}
 	}
+	public static function getSeoDetailsNeighborhoodSingle($slug) {
+		$getData = Neighborhood::where('url_slug', $slug)->first();
+		if ($getData) {
+			return $getData;
+		} else {
+			return false;
+		}
+	}
 }
