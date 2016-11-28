@@ -178,17 +178,17 @@ $(document).ready(function(){
     <br>
     <br>
     <label>Page Title</label>
-    <input id="site_title_content" value="{{$data != null && $data->page_title_content != null ? $data->page_title_content : ''}}" type="text" placeholder="enter page title here" name="page_title_content"></input>
+    <input id="site_title_content" value="{{$data != null && $data->site_title != null ? $data->site_title : ''}}" type="text" placeholder="enter page title here" name="page_title_content"></input>
     <input type="button" id="site_title" class="changeMetaContent" onclick="changeMetaContent()" value="change">
     <br>
     <br>
     <label>Meta Keywords</label>
-    <input type="text" id="meta_keywords_content" value="{{$data != null && $data->page_meta_keywords != null ? $data->page_meta_keywords : ''}}" placeholder="enter page meta keywords here" name="page_meta_keywords"></input>
+    <input type="text" id="meta_keywords_content" value="{{$data != null && $data->meta_keywords != null ? $data->meta_keywords : ''}}" placeholder="enter page meta keywords here" name="page_meta_keywords"></input>
     <input type="button" id="meta_keywords" class="changeMetaContent" onclick="changeMetaContent()"  value="change">
     
     <br>
     <label>Meta Description</label>
-    <input type="text" id="meta_description_content" value="{{$data != null && $data->page_meta_description != null ? $data->page_meta_description : ''}}" placeholder="enter page meta description here" name="page_meta_description"></input>
+    <input type="text" id="meta_description_content" value="{{$data != null && $data->meta_description != null ? $data->meta_description : ''}}" placeholder="enter page meta description here" name="page_meta_description"></input>
     <input type="button" id="meta_description" class="changeMetaContent" onclick="changeMetaContent()" value="change">
 </div>
 </div>
