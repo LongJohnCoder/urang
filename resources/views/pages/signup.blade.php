@@ -334,7 +334,7 @@
                       <label>Tell Us the Referrer Email (optional) :</label>
                    </div>
                    <div class="col-md-6 col-sm-6">
-                      <input type="email" name="ref_name" id="ref_name" value="{{old('ref_name')}}" required></input>
+                      <input type="email" name="ref_name" id="ref_name" value="{{old('ref_name')}}"></input>
                       <div id="email_identifier_noti"></div>
                    </div>
                 </div>
@@ -494,8 +494,8 @@
     }
     //form submit done by this
     function IsValid(event) {
-      $('.login-form').submit();
-      return true;
+      //$('.login-form').submit();
+      //return true;
        event.preventDefault();
        var email = $('#email').val();
        var password = $('#password').val();
