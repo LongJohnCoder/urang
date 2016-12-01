@@ -314,47 +314,13 @@
 		$('#cus_email').change(function(){
 			if ($.trim($('#cus_email').val()) != null) 
 			{
-				/*//console.log($('#cus_email').val());
-				//return;
-				if('{{count($users)}}' > 0) {
-					//console.log('{{count($users)}}')
-					@foreach($users as $user)
-						while ('{{$user->user_details->user_id}}' == $('#cus_email').val()) {
-							//console.log('{{$user->user_details->address}}');
-							//console.log('{{$user->user_details->school_id}}');
-							//populatingg address field
-							if ($.trim('{{$user->user_details->address}}') != null) 
-							{
-								$('#user_add').val('{{$user->user_details->address}}');
-							}
-							else
-							{
-								return;
-							}
-							//populate school donation
-							if ($.trim('{{$user->user_details->school_id}}') != null) 
-							{
-
-								$('#schoolNameDropDown').val('{{$user->user_details->school_id}}');
-							}
-							else
-							{
-								return;
-							}
-							return;
-						}
-					@endforeach
-				}		    		
-				else {
-					return;
-				}*/
 				$.ajax({
 			      url: "{{route('lastPickUpReq')}}",
 			      type: "POST",
 			      data: {user_id: $('#cus_email').val(), _token: "{{Session::token()}}"},
 			      success: function(data) {
-			        //console.log(data);
-			        //return;
+			        console.log(data);
+			        return;
 			        if (data != 0) 
 			        {
 			          //mandetory address

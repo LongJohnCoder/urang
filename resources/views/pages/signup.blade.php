@@ -115,21 +115,57 @@
                       <div id="errorInputName" style="color: red;"></div>
                   </div>
                 </div>
-                <div class="row custom-margin">
-                  <div class="col-md-4 col-sm-4">
-                    <label>Address:</label> <span style="color: red;">*</span>
+                  <div class="row custom-margin">
+                    <div class="col-md-4 col-sm-4">
+                      <label>Street Address Line 1:</label> <span style="color: red;">*</span>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                      <input type="text" name="strt_address_1" id="strt_address_1" required="true" placeholder="Address" value="{{old('strt_address_1')}}" onkeyup="$('#strt_address_1').attr('style', ''); $('#errorInputAddress1').html('');"></input>
+                      <div id="errorInputAddress1" style="color: red;"></div>
+                    </div>
                   </div>
-                  <div class="col-md-6 col-sm-6">
-                    <textarea cols="30" rows="3"  id="txtAddress" name="address" onkeyup="$('#txtAddress').attr('style', 'width:270px;'); $('#errorInputAddress').html('');">{{old('address')}}</textarea>
-                    <div id="errorInputAddress" style="color: red;"></div>
+                  <div class="row custom-margin">
+                    <div class="col-md-4 col-sm-4">
+                      <label>Street Address Line 2:</label>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                      <input type="text" name="strt_address_2" id="strt_address_2" placeholder="Address continues.." value="{{old('strt_address_2')}}" onkeyup="$('#strt_address_2').attr('style', ''); $('#errorInputAddress2').html('');"></input>
+                      <div id="errorInputAddress2" style="color: red;"></div>
+                    </div>
                   </div>
-                </div>
+                  <div class="row custom-margin">
+                    <div class="col-md-4 col-sm-4">
+                      <label for="city">City</label> <span style="color: red;">*</span>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                      <input type="text" name="city" id="city" required="true" placeholder="city" value="{{old('city')}}" onkeyup="$('#city').attr('style', ''); $('#errorInputCity').html('');"></input>
+                      <div id="errorInputCity" style="color: red;"></div>
+                    </div>
+                  </div>
+                  <div class="row custom-margin">
+                    <div class="col-md-4 col-sm-4">
+                      <label for="state">State</label> <span style="color: red;">*</span>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                      <input type="text" name="state" id="state" required="true" placeholder="state" value="{{old('state')}}" onkeyup="$('#state').attr('style', ''); $('#errorInputState').html('');"></input>
+                      <div id="errorInputState" style="color: red;"></div>
+                    </div>
+                  </div>
+                  <div class="row custom-margin">
+                    <div class="col-md-4 col-sm-4">
+                      <label for="zip">Zip Code</label> <span style="color: red;">*</span>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                      <input type="text" name="zip" id="zip" required="true" placeholder="Zip Code" value="{{old('zip')}}" onkeyup="$('#zip').attr('style', ''); $('#errorInputZip').html('');"></input>
+                      <div id="errorInputZip" style="color: red;"></div>
+                    </div>
+                  </div>
                 <div class="row custom-margin">
                    <div class="col-md-4 col-sm-4">
                       <label>Phone:</label> <span style="color: red;">*</span>
                    </div>
                    <div class="col-md-6 col-sm-6">
-                      <input type="text" id="Phone" placeholder="Format: 123-456-7890" name="personal_phone" value="{{old('personal_phone')}}" onkeyup="" />
+                      <input type="text" id="Phone" placeholder="Format: 123-456-7890" name="personal_phone" value="{{old('personal_phone')}}" onkeyup="$('#Phone').attr('style', ''); $('#errorInputPhone').html('');" />
                       <div id="errorInputPhone" style="color: red;"></div>
                    </div>
                 </div>
@@ -458,12 +494,23 @@
     }
     //form submit done by this
     function IsValid(event) {
+      $('.login-form').submit();
+      return true;
        event.preventDefault();
        var email = $('#email').val();
        var password = $('#password').val();
        var conf_password = $('#conf_password').val();
        var name = $('#name').val();
-       var add = $('#txtAddress').val();
+       //address line 1
+       var add_line_1 = $('#strt_address_1').val();
+       //address line 2
+       var add_line_2 = $('#strt_address_2').val();
+       //city
+       var city = $('#city').val();
+       //state
+       var state = $('#state').val();
+       //zip
+       var zip = $('#zip').val();
        var phone = $('#Phone').val();
        var name_on_card = $('#cardholder').val();
        var card_number = $('#card_no').val();
@@ -475,7 +522,7 @@
        var ref_email_checker = $('#email_checker_ref').val();
        var cellphone = $('#cellphone').val();
        var officephone = $('#officephone').val();
-       if ($.trim(email) && $.trim(password) && $.trim(conf_password) && $.trim(name) && $.trim(add) && $.trim(phone) && $.trim(name_on_card) && $.trim(card_number) && $.trim(month_val) && $.trim(year_val)) 
+       if ($.trim(email) && $.trim(password) && $.trim(conf_password) && $.trim(name) && $.trim(add_line_1) && $.trim(city) && $.trim(state)&& $.trim(zip) && $.trim(phone) && $.trim(name_on_card) && $.trim(card_number) && $.trim(month_val) && $.trim(year_val)) 
        {
           if(pass_check && $.trim(email_check) == 1 && $.trim(card_no_checker) == 1 && ref_email_checker != 1)
           {
@@ -527,11 +574,23 @@
             $('#name').attr('style', 'border-color: red;');
             $('#errorInputName').html("This Field is Required!");
         }
-        if (!add) 
+        if (!add_line_1) 
         {
-          $('#txtAddress').attr('style', 'border-color: red;');
-                $('#errorInputAddress').html("This Field is Required!");
-        }   
+          $('#strt_address_1').attr('style', 'border-color: red;');
+          $('#errorInputAddress1').html("This Field is Required!");
+        }  
+        if (!city) {
+          $('#city').attr('style', 'border-color: red;');
+          $('#errorInputCity').html("This Field is Required!");
+        } 
+        if (!state) {
+          $('#state').attr('style', 'border-color: red;');
+          $('#errorInputState').html("This Field is Required!");
+        }
+        if (!zip) {
+          $('#zip').attr('style', 'border-color: red;');
+          $('#errorInputZip').html("This Field is Required!");
+        }
         if (!phone) 
         {
           $('#Phone').attr('style', 'border-color: red;');

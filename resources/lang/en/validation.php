@@ -99,6 +99,12 @@ return [
         'push_noti_text' => [
             'required' => 'Push Notification message body is required!',
          ],
+         'strt_address_1' => [
+            'required' => 'The street address line one is required!',
+         ],
+         'conf_password' => [
+            'required' => 'The confirmation password field is required!',
+         ],
     ],
 
 

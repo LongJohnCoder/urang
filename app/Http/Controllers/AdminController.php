@@ -705,7 +705,7 @@ class AdminController extends Controller
             $user_details = new UserDetails();
             $user_details->user_id = $user->id;
             $user_details->name = $request->name;
-            $user_details->address = $request->address;
+            $user_details->address_line_1 = $request->address;
             $user_details->personal_ph = $request->personal_ph;
             $user_details->cell_phone = isset($request->cellph_no) ? $request->cellph_no : NULL;
             $user_details->off_phone = isset($request->officeph_no) ? $request->officeph_no : NULL;

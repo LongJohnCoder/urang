@@ -106,7 +106,10 @@ class MainController extends Controller
             'password' => 'required|min:6',
             'conf_password' => 'required|min:6|same:password',
             'name' => 'required',
-            'address' => 'required',
+            'strt_address_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required|numeric',
             'personal_phone' => 'required',
             'cardholder_name' => 'required',
             'card_no' => 'required',
@@ -128,12 +131,16 @@ class MainController extends Controller
                 $user_details = new UserDetails();
                 $user_details->user_id = $user->id;
                 $user_details->name = $request->name;
-                $user_details->address = $request->address;
+                $user_details->address_line_1 = $request->strt_address_1;
+                $user_details->address_line_2 = $request->strt_address_2;
                 $user_details->personal_ph = $request->personal_phone;
                 $user_details->cell_phone = isset($request->cell_phone) ? $request->cell_phone : NULL;
                 $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : NULL;
                 $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
                 $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : NULL;
+                $user_details->city = $request->city;
+                $user_details->state = $request->state;
+                $user_details->zip = $request->zip;
                 if ($user_details->save()) {
 
                     //referrel
