@@ -28,8 +28,8 @@
       <div class="scroll-content">
          @if(count($neighborhood) > 0)
          @foreach($neighborhood as $n)
-         <div class="scroll-content-item">
-            <img src="{{url('/')}}/public/dump_images/{{$n->image}}" alt="image" style="height: 350px; width: 520px;" />
+         <div class="scroll-content-item" onclick="return redirectToNeighbor('{{$n->url_slug}}');">
+            <img src="{{url('/')}}/public/dump_images/{{$n->image}}" alt="image" style="height: 350px; width: 520px;"/>
             <div class="scroll-content-body">
                <div class="name" style="color: #ff6400;">{{$n->name}}</div>
             </div>
@@ -99,6 +99,12 @@
       $('html, body').animate({
          scrollTop: $('#scroll_here_n').offset().top
       }, 'slow');
+      /*$('.scroll-content-item').click(function(e){
+         window.location.href = ;
+      });*/
    });
+   function redirectToNeighbor(slug) {
+      window.location.href = "{{url('/')}}/neighborhood/"+slug;
+   }
 </script>
 @endsection
