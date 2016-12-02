@@ -12,8 +12,8 @@
 	<div class="container">
 	  <div class="row signup login">
 	    <div class="col-md-12">
-		    <h2>My Pick-up123</h2>
-		    <h3>Individual Clients123</h3>
+		    <h2>My Pick-up</h2>
+		    <h3>Individual Clients</h3>
 		    <p class="reg-heading">Here you will get all the details about your scheduled pick ups.</p>
 		    @if(Session::has('fail'))
 		      <div class="alert alert-danger"><i class="fa fa-times-circle" aria-hidden="true"></i> {{Session::get('fail')}}
