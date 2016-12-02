@@ -316,13 +316,17 @@ class MainController extends Controller
             //dd($user_details);
             $user_details->user_id = $update_id;
             $user_details->name = $request->name;
-            $user_details->address = $request->address;
+            $user_details->address_line_1 = $request->address_line_1;
+            $user_details->address_line_2 = isset($request->address_line_2) && $request->address_line_2 != null ? $request->address_line_2 : $user_details->address_line_2;
             $user_details->personal_ph = $request->personal_phone;
             $user_details->cell_phone = $request->cell_phone != null ? $request->cell_phone : '';
             $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
             $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction: '';
             $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
             $user_details->school_id = $request->school_donation_id;
+            $user_details->city = $request->city;
+            $user_details->state = $request->state;
+            $user_details->zip = $request->zip;
             if ($user_details->save()) {
                 $card_info = CustomerCreditCardInfo::where('user_id' , $update_id)->first();
                 //dd($card_info);

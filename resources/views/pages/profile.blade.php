@@ -30,8 +30,26 @@
                      <input type="text" class="form-control" id="name" name="name" required="" value="{{$logged_user->user_details->name}}">
                   </div>
                   <div class="form-group">
-                     <label for="address">Address</label>
-                     <textarea class="form-control" rows="10" name="address" required="">{{$logged_user->user_details->address}}</textarea>
+                     <label for="address">Address Line 1</label>
+                     <textarea class="form-control" rows="10" name="address_line_1" required="">{{$logged_user->user_details->address_line_1}}</textarea>
+                  </div>
+                  <div class="form-group">
+                     <label for="address">Address Line 2</label>
+                     <textarea class="form-control" rows="10" name="address_line_2">{{$logged_user->user_details->address_line_2}}</textarea>
+                  </div>
+                  <div class="form-group">
+                     <div class="col-md-5">
+                        <label for="city">City</label>
+                        <input type="text" name="city" id="city" required="true" value="{{$logged_user->user_details->city}}" class="form-control"></input>
+                     </div>
+                     <div class="col-md-4">
+                        <label for="state">State</label>
+                        <input type="text" name="state" id="state" required="true" value="{{$logged_user->user_details->state}}" class="form-control"></input>
+                     </div>
+                     <div class="col-md-3">
+                        <label for="zip">Zip Code</label>
+                        <input type="text" name="zip" id="zip" required="true" value="{{$logged_user->user_details->zip}}" class="form-control"></input>
+                     </div>
                   </div>
                </div>
                <div class="col-md-6 individual-form">
