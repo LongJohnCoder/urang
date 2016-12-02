@@ -5,6 +5,7 @@ use App\CustomerCreditCardInfo;
 use App\Coupon;
 use App\ref;
 use App\refPercentage;
+use App\IndexPageWysiwyg;
 class SiteHelper 
 {
 	public function showCardNumber($user_id) {
@@ -51,6 +52,18 @@ class SiteHelper
         else
         {
             return 0;
+        }
+    }
+    public static function getStickyText() {
+        $getText = IndexPageWysiwyg::first();
+        if ($getText != null) {
+            if ($getText->is_sticky_active == 1) {
+                return $getText->sticky_note_text;
+            } else {
+                return false;
+            }
+        } else {
+            return "10% off on new <a href='{{url('/')}}/sign-up'></a>";
         }
     }
 	
