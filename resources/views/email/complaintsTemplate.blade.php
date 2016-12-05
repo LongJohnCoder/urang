@@ -133,7 +133,7 @@
             <![endif]-->
             <div class="tblheading">
                 <h1>Complaints Template</h1>
-                <img src="http://u-rang.com/images/logo.gif" alt="u-rang logo" class="img-responsive">
+                <img src="http://u-rang.com/public/images/logo.png" alt="u-rang logo" class="img-responsive">
             </div>
             <!-- Email Header : BEGIN -->
             <!-- <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
@@ -329,7 +329,7 @@
             <![endif]-->
 <div class="tblheading">            
     <h1>Sign up confirmation</h1>
-    <img src="http://u-rang.com/images/logo.gif" alt="logo" class="img-responsive" />
+    <img src="http://u-rang.com/public/images/logo.png" alt="logo" class="img-responsive" />
 </div>
 <table class="body-wrap">
     <tr>
@@ -493,7 +493,7 @@
 
 <div class="tblheading">            
     <h1>Pick up confirmation</h1>
-    <img src="http://u-rang.com/images/logo.gif" alt="logo" class="img-responsive" />
+    <img src="http://u-rang.com/public/images/logo.png" alt="logo" class="img-responsive" />
 </div>
 <table class="body-wrap">
     <tr>
@@ -676,7 +676,7 @@
 
     <div class="reset-password">
         <h1>Reset Password Email</h1>
-        <p>{{$forget_pass->write_up}} <a href="http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID">http://u-rang.tier5-portfolio.com/confirm-reset-password/UNIQUE-ID</a>
+        <p>{{$forget_pass->write_up}} <a href="http://u-rang.com/confirm-reset-password/<UNIQUE-ID>">http://u-rang.com/confirm-reset-password/UNIQUE-ID</a>
 
         .
         <br>
