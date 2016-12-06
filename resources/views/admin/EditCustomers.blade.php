@@ -23,9 +23,30 @@
 								    <label for="name">Customer Email</label>
 								    <input class="form-control" id="email" name="email" type="email" required="" value="{{$user->email}}">
 								</div>
+								<!--strt address 1-->
 								<div class="form-group">
-								    <label for="name">Customer Address</label>
-								    <textarea class="form-control" id="address" name="address" required="">{{$user->user_details != null ? $user->user_details->address : 'No data Exist '}}</textarea>
+								    <label for="name">Street Address Line 1</label>
+								    <textarea class="form-control" id="address_line_1" name="address_line_1" required="">{{$user->user_details != null ? $user->user_details->address_line_1 : 'No data Exist '}}</textarea>
+								</div>
+								<!--strt address 2-->
+								<div class="form-group">
+								    <label for="name">Street Address Line 2</label>
+								    <textarea class="form-control" id="address_line_2" name="address_line_2" required="">{{$user->user_details != null ? $user->user_details->address_line_2 : 'No data Exist '}}</textarea>
+								</div>
+								<!--city-->
+								<div class="form-group">
+								    <label for="name">City</label>
+								    <input type="text" class="form-control" id="city" name="city" required="" value="{{$user->user_details != null ? $user->user_details->city : 'No data Exist '}}"></input>
+								</div>
+								<!--state-->
+								<div class="form-group">
+								    <label for="name">State</label>
+								    <input type="text" class="form-control" id="state" name="state" required="" value="{{$user->user_details != null ? $user->user_details->state : 'No data Exist '}}"></input>
+								</div>
+								<!--zip-->
+								<div class="form-group">
+								    <label for="name">Zip</label>
+								    <input type="text" class="form-control" id="zip" name="zip" required="" value="{{$user->user_details != null ? $user->user_details->zip : 'No data Exist '}}"></input>
 								</div>
 								<div class="form-group">
 								    <label for="name">Personal Phone Number</label>

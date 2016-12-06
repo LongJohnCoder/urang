@@ -603,7 +603,11 @@ class AdminController extends Controller
                 $searchUserDetails = UserDetails::where('user_id', $request->id)->first();
                 if ($searchUserDetails) {
                     $searchUserDetails->name = $request->name;
-                    $searchUserDetails->address = $request->address;
+                    $searchUserDetails->address_line_1 = $request->address_line_1;
+                    $searchUserDetails->address_line_2 = $request->address_line_2;
+                    $searchUserDetails->city = $request->city;
+                    $searchUserDetails->state = $request->state;
+                    $searchUserDetails->zip = $request->zip;
                     $searchUserDetails->personal_ph = $request->pph_no;
                     $searchUserDetails->cell_phone = isset($request->cph_no) ? $request->cph_no : NULL;
                     $searchUserDetails->off_phone = isset($request->oph_no) ? $request->oph_no : NULL;
