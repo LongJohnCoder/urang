@@ -56,10 +56,40 @@
 								    <div id="errorInputConfPassword" style="color: red;"></div>
 								</div>
 								<div id="passcheck"></div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 								    <label>Customer Address</label>
 								    <textarea class="form-control" name="address" id="txtAddress" onkeyup="$('#txtAddress').removeAttr('style', 'width:270px;'); $('#errorInputAddress').html('');">{{old('address')}}</textarea>
 								    <div id="errorInputAddress" style="color: red;"></div>
+								</div> -->
+								<!--add 1-->
+								<div class="form-group">
+								    <label>Customer Address Line 1</label>
+								    <textarea class="form-control" name="strt_address_1" id="strt_address_1" onkeyup="$('#strt_address_1').removeAttr('style', 'width:270px;'); $('#errorInputAddress1').html('');">{{old('strt_address_1')}}</textarea>
+								    <div id="errorInputAddress1" style="color: red;"></div>
+								</div>
+								<!--add 2-->
+								<div class="form-group">
+								    <label>Customer Address Line 2</label>
+								    <textarea class="form-control" name="strt_address_2" id="strt_address_2" onkeyup="$('#strt_address_2').removeAttr('style', 'width:270px;'); $('#errorInputAddress2').html('');">{{old('strt_address_2')}}</textarea>
+								    <div id="errorInputAddress2" style="color: red;"></div>
+								</div>
+								<!--city-->
+								<div class="form-group">
+								    <label>City</label>
+								    <input type="text" name="city" id="city" required="true" placeholder="city" class="form-control" value="{{old('city')}}" onkeyup="$('#city').attr('style', ''); $('#errorInputCity').html('');"></input>
+                      				<div id="errorInputCity" style="color: red;"></div>
+								</div>
+								<!--state-->
+								<div class="form-group">
+								    <label>State</label>
+								    <input type="text" class="form-control" name="state" id="state" required="true" placeholder="state" value="{{old('state')}}" onkeyup="$('#state').attr('style', ''); $('#errorInputState').html('');"></input>
+                      				<div id="errorInputState" style="color: red;"></div>
+								</div>
+								<!--zip-->
+								<div class="form-group">
+								    <label>Zip</label>
+								    <input type="text" class="form-control" name="zip" id="zip" required="true" placeholder="Zip Code" value="{{old('zip')}}" onkeyup="$('#zip').attr('style', ''); $('#errorInputZip').html('');"></input>
+                      				<div id="errorInputZip" style="color: red;"></div>
 								</div>
 								<div class="form-group">
 								    <label>Personal Phone Number</label>
@@ -289,7 +319,16 @@
        var password = $('#password').val();
        var conf_password = $('#conf_password').val();
        var name = $('#name').val();
-       var add = $('#txtAddress').val();
+       //address line 1
+       var add_line_1 = $('#strt_address_1').val();
+       //address line 2
+       var add_line_2 = $('#strt_address_2').val();
+       //city
+       var city = $('#city').val();
+       //state
+       var state = $('#state').val();
+       //zip
+       var zip = $('#zip').val();
        var phone = $('#Phone').val();
        var name_on_card = $('#cardholder').val();
        var card_number = $('#card_no').val();
@@ -301,7 +340,7 @@
        var ref_email_checker = $('#email_checker_ref').val();
        var cellphone = $('#cellphone').val();
        var officephone = $('#officephone').val();
-       if ($.trim(email) && $.trim(password) && $.trim(conf_password) && $.trim(name) && $.trim(add) && $.trim(phone) && $.trim(name_on_card) && $.trim(card_number) && $.trim(month_val) && $.trim(year_val)) 
+       if ($.trim(email) && $.trim(password) && $.trim(conf_password) && $.trim(name) && $.trim(add_line_1) && $.trim(city) && $.trim(state)&& $.trim(zip) && $.trim(phone) && $.trim(name_on_card) && $.trim(card_number) && $.trim(month_val) && $.trim(year_val)) 
        {
           if(pass_check && $.trim(email_check) == 1 && $.trim(card_no_checker) == 1 && ref_email_checker != 1)
           {
@@ -351,11 +390,23 @@
        	  	$('#name').attr('style', 'border-color: red;');
           	$('#errorInputName').html("This Field is Required!");
        	}
- 		if (!add) 
- 		{
- 			$('#txtAddress').attr('style', 'border-color: red;');
-          	$('#errorInputAddress').html("This Field is Required!");
- 		}   
+ 		if (!add_line_1) 
+        {
+          $('#strt_address_1').attr('style', 'border-color: red;');
+          $('#errorInputAddress1').html("This Field is Required!");
+        }  
+        if (!city) {
+          $('#city').attr('style', 'border-color: red;');
+          $('#errorInputCity').html("This Field is Required!");
+        } 
+        if (!state) {
+          $('#state').attr('style', 'border-color: red;');
+          $('#errorInputState').html("This Field is Required!");
+        }
+        if (!zip) {
+          $('#zip').attr('style', 'border-color: red;');
+          $('#errorInputZip').html("This Field is Required!");
+        }  
  		if (!phone) 
  		{
  			$('#Phone').attr('style', 'border-color: red;');

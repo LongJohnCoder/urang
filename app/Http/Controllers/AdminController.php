@@ -678,7 +678,10 @@ class AdminController extends Controller
             'password' => 'required|min:6',
             'conf_password' => 'required|min:6|same:password',
             'name' => 'required',
-            'address' => 'required',
+            'strt_address_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required|numeric',
             'personal_ph' => 'required',
             'card_name' => 'required',
             'card_no' => 'required',
@@ -705,13 +708,18 @@ class AdminController extends Controller
             $user_details = new UserDetails();
             $user_details->user_id = $user->id;
             $user_details->name = $request->name;
-            $user_details->address_line_1 = $request->address;
+            $user_details->address_line_1 = $request->strt_address_1;
+            $user_details->address_line_2 = $request->strt_address_2;
+
             $user_details->personal_ph = $request->personal_ph;
             $user_details->cell_phone = isset($request->cellph_no) ? $request->cellph_no : NULL;
             $user_details->off_phone = isset($request->officeph_no) ? $request->officeph_no : NULL;
             $user_details->off_phone = isset($request->officeph_no) ? $request->officeph_no : NULL;
             $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
             $user_details->driving_instructions = isset($request->driving_instructions) ? $request->driving_instructions : NULL;
+            $user_details->city = $request->city;
+            $user_details->state = $request->state;
+            $user_details->zip = $request->zip;
             //$user_details->payment_status = 0;
             $user_details->referred_by = $request->ref_name;
             if ($user_details->save()) {
