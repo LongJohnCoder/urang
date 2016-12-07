@@ -4208,6 +4208,12 @@ body.fixed-header .scrolling-header .navbar .navbar-nav li a {
     color: #fff;
     font-size: 20px;
 }
+
+
+#emailExist{margin-top: 15px;}
+
+
+
 @media only screen and (min-width:992px) and (max-width:1199px) {
     .plans h2 {
     font-size: 16px;
