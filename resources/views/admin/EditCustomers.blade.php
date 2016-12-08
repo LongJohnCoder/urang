@@ -50,15 +50,15 @@
 								</div>
 								<div class="form-group">
 								    <label for="name">Personal Phone Number</label>
-								    <input class="form-control" id="pph_no" name="pph_no" type="number" required="" value="{{$user->user_details != null ? $user->user_details->personal_ph : 'No data Exist '}}">
+								    <input class="form-control" id="pph_no" name="pph_no" type="text" required="" value="{{$user->user_details != null ? $user->user_details->personal_ph : 'No data Exist '}}">
 								</div>
 								<div class="form-group">
 								    <label for="name">Cell Phone Number (optional)</label>
-								    <input class="form-control" id="cph_no" name="cph_no" type="number" value="{{$user->user_details != null && $user->user_details->cell_phone !=0 ? $user->user_details->cell_phone : ''}}">
+								    <input class="form-control" id="cph_no" name="cph_no" type="text" value="{{$user->user_details != null && $user->user_details->cell_phone !=0 ? $user->user_details->cell_phone : ''}}">
 								</div>
 								<div class="form-group">
 								    <label for="name">Office Phone Number (optional)</label>
-								    <input class="form-control" id="oph_no" name="oph_no" type="number" value="{{$user->user_details != null && $user->user_details->off_phone != 0 ? $user->user_details->off_phone : ''}}">
+								    <input class="form-control" id="oph_no" name="oph_no" type="text" value="{{$user->user_details != null && $user->user_details->off_phone != 0 ? $user->user_details->off_phone : ''}}">
 								</div>
 								<div class="form-group">
 								    <label for="name">Special Instructions (optional)</label>
