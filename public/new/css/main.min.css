@@ -4252,7 +4252,7 @@ body.fixed-header .scrolling-header .navbar .navbar-nav li a {
 	.top-header .header-container .header-title .title{font-size: 29px;}
     .areas-section h4{font-size: 22px;}
     .wrap-timeline .time-item .dateRight{margin-right: 0; text-align: left;}
-    .wrap-timeline .time-item .dateLeft{margin-right: 0; text-align: left;}
+    .wrap-timeline .time-item .dateLeft{margin-left: 0; text-align: left; }
 
 }
 
