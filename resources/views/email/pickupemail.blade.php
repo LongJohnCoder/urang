@@ -146,12 +146,7 @@
             ?>
                 <tr>
                     <td bgcolor="#ffffff" style="text-align: center;">
-                    @if($username=="User name")
-                     <p><h2 style="color: #ff6400;">{{$order_confirm->thank_you_text}}</h2></p>
-                    @else
-                     <p><h2 style="color: #ff6400;">Hey {{$username}}, {{$order_confirm->thank_you_text}}</h2></p>
-                    @endif
-                       
+                        <p><h2 style="color: #ff6400;">Hey {{$username}}, {{$order_confirm->thank_you_text}}</h2></p>
                         <img src="{{$order_confirm->image_link}}" alt="alt_text" border="0" align="center" style="width: 40%; max-width: 600px;">
                     </td>
                 </tr>
