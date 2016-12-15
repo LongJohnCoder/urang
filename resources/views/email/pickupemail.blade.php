@@ -146,7 +146,12 @@
             ?>
                 <tr>
                     <td bgcolor="#ffffff" style="text-align: center;">
-                        <p><h2 style="color: #ff6400;">Hey {{$username}}, {{$order_confirm->thank_you_text}}</h2></p>
+                    @if($username=="User name")
+                     <p><h2 style="color: #ff6400;">{{$order_confirm->thank_you_text}}</h2></p>
+                    @else
+                     <p><h2 style="color: #ff6400;">Hey {{$username}}, {{$order_confirm->thank_you_text}}</h2></p>
+                    @endif
+                       
                         <img src="{{$order_confirm->image_link}}" alt="alt_text" border="0" align="center" style="width: 40%; max-width: 600px;">
                     </td>
                 </tr>
@@ -207,7 +212,11 @@
                                                 <div class="row"  style="margin-top: 20px;">
                                                     <div class="col-xs-6" style="font-size: 18px;">
                                                         <label for="cus_details" style="color: #ff6400;"><b>Customer Details:</b></label><br/>
+                                                        @if($username=="User name")
+                                                        @else
                                                         <label for="customer_name">Name: {{$username}}</label><br/>
+                                                        @endif
+                                                        
                                                         <label for="customer_email">Email: {{$email}}</label><br/>
                                                         <label for="customer_no">Phone Number: {{$phone_num}}</label><br/><br/>
                                                     </div>
