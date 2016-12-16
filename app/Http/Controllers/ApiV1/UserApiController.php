@@ -46,13 +46,13 @@ class UserApiController extends Controller
     	if($user->attempt(['email' => $req->email, 'password' => $req->password]))
     	{
     		$userdata = $user->user();
-    		
+
     		if($userdata->block_status)
     		{
     			return Response::json(array(
 		            'status' => false,
 		            'status_code' => 403,
-		            'message' => 'This user is forbidden!'        
+		            'message' => 'This user is forbidden!'
 	        	));
     		}
     		else
@@ -64,10 +64,10 @@ class UserApiController extends Controller
 		            'status_code' => 200,
 		            'response' => $user_details,
                     'alldetails' => $alldetails,
-                    'message' => 'Loging in...'        
+                    'message' => 'Loging in...'
 	        	));
     		}
-    		
+
     	}
     	else
     	{
@@ -77,7 +77,7 @@ class UserApiController extends Controller
 	            'message' => "User not found! Check the email and password."
         	));
     	}
-    	
+
     }
     public function order_history(Request $req)
     {
@@ -89,7 +89,7 @@ class UserApiController extends Controller
     		return Response::json(array(
 	            'status' => true,
 	            'status_code' => 200,
-	            'response' => $pickups,        
+	            'response' => $pickups,
 	    	));
     	}
     	else
@@ -97,11 +97,11 @@ class UserApiController extends Controller
     		return Response::json(array(
 	            'status' => true,
 	            'status_code' => 400,
-	            'message' => 'No order history found'        
+	            'message' => 'No order history found'
 	    	));
     	}
 
-    	
+
     }
     public function placeOrder(Request $request)
     {
@@ -171,7 +171,7 @@ class UserApiController extends Controller
         {
             $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
             $percentage = SchoolDonationPercentage::first();
-            if ($percentage == null) 
+            if ($percentage == null)
             {
                 $new_percentage = 0;
             }
@@ -208,7 +208,7 @@ class UserApiController extends Controller
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time        
+                    'message' => "Order Placed successfully!".$expected_time
                 ));
             }
             else
@@ -229,7 +229,7 @@ class UserApiController extends Controller
                 //create invoice
                 //dd($data);
                 $global_invoice_id = "";
-                for ($j=0; $j < count($data) ; $j++) { 
+                for ($j=0; $j < count($data) ; $j++) {
                     $invoice = new Invoice();
                     $invoice->user_id = $request->user_id;
                     $invoice->pick_up_req_id = $pick_up_req->id;
@@ -247,7 +247,7 @@ class UserApiController extends Controller
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time        
+                    'message' => "Order Placed successfully!".$expected_time
                 ));
             }
         }
@@ -256,7 +256,7 @@ class UserApiController extends Controller
            return Response::json(array(
                     'status' => false,
                     'status_code' => 500,
-                    'message' => "Sorry! Cannot save the order now!"        
+                    'message' => "Sorry! Cannot save the order now!"
             ));
         }
     }
@@ -332,12 +332,12 @@ class UserApiController extends Controller
 
     public function checkEmail(Request $request)
     {
-        if(User::where('email',$request->email)->first()) 
+        if(User::where('email',$request->email)->first())
         {
             return Response::json(array(
                         'status' => false,
                         'status_code' => 400,
-                        'message' => "This email already exists!"        
+                        'message' => "This email already exists!"
                     ));
         }
         else
@@ -345,95 +345,79 @@ class UserApiController extends Controller
             return Response::json(array(
                         'status' => true,
                         'status_code' => 200,
-                        'message' => "Email can be taken!"        
+                        'message' => "Email can be taken!"
                     ));
         }
     }
     public function userSignUp(Request $request)
     {
-        if ($request->password == $request->conf_password) {
+        if ($request->password == $request->conf_password)
+        {
 
-            if(User::where('email',$request->email)->first()) 
+            if(User::where('email',$request->email)->first())
             {
                 return Response::json(array(
                             'status' => false,
                             'status_code' => 400,
-                            'message' => "This email already exists!"        
+                            'message' => "This email already exists!"
                         ));
             }
-            else 
+            else
             {
-                
+
                 $user = new User();
                 $user->email = $request->email;
                 $user->password = bcrypt($request->password);
                 $user->block_status = 0;
-                if ($user->save()) {
+                if ($user->save())
+                {
                     $user_details = new UserDetails();
                     $user_details->user_id = $user->id;
                     $user_details->name = $request->name;
-                    $user_details->address = $request->address;
+                    $user_details->address_line_1 = isset($request->address) ? $request->address : "";
                     $user_details->personal_ph = $request->personal_phone;
-                    $user_details->cell_phone = isset($request->cell_phone) ? $request->cell_phone : NULL;
-                    $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : NULL;
-                    $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
-                    $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : NULL;
-                    if ($user_details->save()) {
-                        $card_info = new CustomerCreditCardInfo();
-                        $card_info->user_id = $user_details->user_id;
-                        $card_info->name = $request->cardholder_name;
-                        $card_info->card_no = $request->card_no;
-                        $card_info->card_type = $request->cardtype;
-                        $card_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
-                        $card_info->exp_month = $request->select_month;
-                        $card_info->exp_year = $request->select_year;
-                        if ($card_info->save()) {
-                            
-                             //return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
-                            $data['user_id'] = $card_info->user_id;
+                    $user_details->cell_phone = isset($request->cell_phone) ? $request->cell_phone : "";
+                    $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : "";
+                    $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : "";
+                    $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : "";
+                    if ($user_details->save())
+                    {
+                            $data['user_id'] = $user_details->user_id;
                             return Response::json(array(
                                 'status' => true,
                                 'status_code' => 200,
                                 'response' => $data,
-                                'message' => "Registration successfull"        
+                                'message' => "Registration successfull"
                             ));
-                        }
-                        else
-                        {
-                            return Response::json(array(
-                                'status' => false,
-                                'status_code' => 500,
-                                'message' => "Sorry! Cannot save your card details!"        
-                            ));
-                        }
+
                     }
                     else
                     {
                         return Response::json(array(
                                 'status' => false,
                                 'status_code' => 500,
-                                'message' => "Sorry! Cannot save your user details!"        
+                                'message' => "Sorry! Cannot save your user details!"
                             ));
-                        
+
                     }
                 }
                 else
-                {                
+                {
                         return Response::json(array(
                                 'status' => false,
                                 'status_code' => 500,
-                                'message' => "Sorry! Cannot save your user details!"        
+                                'message' => "Sorry! Cannot save Email!"
                             ));
-                }   
+                }
             }
-            
+
         }
         else
         {
             return Response::json(array(
                             'status' => false,
                             'status_code' => 400,
-                            'message' => "Password and Confirm Password did not matched!"        
+                            'message' => "Password and Confirm Password did not matched!"
                         ));
         }
     }
@@ -460,7 +444,7 @@ class UserApiController extends Controller
     		return Response::json(array(
 			            'status' => true,
 			            'status_code' => 200,
-			            'response' => $price_list        
+			            'response' => $price_list
 			    	));
     	}
     	else
@@ -468,7 +452,7 @@ class UserApiController extends Controller
     		return Response::json(array(
 			            'status' => false,
 			            'status_code' => 400,
-			            'message' => "No price list to show!"        
+			            'message' => "No price list to show!"
 			    	));
     	}
     }
@@ -481,7 +465,7 @@ class UserApiController extends Controller
         	return Response::json(array(
 			            'status' => true,
 			            'status_code' => 200,
-			            'response' => $neighborhood        
+			            'response' => $neighborhood
 			    	));
         }
         else
@@ -489,7 +473,7 @@ class UserApiController extends Controller
         	return Response::json(array(
 			            'status' => false,
 			            'status_code' => 400,
-			            'message' => "No neighborhood to show!"        
+			            'message' => "No neighborhood to show!"
 			    	));
         }
     }
@@ -501,7 +485,7 @@ class UserApiController extends Controller
     		return Response::json(array(
 			            'status' => true,
 			            'status_code' => 200,
-			            'response' => $faqs        
+			            'response' => $faqs
 			    	));
     	}
     	else
@@ -509,13 +493,13 @@ class UserApiController extends Controller
     		return Response::json(array(
 			            'status' => false,
 			            'status_code' => 400,
-			            'message' => "No Faqs to show!"        
+			            'message' => "No Faqs to show!"
 			    	));
     	}
     }
     public function contactUs(Request $request)
     {
-    	
+
 
     	$firstname = $request->firstName;
         $lastname = $request->lastName;
@@ -537,7 +521,7 @@ class UserApiController extends Controller
 			            'status' => true,
 			            'status_code' => 200,
 			            'response' => 1,
-			            'message' => "Email is sent"        
+			            'message' => "Email is sent"
 			    	));
             }
             else
@@ -545,7 +529,7 @@ class UserApiController extends Controller
                 return Response::json(array(
 			            'status' => false,
 			            'status_code' => 500,
-			            'message' => "Email is not sent!"        
+			            'message' => "Email is not sent!"
 			    	));
             }
     }
@@ -554,12 +538,12 @@ class UserApiController extends Controller
 
         $update_id = $request->user_id;
         //dd($update_id);
-        if(User::where('email',$request->email)->first()) 
+        if(User::where('email',$request->email)->first())
 		{
 		    return Response::json(array(
 			            'status' => false,
 			            'status_code' => 400,
-			            'message' => "This email already exists!"        
+			            'message' => "This email already exists!"
 			    	));
 		}
         $user = User::find($update_id);
@@ -592,7 +576,7 @@ class UserApiController extends Controller
 			            'status' => true,
 			            'status_code' => 200,
 			            'response' => 1,
-			            'message' => "Details successfully updated!"        
+			            'message' => "Details successfully updated!"
 			    	));
                 }
                 else
@@ -600,8 +584,8 @@ class UserApiController extends Controller
                    return Response::json(array(
 			            'status' => false,
 			            'status_code' => 500,
-			            'message' => "Could not save your card details!"        
-			    	)); 
+			            'message' => "Could not save your card details!"
+			    	));
                 }
             }
             else
@@ -609,7 +593,7 @@ class UserApiController extends Controller
                 return Response::json(array(
 			            'status' => false,
 			            'status_code' => 500,
-			            'message' => "Could not save your user details!"        
+			            'message' => "Could not save your user details!"
 			    	));
             }
         }
@@ -618,7 +602,7 @@ class UserApiController extends Controller
             return Response::json(array(
 			            'status' => false,
 			            'status_code' => 500,
-			            'message' => "Could not save your user details!"        
+			            'message' => "Could not save your user details!"
 			    	));
         }
     }*/
@@ -636,7 +620,7 @@ class UserApiController extends Controller
 			            'status' => true,
 			            'status_code' => 200,
 			            'response' => 1,
-			            'message' => "Password successfully updated!"        
+			            'message' => "Password successfully updated!"
 			    	));
                 }
                 else
@@ -644,8 +628,8 @@ class UserApiController extends Controller
                    return Response::json(array(
 			            'status' => false,
 			            'status_code' => 500,
-			            'message' => "Could not save your password now! Please try again later!"        
-			    	)); 
+			            'message' => "Could not save your password now! Please try again later!"
+			    	));
                 }
             }
             else
@@ -653,7 +637,7 @@ class UserApiController extends Controller
                 return Response::json(array(
 			            'status' => false,
 			            'status_code' => 400,
-			            'message' => "Old password did not matched with our!"        
+			            'message' => "Old password did not matched with our!"
 			    	));
             }
         }
@@ -662,7 +646,7 @@ class UserApiController extends Controller
             return Response::json(array(
 			            'status' => false,
 			            'status_code' => 400,
-			            'message' => "Password and confirm password did not matched!"        
+			            'message' => "Password and confirm password did not matched!"
 			    	));
         }
     }
@@ -681,7 +665,7 @@ class UserApiController extends Controller
 			            'status' => true,
 			            'status_code' => 200,
 			            'response' => 1,
-			            'message' => "Detailed pickup successfully deleted!"        
+			            'message' => "Detailed pickup successfully deleted!"
 			    	));
            }
            else
@@ -691,7 +675,7 @@ class UserApiController extends Controller
 			            'status' => true,
 			            'status_code' => 200,
 			            'response' => 1,
-			            'message' => "Fast pickup successfully deleted!"        
+			            'message' => "Fast pickup successfully deleted!"
 			    	));
                 }
                 else
@@ -699,8 +683,8 @@ class UserApiController extends Controller
                     return Response::json(array(
 			            'status' => false,
 			            'status_code' => 500,
-			            'message' => "Could not delete the pickup!"        
-			    	)); 
+			            'message' => "Could not delete the pickup!"
+			    	));
                 }
            }
         }
@@ -709,7 +693,7 @@ class UserApiController extends Controller
            return Response::json(array(
 			            'status' => false,
 			            'status_code' => 400,
-			            'message' => "Cannot find the pickup you are looking for!"        
+			            'message' => "Cannot find the pickup you are looking for!"
 			    	));
         }
     }
@@ -906,7 +890,7 @@ class UserApiController extends Controller
     public function social_Login(Request $request)
     {
         //dd($request->user_id);
-            if(User::where('email',$request->email)->first()) 
+            if(User::where('email',$request->email)->first())
             {
                 $user_data = User::where('email',$request->email)->first();
                 if($user_data->block_status == 0)
@@ -917,7 +901,7 @@ class UserApiController extends Controller
                             'status_code' => 200,
                             'response' => $user_data,
                             'alldetails' => $alldetails,
-                            'message' => "Loging In..!"        
+                            'message' => "Loging In..!"
                         ));
                 }
                 else
@@ -925,10 +909,10 @@ class UserApiController extends Controller
                     return Response::json(array(
                             'status' => false,
                             'status_code' => 400,
-                            'message' => "You are blocked by the admin!"        
+                            'message' => "You are blocked by the admin!"
                         ));
                 }
-                
+
             }
             else
             {
@@ -936,7 +920,7 @@ class UserApiController extends Controller
                 $user->email = $request->email;
                 $user->password = bcrypt($request->password);
                 $user->block_status = 0;
-                if ($user->save()) 
+                if ($user->save())
                 {
                     $user_details = new UserDetails();
                     $user_details->user_id = $user->id;
@@ -953,7 +937,7 @@ class UserApiController extends Controller
                             'status_code' => 200,
                             'response' => $user_data,
                             'alldetails' => $alldetails,
-                            'message' => "Registered and Loging In..!"        
+                            'message' => "Registered and Loging In..!"
                         ));
                     }
                     else
@@ -961,7 +945,7 @@ class UserApiController extends Controller
                         return Response::json(array(
                                 'status' => false,
                                 'status_code' => 500,
-                                'message' => "Sorry! Cannot save your user details!"        
+                                'message' => "Sorry! Cannot save your user details!"
                             ));
                     }
                 }
@@ -970,7 +954,7 @@ class UserApiController extends Controller
                     return Response::json(array(
                                 'status' => false,
                                 'status_code' => 500,
-                                'message' => "Sorry! Cannot register you now!"        
+                                'message' => "Sorry! Cannot register you now!"
                             ));
                 }
             }
@@ -994,7 +978,7 @@ class UserApiController extends Controller
             return Response::json(array(
                         'status' => false,
                         'status_code' => 400,
-                        'message' => "No Time entered by admin!"        
+                        'message' => "No Time entered by admin!"
                     ));
         }
     }
@@ -1007,7 +991,7 @@ class UserApiController extends Controller
             return Response::json(array(
                             'status' => true,
                             'status_code' => 200,
-                            'response' => $order_track,      
+                            'response' => $order_track,
                         ));
         }
         else
@@ -1015,10 +999,10 @@ class UserApiController extends Controller
             return Response::json(array(
                                 'status' => false,
                                 'status_code' => 400,
-                                'message' => "No order to show!"        
+                                'message' => "No order to show!"
                             ));
         }
-        
+
     }
 
     public function showSchoolPreferences(Request $request)
@@ -1039,7 +1023,7 @@ class UserApiController extends Controller
                 return Response::json(array(
                                 'status' => false,
                                 'status_code' => 400,
-                                'message' => "No favourite schools!"        
+                                'message' => "No favourite schools!"
                             ));
             }
 
@@ -1053,7 +1037,7 @@ class UserApiController extends Controller
                 return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "This school is already added!"        
+                                    'message' => "This school is already added!"
                                 ));
         }
         else
@@ -1066,7 +1050,7 @@ class UserApiController extends Controller
                     return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
-                                    'message' => "School saved!"        
+                                    'message' => "School saved!"
                                 ));
             }
             else
@@ -1074,11 +1058,11 @@ class UserApiController extends Controller
                 return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "Cannot add favourite school!"        
+                                    'message' => "Cannot add favourite school!"
                                 ));
             }
         }
-        
+
     }
 
     public function getCreditCardDetails(Request $request)
@@ -1090,7 +1074,7 @@ class UserApiController extends Controller
             return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
-                                    'response' => $creditCard_info        
+                                    'response' => $creditCard_info
                                 ));
         }
         else
@@ -1098,7 +1082,7 @@ class UserApiController extends Controller
             return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "no card details found"        
+                                    'message' => "no card details found"
                                 ));
         }
 
@@ -1119,7 +1103,7 @@ class UserApiController extends Controller
                 return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
-                                    'message' => "Order cancelled."        
+                                    'message' => "Order cancelled."
                                 ));
             }
             else
@@ -1127,7 +1111,7 @@ class UserApiController extends Controller
                 return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "Could not cancle your order!"        
+                                    'message' => "Could not cancle your order!"
                                 ));
             }
         }
@@ -1136,12 +1120,12 @@ class UserApiController extends Controller
             return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "Could not cancle your order!"        
+                                    'message' => "Could not cancle your order!"
                                 ));
         }
     }
 
-    public function postForgotPassword(Request $request) 
+    public function postForgotPassword(Request $request)
     {
         $search_user = User::where('email', $request->forgot_pass_user_email)->first();
         if ($search_user != null && $search_user->block_status == 0) {
@@ -1151,7 +1135,7 @@ class UserApiController extends Controller
             return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
-                                    'message' => "password reset email has been sent to your email. Did not receive one? try again after 1 min."        
+                                    'message' => "password reset email has been sent to your email. Did not receive one? try again after 1 min."
                                 ));
         }
         else
@@ -1160,7 +1144,7 @@ class UserApiController extends Controller
             return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "Could not find user of this email or make sure you are not blocked"        
+                                    'message' => "Could not find user of this email or make sure you are not blocked"
                                 ));
         }
     }
@@ -1175,7 +1159,7 @@ class UserApiController extends Controller
                 return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
-                                    'response' => $coupon_details        
+                                    'response' => $coupon_details
                                 ));
             }
             else
@@ -1183,17 +1167,17 @@ class UserApiController extends Controller
                 return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "Coupon is no longer valid"        
+                                    'message' => "Coupon is no longer valid"
                                 ));
             }
-            
+
         }
         else
         {
             return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "Invalid coupon"        
+                                    'message' => "Invalid coupon"
                                 ));
         }
     }
@@ -1207,7 +1191,7 @@ class UserApiController extends Controller
             return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
-                                    'response' => $customer_details        
+                                    'response' => $customer_details
                                 ));
         }
         else
@@ -1215,10 +1199,10 @@ class UserApiController extends Controller
             return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "User Does not exists!"        
+                                    'message' => "User Does not exists!"
                                 ));
         }
-        
+
     }
 
     public function updateProfile(Request $request)
@@ -1240,24 +1224,24 @@ class UserApiController extends Controller
             $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
             $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction: '';
             $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
-            
-            if ($user_details->save()) 
+
+            if ($user_details->save())
             {
 
                 return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
-                                    'message' => "Details Updated successfully."        
+                                    'message' => "Details Updated successfully."
                                 ));
             }
-               
+
         }
         else
         {
             return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
-                                    'message' => "Cannot update now!"        
+                                    'message' => "Cannot update now!"
                                 ));
         }
     }
@@ -1278,5 +1262,5 @@ class UserApiController extends Controller
                 'message' => 'No pickup is related to this user id'
             ));
         }
-    } 
+    }
 }
