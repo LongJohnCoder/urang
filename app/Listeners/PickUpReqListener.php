@@ -81,9 +81,9 @@ class PickUpReqListener
             $table_data = '';
         }
         //dd($subtotal);
-        $invoice_id = $event->inv_id; //invoice id 
+        $invoice_id = $event->inv_id; //invoice id
         $date_today = $event->req->pick_up_date; //date
-        $coupon = $event->req->coupon; // coupon 
+        $coupon = $event->req->coupon; // coupon
         if ($coupon != null) {
             $discount_percentage = Coupon::where('coupon_code', $coupon)->first();
             //dd($discount_percentage);
@@ -109,7 +109,7 @@ class PickUpReqListener
             $coupon = "No Coupon Applied";
         }
         //dd($user_name);
-        $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money), 
+        $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
                 $message->from(\App\Helper\ConstantsHelper::getClintEmail(), "Admin");
                 if ($event->req->identifier == "admin") {
@@ -122,7 +122,7 @@ class PickUpReqListener
                     }
                     else
                     {
-                        $email = \App\Helper\ConstantsHelper::getClintEmail();
+                        $email = env('ADMIN_EMAIL');
                         $user_name = "undefined";
                         $number = 00000000;
                     }
@@ -134,8 +134,36 @@ class PickUpReqListener
                     //dd($event->req->user_email);
                     $message->to(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickup Request Details U-rang');
                     //$message->bcc(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickuprequest Details U-rang');
-                }   
+                }
             });
-        
+
+            $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
+                function($message) use ($event){
+                    $message->from(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email : $event->req->user_email, "New PickUp Request");
+                    if ($event->req->identifier == "admin") {
+                        $user_to_search = User::with('user_details')->find($event->req->user_id);
+                        if ($user_to_search) {
+                            //dd($user_to_search);
+                            $email = $user_to_search->email;
+                            $user_name = $user_to_search->user_details->name;
+                            $number = $user_to_search->user_details->personal_ph;
+                        }
+                        else
+                        {
+                            $email = \App\Helper\ConstantsHelper::getClintEmail();
+                            $user_name = "undefined";
+                            $number = 00000000;
+                        }
+                        $message->to(env('ADMIN_EMAIL'), "Admin")->subject('New Pickup Request On U-rang');
+                        //$message->bcc($email, $user_name)->subject('Pickuprequest Details U-rang');
+                    }
+                    else
+                    {
+                        //dd($event->req->user_email);
+                        $message->to(env('ADMIN_EMAIL'), "Admin")->subject('New Pickup Request On U-rang');
+                        //$message->bcc(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickuprequest Details U-rang');
+                    }
+                });
+
     }
 }

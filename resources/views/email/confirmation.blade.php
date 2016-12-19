@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Confirmation Email | U-rang 2016</title>
 </head>
- 
+
 <body bgcolor="#FFFFFF">
 
 <!-- HEADER -->
@@ -15,7 +15,7 @@
 	<tr>
 		<td></td>
 		<td class="header container">
-			
+
 				<div class="content">
 					<table>
 					<tr>
@@ -23,7 +23,7 @@
 					</tr>
 				</table>
 				</div>
-				
+
 		</td>
 		<td></td>
 	</tr>
@@ -32,7 +32,7 @@
 
 <!-- BODY -->
 
-		<?php 
+		<?php
             $complaints = \App\EmailTemplateSignUp::first();
 
             ?>
@@ -45,17 +45,17 @@
 			<table>
 				<tr>
 					<td>
-						
+
 						<h3>Welcome, {{$name}}</h3>
 						<p class="lead">{{$complaints->first_writeup}}</p>
-						
+
 						<!-- A Real Hero (and a real human being) -->
 						<p><img src="{{$complaints->image_link}}" /></p><!-- /hero -->
 						<!-- Callout Panel -->
 						<p class="callout">
-							You have successfully registered with u-rang, new york city's #1 laundry service. <a href="{{$complaints->login_link}}">Login Now! &raquo;</a>
+							You have successfully registered with u-rang, new york city's #1 laundry service. <a href="{{URL::to('login')}}">Login Now! &raquo;</a>
 						</p><!-- /Callout Panel -->
-						
+
 						<h3>Your Account Details</h3>
 						<small><b>Login Credentials: </b></small><br/><br/>
 						<p>User email : {{$email}}</p>
@@ -66,54 +66,54 @@
 						<p>Phone Number: {{$ph}}</p>
 						<p>Regards, </p>
 						<p>The Team at U-Rang.com</p>
-						<a class="btn" href="{{$complaints->website_link}}">Our Website!</a>
-												
+						<a class="btn" href="{{URL::to('/')}}">Our Website!</a>
+
 						<br/>
-						<br/>							
-												
+						<br/>
+
 						<!-- social & contact -->
 						<table class="social" width="100%">
 							<tr>
 								<td>
-									
+
 									<!--- column 1 -->
 									<table align="left" class="column">
 										<tr>
-											<td>				
-												
+											<td>
+
 												<h5 class="">Connect with Us:</h5>
 												<p class=""><a href="{{$complaints->fb_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #3B5998!important;">Facebook</a> <a href="{{$complaints->twitter_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #1daced!important;">Twitter</a> <a href="{{$complaints->google_link}}" style="padding: 3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color: #FFF;font-weight:bold;display:block;text-align:center;background-color: #DB4A39!important;">Google+</a></p>
-						
-												
+
+
 											</td>
 										</tr>
-									</table><!-- /column 1 -->	
-									
+									</table><!-- /column 1 -->
+
 									<!--- column 2 -->
 									<table align="left" class="column">
 										<tr>
-											<td>				
-																			
-												<h5 class="">Contact Info:</h5>												
+											<td>
+
+												<h5 class="">Contact Info:</h5>
 												<p>Phone: <strong>{{$complaints->phone_no}}</strong><br/>
                 Email: <strong><a href="{{$complaints->email_link}}">{{$complaints->email_link}}</a></strong></p>
-                
+
 											</td>
 										</tr>
 									</table><!-- /column 2 -->
-									
-									<span class="clear"></span>	
-									
+
+									<span class="clear"></span>
+
 								</td>
 							</tr>
 						</table><!-- /social & contact -->
-					
-					
+
+
 					</td>
 				</tr>
 			</table>
 			</div>
-									
+
 		</td>
 		<td></td>
 	</tr>
@@ -124,7 +124,7 @@
 	<tr>
 		<td></td>
 		<td class="container">
-			
+
 				<!-- content -->
 				<div class="content">
 				<table>
@@ -134,13 +134,13 @@
 							<!-- <a href="#">Terms</a> |
 							<a href="#">Privacy</a> |
 							<a href="#"><unsubscribe>Unsubscribe</unsubscribe></a> -->
-							
+
 						</p>
 					</td>
 				</tr>
 			</table>
 				</div><!-- /content -->
-				
+
 		</td>
 		<td></td>
 	</tr>

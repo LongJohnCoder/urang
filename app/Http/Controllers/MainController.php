@@ -42,8 +42,8 @@ use App\MobileAppWys;
 
 class MainController extends Controller
 {
-    
-    public function __construct() 
+
+    public function __construct()
     {
         /*if (auth()->guard('users')->user()) {
             $isBlocked = auth()->guard('users')->user()->block_status;
@@ -174,7 +174,7 @@ class MainController extends Controller
                                     return redirect()->route('getSignUp')->with('fail', 'Referrel type should be type of email. Please paste an email of the person you want to refer')->withInput();
                                 }
                             }
-                            
+
                         }
                     }
                     $card_info = new CustomerCreditCardInfo();
@@ -188,7 +188,8 @@ class MainController extends Controller
                     $card_info->exp_year = $request->select_year;
                     if ($card_info->save()) {
                         //confirmation mail event driven approach
-                        Event::fire(new SendEmailOnSignUp($request));
+                        $eventStatus = Event::fire(new SendEmailOnSignUp($request));
+                        //return $eventStatus;
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
@@ -288,7 +289,7 @@ class MainController extends Controller
         $logged_user = $obj->getCustomerData();
         $pick_up_req = Pickupreq::where('user_id',$logged_user->id)->get();
         return view('pages.userdashboard', compact('site_details', 'logged_user', 'pick_up_req'));
-    } 
+    }
     public function getLogout() {
         $user = auth()->guard('users');
         $user->logout();
@@ -343,7 +344,7 @@ class MainController extends Controller
                 }
                 else
                 {
-                   return redirect()->route('get-user-profile')->with('fail', 'Could not save your card details!'); 
+                   return redirect()->route('get-user-profile')->with('fail', 'Could not save your card details!');
                 }
             }
             else
@@ -373,11 +374,11 @@ class MainController extends Controller
             if (Hash::check($old_password, $user->password)) {
                 $user->password = bcrypt($new_password);
                 if ($user->save()) {
-                    return redirect()->route('getChangePassword')->with('success', "Password updated successfully!"); 
+                    return redirect()->route('getChangePassword')->with('success', "Password updated successfully!");
                 }
                 else
                 {
-                   return redirect()->route('getChangePassword')->with('fail', "Can't update your password right now please try again later"); 
+                   return redirect()->route('getChangePassword')->with('fail', "Can't update your password right now please try again later");
                 }
             }
             else
@@ -407,7 +408,7 @@ class MainController extends Controller
         {
             return view('pages.price', compact('site_details', 'login_check' , 'price_list'));
         }
-        
+
     }
     public function getNeiborhoodPage() {
         //dd(1);
@@ -468,7 +469,7 @@ class MainController extends Controller
             {
                 return 2;
             }
-            
+
         }
     }
 
@@ -634,11 +635,11 @@ class MainController extends Controller
                     $is_ref->save();
                 }
             }
-            
+
 
             //}
         }
-        
+
     }
 
     public function checkIfReferalInserted($request)
@@ -661,7 +662,7 @@ class MainController extends Controller
                 $is_ref->is_referal_done=1;
                 $is_ref->save();
             }
-        
+
     }
 
     public function postPickUp (Request $request) {
@@ -681,7 +682,7 @@ class MainController extends Controller
                 {
                     return redirect()->route('getPickUpReq')->with('fail', "start time could not be greater than end time!");
                 }
-                
+
             }
             else
             {
@@ -742,7 +743,7 @@ class MainController extends Controller
             //dd($total_price);
             $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
 
-            //on emergency $7 add 
+            //on emergency $7 add
             if (isset($request->isEmergency)) {
                 if ($pick_up_req->total_price > 0) {
                     //dd($total_price);
@@ -753,7 +754,7 @@ class MainController extends Controller
             $calculate_discount = new SiteHelper();
             //now check this pick up req related to any ref or not
             if ($request->identifier == "admin") {
-                $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();     
+                $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
             }
             else
             {
@@ -772,15 +773,15 @@ class MainController extends Controller
                     $check_ref->is_expired      =  1;
                     $check_ref->discount_count = 0;
                 }
-                
+
                 $check_ref->save();
                 if ($total_price > 0.0) {
                     $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
                     //dd($total_price);
                     $pick_up_req->discounted_value = $total_price;
-                }                
+                }
             }
-            
+
 
             //coupon check
             if ($pick_up_req->coupon != null) {
@@ -809,7 +810,7 @@ class MainController extends Controller
                 {
                     $new_percentage = $percentage->percentage/100;
                 }
-                
+
                 $pick_up_req->school_donation_id = $request->school_donation_id;
                 //$pick_up_req->school_donation_amount = $request->school_donation_amount;
                 $search = SchoolDonations::find($request->school_donation_id);
@@ -835,7 +836,7 @@ class MainController extends Controller
                 {
                     $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
                 }
-                
+
                 $update_user_details->school_id = $request->school_donation_id;
                 $update_user_details->save();
             }
@@ -868,7 +869,7 @@ class MainController extends Controller
                         return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
 
                     }
-                    
+
                 }
                 else
                 {
@@ -893,7 +894,7 @@ class MainController extends Controller
                     }
                     //create invoice
                     //dd($data);
-                    for ($j=0; $j < count($data) ; $j++) { 
+                    for ($j=0; $j < count($data) ; $j++) {
                         $invoice = new Invoice();
                         if ($request->identifier == "admin") {
                             $invoice->user_id = $request->user_id;
@@ -1004,7 +1005,7 @@ class MainController extends Controller
                 {
                     return 1;
                 }
-                
+
            }
            else
            {
@@ -1022,13 +1023,13 @@ class MainController extends Controller
         }
         else
         {
-           return 0; 
+           return 0;
         }
     }
 /*    private function sendAnEmail($request) {
         //mail should be send from here
         //dd($request->email);
-        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
+        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password),
         function($message) use($request)
         {
             $message->from(\App\Helper\ConstantsHelper::getClintEmail());
@@ -1123,25 +1124,25 @@ class MainController extends Controller
     public function getWashNFold() {
         $obj = new NavBarHelper();
         $login_check = $obj->getCustomerData();
-        $page_data = Cms::where('identifier', 1)->first(); 
+        $page_data = Cms::where('identifier', 1)->first();
         return view('stand_alone_pages.wash_n_fold', compact('login_check', 'page_data'));
     }
     public function getCorporate() {
         $obj = new NavBarHelper();
         $login_check = $obj->getCustomerData();
-        $page_data = Cms::where('identifier', 2)->first(); 
+        $page_data = Cms::where('identifier', 2)->first();
         return view('stand_alone_pages.corporate', compact('login_check', 'page_data'));
     }
     public function getTailoring() {
         $obj = new NavBarHelper();
         $login_check = $obj->getCustomerData();
-        $page_data = Cms::where('identifier', 3)->first(); 
+        $page_data = Cms::where('identifier', 3)->first();
         return view('stand_alone_pages.tailoring', compact('login_check', 'page_data'));
     }
     public function getWetCleaning() {
         $obj = new NavBarHelper();
         $login_check = $obj->getCustomerData();
-        $page_data = Cms::where('identifier', 4)->first(); 
+        $page_data = Cms::where('identifier', 4)->first();
         return view('stand_alone_pages.wet-cleaning', compact('login_check', 'page_data'));
     }*/
     public function postCancelOrder(Request $request) {
@@ -1201,7 +1202,7 @@ class MainController extends Controller
         {
             return 1;
         }
-        
+
     }
     public function getMobileAppPage() {
         $obj = new NavBarHelper();
@@ -1266,7 +1267,7 @@ class MainController extends Controller
                 {
                     return redirect()->route('getCustomerOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
                 }
-                
+
             } else {
                 if ($request->whoiam) {
                     //staff route
@@ -1274,13 +1275,13 @@ class MainController extends Controller
                 }
                 else
                 {
-                   return redirect()->route('getCustomerOrders')->with('fail', '<i class="fa fa-times" aria-hidden="true"></i> error while sending notification please try again later!'); 
+                   return redirect()->route('getCustomerOrders')->with('fail', '<i class="fa fa-times" aria-hidden="true"></i> error while sending notification please try again later!');
                 }
-                
+
             }
 
         }
-        
+
     }
     public function checkPushNotification(Request $request) {
         //return $request;
@@ -1307,7 +1308,7 @@ class MainController extends Controller
             //dd($update_read_status);
             //Session::put('noti_id', $id);
             return redirect()->route('showDetailsNotification', base64_encode($id));
-            
+
         } else {
             return redirect()->route('getListNotification')->with('fail', "Sorry! Unable to open email right now");
         }
