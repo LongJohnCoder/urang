@@ -375,6 +375,7 @@ class UserApiController extends Controller
                     $user_details->user_id = $user->id;
                     $user_details->name = $request->name;
                     $user_details->address_line_1 = isset($request->address) ? $request->address : "";
+                    $request->strt_address_1 = $request->address;
                     $user_details->personal_ph = $request->personal_phone;
                     $user_details->cell_phone = isset($request->cell_phone) ? $request->cell_phone : "";
                     $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : "";
