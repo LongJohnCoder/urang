@@ -383,6 +383,7 @@ class UserApiController extends Controller
                     if ($user_details->save())
                     {
                             $data['user_id'] = $user_details->user_id;
+                            $eventStatus = Event::fire(new SendEmailOnSignUp($request));
                             return Response::json(array(
                                 'status' => true,
                                 'status_code' => 200,
