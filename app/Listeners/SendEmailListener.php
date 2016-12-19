@@ -28,7 +28,7 @@ class SendEmailListener
     public function handle(SendEmailOnSignUp $event)
     {
         //dd($event->req);
-        Mail::send('email.confirmation', array('email'=>$event->req->email, 'password' => $event->req->password, 'name' => $event->req->name, 'address' => $event->req->strt_address_1, 'ph' => $event->req->personal_phone), function($message) use ($event){
+        Mail::send('email.confirmation', array('email'=>$event->req->email, 'password' => $event->req->password, 'name' => $event->req->name, 'address' => isset($event->req->strt_address_1) ? $event->req->strt_address_1 : $event->req->address, 'ph' => $event->req->personal_phone), function($message) use ($event){
             $message->getSwiftMessage()->getHeaders()->addTextHeader('x-mailgun-native-send', 'true');
             $message->from(env('ADMIN_EMAIL'), "Urang");
             $message->to($event->req->email, $event->req->name)->subject('Signup Details');
