@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="cache-control" content="private, max-age=0, no-cache">
+<meta name="msvalidate.01" content="282ACACC33D918D6830C975957FE5984" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="0">
 <meta name="description" content="{{ $seo_data!= false ? $seo_data->meta_description : 'U-rang neighborhoods'}}">
@@ -83,6 +84,6 @@
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-	ga('create', 'UA-74654877-5', 'auto');
+	ga('create', 'UA-30953160-1', 'auto');
 	ga('send', 'pageview');
 </script>
