@@ -4,6 +4,7 @@
 <meta http-equiv="cache-control" content="private, max-age=0, no-cache">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="0">
+<meta name="msvalidate.01" content="282ACACC33D918D6830C975957FE5984" />
 <meta name="keywords" content="{{isset($site_details) && $site_details!= null && $site_details->meta_keywords!=null ? $site_details->meta_keywords : 'U-rang'}}">
 <meta name="description" content="{{isset($site_details) && $site_details!= null && $site_details->meta_description!=null ? $site_details->meta_description : 'U-rang'}}">
 <!-- fav icon -->
@@ -74,6 +75,6 @@
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-	ga('create', 'UA-74654877-5', 'auto');
+	ga('create', 'UA-30953160-1', 'auto');
 	ga('send', 'pageview');
 </script>
