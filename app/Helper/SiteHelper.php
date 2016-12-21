@@ -6,7 +6,7 @@ use App\Coupon;
 use App\ref;
 use App\refPercentage;
 use App\IndexPageWysiwyg;
-class SiteHelper 
+class SiteHelper
 {
 	public function showCardNumber($user_id) {
 		//return $user_id;
@@ -66,5 +66,5 @@ class SiteHelper
             return "10% off on new <a href='{{url('/')}}/sign-up'></a>";
         }
     }
-	
+
 }
