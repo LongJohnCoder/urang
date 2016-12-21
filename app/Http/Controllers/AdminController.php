@@ -2121,6 +2121,7 @@ class AdminController extends Controller
     }
     private function totalSchoolDonation() {
         $schools = SchoolDonations::all();
+        //dd($schools);
         $total_money_jan = 0.00;
         $total_money_feb=0.00;
         $total_money_march=0.00;

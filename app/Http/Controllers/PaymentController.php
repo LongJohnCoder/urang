@@ -75,6 +75,7 @@ class PaymentController extends Controller
 				    	if ($auth_request->pick_up_re_id != null) {
 				    		$search_pickup_req = Pickupreq::find($auth_request->pick_up_re_id);
 						    $search_pickup_req->payment_status = 1;
+						    $search_pickup_req->order_status = 4;
 						    $search_pickup_req->save();	
 				    	}	
 					    if ($auth_request->school_donation_id != null) {
