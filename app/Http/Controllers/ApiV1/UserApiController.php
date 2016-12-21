@@ -406,6 +406,12 @@ class UserApiController extends Controller
                     $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : "";
                     if ($user_details->save())
                     {
+                      $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
+                      if ($is_ref != null) {
+                          $is_ref->discount_status = 1;
+                          $is_ref->is_referal_done = 1;
+                          $is_ref->save();
+                      }
                             $data['user_id'] = $user_details->user_id;
                             $eventStatus = Event::fire(new SendEmailOnSignUp($request));
                             return Response::json(array(
@@ -955,6 +961,13 @@ class UserApiController extends Controller
                     $user_details->social_id = $request->social_id;
                     if($user_details->save())
                     {
+                      $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
+                      if ($is_ref != null) {
+                          $is_ref->discount_status = 1;
+                          $is_ref->is_referal_done = 1;
+                          $is_ref->save();
+                      }
+
                         $user_data = User::where('email',$request->email)->first();
                         $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
                         return Response::json(array(
