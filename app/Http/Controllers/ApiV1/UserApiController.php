@@ -36,6 +36,7 @@ use App\Events\PickUpReqEvent;
 use App\Events\ResetPassword;
 use Illuminate\Support\Facades\Event;
 use App\Coupon;
+use App\ref;
 
 class UserApiController extends Controller
 {
