@@ -152,6 +152,29 @@ class UserApiController extends Controller
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
 
+        //checking for user is referred or Not
+        $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
+        if ($check_ref) {
+            $pick_up_req->ref_discount  =  1;
+            if($check_ref->discount_count>1)
+            {
+                $check_ref->discount_count = $check_ref->discount_count-1;
+                $check_ref->is_expired      =  0;
+            }
+            else
+            {
+                $check_ref->is_expired      =  1;
+                $check_ref->discount_count = 0;
+            }
+
+            $check_ref->save();
+            if ($total_price > 0.0) {
+                $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
+                //dd($total_price);
+                $pick_up_req->discounted_value = $total_price;
+            }
+        }
+
         if(isset($request->isEmergency)) {
                 if ($pick_up_req->total_price > 0) {
                     //dd($total_price);
