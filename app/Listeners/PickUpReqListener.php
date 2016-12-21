@@ -31,6 +31,7 @@ class PickUpReqListener
     public function handle(PickUpReqEvent $event)
     {
 
+
         $table_data = ''; //detail pickup data
         $subtotal = 0.00;
         $discount = 0.00;
@@ -139,7 +140,7 @@ class PickUpReqListener
 
             $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
                 function($message) use ($event){
-                    $message->from(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email : $event->req->user_email, "New PickUp Request");
+                    $message->from(env('ADMIN_EMAIL'), "Admin");
                     if ($event->req->identifier == "admin") {
                         $user_to_search = User::with('user_details')->find($event->req->user_id);
                         if ($user_to_search) {
@@ -159,6 +160,7 @@ class PickUpReqListener
                     }
                     else
                     {
+
                         //dd($event->req->user_email);
                         $message->to(env('ADMIN_EMAIL'), "Admin")->subject('New Pickup Request On U-rang');
                         //$message->bcc(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email:$event->req->user_email, isset(auth()->guard('users')->user()->user_details->name)?auth()->guard('users')->user()->user_details->name:"username")->subject('Pickuprequest Details U-rang');

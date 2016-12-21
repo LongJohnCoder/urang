@@ -840,7 +840,9 @@ class MainController extends Controller
                 $update_user_details->school_id = $request->school_donation_id;
                 $update_user_details->save();
             }
+
             if ($pick_up_req->save()) {
+
                 //save in order tracker table
                 $tracker = new OrderTracker();
                 $tracker->pick_up_req_id = $pick_up_req->id;
@@ -849,16 +851,20 @@ class MainController extends Controller
                 $tracker->order_status = 1;
                 $tracker->original_invoice = $pick_up_req->total_price;
                 $tracker->save();
+
                 if ($request->order_type == 1) {
+
                     //fast pick up
                     //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                     //dd($expected_time);
+
                     if ($request->identifier == "admin") {
 
                         /*$pass_to_event = array(
                             'request' => $request,
                             'inv_id' => 0
                         );*/
+
                         Event::fire(new PickUpReqEvent($request, 0));
                         return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
                     }
@@ -873,6 +879,7 @@ class MainController extends Controller
                 }
                 else
                 {
+
                     //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                     //detailed pick up
                     $data = json_decode($request->list_items_json);
