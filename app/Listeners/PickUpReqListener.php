@@ -155,7 +155,7 @@ class PickUpReqListener
                             $user_name = "undefined";
                             $number = 00000000;
                         }
-                        $message->to(env('ADMIN_EMAIL'), "Admin")->subject('New Pickup Request On U-rang');
+                        $message->from(isset(auth()->guard('users')->user()->email)?auth()->guard('users')->user()->email : $email, "New PickUp Request");
                         //$message->bcc($email, $user_name)->subject('Pickuprequest Details U-rang');
                     }
                     else
