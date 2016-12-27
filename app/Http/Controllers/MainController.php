@@ -12,7 +12,7 @@ use App\UserDetails;
 use App\PriceList;
 use App\CustomerCreditCardInfo;
 use Illuminate\Support\Facades\Auth;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Hash;
 use App\Neighborhood;
 use App\Faq;
@@ -1226,6 +1226,7 @@ class MainController extends Controller
         }
     }
     public function postPushNotification(Request $request){
+        //self::mailQueue(29, "mail body");
         //dd($request);
         //dd(isset($request->whoiam));
         $array_pickup = array();
@@ -1246,6 +1247,7 @@ class MainController extends Controller
                 $insert_mul->author = isset($request->whoiam) ? auth()->guard('staffs')->user()->user_name : Auth::user()->username ;
                 $insert_mul->is_read = 0;
                 $insert_mul->save();
+                self::mailQueue($array_user_id[$i],$request->push_noti_text);
             }
             if ($request->whoiam) {
                     //staff route
@@ -1266,6 +1268,7 @@ class MainController extends Controller
             $insert->description = $request->push_noti_text;
             $insert->is_read = 0;
             if ($insert->save()) {
+                self::mailQueue($request->user_id,$request->push_noti_text);
                 if ($request->whoiam) {
                     //staff route
                     return redirect()->route('getStaffOrders')->with('success', '<i class="fa fa-check" aria-hidden="true"></i> Successfully sent notification');
@@ -1289,6 +1292,34 @@ class MainController extends Controller
 
         }
 
+    }
+    public static function mailQueue($user_id=null, $mail_text=null) {
+        //dd("mail queue method");
+        //dd("i m here");
+        if ($user_id != null) {
+            $email_obj = User::where('id',$user_id)->with('user_details')->first();
+            if ($email_obj!= null) {
+                if ($email_obj->block_status == 0) {
+                    $data = array('mail' => $mail_text, 'name' =>$email_obj->user_details != null ? $email_obj->user_details->name : "Dummy Name", 'email' => $email_obj->email);
+                    //dd($email_obj->email);
+                    $email = $email_obj->email;
+                    $name = $email_obj->user_details != null ? $email_obj->user_details->name : "Dummy Name";
+                    Mail::later(2, 'email.push_notification',$data, function($msg) use ($email, $name){
+                        $msg->from(env('ADMIN_EMAIL'),env('ADMIN_NAME'));
+                        $msg->to($email, $name)->subject('Reminder');
+                    });
+                } else {
+                    //user blocked
+                    return false;
+                }
+            } else {
+                //no data related to user id
+                return false;
+            }
+        } else {
+            //no user id passed
+            return false;
+        }
     }
     public function checkPushNotification(Request $request) {
         //return $request;

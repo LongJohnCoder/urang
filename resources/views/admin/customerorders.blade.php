@@ -266,7 +266,7 @@
                                 </form>
                             </td>
                            @endif
-                           <td><button type="button" id="btn_notify_{{$pickup->id}}" class="btn btn-warning" onclick="return notifyCust('{{$pickup->id}}', '{{$pickup->user_detail->id}}')"><i class="fa fa-bell" aria-hidden="true"></i> Notify</button></td>
+                           <td><button type="button" id="btn_notify_{{$pickup->id}}" class="btn btn-warning" onclick="return notifyCust('{{$pickup->id}}', '{{$pickup->user_detail->user_id}}')"><i class="fa fa-bell" aria-hidden="true"></i> Notify</button></td>
                         </tr>
                         @endforeach
                      </tbody>

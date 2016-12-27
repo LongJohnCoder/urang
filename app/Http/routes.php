@@ -10,6 +10,13 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+/*use Illuminate\Support\Facades\Mail;
+Route::get('mail/queue', function(){
+    Mail::later(2, 'email.push_notification',['name' => 'thug'], function($msg){
+        $msg->from(env('ADMIN_EMAIL'),env('ADMIN_NAME'));
+        $msg->to("roysubho687@gmail.com", "Dummy Name")->subject('Reminder');
+    });
+});*/
 Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
 Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);
