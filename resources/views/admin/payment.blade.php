@@ -144,7 +144,11 @@
                 </td>
                 <td>{{$card_info->cvv !=null ? $card_info->cvv: "No cvv" }}</td>
                 <td>20{{$card_info->exp_year}}-{{$card_info->exp_month}}</td>
-                <td id="amount_{{$user->id}}">{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
+                @if($user->coupon != null)
+                  <td id="amount_{{$user->id}}">{{number_format((float)$user->discounted_value, 2, '.', '')}}</td>
+                @else
+                  <td id="amount_{{$user->id}}">{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
+                @endif
                 <td><button type="button" id="charge_{{$user->id}}" class="btn btn-warning btn-xs" onclick="charge_it('{{$user->user->id}}', '{{$user->id}}', '{{$user->school_donation_id}}')"><i class="fa fa-credit-card" aria-hidden="true"></i> Charge It</button></td>
               </tr>
             @endforeach
