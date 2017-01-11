@@ -1256,7 +1256,7 @@ class UserApiController extends Controller
             //dd($user_details);
             $user_details->user_id = $update_id;
             $user_details->name = $request->name;
-            $user_details->address = $request->address;
+            $user_details->address_line_1 = $request->address;
             $user_details->personal_ph = $request->personal_phone;
             $user_details->cell_phone = $request->cell_phone != null ? $request->cell_phone : '';
             $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
