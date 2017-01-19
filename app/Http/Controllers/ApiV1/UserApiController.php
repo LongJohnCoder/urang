@@ -393,6 +393,7 @@ class UserApiController extends Controller
                 $user->email = $request->email;
                 $user->password = bcrypt($request->password);
                 $user->block_status = 0;
+                $user->is_corporate = $request->isCorporate;
                 if ($user->save())
                 {
                     $user_details = new UserDetails();
