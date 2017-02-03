@@ -254,6 +254,8 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/login',['uses' => 'ApiV1\UserApiController@LoginAttempt', 'as' => 'LoginAttempt']);
     Route::post('/order-history',['uses' => 'ApiV1\UserApiController@order_history','as' => 'order_history']);
     Route::post('/place-order',['uses' => 'ApiV1\UserApiController@placeOrder','as' => 'placeOrder']);
+    /***************ios place order***************/
+    Route::post('/place-order-ios', ['uses' => 'ApiV1\UserApiController@placeOrderIos', 'as' => 'placeOrderIos']);
     Route::post('/sign-up-user',['uses' => 'ApiV1\UserApiController@userSignUp','as' => 'userSignUp']);
     Route::post('/get-prices',['uses' => 'ApiV1\UserApiController@getPrices', 'as' => 'getPricesApi']);
     Route::post('/get-neighborhoods',['uses' => 'ApiV1\UserApiController@getNeighborhood','as' => 'getNeighborhoodApi']);
