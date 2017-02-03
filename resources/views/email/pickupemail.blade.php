@@ -101,6 +101,8 @@
             background: #555555 !important;
             border-color: #555555 !important;
         }
+        table.last-table{width:100%;}
+        table.last-table tr td:nth-child(3){text-align:right;}
 
     </style>
 
@@ -234,7 +236,7 @@
                                                 <div class="row">
                                                     <div class="wrapper" style="font-size: 18px;">
                                                         <label for="order_details" style="color: #ff6400;"><b>Break Down:</b></label>
-                                                        <table>
+                                                        <table style="width:100%;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Item</th>
@@ -247,7 +249,7 @@
                                                             </tbody>
                                                         </table>
                                                     </div><br>
-                                                    <div class="col-xs-12" style="margin-left: 415px;">
+                                                    <div class="col-xs-12" style="text-align:right; padding-right:5px;">
                                                         <label for="subtotal">Subtotal: ${{$invoice_num == 0 ? 0 : $subtotal}}</label><br/>
                                                         @if($emergency_money!=0)
                                                             <label for="emergency">Emergency: ${{$emergency_money}}</label><br/>

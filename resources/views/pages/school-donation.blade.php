@@ -70,8 +70,8 @@
 			                                <div class="time-image">
 			                                    <img src="{{url('/')}}/public/dump_images/{{$list_school[$i]->image}}" alt="School Image" />
 			                                </div>
-			                                <p>Total Money Donated till date: ${{number_format((float)$list_school[$i]->total_money_gained, 2, '.', '')}}</p>
-			                                 <p>Total pending till date: ${{number_format((float)$list_school[$i]->pending_money, 2, '.', '')}} </p>
+			                                <p>Total Money Donated till date: ${{number_format((float)$list_school[$i]->actual_total_money_gained, 2, '.', '')}}</p>
+			                                 <p>Total pending till date: ${{number_format((float)$list_school[$i]->actual_pending_money, 2, '.', '')}} </p>
 			                            </div>
 			                        </div>
                     			@else
@@ -84,8 +84,8 @@
 			                                <div class="time-image">
 			                                    <img src="{{url('/')}}/public/dump_images/{{$list_school[$i]->image}}" alt="School Image" />
 			                                </div>
-			                                <p>Total Money Donated till date: ${{number_format((float)$list_school[$i]->total_money_gained, 2, '.', '')}}</p>
-			                                 <p>Total pending till date: ${{number_format((float)$list_school[$i]->pending_money, 2, '.', '')}} </p>
+			                                <p>Total Money Donated till date: ${{number_format((float)$list_school[$i]->actual_total_money_gained, 2, '.', '')}}</p>
+			                                 <p>Total pending till date: ${{number_format((float)$list_school[$i]->actual_pending_money, 2, '.', '')}} </p>
 			                            </div>
 			                        </div>
                     			@endif

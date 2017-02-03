@@ -544,9 +544,14 @@
                   </div>
                   @if($door_man == "No")
                     <div class="row">
-                      <div class="col-md-5 col-sm-5"><strong>Timeframe Given:</strong></div>
+                      <div class="col-md-5 col-sm-5"><strong>Pickup Timeframe Given:</strong></div>
                       <div class="col-md-1 col-sm-1">:</div>
                       <div class="col-md-5 col-sm-5"><span> {{ $pickup->time_frame_start }} To {{ $pickup->time_frame_end }}</span></div>
+                    </div>
+                     <div class="row">
+                      <div class="col-md-5 col-sm-5"><strong>Return Timeframe Given:</strong></div>
+                      <div class="col-md-1 col-sm-1">:</div>
+                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->return_time_frame_start }} To {{ $pickup->return_time_frame_end }}</span></div>
                     </div>
                   @endif
                   <div class="row">

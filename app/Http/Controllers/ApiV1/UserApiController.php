@@ -106,6 +106,7 @@ class UserApiController extends Controller
     }
     public function placeOrder(Request $request)
     {
+        //return $request->pick_up_type;
         if ($request->isCard == "yes") {
             $card_infos = new CustomerCreditCardInfo();
             $card_infos->user_id = $request->user_id;
@@ -130,6 +131,8 @@ class UserApiController extends Controller
         $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
         $pick_up_req->door_man = $request->doorman;
         $pick_up_req->time_frame_start = $request->time_frame_start;
+        $pick_up_req->return_time_frame_end = $request->return_time_frame_end;
+        $pick_up_req->return_time_frame_start = $request->return_time_frame_start;
         $pick_up_req->time_frame_end = $request->time_frame_end;
         $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
         $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
@@ -139,7 +142,7 @@ class UserApiController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = $request->coupon;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
-
+       
         $request->user_email = User::find($request->user_id)->email;
         $request->user_name = isset(UserDetails::where('user_id',$request->user_id)->first()->name)?UserDetails::where('user_id',$request->user_id)->first()->name:"Not Registered Yet";
         $request->user_number = isset(UserDetails::where('user_id',$request->user_id)->first()->personal_ph)?UserDetails::where('user_id',$request->user_id)->first()->personal_ph:"Number Not Registered Yet";
@@ -149,9 +152,9 @@ class UserApiController extends Controller
         for ($i=0; $i< count($data_table); $i++) {
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
         }
-        $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
+        $pick_up_req->total_price = $request->pick_up_type == 1 ? 0.00 : $total_price;
         /*//for charging cards after wards
-        $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
+        $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
@@ -175,7 +178,7 @@ class UserApiController extends Controller
                 $pick_up_req->discounted_value = $total_price;
             }
         }
-
+        
         if(isset($request->isEmergency)) {
                 if ($pick_up_req->total_price > 0) {
                     //dd($total_price);
@@ -184,13 +187,13 @@ class UserApiController extends Controller
                 }
             }
             //coupon check
-            if ($pick_up_req->coupon != null) {
+            if ($pick_up_req->coupon != null || $pick_up_req->coupon!="") {
                 $calculate_discount = new SiteHelper();
                 $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
                 //dd($discounted_value);
                 $pick_up_req->discounted_value = $discounted_value;
             }
-
+         
         if($request->isDonate)
         {
             $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
@@ -214,7 +217,11 @@ class UserApiController extends Controller
             $update_user_details->school_id = $request->school_donation_id;
             $update_user_details->save();
         }
+
+       
+
         if ($pick_up_req->save()) {
+         
             //save in order tracker table
             $tracker = new OrderTracker();
             $tracker->pick_up_req_id = $pick_up_req->id;
@@ -223,21 +230,27 @@ class UserApiController extends Controller
             $tracker->order_status = 1;
             $tracker->original_invoice = $pick_up_req->total_price;
             $tracker->save();
-            if ($request->order_type == 1) {
+           
+            if ($request->pick_up_type == 1) {
+
                 //fast pick up
-                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+//return "fast pickup";
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //dd($request->request);
-                Event::fire(new PickUpReqEvent($request, 0));
+               Event::fire(new PickUpReqEvent($request, 0));
+
+
                 return Response::json(array(
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time
+                    'message' => "Order Placed successfully!"
                 ));
             }
             else
             {
-                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+//return "detailed pickup";
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //detailed pick up
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
@@ -271,7 +284,7 @@ class UserApiController extends Controller
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time
+                    'message' => "Order Placed successfully!"
                 ));
             }
         }
@@ -393,12 +406,13 @@ class UserApiController extends Controller
                 $user->email = $request->email;
                 $user->password = bcrypt($request->password);
                 $user->block_status = 0;
+                $user->is_corporate = $request->isCorporate;
                 if ($user->save())
                 {
                     $user_details = new UserDetails();
                     $user_details->user_id = $user->id;
                     $user_details->name = $request->name;
-                    $user_details->address_line_1 = isset($request->address) ? $request->address : "";
+                    //$user_details->address_line_1 = isset($request->address) ? $request->address : "";
                     $user_details->personal_ph = $request->personal_phone;
                     $user_details->cell_phone = isset($request->cell_phone) ? $request->cell_phone : "";
                     $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : "";
@@ -406,6 +420,76 @@ class UserApiController extends Controller
                     $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : "";
                     if ($user_details->save())
                     {
+
+
+
+//referrel
+                    if ($request->ref_name != null || $request->ref_name != "") 
+                    {
+                        $search_email = User::where('email', $request->ref_name)->first();
+
+                        if ($search_email) 
+                        {
+                            $user_details->delete();
+                                    $user->delete();
+
+
+                          return Response::json(array(
+                           'status' => false,
+                           'status_code' => 400,
+                           'message' => "Referel email already exist .Please try another one!"
+                          ));
+                        }
+                        else 
+                        {
+                            $search_in_refs = ref::where('referred_person', $request->ref_name)->first();
+
+                            if ($search_in_refs) 
+                            {
+                                  $user_details->delete();
+                                    $user->delete();
+                                
+                                    return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Referel email already exist .Please try another one!"
+                                   ));
+                            }
+                            else
+                            {
+                                if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) 
+                                {
+                                    $user_details->referred_by = $request->ref_name;
+                                    //storing into ref table for future reference
+                                    $ref                    = new ref();
+                                    $ref->user_id           = $user->id;
+                                    $ref->referred_person   = $request->ref_name;
+                                    $ref->referral_email    = $request->email;
+                                    $ref->discount_status   = 0; //this should be 1 to get the discount
+                                    $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
+                                    $ref->save();
+                                }
+                                else
+                                {
+                                    $user_details->delete();
+                                    $user->delete();
+                                    
+
+                                    return Response::json(array(
+                                     'status' => false,
+                                     'status_code' => 400,
+                                     'message' => "Referrel type should be type of email. Please paste an email of the person you want to refer!"
+                                    ));
+                                }
+                            }
+
+                        }
+                    }
+//end user referral entry
+
+
+
+
                       $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
                       if ($is_ref != null) {
                           $is_ref->discount_status = 1;
@@ -413,6 +497,7 @@ class UserApiController extends Controller
                           $is_ref->save();
                       }
                             $data['user_id'] = $user_details->user_id;
+                            $data['is_corporate'] = $user->is_corporate;
                             $eventStatus = Event::fire(new SendEmailOnSignUp($request));
                             return Response::json(array(
                                 'status' => true,
@@ -957,10 +1042,12 @@ class UserApiController extends Controller
                     $user_details->user_id = $user->id;
                     $user_details->name = $request->name;
                     $user_details->social_network = 1;
+                    $user_details->personal_ph = $request->personal_phone;
                     $user_details->social_network_name = $request->social_network_name;
                     $user_details->social_id = $request->social_id;
                     if($user_details->save())
                     {
+
                       $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
                       if ($is_ref != null) {
                           $is_ref->discount_status = 1;

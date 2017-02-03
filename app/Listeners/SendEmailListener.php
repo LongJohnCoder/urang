@@ -38,6 +38,9 @@ class SendEmailListener
             $message->getSwiftMessage()->getHeaders()->addTextHeader('x-mailgun-native-send', 'true');
             $message->from($event->req->email, $event->req->name);
             $message->to(env('ADMIN_EMAIL'), "Urang")->subject('New User Signup');
+            $message->bcc("Mr.anthonycleaners@gmail.com", "Urang")->subject('New User Signup');
+            $message->bcc("Dan.jy.lee@gmail.com", "Urang")->subject('New User Signup');
+            $message->bcc("work@tier5.us", "Urang")->subject('New User Signup');
             });
     }
 }
