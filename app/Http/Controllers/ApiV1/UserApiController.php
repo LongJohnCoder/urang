@@ -297,6 +297,7 @@ class UserApiController extends Controller
             ));
         }
     }
+    
     public function placeOrderIos(Request $request) {
 
         if ($request->isCard == "yes") {
