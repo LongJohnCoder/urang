@@ -369,7 +369,7 @@ class UserApiController extends Controller
             }
         }
 
-        if(isset($request->isEmergency)) {
+        if($request->isEmergency == 1) {
                 if ($pick_up_req->total_price > 0) {
                     //dd($total_price);
                     $total_price +=7;
