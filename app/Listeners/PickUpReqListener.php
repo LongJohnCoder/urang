@@ -70,7 +70,7 @@ class PickUpReqListener
 
                 $subtotal +=  $format_items[$i]->number_of_item*$format_items[$i]->item_price;
             }
-            if(isset($event->req->isEmergency))
+            if($event->req->isEmergency == 1)
             {
                 //$subtotal += 7;
                 $emergency_money = 7;
@@ -89,7 +89,7 @@ class PickUpReqListener
             $discount_percentage = Coupon::where('coupon_code', $coupon)->first();
             //dd($discount_percentage);
             if ($discount_percentage != "" && $discount_percentage->isActive == 1) {
-                if(isset($event->req->isEmergency))
+                if($event->req->isEmergency == 1)
                 {
                     $discount = ($subtotal+7)*($discount_percentage->discount/100);
                 }

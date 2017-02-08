@@ -586,9 +586,7 @@
                                                             </tbody>
                                                         </table>
                                                     </div><br>
-                                            </div>
-                                            </td>
-                                            </tr>            
+
 
                                                         
                                                     <div class="col-xs-6 pull-right" style="padding-right: 10px;">

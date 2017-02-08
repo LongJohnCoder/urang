@@ -732,7 +732,7 @@ class MainController extends Controller
             $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
             $pick_up_req->payment_type = $request->pay_method;
             $pick_up_req->order_status = 1;
-            $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
+            $pick_up_req->is_emergency = $request->isEmergency;
             $pick_up_req->client_type = $request->client_type;
             $pick_up_req->coupon = $request->coupon;
             $pick_up_req->wash_n_fold = isset($request->wash_n_fold) ? 1 : 0;
@@ -744,7 +744,7 @@ class MainController extends Controller
             $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
 
             //on emergency $7 add
-            if (isset($request->isEmergency)) {
+            if ($request->isEmergency==1) {
                 if ($pick_up_req->total_price > 0) {
                     //dd($total_price);
                     $total_price +=7;
