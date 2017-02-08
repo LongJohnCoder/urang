@@ -310,8 +310,6 @@ class UserApiController extends Controller
             $card_infos->exp_year = $request->exp_year;
             $card_infos->save();
         }
-
-        
         $total_price = 0.00;
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = $request->user_id;
@@ -348,9 +346,6 @@ class UserApiController extends Controller
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
         }
         $pick_up_req->total_price = $request->pick_up_type == 1 ? 0.00 : $total_price;
-
-
-        dd($request->pick_up_type);
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
