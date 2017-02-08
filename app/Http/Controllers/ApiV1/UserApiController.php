@@ -173,6 +173,7 @@ class UserApiController extends Controller
 
             $check_ref->save();
             if ($total_price > 0.0) {
+                $calculate_discount = new SiteHelper();
                 $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
                 //dd($total_price);
                 $pick_up_req->discounted_value = $total_price;
@@ -366,6 +367,7 @@ class UserApiController extends Controller
 
             $check_ref->save();
             if ($total_price > 0.0) {
+                $calculate_discount = new SiteHelper();
                 $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
                 //dd($total_price);
                 $pick_up_req->discounted_value = $total_price;
