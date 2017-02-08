@@ -324,9 +324,9 @@ class UserApiController extends Controller
         $pick_up_req->need_bag = $request->urang_bag;
         $pick_up_req->door_man = $request->doorman;
         $pick_up_req->time_frame_start = $request->time_frame_start;
-        $pick_up_req->time_frame_end = $request->time_frame_end;
         $pick_up_req->return_time_frame_end = $request->return_time_frame_end;
         $pick_up_req->return_time_frame_start = $request->return_time_frame_start;
+        $pick_up_req->time_frame_end = $request->time_frame_end;
         $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
         $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
         $pick_up_req->payment_type = $request->pay_method;
@@ -335,7 +335,7 @@ class UserApiController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = $request->coupon;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
-
+       
         $request->user_email = User::find($request->user_id)->email;
         $request->user_name = isset(UserDetails::where('user_id',$request->user_id)->first()->name)?UserDetails::where('user_id',$request->user_id)->first()->name:"Not Registered Yet";
         $request->user_number = isset(UserDetails::where('user_id',$request->user_id)->first()->personal_ph)?UserDetails::where('user_id',$request->user_id)->first()->personal_ph:"Number Not Registered Yet";
@@ -345,9 +345,9 @@ class UserApiController extends Controller
         for ($i=0; $i< count($data_table); $i++) {
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
         }
-        $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
+        $pick_up_req->total_price = $request->pick_up_type == 1 ? 0.00 : $total_price;
         /*//for charging cards after wards
-        $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
+        $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
@@ -371,8 +371,8 @@ class UserApiController extends Controller
                 $pick_up_req->discounted_value = $total_price;
             }
         }
-
-        if($request->isEmergency == 1) {
+        
+        if($request->isEmergency==1) {
                 if ($pick_up_req->total_price > 0) {
                     //dd($total_price);
                     $total_price +=7;
@@ -380,13 +380,13 @@ class UserApiController extends Controller
                 }
             }
             //coupon check
-            if ($pick_up_req->coupon != null) {
+            if ($pick_up_req->coupon != null || $pick_up_req->coupon!="") {
                 $calculate_discount = new SiteHelper();
                 $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
                 //dd($discounted_value);
                 $pick_up_req->discounted_value = $discounted_value;
             }
-
+         
         if($request->isDonate)
         {
             $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
@@ -410,7 +410,11 @@ class UserApiController extends Controller
             $update_user_details->school_id = $request->school_donation_id;
             $update_user_details->save();
         }
+
+       
+
         if ($pick_up_req->save()) {
+         
             //save in order tracker table
             $tracker = new OrderTracker();
             $tracker->pick_up_req_id = $pick_up_req->id;
@@ -419,21 +423,27 @@ class UserApiController extends Controller
             $tracker->order_status = 1;
             $tracker->original_invoice = $pick_up_req->total_price;
             $tracker->save();
-            if ($request->order_type == 1) {
+           
+            if ($request->pick_up_type == 1) {
+
                 //fast pick up
-                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+//return "fast pickup";
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //dd($request->request);
-                Event::fire(new PickUpReqEvent($request, 0));
+               Event::fire(new PickUpReqEvent($request, 0));
+
+
                 return Response::json(array(
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time
+                    'message' => "Order Placed successfully!"
                 ));
             }
             else
             {
-                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+//return "detailed pickup";
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //detailed pick up
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
@@ -467,7 +477,7 @@ class UserApiController extends Controller
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time
+                    'message' => "Order Placed successfully!"
                 ));
             }
         }
