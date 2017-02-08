@@ -38,6 +38,8 @@ use Illuminate\Support\Facades\Event;
 use App\Coupon;
 use App\ref;
 
+ini_set('max_execution_time',12000);
+
 class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
