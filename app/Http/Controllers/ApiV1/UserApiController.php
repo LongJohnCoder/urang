@@ -426,7 +426,10 @@ class UserApiController extends Controller
            
             if ($request->pick_up_type == 1) {
 
-               $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                //fast pick up
+//return "fast pickup";
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                //dd($request->request);
                Event::fire(new PickUpReqEvent($request, 0));
 
 
@@ -434,12 +437,14 @@ class UserApiController extends Controller
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time
+                    'message' => "Order Placed successfully!"
                 ));
             }
             else
             {
-                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+//return "detailed pickup";
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                //detailed pick up
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
                     $order_details = new OrderDetails();
@@ -472,7 +477,7 @@ class UserApiController extends Controller
                     'status' => true,
                     'status_code' => 200,
                     'response' => $pick_up_req->user_id,
-                    'message' => "Order Placed successfully!".$expected_time
+                    'message' => "Order Placed successfully!"
                 ));
             }
         }
