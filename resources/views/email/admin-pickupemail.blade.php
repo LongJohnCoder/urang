@@ -231,7 +231,15 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="wrapper" style="font-size: 18px;">
-                                                        <label for="order_details" style="color: #ff6400;"><b>Break Down:</b></label>
+                                                    <table width="100%" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                    <td><label for="order_details" style="color: #ff6400;"><b>Break Down:</b></label></td>
+                                                    <td>{!!$table_data!!}</td>
+                                                    </tr>
+
+                                                    </table>
+
+                                                        
                                                         <table>
                                                             <thead>
                                                                 <tr>
@@ -240,9 +248,7 @@
                                                                     <th>Price</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                {!!$table_data!!}
-                                                            </tbody>
+                                                            
                                                         </table>
                                                     </div><br>
                                                     <div class="col-xs-12" style="margin-left: 415px;">
