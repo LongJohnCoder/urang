@@ -544,7 +544,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" style="max-width:560px;">
                             <tr>
                                 <td align="center" valign="top" width="50%">
-                                    <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: left;">
+                                    <table cellspacing="0" cellpadding="0" border="0" width="90%" style="font-size: 14px;text-align: left;">
                                         <tr>
                                             <td>
                                                 <div class="row"  style="margin-top: 20px;">
@@ -570,10 +570,10 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <div class="row">
+                                                <div class="row1">
                                                     <div class="wrapper" style="font-size: 18px;">
                                                         <label for="order_details" style="color: #ff6400;"><b>Break Down:</b></label>
-                                                        <table>
+                                                        <table width="100%" cellspacing="0" cellpadding="0">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Item</th>
@@ -589,7 +589,7 @@
 
 
                                                         
-                                                    <div class="col-xs-6 pull-right" >
+                                                    <div class="col-xs-6 pull-right" style="padding-right: 10px;">
                                                         <label for="subtotal">Subtotal: TOTAL AMOUNT</label><br/>
                                                         <label for="discount">Discount: DISCOUNT AMOUNT</label><br/>
                                                         <label for="total">Total: TOTAL </label>
