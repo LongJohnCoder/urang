@@ -10,6 +10,8 @@ use App\User;
 use App\UserDetails;
 use Mail;
 use App\Helper\ConstantsHelper;
+use App\refPercentage;
+use App\ref;
 class PickUpReqListener
 {
     /**
@@ -35,6 +37,7 @@ class PickUpReqListener
         $table_data = ''; //detail pickup data
         $subtotal = 0.00;
         $discount = 0.00;
+        $refferal_discount=0.00;
         $emergency_money = 0;
         if ($event->req->identifier == "admin") {
             $user_to_search = User::with('user_details')->find($event->req->user_id);
@@ -109,8 +112,32 @@ class PickUpReqListener
             $discount = 0.00;
             $coupon = "No Coupon Applied";
         }
+
+        // Check referral
+
+        $calculate_discount = new SiteHelper();
+            //now check this pick up req related to any ref or not
+            if ($event->req->identifier == "admin") {
+                $check_ref = ref::where('user_id', $event->req->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
+            }
+            else
+            {
+                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->first();
+            }
+            //dd($total_price);
+            if ($check_ref) {
+
+                $calculateRefPrice=$subtotal - $discount;
+                if ($calculateRefPrice > 0.0) {
+                    $referral_price = $calculate_discount->updateTotalPriceOnRef($calculateRefPrice);
+                    
+                    $refferal_discount=$discount+$referral_price;
+                }
+
+            }
+
         //dd($user_name);
-        $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
+        $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
                 $message->from(env('ADMIN_EMAIL'), "Admin");
                 if ($event->req->identifier == "admin") {
@@ -140,7 +167,7 @@ class PickUpReqListener
             
             
 
-            $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
+            $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
                 function($message) use ($event){
                     $message->from(env('ADMIN_EMAIL'), "Admin");
                     if ($event->req->identifier == "admin") {
