@@ -85,6 +85,7 @@
                      <thead>
                         <tr>
                            <th><input type="checkbox" name="select_all" id="select_all"></input></th>
+                           <th>Order Number</th>
                            <th>Pickup Date</th>
                            <th>Customer Email</th>
                            <th>Pickup Address</th>
@@ -153,6 +154,7 @@
                            ?>
                         <tr id="color_{{$pickup->id}}">
                             <td><input type="checkbox" name="select_order_cus" id="select_order_cus_{{$pickup->id}}"></input></td>
+                            <td>{{ $pickup->id}}</td>
                            <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
                            <td>{{ $pickup->user->email }}</td>
                            <td>{{ $pickup->address }}</td>
