@@ -92,8 +92,6 @@ class PickUpReqListener
         $coupon = $event->req->coupon; // coupon
         if ($coupon != null) {
             $discount_percentage = Coupon::where('coupon_code', $coupon)->first();
-            $find_coupon = Coupon::where('coupon_code', $coupon)->first();
-            $total_price -= ($total_price*$find_coupon->discount)/100;
             //dd($discount_percentage);
             if ($discount_percentage != "" && $discount_percentage->isActive == 1) {
 
