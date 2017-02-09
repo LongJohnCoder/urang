@@ -243,7 +243,7 @@
                                                         <table>
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Item</th>
+                                                                    <th>Item2222</th>
                                                                     <th>Quantity</th>
                                                                     <th>Price</th>
                                                                 </tr>
@@ -263,7 +263,7 @@
                                                         @endif
                                                     </div>
 
-                                                    
+
                                                 </div>
                                             </td>
                                         </tr>
