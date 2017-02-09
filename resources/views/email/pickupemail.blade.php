@@ -239,7 +239,7 @@
                                                         <table style="width:100%;">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Item111</th>
+                                                                    <th>Item</th>
                                                                     <th>Quantity</th>
                                                                     <th>Price</th>
                                                                 </tr>
