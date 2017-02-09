@@ -74,7 +74,8 @@ class PickUpReqListener
 
                 $subtotal +=  $format_items[$i]->number_of_item*$format_items[$i]->item_price;
             }
-            if($event->req->isEmergency == 1)
+
+            if($event->req->isEmergency == 1 || $event->req->isEmergency == "on")
             {
                 //$subtotal += 7;
                 $emergency_money = 7;
@@ -116,27 +117,34 @@ class PickUpReqListener
 
         // Check referral
 
+
+     
         $calculate_discount = new SiteHelper();
+
+
+
             //now check this pick up req related to any ref or not
             if ($event->req->identifier == "admin") {
-                $check_ref = ref::where('user_id', $event->req->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
+                $check_ref = ref::where('user_id', $event->req->user_id)->where('discount_status', 1)->where('is_expired', 1)->where('is_referal_done', 1)->first();
             }
             else
             {
-                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->first();
+                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->where('is_referal_done', 1)->first();
+
             }
+
+
             //dd($total_price);
-            if ($check_ref) {
+            if (count($check_ref)>0) {
 
                 $calculateRefPrice=$subtotal - $discount;
                 if ($calculateRefPrice > 0.0) {
-                    $referral_price = $calculate_discount->updateTotalPriceOnRef($calculateRefPrice);
+                   $referral_price = $calculate_discount->updateTotalPriceOnRef($calculateRefPrice);
                     
-                    $refferal_discount=$discount+$referral_price;
+                   $refferal_discount=$discount+$referral_price;
                 }
 
             }
-
         //dd($user_name);
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
