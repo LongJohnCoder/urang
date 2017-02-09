@@ -251,7 +251,7 @@
                                                             
                                                         </table>
                                                     </div><br>
-                                                    <!--  <div class="col-xs-12" style="margin-left: 415px;">
+                                                     <div class="col-xs-12" style="margin-left: 415px;">
                                                         <label for="subtotal">Subtotal: ${{$invoice_num == 0 ? 0 : $subtotal}}</label><br/>
                                                         @if($emergency_money!=0)
                                                             <label for="emergency">Emergency: ${{$emergency_money}}</label><br/>
@@ -261,19 +261,9 @@
                                                             <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount}}</label><br/>
                                                             <label for="total">Total: ${{$invoice_num == 0 ? 0 : $subtotal - $discount}} </label>
                                                         @endif
-                                                    </div> -->
-
-                                                    <div class="col-xs-12" style="margin-left: 415px;">
-                                                        <label for="subtotal">Subtotal: ${{$invoice_num == 0 ? 0 : $subtotal}}</label><br/>
-                                                        @if($emergency_money!=0)
-                                                            <label for="emergency">Emergency: ${{$emergency_money}}</label><br/>
-                                                            <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount}}</label><br/>
-                                                            <label for="total">Total: ${{$invoice_num == 0 ? 0 :  ($subtotal + $emergency_money) - $discount}} </label>
-                                                        @else
-                                                            <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount}}</label><br/>
-                                                            <label for="total">Total: ${{$invoice_num == 0 ? 0 : $subtotal - $discount}} </label>
-                                                        @endif
                                                     </div>
+
+                                                    
                                                 </div>
                                             </td>
                                         </tr>
