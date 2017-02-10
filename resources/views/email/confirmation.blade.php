@@ -19,7 +19,7 @@
 				<div class="content">
 					<table>
 					<tr>
-						<td><img src="http://u-rang.com/images/logo.gif" alt="logo" /></td>
+						<td><img src="http://www.u-rang.com/public/new/img/logo.png" alt="logo" /></td>
 					</tr>
 				</table>
 				</div>
