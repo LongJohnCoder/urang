@@ -80,6 +80,7 @@ class PickUpReqListener
                 //$subtotal += 7;
                 $emergency_money = 7;
             }
+
         }
         //fast pickup
         else
@@ -94,17 +95,14 @@ class PickUpReqListener
             $discount_percentage = Coupon::where('coupon_code', $coupon)->first();
             //dd($discount_percentage);
             if ($discount_percentage != "" && $discount_percentage->isActive == 1) {
-
-                $discount = $subtotal*($discount_percentage->discount/100);
-                // if($event->req->isEmergency == 1)
-                // {
-
-                //     $discount = ($subtotal)*($discount_percentage->discount/100);
-                // }
-                // else
-                // {
-                //     $discount = $subtotal*($discount_percentage->discount/100);
-                // }
+                if($event->req->isEmergency == 1 || $event->req->isEmergency == "on")
+                {
+                    $discount = ($subtotal+7)*($discount_percentage->discount/100);
+                }
+                else
+                {
+                    $discount = $subtotal*($discount_percentage->discount/100);
+                }
             }
             else
             {
@@ -148,7 +146,6 @@ class PickUpReqListener
                 }
 
             }
-        //dd($user_name);
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
                 $message->from(env('ADMIN_EMAIL'), "Admin");
