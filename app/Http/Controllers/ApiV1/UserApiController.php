@@ -156,6 +156,14 @@ class UserApiController extends Controller
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
+        if(isset($request->isEmergency)) {
+                if ($pick_up_req->total_price > 0) {
+                    //dd($total_price);
+                    $total_price +=7;
+                    $pick_up_req->total_price = $total_price;
+                }
+            }
+
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
         if ($check_ref) {
@@ -180,13 +188,7 @@ class UserApiController extends Controller
             }
         }
         
-        if(isset($request->isEmergency)) {
-                if ($pick_up_req->total_price > 0) {
-                    //dd($total_price);
-                    $total_price +=7;
-                    $pick_up_req->total_price = $total_price;
-                }
-            }
+        
             //coupon check
             if ($pick_up_req->coupon != null || $pick_up_req->coupon!="") {
                 $calculate_discount = new SiteHelper();
@@ -350,6 +352,14 @@ class UserApiController extends Controller
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
+        if($request->isEmergency==1) {
+                if ($pick_up_req->total_price > 0) {
+                    //dd($total_price);
+                    $total_price +=7;
+                    $pick_up_req->total_price = $total_price;
+                }
+            }
+
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
         if ($check_ref) {
@@ -374,13 +384,7 @@ class UserApiController extends Controller
             }
         }
         
-        if($request->isEmergency==1) {
-                if ($pick_up_req->total_price > 0) {
-                    //dd($total_price);
-                    $total_price +=7;
-                    $pick_up_req->total_price = $total_price;
-                }
-            }
+        
             //coupon check
             if ($pick_up_req->coupon != null || $pick_up_req->coupon!="") {
                 $calculate_discount = new SiteHelper();
