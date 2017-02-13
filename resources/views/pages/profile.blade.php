@@ -92,7 +92,7 @@
                   <h4>Credit Card Info:</h4>
                   <div class="form-group">
                      <label for="cardholder">Card Holder Name</label>
-                     <input type="text" class="form-control" id="cardholder" name="cardholder_name" required="" value="{{$logged_user->card_details->name}}">
+                     <input type="text" class="form-control" id="cardholder" name="cardholder_name" required="" value="{{$logged_user->card_details->name !=null ? $logged_user->card_details->name :'' }}">
                   </div>
                   <div class="form-group">
                      <label for="cardholder">Card Type</label>
@@ -105,7 +105,7 @@
                   </div>
                   <div class="form-group">
                      <label for="cardnumber">Credit Card Number</label>
-                     <input type="text" class="form-control" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" value="{{$logged_user->card_details->card_no}}">
+                     <input type="text" class="form-control" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" value="{{$logged_user->card_details->card_no !=null ? $logged_user->card_details->card_no :''}}">
                       <p class="log"></p>
                      <em>[ Please do not enter spaces or hyphens (-) ]</em>
                   </div>
