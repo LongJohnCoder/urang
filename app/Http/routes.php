@@ -163,7 +163,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/changeWeekDayNumber',['uses' => 'AdminController@changeWeekDayNumber','as' => 'changeWeekDayNumber']);
     Route::get('/setSundayToZero',['uses' => 'AdminController@setSundayToZero','as' => 'setSundayToZero']);
     Route::post('/save-school-donation-percentage', ['uses' => 'AdminController@savePercentage', 'as' => 'savePercentage']);
-    Route::get('/expenses', ['uses' => 'AdminController@getExpenses', 'as' => 'getExpenses']);
+    Route::any('/expenses', ['uses' => 'AdminController@postExpenses', 'as' => 'postExpenses']);
     Route::get('/allocate-pick-up-req', ['uses' => 'AdminController@getPickUpReqAdmin', 'as' =>'getPickUpReqAdmin']);
     Route::post('/set-times', ['uses' => 'AdminController@postSetTime', 'as' => 'postSetTime']);
     Route::post('/set-day-as-close', ['uses' => 'AdminController@setToClose', 'as' => 'setToClose']);

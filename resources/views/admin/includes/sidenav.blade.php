@@ -95,7 +95,7 @@
                     <a href="{{route('manageReqNo')}}"><i class="fa fa-stack-overflow" aria-hidden="true"></i> Manage Request Numbers</a>
                 </li>
                 <li>
-                    <a href="{{route('getExpenses')}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Monthly expenses</a>
+                    <a href="{{route('postExpenses')}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Monthly expenses</a>
                 </li>
                 <li>
                     <a href="{{route('getCoupon')}}"><i class="fa fa-tags" aria-hidden="true"></i> Coupon Generator</a>

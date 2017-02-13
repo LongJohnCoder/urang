@@ -1963,8 +1963,12 @@ class AdminController extends Controller
             }
         }
     }
-    private function CountOrdersPerMonth() {
-        $orders = Pickupreq::where('order_status', 4)->get();
+    private function CountOrdersPerMonth($year) {
+
+       // $year=date("Y");
+
+        $orders = Pickupreq::where('order_status', 4)->whereYear('created_at', '=', $year)->get();
+
         $jan_orders=0;
         $feb_orders=0;
         $march_orders=0;
@@ -1978,6 +1982,7 @@ class AdminController extends Controller
         $nov_orders=0;
         $dec_orders=0;
         foreach ($orders as $order) {
+
             switch ($order->created_at->month) {
             case '1':
                 $jan_orders++;
@@ -2047,8 +2052,9 @@ class AdminController extends Controller
             '12' => $dec_orders
         );
     }
-    private function totalMoneyGained() {
-        $orders = Pickupreq::where('order_status', 4)->get();
+    private function totalMoneyGained($year) {
+    
+        $orders = Pickupreq::where('order_status', 4)->whereYear('created_at', '=', $year)->get();
         $jan_price=0.00;
         $feb_price=0.00;
         $march_price=0.00;
@@ -2119,8 +2125,9 @@ class AdminController extends Controller
             '12' => $dec_price
         );
     }
-    private function totalSchoolDonation() {
-        $schools = SchoolDonations::all();
+    private function totalSchoolDonation($year) {
+        
+        $schools = SchoolDonations::whereYear('created_at', '=', $year)->get();
         //dd($schools);
         $total_money_jan = 0.00;
         $total_money_feb=0.00;
@@ -2216,15 +2223,35 @@ class AdminController extends Controller
             '12' => $total_money_dec
         );
     }
-    public function getExpenses() {
-        $obj = new NavBarHelper();
+    public function postExpenses(Request $request) {
+
+        if($request->selectedyear=="")
+        {
+        $year=date("Y");
+         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        $orders = $this->CountOrdersPerMonth();
-        $total_money_gained = $this->totalMoneyGained();
-        $school_donation_monthly = $this->totalSchoolDonation();
+        $orders = $this->CountOrdersPerMonth($year);
+        $total_money_gained = $this->totalMoneyGained($year);
+        $school_donation_monthly = $this->totalSchoolDonation($year);
         //dd($school_donation_monthly);
         return view('admin.monthly-expenses', compact('user_data', 'site_details', 'orders', 'total_money_gained', 'school_donation_monthly'));
+        }
+        else
+        {
+        $year=$request->selectedyear;
+         $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $orders = $this->CountOrdersPerMonth($year);
+        $total_money_gained = $this->totalMoneyGained($year);
+        $school_donation_monthly = $this->totalSchoolDonation($year);
+
+        return array($user_data, $site_details,$orders,$total_money_gained,$school_donation_monthly);
+        //dd($school_donation_monthly);
+       // return view('admin.monthly-expenses', compact('user_data', 'site_details', 'orders', 'total_money_gained', 'school_donation_monthly'));    
+        }
+       
     }
     public function getPickUpReqAdmin() {
         $obj = new NavBarHelper();

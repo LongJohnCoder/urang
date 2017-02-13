@@ -39,7 +39,7 @@
 	                           <th>Total Profit</th>
 	                        </tr>
 	                     </thead>
-	                     <tbody>
+	                     <tbody id="tableData">
 	                        @for($i=1; $i <= 12; $i++)
 	                        	<tr id="row_{{$i}}">
 	                        		<td>
@@ -87,7 +87,7 @@
 	                        				}
 	                        			?>
 	                        		</td>
-	                        		<td>
+	                        		<td id="orderRow_{{$i}}">
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
@@ -132,7 +132,7 @@
 	                        				}
 	                        			?>
 	                        		</td>
-	                        		<td>
+	                        		<td id="TotalMoneyRow_{{$i}}">
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
@@ -177,7 +177,7 @@
 	                        				}
 	                        			?>
 	                        		</td>
-	                        		<td>
+	                        		<td id="TotalDonationRow_{{$i}}">
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
@@ -223,7 +223,7 @@
 	                        				}
 	                        			?>
 	                        		</td>
-	                        		<td>
+	                        		<td id="TotalMoneyGainRow_{{$i}}">
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
@@ -268,7 +268,7 @@
 	                        				}
 	                        			?>
 	                        		</td>
-	                        		<td>
+	                        		<td id="TotalMoneyResultRow_{{$i}}">
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
@@ -355,8 +355,31 @@
                         var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
                         var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                         $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+                        $.ajax({
+			            url : "{{route('postExpenses')}}",
+			            type: "post",
+			            data: {selectedyear: year, _token: "{{Session::token()}}"},
+			            success: function(data) {
                         
-                         $('#datepicker').focusout()//Added to remove focus from datepicker input box on selecting date
+                      for(i=1; i <= 12; i++)
+                      {
+                        $('#orderRow_'+i).empty();
+                        $('#TotalMoneyRow_'+i).empty();
+                        $('#TotalDonationRow_'+i).empty();
+                        $('#TotalMoneyGainRow_'+i).empty();
+                        $('#TotalMoneyResultRow_'+i).empty();
+                        $('#orderRow_'+i).append(data[2][i]);
+                        $('#TotalMoneyRow_'+i).append(Number(data[3][i]).toFixed(2));
+                        $('#TotalDonationRow_'+i).append(Number(data[4][i]).toFixed(2));
+                        $('#TotalMoneyGainRow_'+i).append(Number(data[3][i] * 22 /100).toFixed(2));
+                        $('#TotalMoneyResultRow_'+i).append(Number(data[3][i] - (data[4][i] + data[3][i] * 22)/100).toFixed(2));
+
+                      }
+                        
+						$('#datepicker').focusout()//Added to remove focus from datepicker input box on selecting dates
+					  }
+					});
+                         
                     }
                 },
                 beforeShow : function(input, inst) {
@@ -391,7 +414,6 @@
   		$(document).ready(function(){
   			
   			var thismonth = new Date().getMonth()+1;
-  			//console.log(thismonth);
   			//thismonth=1;
   			$('#row_'+thismonth).attr('style', 'color:white;background:#4CAF50;font-weight:bold;');
   		});
