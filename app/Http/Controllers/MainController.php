@@ -330,7 +330,10 @@ class MainController extends Controller
             $user_details->zip = $request->zip;
             if ($user_details->save()) {
                 $card_info = CustomerCreditCardInfo::where('user_id' , $update_id)->first();
-                //dd($card_info);
+                if($card_info ==null)
+                {
+                    $card_info = new CustomerCreditCardInfo(); 
+                }
                 $card_info->user_id = $update_id;
                 $card_info->name = $request->cardholder_name;
                 $card_info->card_no = $request->card_no;

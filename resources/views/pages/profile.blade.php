@@ -92,7 +92,7 @@
                   <h4>Credit Card Info:</h4>
                   <div class="form-group">
                      <label for="cardholder">Card Holder Name</label>
-                     <input type="text" class="form-control" id="cardholder" name="cardholder_name" required="" value="{{$logged_user->card_details->name !=null ? $logged_user->card_details->name :'' }}">
+                     <input type="text" class="form-control" id="cardholder" name="cardholder_name" required="" value="{{$logged_user->card_details !=null ? $logged_user->card_details->name :'' }}">
                   </div>
                   <div class="form-group">
                      <label for="cardholder">Card Type</label>
@@ -105,13 +105,13 @@
                   </div>
                   <div class="form-group">
                      <label for="cardnumber">Credit Card Number</label>
-                     <input type="text" class="form-control" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" value="{{$logged_user->card_details->card_no !=null ? $logged_user->card_details->card_no :''}}">
+                     <input type="text" class="form-control" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" value="{{$logged_user->card_details !=null ? $logged_user->card_details->card_no :''}}">
                       <p class="log"></p>
                      <em>[ Please do not enter spaces or hyphens (-) ]</em>
                   </div>
                   <div class="form-group">
                      <label for="cvv">CVV2 (optional)</label>
-                     <input type="text" class="form-control" id="cvv" name="cvv" value="{{$logged_user->card_details->cvv != null ? $logged_user->card_details->cvv: ''}}">
+                     <input type="text" class="form-control" id="cvv" name="cvv" value="{{$logged_user->card_details != null ? $logged_user->card_details->cvv: ''}}">
                      <em>[ CVV2 is a 3-digit value at the end of your account number printed on the back of your credit card. On American Express cards, CVV2 number consists of 3-4 digits located on the front of the card.]</em>
                   </div>
                   <div class="form-group">
@@ -192,9 +192,9 @@
     	});
 	}
 	$(document).ready(function(){
-		var SelectCardType = $.trim('{{$logged_user->card_details->card_type}}');
-		var SelectMonth = $.trim('{{$logged_user->card_details->exp_month}}');
-		var SelectYear = $.trim('{{$logged_user->card_details->exp_year}}');
+		var SelectCardType = $.trim('{{$logged_user->card_details !=null ? $logged_user->card_details->card_type :'' }}');
+		var SelectMonth = $.trim('{{$logged_user->card_details !=null ? $logged_user->card_details->exp_month :'' }}');
+		var SelectYear = $.trim('{{$logged_user->card_details !=null ? $logged_user->card_details->exp_year :'' }}');
 		$('#cardtype').val(SelectCardType);
 		$('#select_year').val(SelectYear);
 		$('#select_month').val(SelectMonth);
