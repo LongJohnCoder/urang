@@ -38,6 +38,8 @@ class PickUpReqListener
 
         $table_data = ''; //detail pickup data
         $subtotal = 0.00;
+        $actutalsubtotal = 0.00;
+        $actutaltotal = 0.00;
         $discount = 0.00;
         $refferal_discount=0.00;
         $emergency_money = 0;
@@ -76,11 +78,16 @@ class PickUpReqListener
                 $subtotal +=  $format_items[$i]->number_of_item*$format_items[$i]->item_price;
             }
 
+            $actutalsubtotal=$subtotal;
+
             if($event->req->isEmergency == 1 || $event->req->isEmergency == "on")
             {
                 $subtotal += 7;
                 $emergency_money = 7;
             }
+
+
+            $actutaltotal=$subtotal;
 
         }
         //fast pickup
@@ -117,7 +124,7 @@ class PickUpReqListener
                     $check_ref->discount_count = 0;
                 }
 
-               // $check_ref->save();
+               //$check_ref->save();
 
                  $calculateRefPrice=$subtotal;
                 if ($calculateRefPrice > 0.0) {
@@ -158,9 +165,11 @@ class PickUpReqListener
             $discount = 0.00;
             $coupon = "No Coupon Applied";
         }
-         $subtotal=number_format((float)$subtotal + $refferal_discount,2, '.', '');
+       $actutalsubtotal= number_format((float)$actutalsubtotal,2, '.', '');
+       $actutaltotal=number_format((float)$actutaltotal,2, '.', '')
+        $subtotal=number_format((float)$subtotal + $refferal_discount,2, '.', '');
 
-        $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
+        $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'actualSubtotal' => $actutalsubtotal, 'actualTotal' => $actutaltotal, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
                 $message->from(env('ADMIN_EMAIL'), "Admin");
                 if ($event->req->identifier == "admin") {
@@ -190,7 +199,7 @@ class PickUpReqListener
             
             
 
-            $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount' => $refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
+            $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount' => $refferal_discount, 'actualSubtotal' => $actutalsubtotal, 'actualTotal' => $actutaltotal,  'table_data' => $table_data,'emergency_money' => $emergency_money),
                 function($message) use ($event){
                     $message->from(env('ADMIN_EMAIL'), "Admin");
                     if ($event->req->identifier == "admin") {
