@@ -13,6 +13,7 @@ use App\Helper\ConstantsHelper;
 use App\refPercentage;
 use App\ref;
 use App\Helper\SiteHelper;
+use App\Pickupreq;
 class PickUpReqListener
 {
     /**
@@ -158,7 +159,7 @@ class PickUpReqListener
             $coupon = "No Coupon Applied";
         }
          $subtotal=number_format((float)$subtotal + $refferal_discount,2, '.', '');
-         
+
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
                 $message->from(env('ADMIN_EMAIL'), "Admin");
