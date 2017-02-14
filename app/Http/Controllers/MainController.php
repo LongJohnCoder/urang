@@ -765,19 +765,19 @@ class MainController extends Controller
             }
             //dd($total_price);
             if ($check_ref) {
-                $pick_up_req->ref_discount  =  1;
-                if($check_ref->discount_count>1)
-                {
-                    $check_ref->discount_count = $check_ref->discount_count-1;
-                    $check_ref->is_expired      =  0;
-                }
-                else
-                {
-                    $check_ref->is_expired      =  1;
-                    $check_ref->discount_count = 0;
-                }
+                // $pick_up_req->ref_discount  =  1;
+                // if($check_ref->discount_count>1)
+                // {
+                //     $check_ref->discount_count = $check_ref->discount_count-1;
+                //     $check_ref->is_expired      =  0;
+                // }
+                // else
+                // {
+                //     $check_ref->is_expired      =  1;
+                //     $check_ref->discount_count = 0;
+                // }
 
-                $check_ref->save();
+                // $check_ref->save();
                 if ($total_price > 0.0) {
                     $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
                     //dd($total_price);

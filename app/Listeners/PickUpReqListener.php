@@ -77,7 +77,7 @@ class PickUpReqListener
 
             if($event->req->isEmergency == 1 || $event->req->isEmergency == "on")
             {
-                //$subtotal += 7;
+                $subtotal += 7;
                 $emergency_money = 7;
             }
 
@@ -87,9 +87,51 @@ class PickUpReqListener
         {
             $table_data = '';
         }
-        //dd($subtotal);
+       // dd($subtotal);
         $invoice_id = $event->inv_id; //invoice id
         $date_today = $event->req->pick_up_date; //date
+
+        $calculate_discount = new SiteHelper();
+            //now check this pick up req related to any ref or not
+               if ($event->req->identifier == "admin") {
+                $check_ref = ref::where('user_id', $event->req->user_id)->where('discount_status', 1)->where('is_expired', 0)->toSql();
+            }
+            else
+            {
+                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->toSql();
+
+            }
+            //dd($total_price);
+            if (count($check_ref)>0) {
+                $pick_up_req = new Pickupreq();
+                 $pick_up_req->ref_discount  =  1;
+                if($check_ref->discount_count>1)
+                {
+                    $check_ref->discount_count = $check_ref->discount_count-1;
+                    $check_ref->is_expired      =  0;
+                }
+                else
+                {
+                    $check_ref->is_expired      =  1;
+                    $check_ref->discount_count = 0;
+                }
+
+                $check_ref->save();
+
+                 $calculateRefPrice=$subtotal;
+                if ($calculateRefPrice > 0.0) {
+                   
+                   $referral_price = $calculate_discount->updateTotalPriceOnRef($subtotal);
+                    
+                    $refferal_discount = $subtotal - $referral_price;
+
+                    $subtotal=$referral_price;
+                }
+               
+            }
+
+         
+
         $coupon = $event->req->coupon; // coupon
         if ($coupon != null) {
             $discount_percentage = Coupon::where('coupon_code', $coupon)->first();
@@ -97,7 +139,7 @@ class PickUpReqListener
             if ($discount_percentage != "" && $discount_percentage->isActive == 1) {
                 if($event->req->isEmergency == 1 || $event->req->isEmergency == "on")
                 {
-                    $discount = ($subtotal+7)*($discount_percentage->discount/100);
+                    $discount = ($subtotal)*($discount_percentage->discount/100);
                 }
                 else
                 {
@@ -115,37 +157,8 @@ class PickUpReqListener
             $discount = 0.00;
             $coupon = "No Coupon Applied";
         }
-
-        // Check referral
-
-
-     
-        $calculate_discount = new SiteHelper();
-
-
-
-            //now check this pick up req related to any ref or not
-            if ($event->req->identifier == "admin") {
-                $check_ref = ref::where('user_id', $event->req->user_id)->where('discount_status', 1)->where('is_expired', 1)->where('is_referal_done', 1)->first();
-            }
-            else
-            {
-                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->where('is_referal_done', 1)->first();
-
-            }
-
-
-            //dd($total_price);
-            if (count($check_ref)>0) {
-
-                $calculateRefPrice=$subtotal - $discount;
-                if ($calculateRefPrice > 0.0) {
-                   $referral_price = $calculate_discount->updateTotalPriceOnRef($calculateRefPrice);
-                    
-                   $refferal_discount=$discount+$referral_price;
-                }
-
-            }
+         $subtotal=number_format((float)$subtotal + $refferal_discount,2, '.', '');
+         
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
                 $message->from(env('ADMIN_EMAIL'), "Admin");
