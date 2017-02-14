@@ -265,17 +265,17 @@
                                                         <label for="subtotal">Subtotal: ${{$invoice_num == 0 ? 0 : $subtotal}}</label><br/>
                                                         @if($emergency_money!=0)
                                                             <label for="emergency">Emergency: ${{$emergency_money}}</label><br/>
-                                                            @if($refferal_discount>0.0)
-                                                            <label for="emergency">Referral Discount: ${{$refferal_discount}}</label><br/>
+                                                            @if($referral_discount>0.0)
+                                                            <label for="emergency">Referral Discount: ${{$referral_discount}}</label><br/>
                                                             @endif
-                                                            <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount + $refferal_discount}}</label><br/>
-                                                            <label for="total">Total: ${{$invoice_num == 0 ? 0 : (($subtotal + $emergency_money)- $refferal_discount) - $discount}} </label>
+                                                            <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount + $referral_discount}}</label><br/>
+                                                            <label for="total">Total: ${{$invoice_num == 0 ? 0 : (($subtotal + $emergency_money)- $referral_discount) - $discount}} </label>
                                                         @else
-                                                            @if($refferal_discount>0.0)
-                                                            <label for="emergency">Referral Discount: ${{$refferal_discount}}</label><br/>
+                                                            @if($referral_discount>0.0)
+                                                            <label for="emergency">Referral Discount: ${{$referral_discount}}</label><br/>
                                                             @endif
                                                             <label for="discount">Discount: ${{$invoice_num == 0 ? 0 : $discount}}</label><br/>
-                                                            <label for="total">Total: ${{$invoice_num == 0 ? 0 : ($subtotal - $refferal_discount) - $discount}} </label>
+                                                            <label for="total">Total: ${{$invoice_num == 0 ? 0 : ($subtotal - $referral_discount) - $discount}} </label>
                                                         @endif
                                                     </div>
                                                 </div>
