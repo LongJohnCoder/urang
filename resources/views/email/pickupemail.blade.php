@@ -261,7 +261,7 @@
                                                         @endif
                                                     </div> -->
 
-                                                    <div class="col-xs-12" style="text-align:right; padding-right:5px;">
+                                                    <div class="col-xs-12" style="text-align:right; padding-right:5px;"> {{$referral_price}}
                                                         <label for="subtotal">Subtotal: ${{$invoice_num == 0 ? 0 : $actualSubtotal}}</label><br/>
                                                         @if($emergency_money!=0)
                                                             <label for="emergency">Emergency: ${{$emergency_money}}</label><br/>
