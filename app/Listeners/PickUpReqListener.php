@@ -95,11 +95,11 @@ class PickUpReqListener
         $calculate_discount = new SiteHelper();
             //now check this pick up req related to any ref or not
                if ($event->req->identifier == "admin") {
-                $check_ref = ref::where('user_id', $event->req->user_id)->where('discount_status', 1)->where('is_expired', 0)->toSql();
+                $check_ref = ref::where('user_id', $event->req->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
             }
             else
             {
-                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->toSql();
+                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->first();
 
             }
             //dd($total_price);
@@ -117,7 +117,7 @@ class PickUpReqListener
                     $check_ref->discount_count = 0;
                 }
 
-                $check_ref->save();
+               // $check_ref->save();
 
                  $calculateRefPrice=$subtotal;
                 if ($calculateRefPrice > 0.0) {
