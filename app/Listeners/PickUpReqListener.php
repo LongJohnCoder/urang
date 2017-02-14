@@ -124,7 +124,7 @@ class PickUpReqListener
                     $check_ref->discount_count = 0;
                 }
 
-               //$check_ref->save();
+               $check_ref->save();
 
                  $calculateRefPrice=$subtotal;
                 if ($calculateRefPrice > 0.0) {
