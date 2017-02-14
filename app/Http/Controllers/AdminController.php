@@ -739,8 +739,10 @@ class AdminController extends Controller
                         //storing into ref table for future reference
                         $ref                    = new ref();
                         $ref->user_id           = $user->id;
+                        $ref->referral_email    = $request->email;
                         $ref->referred_person   = $request->ref_name;
-                        $ref->discount_status   = 0; //this should be 1 to get the discount
+                        $ref->discount_status   = 1; //this should be 1 to get the discount
+                        $ref->discount_count    = 1; //this should be 1 to get the discount
                         $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
                         $ref->save();
                         }
