@@ -166,7 +166,7 @@ class PickUpReqListener
             $coupon = "No Coupon Applied";
         }
        $actutalsubtotal= number_format((float)$actutalsubtotal,2, '.', '');
-       $actutaltotal=number_format((float)$actutaltotal,2, '.', '')
+       $actutaltotal=number_format((float)$actutaltotal,2, '.', '');
         $subtotal=number_format((float)$subtotal + $refferal_discount,2, '.', '');
 
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'actualSubtotal' => $actutalsubtotal, 'actualTotal' => $actutaltotal, 'table_data' => $table_data,'emergency_money' => $emergency_money),
