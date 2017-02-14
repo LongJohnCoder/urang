@@ -4,7 +4,15 @@
 	.ui-datepicker-calendar {
 		display: none;
 	}
+	.overlay{position: absolute; background: rgba(0, 0, 0, 0.7); width: 100%; height: 100%; z-index: 9999; display: none;}
+	.loader{width: 200px; height:200px; margin: 0 auto; position: absolute; top: 35%; right: 0; left: 0; bottom: 0;}
+	.loader img{max-width: 100%;}
 </style>
+<div class="overlay">
+	<div class="loader">
+	<img src="http://localhost/urang/public/images/ajax-loader.gif" alt="gif">
+	</div>	
+</div>
 	<div id="page-wrapper">
 	   <div class="row">
 	      <div class="col-lg-12">
@@ -39,6 +47,7 @@
 	                           <th>Total Profit</th>
 	                        </tr>
 	                     </thead>
+	                     
 	                     <tbody id="tableData">
 	                        @for($i=1; $i <= 12; $i++)
 	                        	<tr id="row_{{$i}}">
@@ -355,6 +364,7 @@
                         var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
                         var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                         $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+                        $(".overlay").show();
                         $.ajax({
 			            url : "{{route('postExpenses')}}",
 			            type: "post",
@@ -373,6 +383,7 @@
                         $('#TotalDonationRow_'+i).append(Number(data[4][i]).toFixed(2));
                         $('#TotalMoneyGainRow_'+i).append(Number(data[3][i] * 22 /100).toFixed(2));
                         $('#TotalMoneyResultRow_'+i).append(Number(data[3][i] - (data[4][i] + data[3][i] * 22)/100).toFixed(2));
+                        $(".overlay").hide();
 
                       }
                         
