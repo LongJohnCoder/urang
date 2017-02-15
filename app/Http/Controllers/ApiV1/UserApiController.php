@@ -1201,6 +1201,89 @@ class UserApiController extends Controller
         }
     }
 
+
+    public function social_Login_Ios(Request $request)
+    {
+        //dd($request->user_id);
+            if(User::where('email',$request->email)->first())
+            {
+                $user_data = User::where('email',$request->email)->first();
+                if($user_data->block_status == 0)
+                {
+                    $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
+                    return Response::json(array(
+                            'status' => true,
+                            'status_code' => 2000,
+                            'response' => $user_data,
+                            'alldetails' => $alldetails,
+                            'message' => "Loging In..!"
+                        ));
+                }
+                else
+                {
+                    return Response::json(array(
+                            'status' => false,
+                            'status_code' => 4000,
+                            'message' => "You are blocked by the admin!"
+                        ));
+                }
+
+            }
+            else
+            {
+                $user = new User();
+                $user->email = $request->email;
+                $user->password = bcrypt($request->password);
+                $user->block_status = 0;
+                if ($user->save())
+                {
+                    $user_details = new UserDetails();
+                    $user_details->user_id = $user->id;
+                    $user_details->name = $request->name;
+                    $user_details->social_network = 1;
+                    $user_details->personal_ph = $request->personal_phone;
+                    $user_details->social_network_name = $request->social_network_name;
+                    $user_details->social_id = $request->social_id;
+                    if($user_details->save())
+                    {
+
+                      $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
+                      if ($is_ref != null) {
+                          $is_ref->discount_status = 1;
+                          $is_ref->is_referal_done = 1;
+                          $is_ref->save();
+                      }
+
+                        $user_data = User::where('email',$request->email)->first();
+                        $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
+                        return Response::json(array(
+                            'status' => true,
+                            'status_code' => 200,
+                            'response' => $user_data,
+                            'alldetails' => $alldetails,
+                            'message' => "Registered and Loging In..!"
+                        ));
+                    }
+                    else
+                    {
+                        return Response::json(array(
+                                'status' => false,
+                                'status_code' => 500,
+                                'message' => "Sorry! Cannot save your user details!"
+                            ));
+                    }
+                }
+                else
+                {
+                    return Response::json(array(
+                                'status' => false,
+                                'status_code' => 500,
+                                'message' => "Sorry! Cannot register you now!"
+                            ));
+                }
+            }
+    }
+
     public function social_Login(Request $request)
     {
         //dd($request->user_id);

@@ -270,6 +270,7 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/check-email', ['uses' => 'ApiV1\UserApiController@checkEmail', 'as' => 'checkEmail']);
     Route::post('/get-user-details',['uses' => 'ApiV1\UserApiController@userDetails','as' => 'userDetails']);
     Route::post('/social-login',['uses' => 'ApiV1\UserApiController@social_Login','as' => 'social_Login']);
+    Route::post('/social-login-ios',['uses' => 'ApiV1\UserApiController@social_Login_Ios','as' => 'social_Login_Ios']);
     Route::post('/order-tracker',['uses' => 'ApiV1\UserApiController@getOrderTracker','as' => 'getOrderTracker']);
     Route::post('/get-pickup-times', ['uses' => 'ApiV1\UserApiController@getPickUpTimes', 'as' => 'getPickUpTimes']);
     Route::post('/get-school-preferences', ['uses' => 'ApiV1\UserApiController@showSchoolPreferences', 'as' => 'showSchoolPreferences']);
