@@ -108,7 +108,7 @@ class PickUpReqListener
             {
 
                 $getUserId = isset(auth()->guard('users')->user()->id)?auth()->guard('users')->user()->id:$event->req->user_id; 
-                
+
                 $check_ref = ref::where('user_id', $getUserId)->where('discount_status', 1)->where('is_expired', 0)->first();
 
             }
@@ -173,7 +173,6 @@ class PickUpReqListener
        $actutaltotal=number_format((float)$actutaltotal,2, '.', '');
         $subtotal=number_format((float)$subtotal + $refferal_discount,2, '.', '');
 
-        dd($actutalsubtotal.'----'.$refferal_discount.'------'.$actutaltotal);
 
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'actualSubtotal' => $actutalsubtotal, 'actualTotal' => $actutaltotal, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
