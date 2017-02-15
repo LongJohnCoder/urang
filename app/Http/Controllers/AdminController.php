@@ -19,6 +19,7 @@ use App\Faq;
 use App\Staff;
 use App\Pickupreq;
 use App\PaymentKeys;
+use App\Events\SendEmailOnSignUp;
 use Illuminate\Support\Facades\Input;
 use Session;
 use App\Cms;
@@ -765,6 +766,8 @@ class AdminController extends Controller
                 $credit_info->exp_month = $request->SelectMonth;
                 $credit_info->exp_year = $request->selectYear;
                 if ($credit_info->save()) {
+
+                    $eventStatus = Event::fire(new SendEmailOnSignUp($request));
                     return redirect()->route('getAddNewCustomers')->with('success', 'Records saved successfully');
                 }
                 else
