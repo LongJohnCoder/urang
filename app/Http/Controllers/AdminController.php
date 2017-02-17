@@ -2157,7 +2157,6 @@ class AdminController extends Controller
             case '2':
                 $total_money_feb += $school->actual_total_money_gained;
                 //$feb_schl++;
-                echo 'aaaa'.$total_money_feb;
                 break;
             case '3':
                 $total_money_march += $school->actual_total_money_gained;
