@@ -1809,7 +1809,7 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        $list_school = SchoolDonations::with('neighborhood')->paginate(10);
+        $list_school = SchoolDonations::orderBy('updated_at', 'desc')->with('neighborhood')->paginate(10);
         $neighborhood = Neighborhood::all();
         $percentage = SchoolDonationPercentage::first();
         return view('admin.school-donations', compact('user_data', 'site_details', 'list_school', 'neighborhood', 'percentage'));

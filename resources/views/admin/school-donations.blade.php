@@ -43,6 +43,7 @@
 	                           <th>Edit</th>
 	                           <th>Delete</th>
 	                           <th>Pay Pending Money</th>
+	                           <th>Pay Date</th>
 	                        </tr>
 	                     </thead>
 	                     <tbody>
@@ -64,10 +65,19 @@
 	                        			<td><button type="button" class="btn btn-warning btn-xs" onclick="editSchool('{{$school->id}}')"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></td>
 	                        			<td><button type="button" class="btn btn-danger btn-xs" onclick="delSchool('{{$school->id}}')"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
 	                        			<td>
-	                        				@if(number_format((float)$school->actual_pending_money, 2, '.', '') == 0.00)
+	                        				@if(number_format((float)$school->actual_pending_money, 2, '.', '') == 0.00 && number_format((float)$school->actual_total_money_gained, 2, '.', '') != 0.00)
 	                        					<label style="color: green;"><i class="fa fa-check" aria-hidden="true"></i> Paid</label>
+	                        				@elseif(number_format((float)$school->actual_pending_money, 2, '.', '') == 0.00 && number_format((float)$school->actual_total_money_gained, 2, '.', '') == 0.00)
+	                        					
 	                        				@else
 	                        					<button type="button" class="btn btn-primary btn-xs" onclick="payPendingMoney('{{$school->id}}')"><i class="fa fa-check" aria-hidden="true"></i> Not Paid</button>
+	                        				@endif
+	                        			</td>
+	                        			<td>
+	                        				@if(number_format((float)$school->actual_pending_money, 2, '.', '') == 0.00 && number_format((float)$school->actual_total_money_gained, 2, '.', '') != 0.00)
+	                        					{{ date("F jS Y",strtotime($school->updated_at)) }}
+	                        				@else
+	                        					
 	                        				@endif
 	                        			</td>
 	                        		</tr>
