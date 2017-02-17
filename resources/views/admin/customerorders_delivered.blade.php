@@ -75,7 +75,10 @@
                   <table class="table table-bordered" style="overflow-x: scroll;display: block;">
                      <thead>
                         <tr>
+                        <!-- <th><input type="checkbox" name="select_all" id="select_all"></input></th> -->
+                        <th>Order Number</th>
                            <th>Pickup Date</th>
+                           <th>Delivered Date</th>
                            <th>Customer Email</th>
                            <th>Pickup Address</th>
                            <th>Pickup Type</th>
@@ -85,7 +88,7 @@
                            <!-- <th>Client Type</th> -->
                            <th>Total Amount</th>
                            <th>More Info</th>
-                           <th>Mark As</th>
+                          <!--  <th>Mark As</th> -->
                            <th>Coupon Applied</th>
                            <th>School Donation</th>
                            <th></th>
@@ -141,7 +144,10 @@
                            
                            ?>
                         <tr id="color_{{$pickup->id}}">
+                        <!-- <td><input type="checkbox" name="select_order_cus" id="select_order_cus_{{$pickup->id}}"></input></td> -->
+                         <td>{{ $pickup->id}}</td>
                            <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
+                           <td>{{ date("F jS Y",strtotime($pickup->updated_at)) }}</td>
                            <td>{{ $pickup->user->email }}</td>
                            <td>{{ $pickup->address }}</td>
                            @if($pick_up_type == "Detailed Pickup")
@@ -166,7 +172,7 @@
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                               </td>
                               @if($pickup->order_status != 5)
-                              <td>
+                             <!--  <td>Delivered
                                 <select class="form-control" id="order_status_{{$pickup->id}}"> 
                                   @if($pickup->order_status == 1)
                                     <option value="1" selected="true" disabled="true">Order Placed</option>
@@ -188,7 +194,7 @@
                                     @endif
                                   @endif
                                 </select>  
-                              </td>
+                              </td> -->
                               <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
 
                               <td>{{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
@@ -202,14 +208,14 @@
                                 @endif
                               @endif
                               </td>
-                              <td>
+                             <!--  <td>
                                  <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
                                  <input type="hidden" name="user_id" value="{{$pickup->user_id}}" id="user_id_{{$pickup->id}}"></input>
                                  <input type="hidden" name="payment_type" id="payment_type_{{$pickup->id}}" value="{{ $pickup->payment_type }}"></input>
                                  <input type="hidden" name="chargable" id
                                  ="chargable_{{$pickup->id}}"></input>
                                  <button type="button" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
-                              </td>
+                              </td> -->
                            </form>
                             @if(count($pickup->invoice) > 0)
                               <td><button type="button" class="btn btn-primary btn-xs" id="showInv_{{$pickup->id}}" onclick="showDetails('{{$pickup->id}}')"><i class="fa fa-info-circle" aria-hidden="true"></i> Show Details</button></td>
@@ -1496,7 +1502,12 @@
    }
   function AskForInvoice(pick_up_id1, user_id1, count) {
     var invoice_id_updt= 0;
-    if ($('#order_status_'+pick_up_id1).val() == 4) 
+
+    var selectedId = '#order_status_'+pick_up_id1;
+    var selectedData = $(selectedId).val();
+    alert(selectedId);
+    
+    if (selectedData == 4) 
     {
       swal({   
         title: "Are you sure?",   
@@ -1631,5 +1642,56 @@
   {
     alert('showDetails_function_at_load');
   }*/
+
+
+  $(function(){
+      $('#select_all').click(function(){
+        if ($(this)[0].checked == true) {
+            checkOrNot(1);
+        } else if($(this)[0].checked == false) {
+          checkOrNot(0);
+        } else {
+          swal('Oops!','something went wrong', 'error');
+        }
+      }); 
+  });
+  function checkOrNot(flag = null) {
+    //1 -> check all , 0= uncheck all
+    var required_pickup_array = new Array();
+    var required_userid_array = new Array();
+    if (flag == 1) {
+      if ('{{ count($pickups) > 0 }}') {
+        @foreach($pickups as $pickup)
+          $('#select_order_cus_{{$pickup->id}}')[0].checked = true;
+          required_pickup_array.push('{{$pickup->id}}');
+          required_userid_array.push('{{$pickup->user->id}}');
+          //console.log(required_pickup_array + " " + required_userid_array);
+        @endforeach
+        $('#modalPush').modal('show');
+        $('#pick_up_id').val(required_pickup_array);
+        $('#user_id').val(required_userid_array);
+        $('#multiple').val(1);
+      } else {
+      return;
+      }
+    } else if(flag == 0) {
+      if ('{{ count($pickups) > 0 }}') {
+        @foreach($pickups as $pickup)
+          $('#select_order_cus_{{$pickup->id}}')[0].checked = false;
+          required_pickup_array.splice('{{$pickup->id}}');
+          required_userid_array.splice('{{$pickup->user->id}}');
+        @endforeach
+        $('#modalPush').modal('hide');
+        $('#pick_up_id').val(required_pickup_array);
+        $('#user_id').val(required_userid_array);
+        $('#multiple').val('');
+      } else {
+      return;
+      }
+    } else {
+      swal('Oops!', "Developer Hint : Wrong flag", "error");
+    }
+    
+  }
 </script>
 @endsection

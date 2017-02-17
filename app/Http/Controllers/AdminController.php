@@ -1989,7 +1989,7 @@ class AdminController extends Controller
         $dec_orders=0;
         foreach ($orders as $order) {
 
-            switch ($order->created_at->month) {
+            switch ($order->updated_at->month) {
             case '1':
                 $jan_orders++;
                 //echo $jan_orders."jany";
@@ -2074,7 +2074,7 @@ class AdminController extends Controller
         $nov_price=0.00;
         $dec_price=0.00;
         foreach ($orders as $order) {
-            switch ($order->created_at->month) {
+            switch ($order->updated_at->month) {
             case '1':
                 $jan_price +=$order->discounted_value == NULL ? $order->total_price : $order->discounted_value; 
                 break;
@@ -2133,7 +2133,7 @@ class AdminController extends Controller
     }
     private function totalSchoolDonation($year) {
         
-        $schools = SchoolDonations::whereYear('created_at', '=', $year)->get();
+        $schools = SchoolDonations::whereYear('updated_at', '=', $year)->get();
         //dd($schools);
         $total_money_jan = 0.00;
         $total_money_feb=0.00;
