@@ -25,6 +25,7 @@ use Session;
 use App\Cms;
 use App\OrderDetails;
 use App\SchoolDonations;
+use App\SchoolOrderDonations;
 use App\PickUpNumber;
 use App\Invoice;
 use App\SchoolDonationPercentage;
@@ -1809,7 +1810,7 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        $list_school = SchoolDonations::orderBy('updated_at', 'desc')->with('neighborhood')->paginate(10);
+        $list_school = SchoolDonations::with('neighborhood')->paginate(10);
         $neighborhood = Neighborhood::all();
         $percentage = SchoolDonationPercentage::first();
         return view('admin.school-donations', compact('user_data', 'site_details', 'list_school', 'neighborhood', 'percentage'));
@@ -1893,7 +1894,15 @@ class AdminController extends Controller
             //return 1;
             $search_school->actual_total_money_gained = $total_money_gained+$pending_money;
             $search_school->actual_pending_money = 0.00;
+
+            
             if ($search_school->save()) {
+
+                 $schoolOrderDonations = new SchoolOrderDonations();
+                 $schoolOrderDonations->school_id = $request->id;
+                 $schoolOrderDonations->donation_amount = $pending_money;
+                 $schoolOrderDonations->save();
+              
                 return 1;
             }
             else
@@ -2157,6 +2166,7 @@ class AdminController extends Controller
             case '2':
                 $total_money_feb += $school->actual_total_money_gained;
                 //$feb_schl++;
+               
                 break;
             case '3':
                 $total_money_march += $school->actual_total_money_gained;
@@ -2228,6 +2238,105 @@ class AdminController extends Controller
             '12' => $total_money_dec
         );
     }
+
+
+    private function totalOrderSchoolDonation($year) {
+        
+        $schools = SchoolOrderDonations::whereYear('created_at', '=', $year)->get();
+        //dd($schools);
+        $total_money_jan = 0.00;
+        $total_money_feb=0.00;
+        $total_money_march=0.00;
+        $total_money_april=0.00;
+        $total_money_may=0.00;
+        $total_money_june=0.00;
+        $total_money_july=0.00;
+        $total_money_aug=0.00;
+        $total_money_sep=0.00;
+        $total_money_oct=0.00;
+        $total_money_nov=0.00;
+        $total_money_dec=0.00;
+        foreach ($schools as $school) {
+            switch ($school->created_at->month) {
+            case '1':
+                $total_money_jan += $school->donation_amount;
+                //$jan_schl++;
+                break;
+            case '2':
+                $total_money_feb += $school->donation_amount;
+                //$feb_schl++;
+                break;
+            case '3':
+                $total_money_march += $school->donation_amount;
+                //$march_schl++;
+                //echo $march_orders;
+                break;
+            case '4':
+                $total_money_april += $school->donation_amount;
+                //$april_schl++;
+                //echo $april_orders;
+                break;
+            case '5':
+                $total_money_may += $school->donation_amount;
+                //$may_schl++;
+                //echo $may_orders;
+                break;
+            case '6':
+                $total_money_june += $school->donation_amount;
+                //$june_schl++;
+                //echo $june_orders;
+                break;
+            case '7':
+                $total_money_july += $school->donation_amount;
+                //$july_schl++;
+                //echo $july_orders;
+                break;
+            case '8':
+                $total_money_aug += $school->donation_amount;
+                //$aug_schl++;
+                //echo $aug_orders."aug";
+                break;
+            case '9':
+                $total_money_sep += $school->donation_amount;
+                //$sep_schl++;
+                //echo $sep_orders;
+                break;
+            case '10':
+                $total_money_oct += $school->donation_amount;
+                //$oct_schl++;
+                //echo $oct_orders;
+                break;
+            case '11':
+                $total_money_nov += $school->donation_amount;
+                //$nov_schl++;
+                //echo $nov_orders;
+                break;
+            case '12':
+                $total_money_dec += $school->donation_amount;
+                //$dec_schl++;
+                //echo $dec_orders;
+                break;
+            default:
+                echo "Something went wrong";
+                break;
+            }
+        }
+        return array(
+            '1' =>  $total_money_jan,
+            '2' => $total_money_feb,
+            '3' => $total_money_march,
+            '4' => $total_money_april,
+            '5' => $total_money_may,
+            '6' => $total_money_june,
+            '7' => $total_money_july,
+            '8' => $total_money_aug,
+            '9' => $total_money_sep,
+            '10' => $total_money_oct,
+            '11' => $total_money_nov,
+            '12' => $total_money_dec
+        );
+    }
+
     public function postExpenses(Request $request) {
 
         if($request->selectedyear=="")
@@ -2238,7 +2347,9 @@ class AdminController extends Controller
         $site_details = $obj->siteData();
         $orders = $this->CountOrdersPerMonth($year);
         $total_money_gained = $this->totalMoneyGained($year);
-        $school_donation_monthly = $this->totalSchoolDonation($year);
+       // $school_donation_monthly = $this->totalSchoolDonation($year);
+        $school_donation_monthly = $this->totalOrderSchoolDonation($year);
+
         //dd($school_donation_monthly);
         return view('admin.monthly-expenses', compact('user_data', 'site_details', 'orders', 'total_money_gained', 'school_donation_monthly'));
         }
@@ -2250,8 +2361,8 @@ class AdminController extends Controller
         $site_details = $obj->siteData();
         $orders = $this->CountOrdersPerMonth($year);
         $total_money_gained = $this->totalMoneyGained($year);
-        $school_donation_monthly = $this->totalSchoolDonation($year);
-
+        //$school_donation_monthly = $this->totalSchoolDonation($year
+        $school_donation_monthly = $this->totalOrderSchoolDonation($year);
         return array($user_data, $site_details,$orders,$total_money_gained,$school_donation_monthly);
         //dd($school_donation_monthly);
        // return view('admin.monthly-expenses', compact('user_data', 'site_details', 'orders', 'total_money_gained', 'school_donation_monthly'));    

@@ -39,6 +39,7 @@ use App\ref;
 use App\Helper\ConstantsHelper;
 use App\PushNotification;
 use App\MobileAppWys;
+use App\SchoolOrderDonations;
 
 class MainController extends Controller
 {
@@ -845,6 +846,16 @@ class MainController extends Controller
             }
 
             if ($pick_up_req->save()) {
+
+                // Save school donation
+
+                 // $schoolOrderDonations = new SchoolOrderDonations();
+                 // $schoolOrderDonations->school_id = $request->school_donation_id;
+                 // $schoolOrderDonations->donation_amount = $search_school->actual_total_money_gained;
+                 // $schoolOrderDonations->save();
+                
+                 $tracker = new OrderTracker();
+
 
                 //save in order tracker table
                 $tracker = new OrderTracker();
