@@ -28,3 +28,4 @@ Local Set Up Steps  <br/>
 6. sudo bash install <br/>
 7. give user id and password it's asking for <br/>
 8. sudo bash afterinstall <br/>
+ output localhost:8111
