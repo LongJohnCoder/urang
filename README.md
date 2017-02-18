@@ -17,3 +17,14 @@
 10. php artisan db:seed <br/>
 11. php artisan key:generate <br/>
 12. set up .htaccess <br/>
+
+<b> Vagrant set up</b> <br/>
+Local Set Up Steps 
+1. Make sure Vagrant is installed locally and works 
+2. vagrant box add ubuntu.16.04 https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-i386-vagrant.box 
+3. vagrant up 
+4. vagrant ssh 
+5. cd /var/www/html 
+6. sudo bash install
+7. give user id and password it's asking for
+8. sudo bash afterinstall
