@@ -19,12 +19,12 @@
 12. set up .htaccess <br/>
 
 <b> Vagrant set up</b> <br/>
-Local Set Up Steps 
-1. Make sure Vagrant is installed locally and works 
-2. vagrant box add ubuntu.16.04 https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-i386-vagrant.box 
-3. vagrant up 
-4. vagrant ssh 
-5. cd /var/www/html 
-6. sudo bash install
-7. give user id and password it's asking for
-8. sudo bash afterinstall
+Local Set Up Steps  <br/>
+1. Make sure Vagrant is installed locally and works  <br/>
+2. vagrant box add ubuntu.16.04 https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-i386-vagrant.box  <br/>
+3. vagrant up  <br/>
+4. vagrant ssh  <br/>
+5. cd /var/www/html  <br/>
+6. sudo bash install <br/>
+7. give user id and password it's asking for <br/>
+8. sudo bash afterinstall <br/>
