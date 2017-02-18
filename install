@@ -1,18 +1,20 @@
 #!/bin/bash
 #U-rang set up V2.4 stable
 echo "$(tput setaf 1)U-Rang Set up script V2.4 running.......$(tput sgr0)"
-chmod +x set-up-script.sh
-composer update
-php artisan optimize
+sudo apt-get update
+sudo apt-get install -y mysql-server
+sudo composer update
+sudo php artisan optimize
+mysql -u root -ptoor -e "CREATE DATABASE urang;"
 echo "Setting up database files please wait...."
-echo -n "Database name [ENTER]:"
-read db_name
+#echo -n "Database name [ENTER]:"
+#read db_name
 echo -n "Database user name [ENTER]:"
 read db_usr_name
 echo -n "Database password [ENTER]:"
 read db_pass
 echo "Database set up done successfully!"
-cat > .env <<- "EOF"
+sudo cat > .env <<- "EOF"
 APP_ENV=local
 APP_KEY=SomeRandomString
 APP_DEBUG=true
@@ -39,18 +41,18 @@ MAIL_USERNAME=lisa@u-rang.com
 MAIL_PASSWORD=!Aworker2#4
 MAIL_ENCRYPTION=tls
 EOF
-sudo echo -e '\nDB_DATABASE= '$db_name '\nDB_USERNAME= '$db_usr_name '\nDB_PASSWORD= '$db_pass >> .env
-mkdir public/dump_images
-mkdir public/app_images
-chmod -R 777 public/
-chmod -R 777 bootstrap/
-chmod -R 777 storage/
-php artisan migrate
-php artisan db:seed
-composer dump-autoload
-php artisan db:seed
-php artisan key:generate
-cat > .htaccess <<- "EOF"
+echo -e '\nDB_DATABASE= urang \nDB_USERNAME= '$db_usr_name '\nDB_PASSWORD= '$db_pass >> .env
+sudo mkdir public/dump_images
+sudo mkdir public/app_images
+sudo chmod -R 777 public/
+sudo chmod -R 777 bootstrap/
+sudo chmod -R 777 storage/
+sudo php artisan migrate
+sudo php artisan db:seed
+sudo composer dump-autoload
+sudo php artisan db:seed
+sudo php artisan key:generate
+sudo cat > .htaccess <<- "EOF"
 <IfModule mod_rewrite.c>
 <IfModule mod_negotiation.c>
 Options -MultiViews
@@ -76,5 +78,8 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     Deny from all
 </Files>
 EOF
+sudo a2ensite 000-default.conf
+sudo service apache2 reload
+chmod -R 777 storage/
 echo "Set up successfully done!"
 
