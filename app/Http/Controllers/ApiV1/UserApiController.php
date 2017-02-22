@@ -1592,7 +1592,7 @@ class UserApiController extends Controller
     {
         $search = User::find($request->user_id);
 
-        dd('aaaaa'.$search->block_status);
+       // dd($search->block_status);
         if($search)
         {
             if($search->block_status==1)
