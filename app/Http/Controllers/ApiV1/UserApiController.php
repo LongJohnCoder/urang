@@ -1593,12 +1593,27 @@ class UserApiController extends Controller
         $search = User::find($request->user_id);
         if($search)
         {
+            if($search->block_status==1)
+            {
+
+                return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 301,
+                                    'response' => "Sorry you are blocked by the system admin!!"
+                                ));
+
+            }
+            else
+
+            {
+
             $customer_details = User::with('user_details', 'card_details','pickup_req')->where('id' , $request->user_id)->first();
             return Response::json(array(
                                     'status' => true,
                                     'status_code' => 200,
                                     'response' => $customer_details
                                 ));
+            }
         }
         else
         {
