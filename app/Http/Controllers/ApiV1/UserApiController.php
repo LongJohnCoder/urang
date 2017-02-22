@@ -1591,6 +1591,8 @@ class UserApiController extends Controller
     public function getProgileDetails(Request $request)
     {
         $search = User::find($request->user_id);
+
+        dd('aaaaa'.$search->block_status);
         if($search)
         {
             if($search->block_status==1)
