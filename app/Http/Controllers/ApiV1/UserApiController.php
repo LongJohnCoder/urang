@@ -1601,7 +1601,7 @@ class UserApiController extends Controller
                 return Response::json(array(
                                     'status' => true,
                                     'status_code' => 301,
-                                    'response' => "Sorry you are blocked by the system admin!!"
+                                    'message' => "Sorry you are blocked by the system admin!!"
                                 ));
 
             }
