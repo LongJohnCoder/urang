@@ -53,7 +53,7 @@ class UserApiController extends Controller
     			return Response::json(array(
 		            'status' => false,
 		            'status_code' => 403,
-		            'message' => 'This user is forbidden!'
+		            'message' => 'You are unautherize to login.Please contact to U-rang. !'
 	        	));
     		}
     		else
@@ -1498,7 +1498,12 @@ class UserApiController extends Controller
     {
         $pick_up_id = $request->pick_up_id;
 
+
+
         $pickup = Pickupreq::find($pick_up_id);
+
+
+
 
         if($pickup->order_status ==1)
         {
@@ -1538,6 +1543,8 @@ class UserApiController extends Controller
         else
 
         {
+
+
 
        return Response::json(array(
                                     'status' => false,
