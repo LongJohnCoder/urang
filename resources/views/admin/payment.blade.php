@@ -170,7 +170,7 @@
                 <td><button type="button" id="charge_{{$user->id}}" class="btn btn-warning btn-xs" onclick="charge_it('{{$user->user->id}}', '{{$user->id}}', '{{$user->school_donation_id}}')"><i class="fa fa-credit-card" aria-hidden="true"></i> Charge It</button></td>
                 <?php } else {?>
 
-                <td colspan="3"> No infomation </td>
+                <td colspan="2"> No infomation </td>
                 @if($user->coupon != null)
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->discounted_value, 2, '.', '')}}</td>
                 @else
