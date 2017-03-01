@@ -176,6 +176,17 @@
                 @else
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
                 @endif
+                 @if($user->order_status==1)
+                 <td>Yet to pick up</td>
+                 @elseif($user->order_status==2)
+                 <td>Order picked up</td>
+                  @elseif($user->order_status==3)
+                  <td>Order under process</td>
+                  @elseif($user->order_status==4)
+                  <td>Order delivered</td>
+                  @else
+                  <td>Order cancelled</td>
+                  @endif
                 <td><button type="button" id="charge_{{$user->id}}" class="btn btn-warning btn-xs" onclick="charge_check_it('{{$user->user->id}}', '{{$user->id}}', '{{$user->school_donation_id}}')"><i class="fa fa-credit-card" aria-hidden="true"></i> Charge It</button></td>
                 <?php }?>
               </tr>
