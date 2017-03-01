@@ -161,7 +161,7 @@
                  @elseif($user->order_status==2)
                  <td>Order picked up</td>
                   @elseif($user->order_status==3)
-                  <td>Order user process</td>
+                  <td>Order under process</td>
                   @elseif($user->order_status==4)
                   <td>Order delivered</td>
                   @else
