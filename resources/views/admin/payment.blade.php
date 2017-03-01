@@ -133,6 +133,7 @@
               <th>cvv</th>
               <th>Expiry Date (yyyy-mm)</th>
               <th>Chargable Amount</th>
+              <th>Order Status:</th>
               <th>Charge It</th>
             </tr>
           </thead>
@@ -144,7 +145,6 @@
                 <td>{{$user->user->email}}</td>
                 <td><?php
                 $card_info = \App\CustomerCreditCardInfo::where('user_id', $user->user_id)->first();
-                 
                 if($card_info != null)
                 {
                 ?>{{substr_replace($card_info->card_no, str_repeat("*", 8), 4, 8)}}
@@ -156,10 +156,21 @@
                 @else
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
                 @endif
+                 @if($user->order_status==1)
+                 <td>Yet to pick up</td>
+                 @elseif($user->order_status==2)
+                 <td>Order picked up</td>
+                  @elseif($user->order_status==3)
+                  <td>Order user process</td>
+                  @elseif($user->order_status==4)
+                  <td>Order delivered</td>
+                  @else
+                  <td>Order cancelled</td>
+                  @endif
                 <td><button type="button" id="charge_{{$user->id}}" class="btn btn-warning btn-xs" onclick="charge_it('{{$user->user->id}}', '{{$user->id}}', '{{$user->school_donation_id}}')"><i class="fa fa-credit-card" aria-hidden="true"></i> Charge It</button></td>
                 <?php } else {?>
 
-                <td colspan="2"> No infomation </td>
+                <td colspan="3"> No infomation </td>
                 @if($user->coupon != null)
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->discounted_value, 2, '.', '')}}</td>
                 @else
