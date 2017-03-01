@@ -57,7 +57,7 @@
 			                            		@if($customer->user_details != null)
 			                            			<td>{{$customer->user_details->name}}</td>
 				                            		<td>{{$customer->user_details->personal_ph}}</td>
-				                            		<td>{{$customer->user_details->address}}</td>
+				                            		<td>{{$customer->user_details->address_line_1}}</td>
 					                            	<td>
 					                            
 					                            		<?php

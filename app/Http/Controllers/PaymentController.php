@@ -27,7 +27,10 @@ class PaymentController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $payment_keys = PaymentKeys::first();
-        $user_details = Pickupreq::where('payment_type',1)->where('payment_status', 0)->with('user')->get();
+        //$user_details = Pickupreq::where('payment_type',1)->where('payment_status', 0)->with('user')->get();
+        $user_details = Pickupreq::with('user')->get();
+
+       // dd($user_details);
 		return view('admin.payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
 	}
     public function AuthoRizePayment(Request $auth_request) {
