@@ -1692,6 +1692,51 @@ class UserApiController extends Controller
                                 ));
         }
     }
+
+
+    public function updateProfileAddress(Request $request)
+    {
+
+        $update_id = $request->user_id;
+        //dd($update_id);
+        $user = User::find($update_id);
+        //dd($user);
+        $user->email = $request->email;
+        if ($user->save()) {
+            $user_details = UserDetails::where('user_id', $update_id)->first();
+            //dd($user_details);
+            $user_details->user_id = $update_id;
+            $user_details->name = $request->name;
+            $user_details->address_line_1 = $request->address;
+            $user_details->city = $request->city;
+            $user_details->state = $request->state;
+            $user_details->zip = $request->zipcode;
+            $user_details->personal_ph = $request->personal_phone;
+            $user_details->cell_phone = $request->cell_phone != null ? $request->cell_phone : '';
+            $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
+            $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction: '';
+            $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
+
+            if ($user_details->save())
+            {
+
+                return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'message' => "Details Updated successfully."
+                                ));
+            }
+
+        }
+        else
+        {
+            return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Cannot update now!"
+                                ));
+        }
+    }
     public function lastPickUp(Request $request) {
         $getLastPickup = Pickupreq::where('user_id', $request->id)->orderBy('created_at', 'desc')->first();
         if ($getLastPickup) {
