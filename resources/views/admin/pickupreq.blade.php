@@ -16,7 +16,7 @@
                 		</div>
                 	@else
                 	@endif
-		         	<h1>Add New Customer</h1>
+		         	<h1>Schedule Pick Up</h1>
 		        </div>
 		        <div class="panel-body">
 		        	<div class="row">
@@ -36,17 +36,50 @@
 								    </select>
 								</div>
 								<div class="form-group">
-								    <label>Pick Up Address</label>
+								    <label>Customer Address Line 1</label>
 								    <textarea class="form-control" name="address" id="user_add" required=""></textarea>
 								</div>
 								<div class="form-group">
-				                	<label for="address_line_2">Address Line 2 (optional)</label>
+				                	<label for="address_line_2">Customer Address Line 2 (optional)</label>
 				                	<textarea class="form-control" name="address_line_2" id="address_line_2"></textarea>
 				              	</div>
 					            <div class="form-group">
 					            	<label for="apt_no">Apartment Number (if any optional)</label>
 					                <input type="text" name="apt_no" id="apt_no" placeholder="eg. 33b" class="form-control"></input>
 					            </div>
+					            <!--city-->
+								<div class="form-group">
+								    <label>City</label>
+								    <input type="text" name="city" id="city" required="true" placeholder="city" class="form-control"></input>
+                      				<div id="errorInputCity" style="color: red;"></div>
+								</div>
+								<!--state-->
+								<div class="form-group">
+								    <label>State</label>
+								    <input type="text" class="form-control" name="state" id="state" required="true" placeholder="state"></input>
+                      				<div id="errorInputState" style="color: red;"></div>
+								</div>
+								<!--zip-->
+								<div class="form-group">
+								    <label>Zip</label>
+								    <input type="text" class="form-control" name="zip" id="zip" required="true" placeholder="Zip Code"></input>
+                      				<div id="errorInputZip" style="color: red;"></div>
+								</div>
+								<div class="form-group">
+								    <label>Personal Phone Number</label>
+								    <input class="form-control" placeholder="Format: 123-456-7890" name="personal_ph" id="Phone" type="text">
+								    <div id="errorInputPhone" style="color: red;"></div>
+								</div>
+								<div class="form-group">
+								    <label for="name">Cell Phone Number (optional)</label>
+								    <input class="form-control" name="cellph_no" id="cellphone" placeholder="Format: 123-456-7890">
+								    <div id="errorInputCellPhone" style="color: red;"></div>
+								</div>
+								<div class="form-group">
+								    <label for="name">Office Phone Number (optional)</label>
+								    <input class="form-control" name="officeph_no" id="officephone" type="text" placeholder="Format: 123-456-7890" >
+								    <div id="errorInputOfficePhone" style="color: red;"></div>
+								</div>
 								<div class="form-group">
 								    <label>Pick up date</label>
 								    <input class="form-control" name="pick_up_date" type="text" required="" id='datepicker'>
@@ -319,16 +352,45 @@
 			      type: "POST",
 			      data: {user_id: $('#cus_email').val(), _token: "{{Session::token()}}"},
 			      success: function(data) {
-			        console.log(data);
-			        return;
+			       
+			        
 			        if (data != 0) 
 			        {
+
+			        	 console.log(data);
 			          //mandetory address
 			          $('#user_add').text(data.address);
 			          //optional addressline 2
 			          $('#address_line_2').text(data.address_line_2);
 			          //apartment number
 			          $('#apt_no').val(data.apt_no);
+			          $('#city').val(data.user_detail.city);
+			          $('#state').val(data.user_detail.state);
+			          $('#zip').val(data.user_detail.state);
+			          if(data.user_detail.personal_ph!=0)
+			          {
+			          $('#Phone').val(data.user_detail.personal_ph);
+			      	  }
+			      	 else 
+			          {
+			          	 $('#Phone').val("");
+			          }
+			           if(data.user_detail.cell_phone!=0)
+			          {
+			          $('#cellphone').val(data.user_detail.cell_phone);
+			      	  }
+			      	 else 
+			          {
+			          	 $('#cellphone').val("");
+			          }
+			           if(data.user_detail.off_phone!=0 )
+			          {
+			          $('#officephone').val(data.user_detail.off_phone);
+			      	  }
+			      	 else 
+			          {
+			          	 $('#officephone').val("");
+			          }
 			          //schedule
 			          if (data.schedule == "For the time specified only") 
 			          {
@@ -355,7 +417,7 @@
 			            $('#inlineRadio1').prop('checked', false);
 			          }
 			          //delivary type
-			          /*if (data.delivary_type == "Boxed") {
+			          if (data.delivary_type == "Boxed") {
 			            $('#boxed').prop('checked', true);
 			          }
 			          else if (data.delivary_type == "Hung") {
@@ -364,7 +426,7 @@
 			          else
 			          {
 			            $('#boxed').prop('checked', false);
-			          }*/
+			          }
 			          //starch type
 			          //$('#strach_type').val(data.starch_type);
 			          //wash and fold
