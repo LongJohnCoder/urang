@@ -788,6 +788,27 @@ class MainController extends Controller
             }
 
 
+            if ($request->identifier == "admin") {
+                    $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
+
+                }
+                else
+                {
+                    $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
+                }
+                $update_user_details->address_line_1 = $request->address;
+                $update_user_details->address_line_2 = $request->address_line_2;
+                $update_user_details->personal_ph = $request->personal_ph;
+                $update_user_details->cell_phone = $request->cellph_no;
+                $update_user_details->off_phone = $request->officeph_no;
+                $update_user_details->city = $request->city;
+                $update_user_details->state = $request->state;
+                $update_user_details->zip = $request->zip;
+                $update_user_details->spcl_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
+                $update_user_details->driving_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
+                $update_user_details->school_id = $request->school_donation_id;
+                $update_user_details->save();
+
             //coupon check
             if ($pick_up_req->coupon != null) {
                 //helper function loading this
@@ -842,19 +863,11 @@ class MainController extends Controller
                 {
                     $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
                 }
-                $update_user_details->address_line_1 = $request->address;
-                $update_user_details->address_line_2 = $request->address_line_2;
-                $update_user_details->personal_ph = $request->personal_ph;
-                $update_user_details->cell_phone = $request->cellph_no;
-                $update_user_details->off_phone = $request->officeph_no;
-                $update_user_details->city = $request->city;
-                $update_user_details->state = $request->state;
-                $update_user_details->zip = $request->zip;
-                $update_user_details->spcl_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
-                $update_user_details->driving_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
                 $update_user_details->school_id = $request->school_donation_id;
-                $update_user_details->save();
+                
             }
+
+            $update_user_details->save();
 
             if ($pick_up_req->save()) {
 
