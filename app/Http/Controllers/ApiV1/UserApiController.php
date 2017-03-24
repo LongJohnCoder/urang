@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\ApiV1;
 
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
+use App\Http\Requests;
 
 use App\Http\Controllers\Controller;
 use Response;
