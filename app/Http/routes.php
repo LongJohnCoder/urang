@@ -284,5 +284,6 @@ Route::group(['prefix' => 'V1'], function () {
 
     Route::post('/updateProfile', ['uses' => 'ApiV1\UserApiController@updateProfile', 'as' => 'updateProfile']);
     Route::post('/updateProfileAddress', ['uses' => 'ApiV1\UserApiController@updateProfileAddress', 'as' => 'updateProfileAddress']);
+    Route::post('/updateLastPickupAddress', ['uses' => 'ApiV1\UserApiController@updateLastPickupAddress', 'as' => 'updateLastPickupAddress']);
     Route::post('/lastPickup', ['uses' => 'ApiV1\UserApiController@lastPickUp', 'as' => 'getlastPickup']);
 }); 
