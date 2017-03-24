@@ -1603,7 +1603,7 @@ class UserApiController extends Controller
         $user = User::find($request->user_id);
         if ($user) {
             $user_details = UserDetails::where('user_id', $request->user_id)->first();
-            $user_details->address_line_1 = $request->addressLine;
+            $user_details->address_line_1 = $request->address;
             $user_details->address_line_2 = "APT #" . $request->apartmentNo . " " . "LANDMARK" . $request->landmark;
             $user_details->city = $request->city;
             $user_details->state = $request->state;
