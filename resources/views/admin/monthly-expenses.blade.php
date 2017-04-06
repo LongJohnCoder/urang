@@ -10,7 +10,7 @@
 </style>
 <div class="overlay">
 	<div class="loader">
-	<img src="http://www.u-rang.com/public/images/ajax-loader.gif" alt="gif">
+	<img src="https://www.u-rang.com/public/images/ajax-loader.gif" alt="gif">
 	</div>	
 </div>
 	<div id="page-wrapper">

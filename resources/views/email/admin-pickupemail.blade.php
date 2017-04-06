@@ -130,7 +130,7 @@
             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
                 <tr>
                     <td style="padding: 20px 0; text-align: center">
-                        <img src="http://www.u-rang.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
+                        <img src="https://www.u-rang.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
                     </td>
                 </tr>
             </table>

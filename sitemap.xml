@@ -4,146 +4,161 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- Created By Tier5 -->
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
 <url>
-  <loc>http://www.u-rang.com/</loc>
+  <loc>https://www.u-rang.com/</loc>
   <changefreq>monthly</changefreq>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/prices</loc>
+  <loc>https://www.u-rang.com/prices</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/faqs</loc>
+  <loc>https://www.u-rang.com/faqs</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/neighborhoods</loc>
+  <loc>https://www.u-rang.com/neighborhoods</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/neighborhood/FIDI</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/BestChelseapickandeliveryservice</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/BPC</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/GreenwichVillage</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/Soho</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/Tribeca</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/Union</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/Midtown</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/Murryhill</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/NYCUpperEastSideDryCleaning</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/NYCWestVillageDryCleaning</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/NYCWestSideDryCleaning</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/neighborhood/BestNYCGramercyParkDryCleaning</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/school-donations</loc>
+  <loc>https://www.u-rang.com/neighborhood/FIDI-drycleaners</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/services</loc>
+  <loc>https://www.u-rang.com/neighborhood/Chelsea-Dry-Cleaners</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/service/dry-clean</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/service/washNfold</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/service/corporate</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/service/tailoring</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/service/wet-cleaning</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>http://www.u-rang.com/contact-us</loc>
+  <loc>https://www.u-rang.com/neighborhood/Battery-Park-City-drycleaners</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/login</loc>
+  <loc>https://www.u-rang.com/neighborhood/GreenwichVillage</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/sign-up</loc>
+  <loc>https://www.u-rang.com/neighborhood/Soho-drycleaners</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.u-rang.com/forgot-password</loc>
+  <loc>https://www.u-rang.com/neighborhood/Tribeca-drycleaners</loc>
   <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/Union-Square-Dry-Cleaner</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/Midtown</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/Murryhill</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/NYCUpperEastSideDryCleaning</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/NYCWestVillageDryCleaning</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/NYCWestSideDryCleaning</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/Gramercy-Park-drycleaner</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/columbus-circle-drycleaner</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/neighborhood/Noho-drycleaners</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/school-donations</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/services</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/service/dry-clean</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/service/washNfold</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/service/corporate</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/service/tailoring</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/service/wet-cleaning</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/contact-us</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/login</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/sign-up</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/NYC-Dry-Clean-Mobile-app</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.u-rang.com/forgot-password</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.64</priority>
 </url>
 </urlset>

@@ -48,7 +48,7 @@ if(isset($_GET["id"])) {
 							<td width="81%"><strong><?=$request;?></strong></td>
 						</tr>
 						<tr>
-							<td colspan="2">Thank You for using <a href="http://www.u-rang.com">u-rang.com</a></td>
+							<td colspan="2">Thank You for using <a href="https://www.u-rang.com">u-rang.com</a></td>
 						</tr>
 						<tr><td colspan="2">&nbsp;</td></tr>
 						</table>
