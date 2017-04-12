@@ -66,8 +66,8 @@ $dcount = mysql_num_rows($r);
 				<ul>
 					<li <? if ($page=="admin_panel.php") echo 'class="current"';?>><a href="admin_panel.php">Dashboard</a></li>
 					<li <? if ($page=="index.php") echo 'class="current"';?>><a href="customer_details.php">CMS</a></li>
-					<li><a href="http://www.u-rang.com" target="_blank">Main Site</a></li>
-					<li><a href="http://www.u-rang.com/invoice" target="_blank">Bamboo Invoice</a></li>
+					<li><a href="https://www.u-rang.com" target="_blank">Main Site</a></li>
+					<li><a href="https://www.u-rang.com/invoice" target="_blank">Bamboo Invoice</a></li>
 					<li><a href="logout.php">Log Out</a></li>
 				</ul>
 			</div>

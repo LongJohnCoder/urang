@@ -17,6 +17,6 @@
       	</div>
 <div id="footer">
 	<center>
-	  All rights reserved by <strong><?=$site_title?></strong>, Developed by <a href="http://www.u-rang.com" target="_blank"><strong>  U-Rang </strong></a>
+	  All rights reserved by <strong><?=$site_title?></strong>, Developed by <a href="https://www.u-rang.com" target="_blank"><strong>  U-Rang </strong></a>
 	</center>
 </div>

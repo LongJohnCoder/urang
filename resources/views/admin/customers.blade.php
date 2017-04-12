@@ -57,7 +57,9 @@
 			                            		@if($customer->user_details != null)
 			                            			<td>{{$customer->user_details->name}}</td>
 				                            		<td>{{$customer->user_details->personal_ph}}</td>
-				                            		<td>{{$customer->user_details->address}}</td>
+				                            		<td>{{$customer->user_details->address_line_1}}{{$customer->user_details->city !="" ? ','.$customer->user_details->city: "" }}
+                                                    <br>
+				                            		{{$customer->user_details->state !="" ? $customer->user_details->state: "" }}{{$customer->user_details->zip !="" ? ','.$customer->user_details->zip: "" }}</td>
 					                            	<td>
 					                            
 					                            		<?php

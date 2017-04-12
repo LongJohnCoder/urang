@@ -85,7 +85,7 @@ $message .= "Dear ".$customername.",
 
 Thank you for registering with us. Your account is created and your login detail is below. \n
 Your request id is: ".$requestid.$requestdate."\n\n
-Please Login: http://www.u-rang.com/login.php
+Please Login: https://www.u-rang.com/login.php
 ____________________________________
 Login Details:
 

@@ -16,7 +16,7 @@ class CompliantsEmailTableSeeder extends Seeder
     	if(!$has_compliants)
     	{
     		$compliants =new CustomerComplaintsEmail();
-	        $compliants->cover_image = "http://www.u-rang.com/public/images/com.png";
+	        $compliants->cover_image = "https://www.u-rang.com/public/images/com.png";
 	        $compliants->company_info = "U-rang offers clients wet cleaning service in New York City (NYC),true Eco-friendly cleaning.
 										Free pick-up and delivery on all dry cleaning and wash and fold service in NYC.
 										The finest Wash & Fold, laundry Service in New York City.

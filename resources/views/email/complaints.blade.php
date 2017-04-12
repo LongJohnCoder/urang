@@ -129,7 +129,7 @@
             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;" role="presentation">
 				<tr>
 					<td style="padding: 20px 0; text-align: center">
-						<img src="http://www.u-rang.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
+						<img src="https://www.u-rang.com/public/new/img/logo-white.png" width="200" height="50" alt="u-rang logo" border="0">
 					</td>
 				</tr>
             </table>
@@ -157,7 +157,7 @@
 	                            			<div class="row">
 	                            				<div class="col-xs-5"></div>
 	                            				<div class="col-xs-2">
-	                            					<img src="http://www.u-rang.com/public/images/cus_icon.png" alt="customer icon" style="height: 60px; width:60px; margin-left: 222px;margin-top: 10px;">	
+	                            					<img src="https://www.u-rang.com/public/images/cus_icon.png" alt="customer icon" style="height: 60px; width:60px; margin-left: 222px;margin-top: 10px;">
 	                            				</div>
 	                            				<div class="col-xs-5"></div>
 	                            			</div>
@@ -198,7 +198,7 @@
                                     <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: left;">
                                         <tr>
                                             <td style="text-align: center; padding: 0 10px;">
-                                                <img src="http://www.u-rang.com/public/images/com_small.png" alt="complaint_logo" style="height: 100px;" class="center-on-narrow">
+                                                <img src="https://www.u-rang.com/public/images/com_small.png" alt="complaint_logo" style="height: 100px;" class="center-on-narrow">
                                             </td>
                                         </tr>
                                         <tr>

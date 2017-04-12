@@ -710,6 +710,7 @@ class MainController extends Controller
         //dd($request);
         if ($request->address && $request->pick_up_date && $request->order_type != null && $request->pay_method) {
             $total_price = 0.00;
+
             $pick_up_req = new Pickupreq();
             if ($request->identifier == "admin") {
                $pick_up_req->user_id = $request->user_id;
@@ -787,6 +788,27 @@ class MainController extends Controller
             }
 
 
+            if ($request->identifier == "admin") {
+                    $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
+
+                }
+                else
+                {
+                    $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
+                }
+                $update_user_details->address_line_1 = $request->address;
+                $update_user_details->address_line_2 = $request->address_line_2;
+                $update_user_details->personal_ph = $request->personal_ph;
+                $update_user_details->cell_phone = $request->cellph_no;
+                $update_user_details->off_phone = $request->officeph_no;
+                $update_user_details->city = $request->city;
+                $update_user_details->state = $request->state;
+                $update_user_details->zip = $request->zip;
+                $update_user_details->spcl_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
+                $update_user_details->driving_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
+                $update_user_details->school_id = $request->school_donation_id;
+                $update_user_details->save();
+
             //coupon check
             if ($pick_up_req->coupon != null) {
                 //helper function loading this
@@ -835,15 +857,17 @@ class MainController extends Controller
                 //save the school in user details for future ref
                 if ($request->identifier == "admin") {
                     $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
+
                 }
                 else
                 {
                     $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
                 }
-
                 $update_user_details->school_id = $request->school_donation_id;
-                $update_user_details->save();
+                
             }
+
+            $update_user_details->save();
 
             if ($pick_up_req->save()) {
 
@@ -1196,7 +1220,7 @@ class MainController extends Controller
     }
     public function lastPickUpReq(Request $request) {
         //return $request;
-        $last_row = Pickupreq::orderBy('created_at', 'desc')->where('user_id', $request->user_id)->first();
+        $last_row = Pickupreq::orderBy('created_at', 'desc')->where('user_id', $request->user_id)->with('user_detail')->first();
         if (count($last_row) > 0) {
            return $last_row;
         } else {

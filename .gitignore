@@ -17,3 +17,4 @@ public/new/img/.DS_Store
 bootstrap/autoload.php
 .vagrant/
 *.log
+.idea/

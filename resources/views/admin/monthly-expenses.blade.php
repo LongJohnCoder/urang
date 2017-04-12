@@ -10,7 +10,7 @@
 </style>
 <div class="overlay">
 	<div class="loader">
-	<img src="http://www.u-rang.com/public/images/ajax-loader.gif" alt="gif">
+	<img src="https://www.u-rang.com/public/images/ajax-loader.gif" alt="gif">
 	</div>	
 </div>
 	<div id="page-wrapper">
@@ -371,8 +371,10 @@
 			            data: {selectedyear: year, _token: "{{Session::token()}}"},
 			            success: function(data) {
                         
+
                       for(i=1; i <= 12; i++)
                       {
+                      	
                         $('#orderRow_'+i).empty();
                         $('#TotalMoneyRow_'+i).empty();
                         $('#TotalDonationRow_'+i).empty();
@@ -382,7 +384,7 @@
                         $('#TotalMoneyRow_'+i).append(Number(data[3][i]).toFixed(2));
                         $('#TotalDonationRow_'+i).append(Number(data[4][i]).toFixed(2));
                         $('#TotalMoneyGainRow_'+i).append(Number(data[3][i] * 22 /100).toFixed(2));
-                        $('#TotalMoneyResultRow_'+i).append(Number(data[3][i] - (data[4][i] + data[3][i] * 22)/100).toFixed(2));
+                        $('#TotalMoneyResultRow_'+i).append(Number(data[3][i] - (data[4][i] + (data[3][i] * 22)/100)).toFixed(2));
                         $(".overlay").hide();
 
                       }

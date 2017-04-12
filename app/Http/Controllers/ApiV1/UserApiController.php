@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\ApiV1;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+
 use App\Http\Controllers\Controller;
 use Response;
 use App\Helper\SiteHelper;
@@ -42,68 +42,61 @@ class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
     {
-    	//echo $req->email;
-    	$user = auth()->guard('users');
-    	if($user->attempt(['email' => $req->email, 'password' => $req->password]))
-    	{
-    		$userdata = $user->user();
+        //echo $req->email;
+        $user = auth()->guard('users');
+        if ($user->attempt(['email' => $req->email, 'password' => $req->password])) {
+            $userdata = $user->user();
 
-    		if($userdata->block_status)
-    		{
-    			return Response::json(array(
-		            'status' => false,
-		            'status_code' => 403,
-		            'message' => 'This user is forbidden!'
-	        	));
-    		}
-    		else
-    		{
-    			$user_details = User::where('id',$userdata->id)->with('user_details')->first();
+            if ($userdata->block_status) {
+                return Response::json(array(
+                    'status' => false,
+                    'status_code' => 403,
+                    'message' => 'You are unautherize to login.Please contact to U-rang. !'
+                ));
+            } else {
+                $user_details = User::where('id', $userdata->id)->with('user_details')->first();
                 $alldetails = $this->getAllRecordsWhileLogin($userdata->id);
-	        	return Response::json(array(
-		            'status' => true,
-		            'status_code' => 200,
-		            'response' => $user_details,
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $user_details,
                     'alldetails' => $alldetails,
                     'message' => 'Loging in...'
-	        	));
-    		}
+                ));
+            }
 
-    	}
-    	else
-    	{
-    		return Response::json(array(
-	            'status' => false,
-	            'status_code' => 400,
-	            'message' => "User not found! Check the email and password."
-        	));
-    	}
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "User not found! Check the email and password."
+            ));
+        }
 
     }
+
     public function order_history(Request $req)
     {
-    	$data['user_id'] = $req->user_id;
-    	$pickups = Pickupreq::where($data)->orderBy('id', 'desc')->with('order_detail')->get();
+        $data['user_id'] = $req->user_id;
+        $pickups = Pickupreq::where($data)->orderBy('id', 'desc')->with('order_detail')->get();
 
-    	if($pickups)
-    	{
-    		return Response::json(array(
-	            'status' => true,
-	            'status_code' => 200,
-	            'response' => $pickups,
-	    	));
-    	}
-    	else
-    	{
-    		return Response::json(array(
-	            'status' => true,
-	            'status_code' => 400,
-	            'message' => 'No order history found'
-	    	));
-    	}
+        if ($pickups) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => $pickups,
+            ));
+        } else {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 400,
+                'message' => 'No order history found'
+            ));
+        }
 
 
     }
+
     public function placeOrder(Request $request)
     {
         //return $request->pick_up_type;
@@ -134,7 +127,7 @@ class UserApiController extends Controller
         $pick_up_req->return_time_frame_end = $request->return_time_frame_end;
         $pick_up_req->return_time_frame_start = $request->return_time_frame_start;
         $pick_up_req->time_frame_end = $request->time_frame_end;
-        $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
+        $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins : null;
         $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
         $pick_up_req->payment_type = $request->pay_method;
         $pick_up_req->order_status = 1;
@@ -142,27 +135,27 @@ class UserApiController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = $request->coupon;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
-       
+
         $request->user_email = User::find($request->user_id)->email;
-        $request->user_name = isset(UserDetails::where('user_id',$request->user_id)->first()->name)?UserDetails::where('user_id',$request->user_id)->first()->name:"Not Registered Yet";
-        $request->user_number = isset(UserDetails::where('user_id',$request->user_id)->first()->personal_ph)?UserDetails::where('user_id',$request->user_id)->first()->personal_ph:"Number Not Registered Yet";
+        $request->user_name = isset(UserDetails::where('user_id', $request->user_id)->first()->name) ? UserDetails::where('user_id', $request->user_id)->first()->name : "Not Registered Yet";
+        $request->user_number = isset(UserDetails::where('user_id', $request->user_id)->first()->personal_ph) ? UserDetails::where('user_id', $request->user_id)->first()->personal_ph : "Number Not Registered Yet";
         //return $user_email;
 
         $data_table = json_decode($request->list_items_json);
-        for ($i=0; $i< count($data_table); $i++) {
-            $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
+        for ($i = 0; $i < count($data_table); $i++) {
+            $total_price += $data_table[$i]->item_price * $data_table[$i]->number_of_item;
         }
         $pick_up_req->total_price = $request->pick_up_type == 1 ? 0.00 : $total_price;
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
-        if(isset($request->isEmergency)) {
-                if ($pick_up_req->total_price > 0) {
-                    //dd($total_price);
-                    $total_price +=7;
-                    $pick_up_req->total_price = $total_price;
-                }
+        if (isset($request->isEmergency)) {
+            if ($pick_up_req->total_price > 0) {
+                //dd($total_price);
+                $total_price += 7;
+                $pick_up_req->total_price = $total_price;
             }
+        }
 
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
@@ -187,33 +180,29 @@ class UserApiController extends Controller
                 $pick_up_req->discounted_value = $total_price;
             }
         }
-        
-        
-            //coupon check
-            if ($pick_up_req->coupon != null || $pick_up_req->coupon!="") {
-                $calculate_discount = new SiteHelper();
-                $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
-                //dd($discounted_value);
-                $pick_up_req->discounted_value = $discounted_value;
-            }
-         
-        if($request->isDonate)
-        {
+
+
+        //coupon check
+        if ($pick_up_req->coupon != null || $pick_up_req->coupon != "") {
+            $calculate_discount = new SiteHelper();
+            $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
+            //dd($discounted_value);
+            $pick_up_req->discounted_value = $discounted_value;
+        }
+
+        if ($request->isDonate) {
             $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
             $percentage = SchoolDonationPercentage::first();
-            if ($percentage == null)
-            {
+            if ($percentage == null) {
                 $new_percentage = 0;
-            }
-            else
-            {
-                $new_percentage = $percentage->percentage/100;
+            } else {
+                $new_percentage = $percentage->percentage / 100;
             }
             $pick_up_req->school_donation_id = $request->school_donation_id;
             //$pick_up_req->school_donation_amount = $request->school_donation_amount;
             $search = SchoolDonations::find($request->school_donation_id);
             $present_pending_money = $search->pending_money;
-            $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
+            $updated_pending_money = $present_pending_money + ($total_price * $new_percentage);
             $search->pending_money = $updated_pending_money;
             $search->save();
             $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
@@ -221,10 +210,9 @@ class UserApiController extends Controller
             $update_user_details->save();
         }
 
-       
 
         if ($pick_up_req->save()) {
-         
+
             //save in order tracker table
             $tracker = new OrderTracker();
             $tracker->pick_up_req_id = $pick_up_req->id;
@@ -233,14 +221,14 @@ class UserApiController extends Controller
             $tracker->order_status = 1;
             $tracker->original_invoice = $pick_up_req->total_price;
             $tracker->save();
-           
+
             if ($request->pick_up_type == 1) {
 
                 //fast pick up
 //return "fast pickup";
                 //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //dd($request->request);
-               Event::fire(new PickUpReqEvent($request, 0));
+                Event::fire(new PickUpReqEvent($request, 0));
 
 
                 return Response::json(array(
@@ -249,14 +237,12 @@ class UserApiController extends Controller
                     'response' => $pick_up_req->user_id,
                     'message' => "Order Placed successfully!"
                 ));
-            }
-            else
-            {
+            } else {
 //return "detailed pickup";
                 //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //detailed pick up
                 $data = json_decode($request->list_items_json);
-                for ($i=0; $i< count($data); $i++) {
+                for ($i = 0; $i < count($data); $i++) {
                     $order_details = new OrderDetails();
                     $order_details->pick_up_req_id = $pick_up_req->id;
                     $order_details->user_id = $request->user_id;
@@ -269,7 +255,7 @@ class UserApiController extends Controller
                 //create invoice
                 //dd($data);
                 $global_invoice_id = "";
-                for ($j=0; $j < count($data) ; $j++) {
+                for ($j = 0; $j < count($data); $j++) {
                     $invoice = new Invoice();
                     $invoice->user_id = $request->user_id;
                     $invoice->pick_up_req_id = $pick_up_req->id;
@@ -290,18 +276,17 @@ class UserApiController extends Controller
                     'message' => "Order Placed successfully!"
                 ));
             }
-        }
-        else
-        {
-           return Response::json(array(
-                    'status' => false,
-                    'status_code' => 500,
-                    'message' => "Sorry! Cannot save the order now!"
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 500,
+                'message' => "Sorry! Cannot save the order now!"
             ));
         }
     }
-    
-    public function placeOrderIos(Request $request) {
+
+    public function placeOrderIos(Request $request)
+    {
 
         if ($request->isCard == "yes") {
             $card_infos = new CustomerCreditCardInfo();
@@ -330,7 +315,7 @@ class UserApiController extends Controller
         $pick_up_req->return_time_frame_end = $request->return_time_frame_end;
         $pick_up_req->return_time_frame_start = $request->return_time_frame_start;
         $pick_up_req->time_frame_end = $request->time_frame_end;
-        $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
+        $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins : null;
         $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
         $pick_up_req->payment_type = $request->pay_method;
         $pick_up_req->order_status = 1;
@@ -338,27 +323,27 @@ class UserApiController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = $request->coupon;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
-       
+
         $request->user_email = User::find($request->user_id)->email;
-        $request->user_name = isset(UserDetails::where('user_id',$request->user_id)->first()->name)?UserDetails::where('user_id',$request->user_id)->first()->name:"Not Registered Yet";
-        $request->user_number = isset(UserDetails::where('user_id',$request->user_id)->first()->personal_ph)?UserDetails::where('user_id',$request->user_id)->first()->personal_ph:"Number Not Registered Yet";
+        $request->user_name = isset(UserDetails::where('user_id', $request->user_id)->first()->name) ? UserDetails::where('user_id', $request->user_id)->first()->name : "Not Registered Yet";
+        $request->user_number = isset(UserDetails::where('user_id', $request->user_id)->first()->personal_ph) ? UserDetails::where('user_id', $request->user_id)->first()->personal_ph : "Number Not Registered Yet";
         //return $user_email;
 
         $data_table = json_decode($request->list_items_json);
-        for ($i=0; $i< count($data_table); $i++) {
-            $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
+        for ($i = 0; $i < count($data_table); $i++) {
+            $total_price += $data_table[$i]->item_price * $data_table[$i]->number_of_item;
         }
         $pick_up_req->total_price = $request->pick_up_type == 1 ? 0.00 : $total_price;
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
-        if($request->isEmergency==1) {
-                if ($pick_up_req->total_price > 0) {
-                    //dd($total_price);
-                    $total_price +=7;
-                    $pick_up_req->total_price = $total_price;
-                }
+        if ($request->isEmergency == 1) {
+            if ($pick_up_req->total_price > 0) {
+                //dd($total_price);
+                $total_price += 7;
+                $pick_up_req->total_price = $total_price;
             }
+        }
 
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
@@ -383,33 +368,29 @@ class UserApiController extends Controller
                 $pick_up_req->discounted_value = $total_price;
             }
         }
-        
-        
-            //coupon check
-            if ($pick_up_req->coupon != null || $pick_up_req->coupon!="") {
-                $calculate_discount = new SiteHelper();
-                $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
-                //dd($discounted_value);
-                $pick_up_req->discounted_value = $discounted_value;
-            }
-         
-        if($request->isDonate)
-        {
+
+
+        //coupon check
+        if ($pick_up_req->coupon != null || $pick_up_req->coupon != "") {
+            $calculate_discount = new SiteHelper();
+            $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
+            //dd($discounted_value);
+            $pick_up_req->discounted_value = $discounted_value;
+        }
+
+        if ($request->isDonate) {
             $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
             $percentage = SchoolDonationPercentage::first();
-            if ($percentage == null)
-            {
+            if ($percentage == null) {
                 $new_percentage = 0;
-            }
-            else
-            {
-                $new_percentage = $percentage->percentage/100;
+            } else {
+                $new_percentage = $percentage->percentage / 100;
             }
             $pick_up_req->school_donation_id = $request->school_donation_id;
             //$pick_up_req->school_donation_amount = $request->school_donation_amount;
             $search = SchoolDonations::find($request->school_donation_id);
             $present_pending_money = $search->pending_money;
-            $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
+            $updated_pending_money = $present_pending_money + ($total_price * $new_percentage);
             $search->pending_money = $updated_pending_money;
             $search->save();
             $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
@@ -417,10 +398,9 @@ class UserApiController extends Controller
             $update_user_details->save();
         }
 
-       
 
         if ($pick_up_req->save()) {
-         
+
             //save in order tracker table
             $tracker = new OrderTracker();
             $tracker->pick_up_req_id = $pick_up_req->id;
@@ -429,14 +409,14 @@ class UserApiController extends Controller
             $tracker->order_status = 1;
             $tracker->original_invoice = $pick_up_req->total_price;
             $tracker->save();
-           
+
             if ($request->pick_up_type == 1) {
 
                 //fast pick up
 //return "fast pickup";
                 //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //dd($request->request);
-               Event::fire(new PickUpReqEvent($request, 0));
+                Event::fire(new PickUpReqEvent($request, 0));
 
 
                 return Response::json(array(
@@ -445,14 +425,12 @@ class UserApiController extends Controller
                     'response' => $pick_up_req->user_id,
                     'message' => "Order Placed successfully!"
                 ));
-            }
-            else
-            {
+            } else {
 //return "detailed pickup";
                 //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //detailed pick up
                 $data = json_decode($request->list_items_json);
-                for ($i=0; $i< count($data); $i++) {
+                for ($i = 0; $i < count($data); $i++) {
                     $order_details = new OrderDetails();
                     $order_details->pick_up_req_id = $pick_up_req->id;
                     $order_details->user_id = $request->user_id;
@@ -465,7 +443,7 @@ class UserApiController extends Controller
                 //create invoice
                 //dd($data);
                 $global_invoice_id = "";
-                for ($j=0; $j < count($data) ; $j++) {
+                for ($j = 0; $j < count($data); $j++) {
                     $invoice = new Invoice();
                     $invoice->user_id = $request->user_id;
                     $invoice->pick_up_req_id = $pick_up_req->id;
@@ -486,77 +464,69 @@ class UserApiController extends Controller
                     'message' => "Order Placed successfully!"
                 ));
             }
-        }
-        else
-        {
-           return Response::json(array(
-                    'status' => false,
-                    'status_code' => 500,
-                    'message' => "Sorry! Cannot save the order now!"
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 500,
+                'message' => "Sorry! Cannot save the order now!"
             ));
         }
     }
 
-    public function SayMeTheDate($pick_up_date, $created_at) {
+    public function SayMeTheDate($pick_up_date, $created_at)
+    {
         //dd($pick_up_date);
         $date = $pick_up_date;
         $time = $created_at->toTimeString();
         $data = $this->returnData(date('l', strtotime($date)));
         if ($data != "E500" && $data != null) {
-            if ($data->closedOrNot !=1) {
+            if ($data->closedOrNot != 1) {
 
                 if (strtotime($data->opening_time) <= strtotime($time) && strtotime($data->closing_time) >= strtotime($time)) {
-                    $show_expected = "pick up day ". date('F j , Y', strtotime($date))."\n"."before ".date("h:i a", strtotime($data->closing_time));
+                    $show_expected = "pick up day " . date('F j , Y', strtotime($date)) . "\n" . "before " . date("h:i a", strtotime($data->closing_time));
+                    return $show_expected;
+                } else if (strtotime($data->closing_time) < strtotime($time)) {
+                    $new_date = date('Y-m-d', strtotime($date) + 86400);
+                    return $this->SayMeTheDate($new_date, $created_at);
+                } else if (strtotime($data->opening_time) > strtotime($time)) {
+                    $new_date = date('Y-m-d', strtotime($date) - 86400);
+                    return $this->SayMeTheDate($new_date, $created_at);
+                } else {
+                    $show_expected = "Can't tell you real expected time admin might not set it up yet";
                     return $show_expected;
                 }
-                else if (strtotime($data->closing_time) < strtotime($time)) {
-                    $new_date = date('Y-m-d',strtotime($date)+86400);
-                    return $this->SayMeTheDate($new_date, $created_at);
-                }
-                else if (strtotime($data->opening_time) > strtotime($time)) {
-                    $new_date = date('Y-m-d',strtotime($date)-86400);
-                    return $this->SayMeTheDate($new_date, $created_at);
-                }
-                else
-                {
-                    $show_expected = "Can't tell you real expected time admin might not set it up yet";
-                   return $show_expected;
-                }
-            }
-            else
-            {
-                $new_pickup_date = date('Y-m-d',strtotime($date)+86400);
+            } else {
+                $new_pickup_date = date('Y-m-d', strtotime($date) + 86400);
                 return $this->SayMeTheDate($new_pickup_date, $created_at);
             }
-        }
-        else
-        {
+        } else {
             return "";
         }
     }
 
-    private function returnData($day) {
+    private function returnData($day)
+    {
         switch ($day) {
             case 'Monday':
-                return  PickUpTime::where('day', 1)->first();
+                return PickUpTime::where('day', 1)->first();
                 break;
             case 'Tuesday':
-                return  PickUpTime::where('day', 2)->first();
+                return PickUpTime::where('day', 2)->first();
                 break;
             case 'Wednesday':
-                return  PickUpTime::where('day', 3)->first();
+                return PickUpTime::where('day', 3)->first();
                 break;
             case 'Thursday':
-                return  PickUpTime::where('day', 4)->first();
+                return PickUpTime::where('day', 4)->first();
                 break;
             case 'Friday':
-                return  PickUpTime::where('day', 5)->first();
+                return PickUpTime::where('day', 5)->first();
                 break;
             case 'Saturday':
-                return  PickUpTime::where('day', 6)->first();
+                return PickUpTime::where('day', 6)->first();
                 break;
             case 'Sunday':
-                return  PickUpTime::where('day', 7)->first();
+                return PickUpTime::where('day', 7)->first();
                 break;
             default:
                 return "E500";
@@ -567,46 +537,39 @@ class UserApiController extends Controller
 
     public function checkEmail(Request $request)
     {
-        if(User::where('email',$request->email)->first())
-        {
+        if (User::where('email', $request->email)->first()) {
             return Response::json(array(
-                        'status' => false,
-                        'status_code' => 400,
-                        'message' => "This email already exists!"
-                    ));
-        }
-        else
-        {
+                'status' => false,
+                'status_code' => 400,
+                'message' => "This email already exists!"
+            ));
+        } else {
             return Response::json(array(
-                        'status' => true,
-                        'status_code' => 200,
-                        'message' => "Email can be taken!"
-                    ));
+                'status' => true,
+                'status_code' => 200,
+                'message' => "Email can be taken!"
+            ));
         }
     }
+
     public function userSignUp(Request $request)
     {
-        if ($request->password == $request->conf_password)
-        {
+        if ($request->password == $request->conf_password) {
 
-            if(User::where('email',$request->email)->first())
-            {
+            if (User::where('email', $request->email)->first()) {
                 return Response::json(array(
-                            'status' => false,
-                            'status_code' => 400,
-                            'message' => "This email already exists!"
-                        ));
-            }
-            else
-            {
+                    'status' => false,
+                    'status_code' => 400,
+                    'message' => "This email already exists!"
+                ));
+            } else {
 
                 $user = new User();
                 $user->email = $request->email;
                 $user->password = bcrypt($request->password);
                 $user->block_status = 0;
                 $user->is_corporate = $request->isCorporate;
-                if ($user->save())
-                {
+                if ($user->save()) {
                     $user_details = new UserDetails();
                     $user_details->user_id = $user->id;
                     $user_details->name = $request->name;
@@ -616,126 +579,108 @@ class UserApiController extends Controller
                     $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : "";
                     $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : "";
                     $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : "";
-                    if ($user_details->save())
-                    {
-
+                    if ($user_details->save()) {
 
 
 //referrel
-                    if ($request->ref_name != null || $request->ref_name != "") 
-                    {
-                        $search_email = User::where('email', $request->ref_name)->first();
+                        if ($request->ref_name != null || $request->ref_name != "") {
+                            $search_email = User::where('email', $request->ref_name)->first();
 
-                        if ($search_email) 
-                        {
-                            $user_details->delete();
-                                    $user->delete();
+                            if ($search_email) {
+                                $user_details->delete();
+                                $user->delete();
 
 
-                          return Response::json(array(
-                           'status' => false,
-                           'status_code' => 400,
-                           'message' => "Referel email already exist .Please try another one!"
-                          ));
-                        }
-                        else 
-                        {
-                            $search_in_refs = ref::where('referred_person', $request->ref_name)->first();
-
-                            if ($search_in_refs) 
-                            {
-                                  $user_details->delete();
-                                    $user->delete();
-                                
-                                    return Response::json(array(
+                                return Response::json(array(
                                     'status' => false,
                                     'status_code' => 400,
                                     'message' => "Referel email already exist .Please try another one!"
-                                   ));
-                            }
-                            else
-                            {
-                                if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) 
-                                {
-                                    $user_details->referred_by = $request->ref_name;
-                                    //storing into ref table for future reference
-                                    $ref                    = new ref();
-                                    $ref->user_id           = $user->id;
-                                    $ref->referred_person   = $request->ref_name;
-                                    $ref->referral_email    = $request->email;
-                                    $ref->discount_status   = 0; //this should be 1 to get the discount
-                                    $ref->is_expired        = 0; //this will be 1 as soon as user will get the discount.
-                                    $ref->save();
-                                }
-                                else
-                                {
+                                ));
+                            } else {
+                                $search_in_refs = ref::where('referred_person', $request->ref_name)->first();
+
+                                if ($search_in_refs) {
                                     $user_details->delete();
                                     $user->delete();
-                                    
 
                                     return Response::json(array(
-                                     'status' => false,
-                                     'status_code' => 400,
-                                     'message' => "Referrel type should be type of email. Please paste an email of the person you want to refer!"
+                                        'status' => false,
+                                        'status_code' => 400,
+                                        'message' => "Referel email already exist .Please try another one!"
                                     ));
-                                }
-                            }
+                                } else {
+                                    if (filter_var($request->ref_name, FILTER_VALIDATE_EMAIL)) {
+                                        $user_details->referred_by = $request->ref_name;
+                                        //storing into ref table for future reference
+                                        $ref = new ref();
+                                        $ref->user_id = $user->id;
+                                        $ref->referred_person = $request->ref_name;
+                                        $ref->referral_email = $request->email;
+                                        $ref->discount_status = 0; //this should be 1 to get the discount
+                                        $ref->is_expired = 0; //this will be 1 as soon as user will get the discount.
+                                        $ref->save();
+                                    } else {
+                                        $user_details->delete();
+                                        $user->delete();
 
+
+                                        return Response::json(array(
+                                            'status' => false,
+                                            'status_code' => 400,
+                                            'message' => "Referrel type should be type of email. Please paste an email of the person you want to refer!"
+                                        ));
+                                    }
+                                }
+
+                            }
                         }
-                    }
 //end user referral entry
 
 
+                        $is_ref = ref::where('referred_person', $request->email)->where('is_expired', 0)->where('is_referal_done', 0)->first();
+                        if ($is_ref != null) {
+                            $is_ref->discount_status = 1;
+                            $is_ref->is_referal_done = 1;
+                            $is_ref->save();
+                        }
+                        $data['user_id'] = $user_details->user_id;
+                        $data['is_corporate'] = $user->is_corporate;
+                        $eventStatus = Event::fire(new SendEmailOnSignUp($request));
+                        return Response::json(array(
+                            'status' => true,
+                            'status_code' => 200,
+                            'response' => $data,
+                            'message' => "Registration successfull"
+                        ));
 
-
-                      $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
-                      if ($is_ref != null) {
-                          $is_ref->discount_status = 1;
-                          $is_ref->is_referal_done = 1;
-                          $is_ref->save();
-                      }
-                            $data['user_id'] = $user_details->user_id;
-                            $data['is_corporate'] = $user->is_corporate;
-                            $eventStatus = Event::fire(new SendEmailOnSignUp($request));
-                            return Response::json(array(
-                                'status' => true,
-                                'status_code' => 200,
-                                'response' => $data,
-                                'message' => "Registration successfull"
-                            ));
+                    } else {
+                        return Response::json(array(
+                            'status' => false,
+                            'status_code' => 500,
+                            'message' => "Sorry! Cannot save your user details!"
+                        ));
 
                     }
-                    else
-                    {
-                        return Response::json(array(
-                                'status' => false,
-                                'status_code' => 500,
-                                'message' => "Sorry! Cannot save your user details!"
-                            ));
-
-                    }
-                }
-                else
-                {
-                        return Response::json(array(
-                                'status' => false,
-                                'status_code' => 500,
-                                'message' => "Sorry! Cannot save Email!"
-                            ));
+                } else {
+                    return Response::json(array(
+                        'status' => false,
+                        'status_code' => 500,
+                        'message' => "Sorry! Cannot save Email!"
+                    ));
                 }
             }
 
-        }
-        else
-        {
+        } else {
             return Response::json(array(
-                            'status' => false,
-                            'status_code' => 400,
-                            'message' => "Password and Confirm Password did not matched!"
-                        ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Password and Confirm Password did not matched!"
+            ));
         }
     }
-    public function SavePreferncesSchool($userId, $schoolId) {
+
+    public function SavePreferncesSchool($userId, $schoolId)
+    {
         $find_school = SchoolPreferences::where('user_id', $userId)->where('school_id', $schoolId)->first();
         if ($find_school) {
             return 0;
@@ -750,72 +695,67 @@ class UserApiController extends Controller
             }
         }
     }
+
     public function getPrices()
     {
-    	$price_list = Categories::with('pricelists')->get();
-    	if($price_list)
-    	{
-    		return Response::json(array(
-			            'status' => true,
-			            'status_code' => 200,
-			            'response' => $price_list
-			    	));
-    	}
-    	else
-    	{
-    		return Response::json(array(
-			            'status' => false,
-			            'status_code' => 400,
-			            'message' => "No price list to show!"
-			    	));
-    	}
+        $price_list = Categories::with('pricelists')->get();
+        if ($price_list) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => $price_list
+            ));
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "No price list to show!"
+            ));
+        }
     }
+
     public function getNeighborhood()
     {
-    	$obj = new NavBarHelper();
+        $obj = new NavBarHelper();
         $neighborhood = $obj->getNeighborhood();
-        if($neighborhood)
-        {
-        	return Response::json(array(
-			            'status' => true,
-			            'status_code' => 200,
-			            'response' => $neighborhood
-			    	));
-        }
-        else
-        {
-        	return Response::json(array(
-			            'status' => false,
-			            'status_code' => 400,
-			            'message' => "No neighborhood to show!"
-			    	));
+        if ($neighborhood) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => $neighborhood
+            ));
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "No neighborhood to show!"
+            ));
         }
     }
+
     public function getFaq()
     {
-    	$faqs = Faq::all();
-    	if($faqs)
-    	{
-    		return Response::json(array(
-			            'status' => true,
-			            'status_code' => 200,
-			            'response' => $faqs
-			    	));
-    	}
-    	else
-    	{
-    		return Response::json(array(
-			            'status' => false,
-			            'status_code' => 400,
-			            'message' => "No Faqs to show!"
-			    	));
-    	}
+        $faqs = Faq::all();
+        if ($faqs) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => $faqs
+            ));
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "No Faqs to show!"
+            ));
+        }
     }
+
     public function contactUs(Request $request)
     {
 
 
-    	$firstname = $request->firstName;
+        $firstname = $request->firstName;
         $lastname = $request->lastName;
         $email = $request->email;
         $subject = $request->subject;
@@ -823,30 +763,27 @@ class UserApiController extends Controller
         //dd($message);
         $phone = $request->phone;
 
-            $flag=Mail::send('pages.sendEmailContact', ['firstName'=>$firstname,'lastName'=>$lastname,'email'=>$email,'subject'=>$subject,'text'=>$text,'phone'=>$phone], function($msg) use($request)
-                        {
-                            $msg->from($request->email, 'U-rang');
-                            $msg->to(\App\Helper\ConstantsHelper::getClintEmail(), $request->firstName)->subject('U-rang Details');
-                        });
+        $flag = Mail::send('pages.sendEmailContact', ['firstName' => $firstname, 'lastName' => $lastname, 'email' => $email, 'subject' => $subject, 'text' => $text, 'phone' => $phone], function ($msg) use ($request) {
+            $msg->from($request->email, 'U-rang');
+            $msg->to(\App\Helper\ConstantsHelper::getClintEmail(), $request->firstName)->subject('U-rang Details');
+        });
 
-            if($flag==1)
-            {
-                return Response::json(array(
-			            'status' => true,
-			            'status_code' => 200,
-			            'response' => 1,
-			            'message' => "Email is sent"
-			    	));
-            }
-            else
-            {
-                return Response::json(array(
-			            'status' => false,
-			            'status_code' => 500,
-			            'message' => "Email is not sent!"
-			    	));
-            }
+        if ($flag == 1) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => 1,
+                'message' => "Email is sent"
+            ));
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 500,
+                'message' => "Email is not sent!"
+            ));
+        }
     }
+
     /*public function updateProfile(Request $request)
     {
 
@@ -922,7 +859,7 @@ class UserApiController extends Controller
     }*/
     public function changePassword(Request $request)
     {
-    	if ($request->new_password == $request->conf_password) {
+        if ($request->new_password == $request->conf_password) {
             $id = $request->user_id;
             $old_password = $request->old_password;
             $new_password = $request->new_password;
@@ -931,116 +868,107 @@ class UserApiController extends Controller
                 $user->password = bcrypt($new_password);
                 if ($user->save()) {
                     return Response::json(array(
-			            'status' => true,
-			            'status_code' => 200,
-			            'response' => 1,
-			            'message' => "Password successfully updated!"
-			    	));
+                        'status' => true,
+                        'status_code' => 200,
+                        'response' => 1,
+                        'message' => "Password successfully updated!"
+                    ));
+                } else {
+                    return Response::json(array(
+                        'status' => false,
+                        'status_code' => 500,
+                        'message' => "Could not save your password now! Please try again later!"
+                    ));
                 }
-                else
-                {
-                   return Response::json(array(
-			            'status' => false,
-			            'status_code' => 500,
-			            'message' => "Could not save your password now! Please try again later!"
-			    	));
-                }
-            }
-            else
-            {
+            } else {
                 return Response::json(array(
-			            'status' => false,
-			            'status_code' => 400,
-			            'message' => "Old password did not matched with our!"
-			    	));
+                    'status' => false,
+                    'status_code' => 400,
+                    'message' => "Old password did not matched with our!"
+                ));
             }
-        }
-        else
-        {
+        } else {
             return Response::json(array(
-			            'status' => false,
-			            'status_code' => 400,
-			            'message' => "Password and confirm password did not matched!"
-			    	));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Password and confirm password did not matched!"
+            ));
         }
     }
+
     public function deletePickup(Request $request)
     {
-    	$id_to_del = $request->pickup_id;
+        $id_to_del = $request->pickup_id;
         $search = Pickupreq::find($id_to_del);
         if ($search) {
-           if ($search->pick_up_type == 0) {
+            if ($search->pick_up_type == 0) {
                 $search->delete();
                 $search_order_details = OrderDetails::where('pick_up_req_id', $id_to_del)->get();
                 foreach ($search_order_details as $details) {
                     $details->delete();
                 }
                 return Response::json(array(
-			            'status' => true,
-			            'status_code' => 200,
-			            'response' => 1,
-			            'message' => "Detailed pickup successfully deleted!"
-			    	));
-           }
-           else
-           {
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => 1,
+                    'message' => "Detailed pickup successfully deleted!"
+                ));
+            } else {
                 if ($search->delete()) {
                     return Response::json(array(
-			            'status' => true,
-			            'status_code' => 200,
-			            'response' => 1,
-			            'message' => "Fast pickup successfully deleted!"
-			    	));
-                }
-                else
-                {
+                        'status' => true,
+                        'status_code' => 200,
+                        'response' => 1,
+                        'message' => "Fast pickup successfully deleted!"
+                    ));
+                } else {
                     return Response::json(array(
-			            'status' => false,
-			            'status_code' => 500,
-			            'message' => "Could not delete the pickup!"
-			    	));
+                        'status' => false,
+                        'status_code' => 500,
+                        'message' => "Could not delete the pickup!"
+                    ));
                 }
-           }
-        }
-        else
-        {
-           return Response::json(array(
-			            'status' => false,
-			            'status_code' => 400,
-			            'message' => "Cannot find the pickup you are looking for!"
-			    	));
+            }
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Cannot find the pickup you are looking for!"
+            ));
         }
     }
-    public function postPickUpType(Request $request) {
+
+    public function postPickUpType(Request $request)
+    {
         //return $request->id;
         if (trim($request->id) != null) {
-            $pick_up_req = Pickupreq::where('user_id',$request->id)->get();
+            $pick_up_req = Pickupreq::where('user_id', $request->id)->get();
             $placed_order = 0;
             $picked_up_order = 0;
             $processed_order = 0;
-            $delivered_order =0;
+            $delivered_order = 0;
             foreach ($pick_up_req as $req) {
                 $order_status = $req->order_status;
                 switch ($order_status) {
-                  case '1':
-                    $placed_order++;
-                    break;
-                  case '2':
-                     $picked_up_order++;
-                    break;
-                  case '3':
-                     $processed_order++;
-                    break;
-                  case '4':
-                     $delivered_order++;
-                    break;
-                  default:
-                    echo "Something went wrong error!";
-                    break;
+                    case '1':
+                        $placed_order++;
+                        break;
+                    case '2':
+                        $picked_up_order++;
+                        break;
+                    case '3':
+                        $processed_order++;
+                        break;
+                    case '4':
+                        $delivered_order++;
+                        break;
+                    default:
+                        echo "Something went wrong error!";
+                        break;
                 }
             }
             return Response::json(array(
-                'status' => true ,
+                'status' => true,
                 'status_code' => 200,
                 'response' => array(
                     'total_pick_up' => count($pick_up_req),
@@ -1050,35 +978,35 @@ class UserApiController extends Controller
                     'delivered_pick_up_req' => $delivered_order
                 )
             ));
-        }
-        else
-        {
+        } else {
             return Response::json(array(
-                'status' => false ,
+                'status' => false,
                 'status_code' => 400,
                 'message' => 'User id cannot be null!'
             ));
         }
     }
-    public function postSchoolLists() {
+
+    public function postSchoolLists()
+    {
         $school_list = SchoolDonations::all();
         if ($school_list) {
-           return Response::json(array(
+            return Response::json(array(
                 'status' => true,
                 'status_code' => 200,
                 'response' => $school_list
             ));
-        }
-        else
-        {
-            return  Response::json(array(
-                'status' => false ,
+        } else {
+            return Response::json(array(
+                'status' => false,
                 'status_code' => 400,
                 'message' => 'No School exists!'
             ));
         }
     }
-    public function postServicesApi(Request $request) {
+
+    public function postServicesApi(Request $request)
+    {
         switch ($request->id) {
             case '0':
                 $services = Cms::where('identifier', 0)->first();
@@ -1088,9 +1016,7 @@ class UserApiController extends Controller
                         'status_code' => 200,
                         'response' => $services
                     ));
-                }
-                else
-                {
+                } else {
                     return Response::json(array(
                         'status' => false,
                         'status_code' => 400,
@@ -1106,9 +1032,7 @@ class UserApiController extends Controller
                         'status_code' => 200,
                         'response' => $services
                     ));
-                }
-                else
-                {
+                } else {
                     return Response::json(array(
                         'status' => false,
                         'status_code' => 400,
@@ -1124,9 +1048,7 @@ class UserApiController extends Controller
                         'status_code' => 200,
                         'response' => $services
                     ));
-                }
-                else
-                {
+                } else {
                     return Response::json(array(
                         'status' => false,
                         'status_code' => 400,
@@ -1142,9 +1064,7 @@ class UserApiController extends Controller
                         'status_code' => 200,
                         'response' => $services
                     ));
-                }
-                else
-                {
+                } else {
                     return Response::json(array(
                         'status' => false,
                         'status_code' => 400,
@@ -1160,9 +1080,7 @@ class UserApiController extends Controller
                         'status_code' => 200,
                         'response' => $services
                     ));
-                }
-                else
-                {
+                } else {
                     return Response::json(array(
                         'status' => false,
                         'status_code' => 400,
@@ -1171,8 +1089,8 @@ class UserApiController extends Controller
                 }
                 break;
             default:
-                return  Response::json(array(
-                    'status' => false ,
+                return Response::json(array(
+                    'status' => false,
                     'status_code' => 400,
                     'message' => 'Bad request!'
                 ));
@@ -1182,22 +1100,19 @@ class UserApiController extends Controller
 
     public function userDetails(Request $request)
     {
-        $user_details = User::where('id',$request->user_id)->with('user_details','card_details')->first();
-        if($user_details)
-        {
-            return  Response::json(array(
-                    'status' => true,
-                    'status_code' => 200,
-                    'response' => $user_details
-                ));
-        }
-        else
-        {
-            return  Response::json(array(
-                    'status' => false ,
-                    'status_code' => 400,
-                    'message' => 'User does not exists! Please try to login again.'
-                ));
+        $user_details = User::where('id', $request->user_id)->with('user_details', 'card_details')->first();
+        if ($user_details) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => $user_details
+            ));
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => 'User does not exists! Please try to login again.'
+            ));
         }
     }
 
@@ -1205,267 +1120,234 @@ class UserApiController extends Controller
     public function social_Login_Ios(Request $request)
     {
         //dd($request->user_id);
-            if(User::where('email',$request->email)->first())
-            {
-                $user_data = User::where('email',$request->email)->first();
-                if($user_data->block_status == 0)
-                {
+        if (User::where('email', $request->email)->first()) {
+            $user_data = User::where('email', $request->email)->first();
+            if ($user_data->block_status == 0) {
+                $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 2000,
+                    'response' => $user_data,
+                    'alldetails' => $alldetails,
+                    'message' => "Loging In..!"
+                ));
+            } else {
+                return Response::json(array(
+                    'status' => false,
+                    'status_code' => 4000,
+                    'message' => "You are blocked by the admin!"
+                ));
+            }
+
+        } else {
+            $user = new User();
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->block_status = 0;
+            if ($user->save()) {
+                $user_details = new UserDetails();
+                $user_details->user_id = $user->id;
+                $user_details->name = $request->name;
+                $user_details->social_network = 1;
+                $user_details->personal_ph = $request->personal_phone;
+                $user_details->social_network_name = $request->social_network_name;
+                $user_details->social_id = $request->social_id;
+                if ($user_details->save()) {
+
+                    $is_ref = ref::where('referred_person', $request->email)->where('is_expired', 0)->where('is_referal_done', 0)->first();
+                    if ($is_ref != null) {
+                        $is_ref->discount_status = 1;
+                        $is_ref->is_referal_done = 1;
+                        $is_ref->save();
+                    }
+
+                    $user_data = User::where('email', $request->email)->first();
                     $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
                     return Response::json(array(
-                            'status' => true,
-                            'status_code' => 2000,
-                            'response' => $user_data,
-                            'alldetails' => $alldetails,
-                            'message' => "Loging In..!"
-                        ));
-                }
-                else
-                {
+                        'status' => true,
+                        'status_code' => 200,
+                        'response' => $user_data,
+                        'alldetails' => $alldetails,
+                        'message' => "Registered and Loging In..!"
+                    ));
+                } else {
                     return Response::json(array(
-                            'status' => false,
-                            'status_code' => 4000,
-                            'message' => "You are blocked by the admin!"
-                        ));
+                        'status' => false,
+                        'status_code' => 500,
+                        'message' => "Sorry! Cannot save your user details!"
+                    ));
                 }
-
+            } else {
+                return Response::json(array(
+                    'status' => false,
+                    'status_code' => 500,
+                    'message' => "Sorry! Cannot register you now!"
+                ));
             }
-            else
-            {
-                $user = new User();
-                $user->email = $request->email;
-                $user->password = bcrypt($request->password);
-                $user->block_status = 0;
-                if ($user->save())
-                {
-                    $user_details = new UserDetails();
-                    $user_details->user_id = $user->id;
-                    $user_details->name = $request->name;
-                    $user_details->social_network = 1;
-                    $user_details->personal_ph = $request->personal_phone;
-                    $user_details->social_network_name = $request->social_network_name;
-                    $user_details->social_id = $request->social_id;
-                    if($user_details->save())
-                    {
-
-                      $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
-                      if ($is_ref != null) {
-                          $is_ref->discount_status = 1;
-                          $is_ref->is_referal_done = 1;
-                          $is_ref->save();
-                      }
-
-                        $user_data = User::where('email',$request->email)->first();
-                        $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
-                        return Response::json(array(
-                            'status' => true,
-                            'status_code' => 200,
-                            'response' => $user_data,
-                            'alldetails' => $alldetails,
-                            'message' => "Registered and Loging In..!"
-                        ));
-                    }
-                    else
-                    {
-                        return Response::json(array(
-                                'status' => false,
-                                'status_code' => 500,
-                                'message' => "Sorry! Cannot save your user details!"
-                            ));
-                    }
-                }
-                else
-                {
-                    return Response::json(array(
-                                'status' => false,
-                                'status_code' => 500,
-                                'message' => "Sorry! Cannot register you now!"
-                            ));
-                }
-            }
+        }
     }
 
     public function social_Login(Request $request)
     {
         //dd($request->user_id);
-            if(User::where('email',$request->email)->first())
-            {
-                $user_data = User::where('email',$request->email)->first();
-                if($user_data->block_status == 0)
-                {
+        if (User::where('email', $request->email)->first()) {
+            $user_data = User::where('email', $request->email)->first();
+            if ($user_data->block_status == 0) {
+                $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $user_data,
+                    'alldetails' => $alldetails,
+                    'message' => "Loging In..!"
+                ));
+            } else {
+                return Response::json(array(
+                    'status' => false,
+                    'status_code' => 400,
+                    'message' => "You are blocked by the admin!"
+                ));
+            }
+
+        } else {
+            $user = new User();
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->block_status = 0;
+            if ($user->save()) {
+                $user_details = new UserDetails();
+                $user_details->user_id = $user->id;
+                $user_details->name = $request->name;
+                $user_details->social_network = 1;
+                $user_details->personal_ph = $request->personal_phone;
+                $user_details->social_network_name = $request->social_network_name;
+                $user_details->social_id = $request->social_id;
+                if ($user_details->save()) {
+
+                    $is_ref = ref::where('referred_person', $request->email)->where('is_expired', 0)->where('is_referal_done', 0)->first();
+                    if ($is_ref != null) {
+                        $is_ref->discount_status = 1;
+                        $is_ref->is_referal_done = 1;
+                        $is_ref->save();
+                    }
+
+                    $user_data = User::where('email', $request->email)->first();
                     $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
                     return Response::json(array(
-                            'status' => true,
-                            'status_code' => 200,
-                            'response' => $user_data,
-                            'alldetails' => $alldetails,
-                            'message' => "Loging In..!"
-                        ));
-                }
-                else
-                {
+                        'status' => true,
+                        'status_code' => 200,
+                        'response' => $user_data,
+                        'alldetails' => $alldetails,
+                        'message' => "Registered and Loging In..!"
+                    ));
+                } else {
                     return Response::json(array(
-                            'status' => false,
-                            'status_code' => 400,
-                            'message' => "You are blocked by the admin!"
-                        ));
+                        'status' => false,
+                        'status_code' => 500,
+                        'message' => "Sorry! Cannot save your user details!"
+                    ));
                 }
-
+            } else {
+                return Response::json(array(
+                    'status' => false,
+                    'status_code' => 500,
+                    'message' => "Sorry! Cannot register you now!"
+                ));
             }
-            else
-            {
-                $user = new User();
-                $user->email = $request->email;
-                $user->password = bcrypt($request->password);
-                $user->block_status = 0;
-                if ($user->save())
-                {
-                    $user_details = new UserDetails();
-                    $user_details->user_id = $user->id;
-                    $user_details->name = $request->name;
-                    $user_details->social_network = 1;
-                    $user_details->personal_ph = $request->personal_phone;
-                    $user_details->social_network_name = $request->social_network_name;
-                    $user_details->social_id = $request->social_id;
-                    if($user_details->save())
-                    {
-
-                      $is_ref = ref::where('referred_person', $request->email)->where('is_expired',0)->where('is_referal_done',0)->first();
-                      if ($is_ref != null) {
-                          $is_ref->discount_status = 1;
-                          $is_ref->is_referal_done = 1;
-                          $is_ref->save();
-                      }
-
-                        $user_data = User::where('email',$request->email)->first();
-                        $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
-                        return Response::json(array(
-                            'status' => true,
-                            'status_code' => 200,
-                            'response' => $user_data,
-                            'alldetails' => $alldetails,
-                            'message' => "Registered and Loging In..!"
-                        ));
-                    }
-                    else
-                    {
-                        return Response::json(array(
-                                'status' => false,
-                                'status_code' => 500,
-                                'message' => "Sorry! Cannot save your user details!"
-                            ));
-                    }
-                }
-                else
-                {
-                    return Response::json(array(
-                                'status' => false,
-                                'status_code' => 500,
-                                'message' => "Sorry! Cannot register you now!"
-                            ));
-                }
-            }
+        }
     }
 
     public function getAllRecordsWhileLogin($user_id)
     {
-        $pick_up_req = Pickupreq::where('user_id',$user_id)->orderBy('id', 'desc')->with('OrderTrack')->get();
+        $pick_up_req = Pickupreq::where('user_id', $user_id)->orderBy('id', 'desc')->with('OrderTrack')->get();
 
         return $pick_up_req;
     }
-    public function getPickUpTimes(Request $request) {
+
+    public function getPickUpTimes(Request $request)
+    {
         $all_the_times = PickUpTime::all();
         if ($all_the_times) {
             return Response::json(array(
-                    'status' => true,
-                    'status_code' => 200,
-                    'response' => $all_the_times
-                ));
+                'status' => true,
+                'status_code' => 200,
+                'response' => $all_the_times
+            ));
         } else {
             return Response::json(array(
-                        'status' => false,
-                        'status_code' => 400,
-                        'message' => "No Time entered by admin!"
-                    ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "No Time entered by admin!"
+            ));
         }
     }
+
     public function getOrderTracker(Request $request)
     {
-        $order_track = OrderTracker::where('user_id',$request->user_id)->orderBy('id','desc')->get();
+        $order_track = OrderTracker::where('user_id', $request->user_id)->orderBy('id', 'desc')->get();
 
-        if($order_track)
-        {
+        if ($order_track) {
             return Response::json(array(
-                            'status' => true,
-                            'status_code' => 200,
-                            'response' => $order_track,
-                        ));
-        }
-        else
-        {
+                'status' => true,
+                'status_code' => 200,
+                'response' => $order_track,
+            ));
+        } else {
             return Response::json(array(
-                                'status' => false,
-                                'status_code' => 400,
-                                'message' => "No order to show!"
-                            ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "No order to show!"
+            ));
         }
 
     }
 
     public function showSchoolPreferences(Request $request)
     {
-            $school_preferences = SchoolPreferences::where('user_id',$request->user_id)->with('schoolDonation')->get();
-            $school_list = SchoolDonations::all();
-            if($school_preferences)
-            {
-                return Response::json(array(
-                    'status' => true,
-                    'status_code' => 200,
-                    'response' => $school_preferences,
-                    'school_list' => $school_list
-                ));
-            }
-            else
-            {
-                return Response::json(array(
-                                'status' => false,
-                                'status_code' => 400,
-                                'message' => "No favourite schools!"
-                            ));
-            }
+        $school_preferences = SchoolPreferences::where('user_id', $request->user_id)->with('schoolDonation')->get();
+        $school_list = SchoolDonations::all();
+        if ($school_preferences) {
+            return Response::json(array(
+                'status' => true,
+                'status_code' => 200,
+                'response' => $school_preferences,
+                'school_list' => $school_list
+            ));
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "No favourite schools!"
+            ));
+        }
 
     }
 
     public function addSchoolToPreference(Request $request)
     {
         $find_school = SchoolPreferences::where('user_id', $request->user_id)->where('school_id', $request->school_id)->first();
-        if($find_school)
-        {
-                return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "This school is already added!"
-                                ));
-        }
-        else
-        {
+        if ($find_school) {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "This school is already added!"
+            ));
+        } else {
             $school_preferences = new SchoolPreferences();
             $school_preferences->user_id = $request->user_id;
             $school_preferences->school_id = $request->school_id;
-            if($school_preferences->save())
-            {
-                    return Response::json(array(
-                                    'status' => true,
-                                    'status_code' => 200,
-                                    'message' => "School saved!"
-                                ));
-            }
-            else
-            {
+            if ($school_preferences->save()) {
                 return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "Cannot add favourite school!"
-                                ));
+                    'status' => true,
+                    'status_code' => 200,
+                    'message' => "School saved!"
+                ));
+            } else {
+                return Response::json(array(
+                    'status' => false,
+                    'status_code' => 400,
+                    'message' => "Cannot add favourite school!"
+                ));
             }
         }
 
@@ -1475,21 +1357,18 @@ class UserApiController extends Controller
     {
         $creditCard_info = CustomerCreditCardInfo::where('user_id', $request->user_id)->first();
 
-        if($creditCard_info)
-        {
+        if ($creditCard_info) {
             return Response::json(array(
-                                    'status' => true,
-                                    'status_code' => 200,
-                                    'response' => $creditCard_info
-                                ));
-        }
-        else
-        {
+                'status' => true,
+                'status_code' => 200,
+                'response' => $creditCard_info
+            ));
+        } else {
             return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "no card details found"
-                                ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "no card details found"
+            ));
         }
 
     }
@@ -1498,36 +1377,45 @@ class UserApiController extends Controller
     {
         $pick_up_id = $request->pick_up_id;
 
+
         $pickup = Pickupreq::find($pick_up_id);
-        $pickup->order_status = 5;
-        if($pickup->save())
-        {
-            $order_tracker = OrderTracker::where('pick_up_req_id',$pick_up_id)->first();
-            $order_tracker->order_status = 5;
-            if($order_tracker->save())
-            {
+
+
+        if ($pickup->order_status == 1) {
+            $pickup->order_status = 5;
+
+            if ($pickup->save()) {
+                $order_tracker = OrderTracker::where('pick_up_req_id', $pick_up_id)->first();
+                $order_tracker->order_status = 5;
+                if ($order_tracker->save()) {
+                    return Response::json(array(
+                        'status' => true,
+                        'status_code' => 200,
+                        'message' => "Order cancelled."
+                    ));
+                } else {
+                    return Response::json(array(
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => "Could not cancel your order!"
+                    ));
+                }
+            } else {
                 return Response::json(array(
-                                    'status' => true,
-                                    'status_code' => 200,
-                                    'message' => "Order cancelled."
-                                ));
+                    'status' => false,
+                    'status_code' => 400,
+                    'message' => "Could not cancel your order!"
+                ));
             }
-            else
-            {
-                return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "Could not cancle your order!"
-                                ));
-            }
-        }
-        else
-        {
+        } else {
+
+
             return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "Could not cancle your order!"
-                                ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Could not cancel your order!"
+            ));
+
         }
     }
 
@@ -1539,74 +1427,76 @@ class UserApiController extends Controller
             Event::fire(new ResetPassword($search_user));
             /*return redirect()->route('getForgotPassword')->with('success', "password reset email has been sent to your email. Did not receive one? try again after 1 min.");*/
             return Response::json(array(
-                                    'status' => true,
-                                    'status_code' => 200,
-                                    'message' => "password reset email has been sent to your email. Did not receive one? try again after 1 min."
-                                ));
-        }
-        else
-        {
+                'status' => true,
+                'status_code' => 200,
+                'message' => "password reset email has been sent to your email. Did not receive one? try again after 1 min."
+            ));
+        } else {
             /*return redirect()->route('getForgotPassword')->with('fail', "Could not find user of this email or make sure you are not blocked");*/
             return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "Could not find user of this email or make sure you are not blocked"
-                                ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Could not find user of this email or make sure you are not blocked"
+            ));
         }
     }
 
     public function checkCoupon(Request $request)
     {
-        $coupon_details = Coupon::where('coupon_code',$request->coupon)->first();
-        if($coupon_details)
-        {
-            if($coupon_details->isActive)
-            {
+        $coupon_details = Coupon::where('coupon_code', $request->coupon)->first();
+        if ($coupon_details) {
+            if ($coupon_details->isActive) {
                 return Response::json(array(
-                                    'status' => true,
-                                    'status_code' => 200,
-                                    'response' => $coupon_details
-                                ));
-            }
-            else
-            {
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $coupon_details
+                ));
+            } else {
                 return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "Coupon is no longer valid"
-                                ));
+                    'status' => false,
+                    'status_code' => 400,
+                    'message' => "Coupon is no longer valid"
+                ));
             }
 
-        }
-        else
-        {
+        } else {
             return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "Invalid coupon"
-                                ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Invalid coupon"
+            ));
         }
     }
 
     public function getProgileDetails(Request $request)
     {
         $search = User::find($request->user_id);
-        if($search)
-        {
-            $customer_details = User::with('user_details', 'card_details','pickup_req')->where('id' , $request->user_id)->first();
+
+        // dd($search->block_status);
+        if ($search) {
+            if ($search->block_status == 1) {
+
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 301,
+                    'message' => "Sorry you are blocked by the system admin!!"
+                ));
+
+            } else {
+
+                $customer_details = User::with('user_details', 'card_details', 'pickup_req')->where('id', $request->user_id)->first();
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $customer_details
+                ));
+            }
+        } else {
             return Response::json(array(
-                                    'status' => true,
-                                    'status_code' => 200,
-                                    'response' => $customer_details
-                                ));
-        }
-        else
-        {
-            return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "User Does not exists!"
-                                ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "User Does not exists!"
+            ));
         }
 
     }
@@ -1627,31 +1517,72 @@ class UserApiController extends Controller
             $user_details->address_line_1 = $request->address;
             $user_details->personal_ph = $request->personal_phone;
             $user_details->cell_phone = $request->cell_phone != null ? $request->cell_phone : '';
-            $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
-            $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction: '';
+            $user_details->off_phone = $request->office_phone != null ? $request->office_phone : '';
+            $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction : '';
             $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
 
-            if ($user_details->save())
-            {
+            if ($user_details->save()) {
 
                 return Response::json(array(
-                                    'status' => true,
-                                    'status_code' => 200,
-                                    'message' => "Details Updated successfully."
-                                ));
+                    'status' => true,
+                    'status_code' => 200,
+                    'message' => "Details Updated successfully."
+                ));
             }
 
-        }
-        else
-        {
+        } else {
             return Response::json(array(
-                                    'status' => false,
-                                    'status_code' => 400,
-                                    'message' => "Cannot update now!"
-                                ));
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Cannot update now!"
+            ));
         }
     }
-    public function lastPickUp(Request $request) {
+
+
+    public function updateProfileAddress(Request $request)
+    {
+
+        $update_id = $request->user_id;
+        //dd($update_id);
+        $user = User::find($update_id);
+        //dd($user);
+        $user->email = $request->email;
+        if ($user->save()) {
+            $user_details = UserDetails::where('user_id', $update_id)->first();
+            //dd($user_details);
+            $user_details->user_id = $update_id;
+            $user_details->name = $request->name;
+            $user_details->address_line_1 = $request->address;
+            $user_details->city = $request->city;
+            $user_details->state = $request->state;
+            $user_details->zip = $request->zipcode;
+            $user_details->personal_ph = $request->personal_phone;
+            $user_details->cell_phone = $request->cell_phone != null ? $request->cell_phone : '';
+            $user_details->off_phone = $request->office_phone != null ? $request->office_phone : '';
+            $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction : '';
+            $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
+
+            if ($user_details->save()) {
+
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'message' => "Details Updated successfully."
+                ));
+            }
+
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Cannot update now!"
+            ));
+        }
+    }
+
+    public function lastPickUp(Request $request)
+    {
         $getLastPickup = Pickupreq::where('user_id', $request->id)->orderBy('created_at', 'desc')->first();
         if ($getLastPickup) {
             return Response::json(array(
@@ -1659,13 +1590,41 @@ class UserApiController extends Controller
                 'status_code' => 200,
                 'response' => $getLastPickup
             ));
-        }
-        else
-        {
+        } else {
             return Response::json(array(
                 'status' => false,
                 'status_code' => 400,
                 'message' => 'No pickup is related to this user id'
+            ));
+        }
+    }
+
+    public function updateLastPickupAddress(Request $request)
+    {
+        $user = User::find($request->user_id);
+        if ($user) {
+            $user_details = UserDetails::where('user_id', $request->user_id)->first();
+            $user_details->address_line_1 = $request->address;
+            $user_details->address_line_2 = "APT #" . $request->apartmentNo . " " . "LANDMARK" . $request->landmark;
+            $user_details->city = $request->city;
+            $user_details->state = $request->state;
+            $user_details->zip = $request->zipcode;
+            $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction : '';
+            $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
+
+            if ($user_details->save()) {
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'message' => "Last Pickup Details Updated successfully."
+                ));
+            }
+
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'status_code' => 400,
+                'message' => "Cannot update now!"
             ));
         }
     }
