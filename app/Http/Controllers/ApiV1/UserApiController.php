@@ -146,6 +146,7 @@ class UserApiController extends Controller
             $total_price += $data_table[$i]->item_price * $data_table[$i]->number_of_item;
         }
         $pick_up_req->total_price = $request->pick_up_type == 1 ? 0.00 : $total_price;
+
         /*//for charging cards after wards
         $pick_up_req->chargeable = $request->pick_up_type == 1 ? 0.00 : $total_price;*/
 
@@ -157,6 +158,16 @@ class UserApiController extends Controller
             }
         }
 
+        $pick_up_req->discounted_value = $total_price;
+        $calculate_discount = new SiteHelper();
+        /* check if a newly signed up user then apply 10% discount on total price */
+        $user = User::find($pick_up_req->user_id);
+        if ($user->is_eligible_for_sign_up_discount == 1) {
+            $pick_up_req->discounted_value -= $pick_up_req->discounted_value * 10/100;
+            //dd("sign up discount: ".$pick_up_req->discounted_value);
+            $user->is_eligible_for_sign_up_discount = 0;
+            $user->save();
+        }
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
         if ($check_ref) {
@@ -174,20 +185,17 @@ class UserApiController extends Controller
 
             // $check_ref->save();
             if ($total_price > 0.0) {
-                $calculate_discount = new SiteHelper();
-                $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
-                //dd($total_price);
-                $pick_up_req->discounted_value = $total_price;
+                $pick_up_req->discounted_value = $calculate_discount->updateTotalPriceOnRef($pick_up_req->discounted_value);
+                //dd("referral discount: ".$pick_up_req->discounted_value);
             }
         }
 
 
         //coupon check
         if ($pick_up_req->coupon != null || $pick_up_req->coupon != "") {
-            $calculate_discount = new SiteHelper();
-            $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
-            //dd($discounted_value);
-            $pick_up_req->discounted_value = $discounted_value;
+            //helper function loading this
+            $pick_up_req->discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $pick_up_req->discounted_value);
+            //dd("coupon discount: ".$pick_up_req->discounted_value);
         }
 
         if ($request->isDonate) {
@@ -345,6 +353,16 @@ class UserApiController extends Controller
             }
         }
 
+        $pick_up_req->discounted_value = $total_price;
+        $calculate_discount = new SiteHelper();
+        /* check if a newly signed up user then apply 10% discount on total price */
+        $user = User::find($pick_up_req->user_id);
+        if ($user->is_eligible_for_sign_up_discount == 1) {
+            $pick_up_req->discounted_value -= $pick_up_req->discounted_value * 10/100;
+            //dd("sign up discount: ".$pick_up_req->discounted_value);
+            $user->is_eligible_for_sign_up_discount = 0;
+            $user->save();
+        }
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
         if ($check_ref) {
@@ -362,20 +380,17 @@ class UserApiController extends Controller
 
             // $check_ref->save();
             if ($total_price > 0.0) {
-                $calculate_discount = new SiteHelper();
-                $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
-                //dd($total_price);
-                $pick_up_req->discounted_value = $total_price;
+                $pick_up_req->discounted_value = $calculate_discount->updateTotalPriceOnRef($pick_up_req->discounted_value);
+                //dd("referral discount: ".$pick_up_req->discounted_value);
             }
         }
 
 
         //coupon check
         if ($pick_up_req->coupon != null || $pick_up_req->coupon != "") {
-            $calculate_discount = new SiteHelper();
-            $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
-            //dd($discounted_value);
-            $pick_up_req->discounted_value = $discounted_value;
+            //helper function loading this
+            $pick_up_req->discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $pick_up_req->discounted_value);
+            //dd("coupon discount: ".$pick_up_req->discounted_value);
         }
 
         if ($request->isDonate) {

@@ -38,3 +38,5 @@ sudo cat <<EOF > /etc/apache2/sites-available/000-default.conf
 EOF
 sudo service apache2 reload
 sudo chmod -R 777 storage
+sudo usermod -a -G ubuntu www-data
+sudo systemctl restart apache2.service

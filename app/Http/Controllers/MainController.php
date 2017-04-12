@@ -127,6 +127,7 @@ class MainController extends Controller
                 $is_ref->save();
             }*/
             $user->password = bcrypt($request->password);
+            $user->is_eligible_for_sign_up_discount = 1;
             $user->block_status = 0;
             if ($user->save()) {
                 $user_details = new UserDetails();
@@ -707,7 +708,7 @@ class MainController extends Controller
     }
     public function postMyPickup($request) {
         //$pass_to_event = array();
-        //dd($request);
+        //dd($request->request);
         if ($request->address && $request->pick_up_date && $request->order_type != null && $request->pay_method) {
             $total_price = 0.00;
 
@@ -756,7 +757,16 @@ class MainController extends Controller
                     $pick_up_req->total_price = $total_price;
                 }
             }
+            $pick_up_req->discounted_value = $total_price;
             $calculate_discount = new SiteHelper();
+            /* check if a newly signed up user then apply 10% discount on total price */
+            $user = User::find($pick_up_req->user_id);
+            if ($user->is_eligible_for_sign_up_discount == 1) {
+                $pick_up_req->discounted_value -= $pick_up_req->discounted_value * 10/100;
+                //dd("sign up discount: ".$pick_up_req->discounted_value);
+                $user->is_eligible_for_sign_up_discount = 0;
+                $user->save();
+            }
             //now check this pick up req related to any ref or not
             if ($request->identifier == "admin") {
                 $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
@@ -781,9 +791,8 @@ class MainController extends Controller
 
                 // $check_ref->save();
                 if ($total_price > 0.0) {
-                    $total_price = $calculate_discount->updateTotalPriceOnRef($total_price);
-                    //dd($total_price);
-                    $pick_up_req->discounted_value = $total_price;
+                    $pick_up_req->discounted_value = $calculate_discount->updateTotalPriceOnRef($pick_up_req->discounted_value);
+                    //dd("referral discount: ".$pick_up_req->discounted_value);
                 }
             }
 
@@ -812,9 +821,8 @@ class MainController extends Controller
             //coupon check
             if ($pick_up_req->coupon != null) {
                 //helper function loading this
-                $discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $total_price);
-                //dd($discounted_value);
-                $pick_up_req->discounted_value = $discounted_value;
+                $pick_up_req->discounted_value = $calculate_discount->discountedValue($pick_up_req->coupon, $pick_up_req->discounted_value);
+                //dd("coupon discount: ".$pick_up_req->discounted_value);
             }
             if($request->isDonate)
             {
@@ -869,6 +877,7 @@ class MainController extends Controller
 
             $update_user_details->save();
 
+            //dd($pick_up_req->toArray());
             if ($pick_up_req->save()) {
 
                 // Save school donation

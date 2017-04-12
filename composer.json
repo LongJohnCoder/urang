@@ -11,7 +11,8 @@
         "authorizenet/authorizenet": "1.8.9",
         "jms/serializer": "serializer-master-dev as 1.0",
         "intervention/image": "^2.3",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "barryvdh/laravel-ide-helper": "^2.3"
     },
     "repositories": [{
        "type": "vcs",
