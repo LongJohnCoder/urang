@@ -903,7 +903,7 @@
           }
           $('#total_price').text("$"+"{{number_format((float)$pickup->total_price, 2, '.', '')}}");
 
-          if ("{{$pickup->coupon}}" || "{{$pickup->ref_discount}}" == 1) {
+          if ("{{$pickup->discounted_value}}" != "") {
             $('#gross_price').text("${{number_format((float)$pickup->discounted_value, 2, '.', '')}}");
           }
           else {

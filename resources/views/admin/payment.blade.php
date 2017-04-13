@@ -151,7 +151,7 @@
                 </td>
                 <td>{{$card_info->cvv !=null ? $card_info->cvv: "No cvv" }}</td>
                 <td>20{{$card_info->exp_year}}-{{$card_info->exp_month}}</td>
-                @if($user->coupon != null)
+                @if($user->discounted_value != null)
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->discounted_value, 2, '.', '')}}</td>
                 @else
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
@@ -171,7 +171,7 @@
                 <?php } else {?>
 
                 <td colspan="2"> No infomation </td>
-                @if($user->coupon != null)
+                @if($user->discounted_value != null)
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->discounted_value, 2, '.', '')}}</td>
                 @else
                   <td id="amount_{{$user->id}}">{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
