@@ -95,9 +95,9 @@ class InvoiceController extends Controller
             if($search_pickupreq->sign_up_discount==1)
             {
 
-                $signupDiscount=$total_price - ($total_price*10/100);
+                $total_price=$total_price - ($total_price*10/100);
 
-                $search_pickupreq->discounted_value=$signupDiscount;
+                $search_pickupreq->discounted_value=$total_price;
 
             }
             else
