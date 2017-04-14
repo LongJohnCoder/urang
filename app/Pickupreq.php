@@ -72,6 +72,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Pickupreq whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Pickupreq whereWashNFold($value)
  * @mixin \Eloquent
+ * @property bool $sign_up_discount 0 => not eligible, 1 => eligible
+ * @method static \Illuminate\Database\Query\Builder|\App\Pickupreq whereSignUpDiscount($value)
  */
 class Pickupreq extends Model
 {

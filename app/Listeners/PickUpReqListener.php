@@ -35,7 +35,6 @@ class PickUpReqListener
     public function handle(PickUpReqEvent $event)
     {
 
-
         $table_data = ''; //detail pickup data
         $subtotal = 0.00;
         $actutalsubtotal = 0.00;
@@ -86,6 +85,9 @@ class PickUpReqListener
                 $emergency_money = 7;
             }
 
+            if ($event->is_eligible_for_sign_up_discount) {
+                $subtotal -= $subtotal * 10/100;
+            }
 
             $actutaltotal=$subtotal;
 

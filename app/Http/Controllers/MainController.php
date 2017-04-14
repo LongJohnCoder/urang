@@ -709,6 +709,10 @@ class MainController extends Controller
     public function postMyPickup($request) {
         //$pass_to_event = array();
         //dd($request->request);
+
+        /* global flag for sign discount check */
+        $is_eligible_for_sign_up_discount = false;
+
         if ($request->address && $request->pick_up_date && $request->order_type != null && $request->pay_method) {
             $total_price = 0.00;
 
@@ -762,7 +766,9 @@ class MainController extends Controller
             /* check if a newly signed up user then apply 10% discount on total price */
             $user = User::find($pick_up_req->user_id);
             if ($user->is_eligible_for_sign_up_discount == 1) {
+                $is_eligible_for_sign_up_discount = true;
                 $pick_up_req->discounted_value -= $pick_up_req->discounted_value * 10/100;
+                $pick_up_req->sign_up_discount = 1;
                 //dd("sign up discount: ".$pick_up_req->discounted_value);
                 $user->is_eligible_for_sign_up_discount = 0;
                 $user->save();
@@ -912,13 +918,13 @@ class MainController extends Controller
                             'inv_id' => 0
                         );*/
 
-                        Event::fire(new PickUpReqEvent($request, 0));
+                        Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount));
                         return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
                     }
                     else
                     {
                         //dd($request->request);
-                        Event::fire(new PickUpReqEvent($request, 0));
+                        Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount));
                         return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
 
                     }
@@ -972,13 +978,13 @@ class MainController extends Controller
                             'request' => $request,
                             'inv_id' => $invoice->invoice_id
                         );*/
-                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
+                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id, $is_eligible_for_sign_up_discount));
                         return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
                     }
                     else
                     {
                         //dd($request->request);
-                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id));
+                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id, $is_eligible_for_sign_up_discount));
                         return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
 
                     }
