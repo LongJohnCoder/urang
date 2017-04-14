@@ -87,6 +87,7 @@ class PickUpReqListener
 
             if ($event->is_eligible_for_sign_up_discount) {
                 $subtotal -= $subtotal * 10/100;
+                $discount = $subtotal * 10/100;
             }
 
             $actutaltotal=$subtotal;
@@ -153,16 +154,16 @@ class PickUpReqListener
             if ($discount_percentage != "" && $discount_percentage->isActive == 1) {
                 if($event->req->isEmergency == 1 || $event->req->isEmergency == "on")
                 {
-                    $discount = ($subtotal)*($discount_percentage->discount/100);
+                    $discount += ($subtotal)*($discount_percentage->discount/100);
                 }
                 else
                 {
-                    $discount = $subtotal*($discount_percentage->discount/100);
+                    $discount += $subtotal*($discount_percentage->discount/100);
                 }
             }
             else
             {
-                $discount = 0.00;
+                //$discount = 0.00;
                 $coupon = "Not a valid coupon";
             }
         }
