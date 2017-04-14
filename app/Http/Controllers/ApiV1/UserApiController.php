@@ -300,7 +300,8 @@ class UserApiController extends Controller
 
     public function placeOrderIos(Request $request)
     {
-
+        /* global flag for sign discount check */
+        $is_eligible_for_sign_up_discount = false;
         if ($request->isCard == "yes") {
             $card_infos = new CustomerCreditCardInfo();
             $card_infos->user_id = $request->user_id;
@@ -363,7 +364,9 @@ class UserApiController extends Controller
         /* check if a newly signed up user then apply 10% discount on total price */
         $user = User::find($pick_up_req->user_id);
         if ($user->is_eligible_for_sign_up_discount == 1) {
+            $is_eligible_for_sign_up_discount = true;
             $pick_up_req->discounted_value -= $pick_up_req->discounted_value * 10/100;
+            $pick_up_req->sign_up_discount = 1;
             //dd("sign up discount: ".$pick_up_req->discounted_value);
             $user->is_eligible_for_sign_up_discount = 0;
             $user->save();
@@ -436,7 +439,7 @@ class UserApiController extends Controller
 //return "fast pickup";
                 //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //dd($request->request);
-                Event::fire(new PickUpReqEvent($request, 0));
+                Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount));
 
 
                 return Response::json(array(
@@ -476,7 +479,7 @@ class UserApiController extends Controller
                     $invoice->save();
                 }
                 //dd($request->request);
-                Event::fire(new PickUpReqEvent($request, $global_invoice_id));
+                Event::fire(new PickUpReqEvent($request, $global_invoice_id, $is_eligible_for_sign_up_discount));
                 return Response::json(array(
                     'status' => true,
                     'status_code' => 200,

@@ -83,6 +83,19 @@ class InvoiceController extends Controller
                 }
              }
              $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
+
+            if($search_pickupreq->sign_up_discount==1)
+            {
+
+                $signupDiscount=$total_price - ($total_price*10/100);
+
+                $search_pickupreq->discounted_value=$signupDiscount;
+
+            }
+            else
+            {
+                $search_pickupreq->discounted_value=$total_price;
+            }
              //dd($search_pickupreq);
              //emergency $7 extra
              if ($search_pickupreq->is_emergency == 1) {
