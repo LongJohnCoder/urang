@@ -85,12 +85,12 @@ class PickUpReqListener
                 $emergency_money = 7;
             }
 
-            if ($event->is_eligible_for_sign_up_discount) {
-                $discount = $subtotal * 10/100;
-                $subtotal -= $subtotal * 10/100;
-            }
-
             $actutaltotal=$subtotal;
+
+            if ($event->is_eligible_for_sign_up_discount) {
+                $discount = $actutaltotal * 10/100;
+                $actutaltotal -= $actutaltotal * 10/100;
+            }
 
         }
         //fast pickup
