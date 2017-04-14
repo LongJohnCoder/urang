@@ -88,8 +88,8 @@ class PickUpReqListener
             $actutaltotal=$subtotal;
 
             if ($event->is_eligible_for_sign_up_discount) {
-                $discount = $actutaltotal * 10/100;
-                $actutaltotal -= $actutaltotal * 10/100;
+                $discount = $subtotal * 10/100;
+                $subtotal -= $subtotal * 10/100;
             }
 
         }
@@ -176,7 +176,7 @@ class PickUpReqListener
        $actutaltotal=number_format((float)$actutaltotal,2, '.', '');
         $subtotal=number_format((float)$subtotal + $refferal_discount,2, '.', '');
 
-        dd("Subtotal: ".$actutalsubtotal." Total: ".$actutaltotal." Discount: ".$discount);
+        //dd("Subtotal: ".$actutalsubtotal." Total: ".$actutaltotal." Discount: ".$discount);
         $some = Mail::send('email.pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount'=>$refferal_discount, 'actualSubtotal' => $actutalsubtotal, 'actualTotal' => $actutaltotal, 'table_data' => $table_data,'emergency_money' => $emergency_money),
             function($message) use ($event){
                 $message->from(env('ADMIN_EMAIL'), "Admin");
