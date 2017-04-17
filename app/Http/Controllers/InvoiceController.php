@@ -92,17 +92,10 @@ class InvoiceController extends Controller
                 }
             }
 
-            if($search_pickupreq->sign_up_discount==1)
-            {
-
-                $total_price=$total_price - ($total_price*10/100);
-
-                $search_pickupreq->discounted_value=$total_price;
-
-            }
-            else
-            {
-                $search_pickupreq->discounted_value=$total_price;
+            if($search_pickupreq->sign_up_discount == 1) {
+                $search_pickupreq->discounted_value = $total_price - ($total_price * 10/100);
+            } else {
+                $search_pickupreq->discounted_value = $total_price;
             }
 
             if ($search_pickupreq->ref_discount == 1) {
@@ -224,15 +217,22 @@ class InvoiceController extends Controller
                         if($find_pickup->is_emergency==0)
                         {
                             $find_pickup->total_price = $total_price;
+                            $find_pickup->discounted_value = $find_pickup->total_price;
                             $find_pickup->save();
                         }
                         else
                         {
                             $find_pickup->total_price = $total_price+7;
+                            $find_pickup->discounted_value = $find_pickup->total_price;
                             $find_pickup->save();
                         }
                     }
                     //return $find_pickup->total_price;
+                }
+                if ($find_pickup->sign_up_discount == 1) {
+                    //return $total_price;
+                    $find_pickup->discounted_value -= $find_pickup->discounted_value * 10/100;
+                    $find_pickup->save();
                 }
                 if ($find_pickup->ref_discount == 1) {
                     //return $total_price;
@@ -282,7 +282,12 @@ class InvoiceController extends Controller
             $find_pickup = Pickupreq::find($request->pick_up_req_id);
             if ($find_pickup) {
                 $find_pickup->total_price += $total_price;
+                $find_pickup->discounted_value = $find_pickup->total_price;
                 if ($find_pickup->save()) {
+                    if ($find_pickup->sign_up_discount == 1) {
+                        $find_pickup->discounted_value -= $find_pickup->discounted_value * 10/100;
+                        $find_pickup->save();
+                    }
                     if ($find_pickup->coupon != null) {
                         $calculate_discount = new SiteHelper();
                         $discounted_value = $calculate_discount->discountedValue($find_pickup->coupon, $total_price);

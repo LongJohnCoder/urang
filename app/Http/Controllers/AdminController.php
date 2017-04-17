@@ -1743,6 +1743,11 @@ class AdminController extends Controller
                 $user->save();
             }
         }
+        $user->discounted_value = $user->total_price;
+        if ($user->sign_up_discount == 1) {
+            $user->discounted_value -= $user->discounted_value * 10 /100;
+            //$user->save();
+        }
         //return $user->total_price;
         //return $user->ref_discount;
         if ($user->ref_discount == 1) {
@@ -2566,9 +2571,27 @@ class AdminController extends Controller
             $total_price_to_deduct = $nowquantity * $nowPriceEach;
 
             $pickups->total_price = $previous_price - $total_price_to_deduct;
+            $pickups->discounted_value = $pickups->total_price;
+
             //return $pickups->total_price;
             $pickups->save();
             
+        }
+        //return $pickups->total_price;
+        if ($pickups->sign_up_discount == 1) {
+            $nowquantity = $invoice->quantity;
+            $nowPriceEach = $invoice->price;
+            $total_price_to_deduct = $nowquantity * $nowPriceEach;
+            //return $total_price_to_deduct;
+            if ($previous_price == 0) {
+                $pickups->total_price = 0;
+            } else {
+                $pickups->total_price = $previous_price - $total_price_to_deduct;
+            }
+
+            //return $pickups->total_price;
+            $pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
+            $pickups->save();
         }
         //return $pickups->total_price;
         if ($pickups->ref_discount == 1) {
@@ -2659,6 +2682,31 @@ class AdminController extends Controller
 
 
         $invoice = Invoice::where('custom_item_add_id',$request->custom_item_add_id)->first();
+
+        if($previous_price>0)
+        {
+            $nowquantity = $invoice->quantity;
+            $nowPriceEach = $invoice->price;
+
+            $total_price_to_deduct = $nowquantity * $nowPriceEach;
+
+            $pickups->total_price = $previous_price - $total_price_to_deduct;
+            $pickups->discounted_value = $pickups->total_price;
+
+            //return $pickups->total_price;
+            $pickups->save();
+
+        }
+        if ($pickups->sign_up_discount == 1) {
+            $nowquantity = $invoice->quantity;
+            $nowPriceEach = $invoice->price;
+            $total_price_to_deduct = $nowquantity * $nowPriceEach;
+
+            $pickups->total_price = $previous_price - $total_price_to_deduct;
+            $pickups->discounted_value = SiteHelper::updateTotalPriceOnRef($pickups->total_price);
+            //$pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
+            $pickups->save();
+        }
         if ($pickups->ref_discount == 1) {
             $nowquantity = $invoice->quantity;
             $nowPriceEach = $invoice->price;
