@@ -783,7 +783,7 @@ class MainController extends Controller
             }
             //dd($total_price);
             if ($check_ref) {
-                // $pick_up_req->ref_discount  =  1;
+                $pick_up_req->ref_discount  =  1;
                 // if($check_ref->discount_count>1)
                 // {
                 //     $check_ref->discount_count = $check_ref->discount_count-1;

@@ -1746,14 +1746,14 @@ class AdminController extends Controller
         $user->discounted_value = $user->total_price;
         if ($user->sign_up_discount == 1) {
             $user->discounted_value -= $user->discounted_value * 10 /100;
-            //$user->save();
+            $user->save();
         }
         //return $user->total_price;
         //return $user->ref_discount;
         if ($user->ref_discount == 1) {
             $calculate_discount = new SiteHelper();
-            $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($user->total_price);
-            //$user->save();
+            $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($user->discounted_value);
+            $user->save();
         }
         //return $user->discounted_value;
         if($user->save())
@@ -1763,16 +1763,16 @@ class AdminController extends Controller
             if ($user->coupon != null) {
                 $calculate_discount = new SiteHelper();
                 //return $user->total_price;
-                $discounted_value = $calculate_discount->discountedValue($user->coupon, $user->total_price);
-                if ($user->ref_discount == 1) {
+                $user->discounted_value = $calculate_discount->discountedValue($user->coupon, $user->discounted_value);
+                /*if ($user->ref_discount == 1) {
                     $calculate_discount = new SiteHelper();
                     $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
                 }
                 else
                 {
                     $user->discounted_value = $discounted_value;
-                }
-                
+                }*/
+
                 $user->save();
             }
             if($request->ajax())

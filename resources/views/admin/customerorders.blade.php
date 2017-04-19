@@ -1413,7 +1413,7 @@
       }
    });
    function sbmitEditForm()
-   {   
+   {
      if($('#list_items_json').val() != '')
      {
       
