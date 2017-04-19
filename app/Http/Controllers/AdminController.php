@@ -1744,18 +1744,21 @@ class AdminController extends Controller
             }
         }
         $user->discounted_value = $user->total_price;
+        //return $user->total_price." ".$user->discounted_value; OK
         if ($user->sign_up_discount == 1) {
             $user->discounted_value -= $user->discounted_value * 10 /100;
             $user->save();
         }
         //return $user->total_price;
         //return $user->ref_discount;
+        //return $user->total_price." ".$user->discounted_value; OK
         if ($user->ref_discount == 1) {
             $calculate_discount = new SiteHelper();
             $user->discounted_value  = $calculate_discount->updateTotalPriceOnRef($user->discounted_value);
             $user->save();
         }
         //return $user->discounted_value;
+        //return $user->total_price." ".$user->discounted_value; OK
         if($user->save())
         {
             
@@ -1774,6 +1777,7 @@ class AdminController extends Controller
                 }*/
 
                 $user->save();
+                //return $user->total_price." ".$user->discounted_value; OK
             }
             if($request->ajax())
             {
@@ -2694,10 +2698,10 @@ class AdminController extends Controller
             $pickups->total_price = $previous_price - $total_price_to_deduct;
             $pickups->discounted_value = $pickups->total_price;
 
-            //return $pickups->total_price;
             $pickups->save();
 
         }
+        //return $pickups->total_price." ".$pickups->discounted_value; OK
         if ($pickups->sign_up_discount == 1) {
             $nowquantity = $invoice->quantity;
             $nowPriceEach = $invoice->price;
@@ -2708,42 +2712,36 @@ class AdminController extends Controller
             //$pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
             $pickups->save();
         }
+        //return $pickups->total_price." ".$pickups->discounted_value; OK
         if ($pickups->ref_discount == 1) {
             $nowquantity = $invoice->quantity;
             $nowPriceEach = $invoice->price;
             $total_price_to_deduct = $nowquantity * $nowPriceEach;
             
             $pickups->total_price = $previous_price - $total_price_to_deduct;
-            $pickups->discounted_value = SiteHelper::updateTotalPriceOnRef($pickups->total_price);
+            $pickups->discounted_value = SiteHelper::updateTotalPriceOnRef($pickups->discounted_value);
             //$pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
             $pickups->save();
         }
-        if($previous_price>0)
-        {
-            $nowquantity = $invoice->quantity;
-            $nowPriceEach = $invoice->price;
-
-            $total_price_to_deduct = $nowquantity * $nowPriceEach;
-
-            $pickups->total_price = $previous_price - $total_price_to_deduct;
-
-            $pickups->save();
-        }
+        //return $pickups->total_price." ".$pickups->discounted_value; OK
         if ($pickups->coupon != null) {
             $calculate_discount = new SiteHelper();
-            $discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->total_price);
-            if ($pickups->ref_discount == 1) {
+            $pickups->discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->discounted_value);
+            //return $pickups->total_price." ".$discounted_value; OK
+            // redundant block
+            /*if ($pickups->ref_discount == 1) {
                 $calculate_discount = new SiteHelper();
                 $pickups->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
             }
             else
             {
                 $pickups->discounted_value = $discounted_value;
-            }
+            }*/
             //$pickups->discounted_value = $discounted_value;
             $pickups->save();
             //$pickups->discounted_value = $discounted_value;
             //$pickups->save();
+            //return $pickups->total_price." ".$pickups->discounted_value;
         }
 
         if($invoice->delete())

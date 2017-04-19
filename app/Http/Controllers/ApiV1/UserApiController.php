@@ -176,7 +176,7 @@ class UserApiController extends Controller
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
         if ($check_ref) {
-            // $pick_up_req->ref_discount  =  1;
+            $pick_up_req->ref_discount  =  1;
             // if($check_ref->discount_count>1)
             // {
             //     $check_ref->discount_count = $check_ref->discount_count-1;
@@ -374,7 +374,7 @@ class UserApiController extends Controller
         //checking for user is referred or Not
         $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
         if ($check_ref) {
-            // $pick_up_req->ref_discount  =  1;
+            $pick_up_req->ref_discount  =  1;
             // if($check_ref->discount_count>1)
             // {
             //     $check_ref->discount_count = $check_ref->discount_count-1;
