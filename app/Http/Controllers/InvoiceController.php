@@ -290,13 +290,13 @@ class InvoiceController extends Controller
                     }
                     if ($find_pickup->coupon != null) {
                         $calculate_discount = new SiteHelper();
-                        $discounted_value = $calculate_discount->discountedValue($find_pickup->coupon, $total_price);
+                        $discounted_value = $calculate_discount->discountedValue($find_pickup->coupon, $find_pickup->discounted_value);
                         //return $discounted_value;
                         //$find_pickup->discounted_value = 0;
                         if ($find_pickup->ref_discount == 1) {
                             $calculate_discount = new SiteHelper();
                             
-                            $find_pickup->discounted_value  += $calculate_discount->updateTotalPriceOnRef($discounted_value);
+                            $find_pickup->discounted_value  += $calculate_discount->updateTotalPriceOnRef($find_pickup->discounted_value);
                         }
                         else
                         {
@@ -314,7 +314,7 @@ class InvoiceController extends Controller
                     }
                      if ($find_pickup->ref_discount == 1) {
                         $calculate_discount = new SiteHelper();
-                        $find_pickup->discounted_value += $calculate_discount->updateTotalPriceOnRef($total_price);
+                        $find_pickup->discounted_value += $calculate_discount->updateTotalPriceOnRef($find_pickup->discounted_value);
                         $find_pickup->save();
                     }
                     return 1;
