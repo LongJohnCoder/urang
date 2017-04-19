@@ -1241,7 +1241,7 @@
   }
 
 
-
+  var ModalToOpenOnNextPage = '';
   setTimeout(function()
   { 
 
