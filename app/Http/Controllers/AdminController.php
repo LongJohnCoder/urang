@@ -2577,6 +2577,7 @@ class AdminController extends Controller
             $pickups->save();
             
         }
+        $pickups->discounted_value = $pickups->total_price;
         //return $pickups->total_price;
         if ($pickups->sign_up_discount == 1) {
             $nowquantity = $invoice->quantity;
@@ -2595,7 +2596,7 @@ class AdminController extends Controller
         }
         //return $pickups->total_price;
         if ($pickups->ref_discount == 1) {
-            $nowquantity = $invoice->quantity;
+            /*$nowquantity = $invoice->quantity;
             $nowPriceEach = $invoice->price;
             $total_price_to_deduct = $nowquantity * $nowPriceEach;
             //return $total_price_to_deduct;
@@ -2603,10 +2604,10 @@ class AdminController extends Controller
                 $pickups->total_price = 0;
             } else {
                 $pickups->total_price = $previous_price - $total_price_to_deduct;
-            }
+            }*/
             
             //return $pickups->total_price;
-            $pickups->discounted_value = SiteHelper::updateTotalPriceOnRef($pickups->total_price);
+            $pickups->discounted_value = SiteHelper::updateTotalPriceOnRef($pickups->discounted_value);
             //$pickups->discounted_value = ($pickups->total_price - (($pickups->total_price*10)/100));
             $pickups->save();
         }
@@ -2614,8 +2615,8 @@ class AdminController extends Controller
         if ($pickups->coupon != null) {
 
             $calculate_discount = new SiteHelper();
-            $discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->total_price);
-            if ($pickups->ref_discount == 1) {
+            $pickups->discounted_value = $calculate_discount->discountedValue($pickups->coupon, $pickups->discounted_value);
+            /*if ($pickups->ref_discount == 1) {
                 //return "Im here";
                 $calculate_discount = new SiteHelper();
                 $pickups->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
@@ -2623,7 +2624,7 @@ class AdminController extends Controller
             else
             {
                 $pickups->discounted_value = $discounted_value;
-            }
+            }*/
             //$pickups->discounted_value = $discounted_value;
             $pickups->save();
         }
