@@ -100,14 +100,14 @@ class InvoiceController extends Controller
 
             if ($search_pickupreq->ref_discount == 1) {
                  $calculate_discount = new SiteHelper();
-                 $discounted_value = $calculate_discount->updateTotalPriceOnRef($total_price);
+                 $discounted_value = $calculate_discount->updateTotalPriceOnRef($search_pickupreq->discounted_value);
                  $search_pickupreq->discounted_value = $discounted_value;
                  $search_pickupreq->save();
-             }
+            }
              if ($search_pickupreq->coupon != null) {
                 $calculate_discount = new SiteHelper();
-                $discounted_value = $calculate_discount->discountedValue($search_pickupreq->coupon, $total_price);
-                //dd($discounted_value);
+                $search_pickupreq->discounted_value = $calculate_discount->discountedValue($search_pickupreq->coupon, $search_pickupreq->discounted_value);
+                /*//dd($discounted_value);
                 if ($search_pickupreq->ref_discount == 1) {
                     $calculate_discount = new SiteHelper();
                     $search_pickupreq->discounted_value  = $calculate_discount->updateTotalPriceOnRef($discounted_value);
@@ -116,7 +116,7 @@ class InvoiceController extends Controller
                 {
                     $search_pickupreq->discounted_value = $discounted_value;
                 }
-                //$search_pickupreq->discounted_value = $discounted_value;
+                //$search_pickupreq->discounted_value = $discounted_value;*/
                 $search_pickupreq->save();
              }
              $search_pickupreq->total_price = $total_price;
