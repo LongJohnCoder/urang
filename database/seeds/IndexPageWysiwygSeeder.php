@@ -91,7 +91,7 @@ class IndexPageWysiwygSeeder extends Seeder
 
         	$indexCms->footer_section_three_header = "CONTACT INFO";
         	$indexCms->footer_section_three_first = "15 Broad Street New York, NY 10005";
-        	$indexCms->footer_section_three_second = "(800)959-5785";
+        	$indexCms->footer_section_three_second = "(646)902-5326";
         	$indexCms->footer_section_three_third = "lisa@u-rang.com";
 
         	$indexCms->footer_section_four_header = "CONTACT INFO";

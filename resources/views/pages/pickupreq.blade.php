@@ -5,7 +5,7 @@
 </style>
 <div class="main-content nycpick">
 <div class="fixed-div">
-  <h2><label>Contact Us:</label> (800)959-5785</h2>
+  <h2><label>Contact Us:</label> (646)902-5326</h2>
   <h2><label>Email-Id:</label> <a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a></h2>
   <div class="open-square"><i class="fa fa-comments-o" aria-hidden="true"></i> Support</div>
 </div>

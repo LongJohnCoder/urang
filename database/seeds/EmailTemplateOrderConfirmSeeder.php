@@ -20,7 +20,7 @@ class EmailTemplateOrderConfirmSeeder extends Seeder
         	$sign_email->image_link = "https://cdn2.iconfinder.com/data/icons/perfect-flat-icons-2/512/Order_tracking_online_offer_cart_shopping.png";
         	$sign_email->website_link = "https://www.u-rang.com/";
         	$sign_email->address = "15 Broad Street New York, NY 10005";
-        	$sign_email->phone_no = "(800)959-5785";
+        	$sign_email->phone_no = "(646)902-5326";
         	$sign_email->support_email = "lisa@u-rang.com";
         	$sign_email->save();
         }
