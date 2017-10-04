@@ -26,7 +26,7 @@ class CompliantsEmailTableSeeder extends Seeder
 										We offer you full storage on all your clothes including a fur vault.";
 	        $compliants->website_link = "http://dev.u-rang.com";
 	        $compliants->address = "150 Broad Street New York, NY 10005";
-	        $compliants->phone_no = 8009595785;
+	        $compliants->phone_no = 6469025326;
 	        $compliants->support_email = "support@u-rang.com";
 	        $compliants->save();
     	}

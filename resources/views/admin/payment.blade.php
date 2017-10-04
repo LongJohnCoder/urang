@@ -87,11 +87,11 @@
       <div class="modal-body">
       	<form role="form" action="{{route('postPaymentKeys')}}" method="post">
         	<div class="form-group">
-        		<label for="Authorize_ID">Authorize ID:</label>
+        		<label for="Authorize_ID">Publishabel Key:</label>
         		<input type="text" class="form-control" name="authorize_id" id="Authorize_ID" required=""></input>
         	</div>
         	<div class="form-group">
-        		<label for="tran_key">Transaction Key:</label>
+        		<label for="tran_key">Secret Key:</label>
         		<input type="text" class="form-control" name="tran_key" id="tran_key" required=""></input>
         	</div>
         	<div class="form-group">

@@ -67,7 +67,7 @@
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10005</p>
                                 </li>
                                 <li>
-                                    <p><i class="icon icon-Phone2"></i>(800)959-5785</p>
+                                    <p><i class="icon icon-Phone2"></i>(646)902-5326</p>
                                 </li>
                                 <li>
                                     <p><i class="icon icon-Mail"></i><a href="mailto:support@oscend.com">support@u-rang.com</a> </p>
