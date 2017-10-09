@@ -63,6 +63,8 @@ Route::group(['middleware' => ['user']], function () {
     Route::get('/changepassword', ['uses' => 'MainController@getChangePassword', 'as' => 'getChangePassword']);
     Route::post('/attempt-changepassword', ['uses' => 'MainController@postChangePassword', 'as' => 'postchangePassword']);
     Route::get('/pickup-request', ['uses'=> 'MainController@getPickUpReq', 'as' => 'getPickUpReq']);
+    Route::get('/new-credit-card', ['uses'=> 'MainController@getNewCreditCard', 'as' => 'getNewCreditCard']);
+    Route::post('/new-credit-card', ['uses'=> 'MainController@postNewCreditCard', 'as' => 'postNewCreditCard']);
     Route::get('/my-pickups', ['uses' => 'MainController@getMyPickUps', 'as' => 'getMyPickUp']);
     Route::post('/delete-pickup', ['uses' => 'MainController@postDeletePickUp', 'as' => 'postDeletePickup']);
     Route::post('/show-invoice', ['uses' => 'InvoiceController@showInvoiceUser', 'as' => 'showInvoiceUser']);
@@ -212,7 +214,7 @@ Route::group(['middleware' => ['auth']], function () {
 //mark as paid routes
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);
-    Route::post('/payment', ['uses' => 'PaymentController@AuthoRizePayment', 'as' => 'postPayment']);
+    Route::post('/payment', ['uses' => 'PaymentController@chargePayment', 'as' => 'postPayment']);
     Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
 //Staff routes
 Route::group (['prefix' => 'staff'], function () {
