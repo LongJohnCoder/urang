@@ -15,6 +15,9 @@ use App\CustomerCreditCardInfo;
 use App\Invoice;
 use App\SchoolDonations;
 use App\SchoolDonationPercentage;
+use Stripe\Charge;
+use Stripe\Stripe;
+
 class PaymentController extends Controller
 {
 	public function postGetCustomerCreditCard(Request $request) {
@@ -33,6 +36,7 @@ class PaymentController extends Controller
        // dd($user_details);
 		return view('admin.payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
 	}
+
     public function AuthoRizePayment(Request $auth_request) {
     	//dd($auth_request);
     	if(preg_match('/^([0-9]{4})-([0-9]{2})$/', $auth_request->exp_date)) {
@@ -51,7 +55,7 @@ class PaymentController extends Controller
 				$paymentOne->setCreditCard($creditCard);
 				// Create a transaction
 				$transactionRequestType = new AnetAPI\TransactionRequestType();
-				$transactionRequestType->setTransactionType("authCaptureTransaction"); 
+				$transactionRequestType->setTransactionType("authCaptureTransaction");
 				$transactionRequestType->setAmount($auth_request->amount);
 				$transactionRequestType->setPayment($paymentOne);
 				$request = new AnetAPI\CreateTransactionRequest();
@@ -71,7 +75,7 @@ class PaymentController extends Controller
 				{
 					//dd($response);
 				    $tresponse = $response->getTransactionResponse();
-				    if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )   
+				    if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )
 				    {
 				    	//dd($tresponse);
 				    	//marking as paid
@@ -79,8 +83,8 @@ class PaymentController extends Controller
 				    		$search_pickup_req = Pickupreq::find($auth_request->pick_up_re_id);
 						    $search_pickup_req->payment_status = 1;
 						    $search_pickup_req->order_status = 4;
-						    $search_pickup_req->save();	
-				    	}	
+						    $search_pickup_req->save();
+				    	}
 					    if ($auth_request->school_donation_id != null) {
 					    	//donate to school
 					    	 //get the percenatge
@@ -155,7 +159,7 @@ class PaymentController extends Controller
 			    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
 			    	} else {
 			    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
-			    	} 
+			    	}
 				}
 	   		}
 	   		else
@@ -164,7 +168,7 @@ class PaymentController extends Controller
 		    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
 		    	} else {
 		    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
-		    	} 
+		    	}
 	   		}
     	}
 		else
@@ -173,10 +177,161 @@ class PaymentController extends Controller
 	    		return redirect()->route('getMakePayments')->with('fail', "Wrong date format! Date format should be YYYY-MM.");
 	    	} else {
 	    		return redirect()->route('getPayment')->with('fail', "Wrong date format! Date format should be YYYY-MM.");
-	    	} 
+	    	}
 		}
-   		
+
     }
+
+    public function chargePayment(Request $request)
+    {
+        if(preg_match('/^([0-9]{4})-([0-9]{2})$/', $request->input('exp_date'))) {
+            $paymentKey = PaymentKeys::first();
+            if ($paymentKey) {
+                if (!$paymentKey->mode) {
+                    if ($request->has('pick_up_re_id') && strlen(trim($request->input('pick_up_re_id')))) {
+                        $pickUpRequest = Pickupreq::whereId($request->input('pick_up_re_id'))
+                            ->wherePaymentStatus(0)
+                            ->first();
+                        if ($pickUpRequest) {
+                            $customer = CustomerCreditCardInfo::whereUserId($pickUpRequest->user_id)->first();
+                            if (strlen(trim($customer->stripe_customer_id))) {
+                                Stripe::setApiKey($paymentKey->transaction_key);
+
+                                $charge = Charge::create([
+                                    "amount" => $request->has('amount') ? $request->input('amount') * 100 : 0,
+                                    "currency" => "usd",
+                                    "customer" => $customer->stripe_customer_id
+                                ]);
+
+                                if ($charge->captured && $charge->paid) {
+                                    $pickUpRequest->payment_status = 1;
+                                    $pickUpRequest->order_status = 4;
+                                    $pickUpRequest->save();
+
+                                    if ($request->has('school_donation_id')
+                                        && strlen(trim($request->input('school_donation_id')))) {
+                                        /*
+                                         * Donate to school, get the percentage
+                                         */
+                                        $percentage = SchoolDonationPercentage::first();
+                                        if ($percentage) {
+                                            $school = SchoolDonations::find($request->input('school_donation_id'));
+                                            if ($school) {
+                                                $school->actual_pending_money +=
+                                                    ($request->input('amount') * $percentage->percentage) / 100;
+                                                if ($school->save()) {
+                                                    if ($request->has('i_m_staff')
+                                                        && strlen(trim($request->input('i_m_staff')))) {
+                                                        return redirect()
+                                                            ->route('getMakePayments')
+                                                            ->with('success', "Payment was successful!");
+                                                    } else {
+                                                        return redirect()
+                                                            ->route('getPayment')
+                                                            ->with('success', "Payment was successful!");
+                                                    }
+                                                } else {
+                                                    if ($request->has('i_m_staff')
+                                                        && strlen(trim($request->input('i_m_staff')))) {
+                                                        return redirect()
+                                                            ->route('getMakePayments')
+                                                            ->with('success', "Payment was successful but cannot donate
+                                                             to the school. Hint: error while saving data!");
+                                                    } else {
+                                                        return redirect()
+                                                            ->route('getPayment')
+                                                            ->with('success', "Payment was successful but cannot donate
+                                                             to the school. Hint: error while saving data!");
+                                                    }
+                                                }
+                                            } else {
+                                                if ($request->has('i_m_staff')
+                                                    && strlen(trim($request->input('i_m_staff')))) {
+                                                    return redirect()
+                                                        ->route('getMakePayments')
+                                                        ->with('success', "Payment was successful but cannot donate to 
+                                                        the requested school. Hint: could not locate it!");
+                                                } else {
+                                                    return redirect()
+                                                        ->route('getPayment')
+                                                        ->with('success', "Payment was successful but cannot donate to 
+                                                        the requested school. Hint: could not locate it!");
+                                                }
+                                            }
+                                        } else {
+                                            if ($request->has('i_m_staff')
+                                                && strlen(trim($request->input('i_m_staff')))) {
+                                                return redirect()
+                                                    ->route('getMakePayments')
+                                                    ->with('success', "Payment was successful but money is not donated 
+                                                    Hint: set the school donation percentage!");
+                                            } else {
+                                                return redirect()
+                                                    ->route('getPayment')
+                                                    ->with('success', "Payment was successful but money is not donated 
+                                                    Hint: set the school donation percentage!");
+                                            }
+                                        }
+                                    }
+                                    if ($request->has('i_m_staff') && strlen(trim($request->input('i_m_staff')))) {
+                                        return redirect()
+                                            ->route('getMakePayments')
+                                            ->with('success', "Payment was successful!");
+                                    } else {
+                                        return redirect()
+                                            ->route('getPayment')
+                                            ->with('success', "Payment was successful!");
+                                    }
+                                } else {
+                                    if ($request->has('i_m_staff') && strlen(trim($request->input('i_m_staff')))) {
+                                        return redirect()
+                                            ->route('getMakePayments')
+                                            ->with('fail', "Payment Failed check card details and try again later!");
+                                    } else {
+                                        return redirect()
+                                            ->route('getPayment')
+                                            ->with('fail', "Payment Failed check card details and try again later!");
+                                    }
+                                }
+                            } else {
+                                return redirect()
+                                    ->back()
+                                    ->with('fail', "Invalid customer.");
+                            }
+                        } else {
+                            return redirect()
+                                ->back()
+                                ->with('fail', "Invalid order to charge.");
+                        }
+                    } else {
+                        return redirect()
+                            ->back()
+                            ->with('fail', "Invalid order to charge.");
+                    }
+                } else {
+                    return redirect()
+                        ->back()
+                        ->with('fail', "Your payment account is in 'Test' mode. Please make sure to set 'Live' API keys 
+                        on 'Live' mode to charge a card and also change to 'Live' mode in your Stripe dashboard.");
+                }
+            } else {
+                return redirect()
+                    ->back()
+                    ->with('fail', "Please setup your payment account info before charging a card.");
+            }
+        } else {
+            if ($request->has('i_m_staff') && strlen(trim($request->input('i_m_staff')))) {
+                return redirect()
+                    ->route('getMakePayments')
+                    ->with('fail', "Wrong date format! Date format should be YYYY-MM.");
+            } else {
+                return redirect()
+                    ->route('getPayment')
+                    ->with('fail', "Wrong date format! Date format should be YYYY-MM.");
+            }
+        }
+    }
+
     public function postPaymentKeys(Request $request) {
     	//dd($request->i_m_staff);
     	$payment_keys = PaymentKeys::first();

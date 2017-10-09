@@ -12,7 +12,8 @@
         "jms/serializer": "serializer-master-dev as 1.0",
         "intervention/image": "^2.3",
         "doctrine/dbal": "^2.5",
-        "barryvdh/laravel-ide-helper": "^2.3"
+        "barryvdh/laravel-ide-helper": "^2.3",
+        "stripe/stripe-php": "^5.2"
     },
     "repositories": [{
        "type": "vcs",

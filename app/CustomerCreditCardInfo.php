@@ -28,6 +28,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\CustomerCreditCardInfo whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\CustomerCreditCardInfo whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $card_id
+ * @property string|null $card_fingerprint
+ * @property string|null $card_country
+ * @property string|null $stripe_customer_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CustomerCreditCardInfo whereCardCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CustomerCreditCardInfo whereCardFingerprint($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CustomerCreditCardInfo whereCardId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CustomerCreditCardInfo whereStripeCustomerId($value)
  */
 class CustomerCreditCardInfo extends Model
 {

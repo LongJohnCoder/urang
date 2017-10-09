@@ -212,7 +212,7 @@ Route::group(['middleware' => ['auth']], function () {
 //mark as paid routes
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);
-    Route::post('/payment', ['uses' => 'PaymentController@AuthoRizePayment', 'as' => 'postPayment']);
+    Route::post('/payment', ['uses' => 'PaymentController@chargePayment', 'as' => 'postPayment']);
     Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
 //Staff routes
 Route::group (['prefix' => 'staff'], function () {
