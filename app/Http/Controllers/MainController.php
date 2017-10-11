@@ -349,6 +349,7 @@ class MainController extends Controller
         $site_details = $obj->siteData();
         $logged_user = $obj->getCustomerData();
         $school_list = SchoolDonations::all();
+        //dd($logged_user->user_details->toArray());
         //$neighborhood = $obj->getNeighborhood();
         return view('pages.profile', compact('site_details', 'logged_user', 'school_list'));
     }
@@ -867,8 +868,7 @@ class MainController extends Controller
 
     public function postMyPickup($request)
     {
-        //$pass_to_event = array();
-        //dd($request->request);
+        //dd($request);
 
         /* global flag for sign discount check */
         $is_eligible_for_sign_up_discount = false;
@@ -965,17 +965,17 @@ class MainController extends Controller
             } else {
                 $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
             }
-            $update_user_details->address_line_1 = $request->address;
-            $update_user_details->address_line_2 = $request->address_line_2;
-            $update_user_details->personal_ph = $request->personal_ph;
-            $update_user_details->cell_phone = $request->cellph_no;
-            $update_user_details->off_phone = $request->officeph_no;
-            $update_user_details->city = $request->city;
-            $update_user_details->state = $request->state;
-            $update_user_details->zip = $request->zip;
-            $update_user_details->spcl_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
-            $update_user_details->driving_instructions = isset($request->spcl_ins) ? $request->spcl_ins : null;
-            $update_user_details->school_id = $request->school_donation_id;
+            $update_user_details->address_line_1 = $request->has('address') && strlen(trim($request->address)) ? $request->address : $update_user_details->address_line_1;
+            $update_user_details->address_line_2 = $request->has('address_line_2') && strlen(trim($request->address_line_2)) ? $request->address_line_2 : $update_user_details->address_line_2;
+            $update_user_details->personal_ph = $request->has('personal_ph') && strlen(trim($request->personal_ph)) ? $request->personal_ph : $update_user_details->personal_ph;
+            $update_user_details->cell_phone = $request->has('cellph_no') && strlen(trim($request->cellph_no)) ? $request->cellph_no : $update_user_details->cell_phone;
+            $update_user_details->off_phone = $request->has('officeph_no') && strlen(trim($request->officeph_no)) ? $request->officeph_no : $update_user_details->off_phone;
+            $update_user_details->city = $request->has('city') && strlen(trim($request->city)) ? $request->city : $update_user_details->city;
+            $update_user_details->state = $request->has('state') && strlen(trim($request->state)) ? $request->state : $update_user_details->state;
+            $update_user_details->zip = $request->has('zip') && strlen(trim($request->zip)) ? $request->zip : $update_user_details->zip;
+            $update_user_details->spcl_instructions = $request->has('driving_ins') && strlen(trim($request->driving_ins)) ? $request->driving_ins : null;
+            $update_user_details->driving_instructions = $request->has('spcl_ins') && strlen(trim($request->spcl_ins)) ? $request->spcl_ins : null;
+            $update_user_details->school_id = $request->has('school_donation_id') && strlen(trim($request->school_donation_id)) ? $request->school_donation_id : $update_user_details->school_id;
             $update_user_details->save();
 
             //coupon check
@@ -1052,31 +1052,17 @@ class MainController extends Controller
                 $tracker->original_invoice = $pick_up_req->total_price;
                 $tracker->save();
 
+                $address = (trim($pick_up_req->apt_no) ? $pick_up_req->apt_no . ", " : "") . $pick_up_req->address . ", " . $pick_up_req->address_line_2;
                 if ($request->order_type == 1) {
-
-                    //fast pick up
-                    //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
-                    //dd($expected_time);
-
                     if ($request->identifier == "admin") {
-
-                        /*$pass_to_event = array(
-                            'request' => $request,
-                            'inv_id' => 0
-                        );*/
-
-                        Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount));
+                        Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount, $address));
                         return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
                     } else {
-                        //dd($request->request);
-                        Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount));
+                        Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount, $address));
                         return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
 
                     }
-
                 } else {
-
-                    //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                     //detailed pick up
                     $data = json_decode($request->list_items_json);
                     for ($i = 0; $i < count($data); $i++) {
@@ -1094,7 +1080,6 @@ class MainController extends Controller
                         $order_details->save();
                     }
                     //create invoice
-                    //dd($data);
                     for ($j = 0; $j < count($data); $j++) {
                         $invoice = new Invoice();
                         if ($request->identifier == "admin") {
@@ -1113,15 +1098,11 @@ class MainController extends Controller
                         $invoice->save();
                     }
                     if ($request->identifier == "admin") {
-                        /*$pass_to_event = array(
-                            'request' => $request,
-                            'inv_id' => $invoice->invoice_id
-                        );*/
-                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id, $is_eligible_for_sign_up_discount));
+                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id, $is_eligible_for_sign_up_discount, $address));
                         return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
                     } else {
                         //dd($request->request);
-                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id, $is_eligible_for_sign_up_discount));
+                        Event::fire(new PickUpReqEvent($request, $invoice->invoice_id, $is_eligible_for_sign_up_discount, $address));
                         return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order "/*.$expected_time*/);
 
                     }

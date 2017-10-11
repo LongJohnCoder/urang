@@ -158,7 +158,7 @@
                             <td>{{ $pickup->id}}</td>
                            <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
                            <td>{{ $pickup->user->email }}</td>
-                           <td>{{ $pickup->address }}</td>
+                           <td>{!! (trim($pickup->apt_no) ? $pickup->apt_no . ",<br />" : "") . $pickup->address . ",<br />" . $pickup->address_line_2 !!}</td>
                            @if($pick_up_type == "Detailed Pickup")
                            <td>
                                 {{ $pick_up_type }} 

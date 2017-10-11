@@ -38,8 +38,9 @@
                 <input type="text" class="form-control" id="name" value="{{auth()->guard('users')->user()->user_details->name}}" readonly="">
               </div>
               <div class="form-group">
-                <label for="address">Pick-Up Address</label>
-                <textarea class="form-control" rows="3" name="address" id="address_line_1" required="">   {{auth()->guard('users')->user()->user_details->address}} </textarea>
+                <label for="address_line_1">Pick-Up Address</label>
+                <textarea class="form-control" rows="3" name="address" id="address_line_1" required="" style="">   {{auth()->guard('users')->user()->user_details->address_line_1}} </textarea>
+                <span id="addressError" style="color: red"></span>
               </div>
               <div class="form-group">
                 <label for="address_line_2">Address Line 2 (optional)</label>
@@ -153,11 +154,12 @@
             </div>
             <div class="clear"></div>
             <div class="form-group">
-                <select id="order_type" name="order_type" class="col-xs-5" required="true">
+                <select id="order_type" name="order_type" class="col-xs-5" required="true" style="">
                   <option value="">Type of order</option>
                   <option value="1">Fast Pickup</option>
                   <option value="0">Detailed Pickup</option>
                 </select>
+                <span id="orderTypeError" style="color: red;"></span>
             </div>
             <div style="display: none;">
               <?php
@@ -289,6 +291,28 @@
     </div>
   </div>
   <script type="text/javascript">
+    $(document).ready(function() {
+      $('#schedule_pick_up').click(function () {
+        var address = $('#address_line_1').val();
+        var pickUpType = $('#order_type').val();
+        if (!address) {
+            $('#address_line_1').attr('style', 'border-color: red;');
+            $('#addressError').text('This Field is Required!');
+            e.preventDefault();
+        } else {
+            $('#address_line_1').attr('style', 'border: none;');
+            $('#addressError').text('');
+        }
+        if (!pickUpType) {
+            $('#order_type').attr('style', 'border-color: red;');
+            $('#orderTypeError').text('This Field is Required!');
+            e.preventDefault();
+        } else {
+            $('#order_type').attr('style', 'border: none;');
+            $('#orderTypeError').text('');
+        }
+      });
+    });
   $(document).ready(function(){
     var time_start = '';
     var time_end = '';
@@ -302,7 +326,13 @@
         if (data != 0) 
         {
           //mandetory address
-          $('#address_line_1').text(data.address);
+          if (data.address) {
+              $('#address_line_1').text(data.address);
+          } else if (data.address_line_1) {
+              $('#address_line_1').text(data.address_line_1);
+          } else {
+              $('#address_line_1').text("");
+          }
           //optional addressline 2
           if(data.address_line_2==null)
           {

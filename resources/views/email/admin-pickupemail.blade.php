@@ -216,7 +216,8 @@
                                                         @endif
 
                                                         <label for="customer_email">Email: {{$email}}</label><br/>
-                                                        <label for="customer_no">Phone Number: {{$phone_num}}</label><br/><br/>
+                                                        <label for="customer_no">Phone Number: {{$phone_num}}</label><br/>
+                                                        <label for="customer_address">Address: {{trim($address)}}</label><br/><br/>
                                                     </div>
                                                     <div class="col-xs-6" style="font-size: 18px;">
                                                         <label for="cus_details" style="color: #ff6400;"><b>Order Details:</b></label><br/>

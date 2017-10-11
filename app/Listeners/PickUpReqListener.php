@@ -207,7 +207,7 @@ class PickUpReqListener
             
             
 
-            $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount' => $refferal_discount, 'actualSubtotal' => $actutalsubtotal, 'actualTotal' => $actutaltotal,  'table_data' => $table_data,'emergency_money' => $emergency_money),
+            $some1 = Mail::send('email.admin-pickupemail', array('username'=>$user_name, 'email' => $email, 'phone_num' => $number, 'invoice_num' => $invoice_id, 'date_today' => $date_today, 'coupon' => $coupon, 'subtotal' => $subtotal, 'discount' => $discount, 'referral_discount' => $refferal_discount, 'actualSubtotal' => $actutalsubtotal, 'actualTotal' => $actutaltotal,  'table_data' => $table_data,'emergency_money' => $emergency_money, 'address' => $event->address),
                 function($message) use ($event){
                     $message->from(env('ADMIN_EMAIL'), "Admin");
                     if ($event->req->identifier == "admin") {
@@ -217,6 +217,7 @@ class PickUpReqListener
                             $email = $user_to_search->email;
                             $user_name = $user_to_search->user_details->name;
                             $number = $user_to_search->user_details->personal_ph;
+                            $address = $event->address;
                         }
                         else
                         {

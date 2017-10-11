@@ -15,12 +15,13 @@ class PickUpReqEvent extends Event
      *
      * @return void
      */
-    public function __construct($req, $inv_id, $is_eligible_for_sign_up_discount)
+    public function __construct($req, $inv_id, $is_eligible_for_sign_up_discount, $address)
     {
         //dd($req);
         $this->req = $req;
         $this->inv_id = $inv_id;
         $this->is_eligible_for_sign_up_discount = $is_eligible_for_sign_up_discount;
+        $this->address = $address;
     }
 
     /**
