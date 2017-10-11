@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-
-use net\authorize\api\contract\v1 as AnetAPI;
-use net\authorize\api\controller as AnetController;
+use App\CustomerCreditCardInfo;
 use App\Helper\NavBarHelper;
 use App\PaymentKeys;
 use App\Pickupreq;
-use App\CustomerCreditCardInfo;
-use App\Invoice;
-use App\SchoolDonations;
 use App\SchoolDonationPercentage;
+use App\SchoolDonations;
+use App\User;
+use Illuminate\Http\Request;
 use Stripe\Charge;
+use Stripe\Customer;
 use Stripe\Stripe;
 
 class PaymentController extends Controller
@@ -37,154 +33,9 @@ class PaymentController extends Controller
 		return view('admin.payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
 	}
 
-    public function AuthoRizePayment(Request $auth_request) {
-    	//dd($auth_request);
-    	if(preg_match('/^([0-9]{4})-([0-9]{2})$/', $auth_request->exp_date)) {
-    		$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-	   		$payment_keys = PaymentKeys::first();
-	   		//dd($payment_keys);
-	   		if ($payment_keys != null) {
-	   			$merchantAuthentication->setName($payment_keys->login_id);
-				$merchantAuthentication->setTransactionKey($payment_keys->transaction_key);
-				// Create the payment data for a credit card
-				$creditCard = new AnetAPI\CreditCardType();
-				$creditCard->setCardNumber($auth_request->card_no);
-				$creditCard->setExpirationDate($auth_request->exp_date);
-				//$creditCard->setCardCode($auth_request->cvv);
-				$paymentOne = new AnetAPI\PaymentType();
-				$paymentOne->setCreditCard($creditCard);
-				// Create a transaction
-				$transactionRequestType = new AnetAPI\TransactionRequestType();
-				$transactionRequestType->setTransactionType("authCaptureTransaction");
-				$transactionRequestType->setAmount($auth_request->amount);
-				$transactionRequestType->setPayment($paymentOne);
-				$request = new AnetAPI\CreateTransactionRequest();
-				$request->setMerchantAuthentication($merchantAuthentication);
-				$request->setTransactionRequest( $transactionRequestType);
-				$controller = new AnetController\CreateTransactionController($request);
-				if ($payment_keys->mode == 1) {
-					$response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::PRODUCTION);
-				}
-				else
-				{
-					$response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
-				}
-				//$re1 = json_decode($response->getTransactionResponse());
-				//dd($response->getTransactionResponse());
-				if ($response != null)
-				{
-					//dd($response);
-				    $tresponse = $response->getTransactionResponse();
-				    if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )
-				    {
-				    	//dd($tresponse);
-				    	//marking as paid
-				    	if ($auth_request->pick_up_re_id != null) {
-				    		$search_pickup_req = Pickupreq::find($auth_request->pick_up_re_id);
-						    $search_pickup_req->payment_status = 1;
-						    $search_pickup_req->order_status = 4;
-						    $search_pickup_req->save();
-				    	}
-					    if ($auth_request->school_donation_id != null) {
-					    	//donate to school
-					    	 //get the percenatge
-					    	$percentage = SchoolDonationPercentage::first();
-					    	if ($percentage != null) {
-					    		$fetch_school = SchoolDonations::find($auth_request->school_donation_id);
-					    		if ($fetch_school) {
-					    			$fetch_school->actual_pending_money += ($auth_request->amount*$percentage->percentage)/100;
-					    			if ($fetch_school->save()) {
-					    				if (isset($auth_request->i_m_staff)) {
-					    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull!");
-					    				}
-					    				else {
-								    		return redirect()->route('getPayment')->with('success', "Payment was successfull!");
-								    	}
-					    			}
-					    			else
-					    			{
-					    				if (isset($auth_request->i_m_staff)) {
-					    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the school. Hint: error while saving data!");
-					    				}
-					    				else {
-								    		return redirect()->route('getPayment')->with('success', "Payment was successfull but cannot donate to the school. Hint: error while saving data!");
-								    	}
-					    				//return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the school. Hint: error while saving data!");
-					    			}
-					    		}
-					    		else
-					    		{
-					    			//return to avoid the error
-					    			if (isset($auth_request->i_m_staff)) {
-				    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the requested school. Hint: could not locate it!");
-				    				}
-				    				else {
-							    		return redirect()->route('getPayment')->with('success', "Payment was successfull but cannot donate to the requested school. Hint: could not locate it!");
-							    	}
-					    			//return redirect()->route('getMakePayments')->with('success', "Payment was successfull but cannot donate to the requested school. Hint: could not locate it!");
-					    		}
-					    	}
-					    	else
-					    	{
-					    		if (isset($auth_request->i_m_staff)) {
-			    					return redirect()->route('getMakePayments')->with('success', "Payment was successfull but money is not donated Hint: set the school donation percentage!");
-			    				}
-			    				else {
-						    		return redirect()->route('getPayment')->with('success', "Payment was successfull but money is not donated Hint: set the school donation percentage!");
-						    	}
-					    		//return to avoid error
-					    		//return redirect()->route('getMakePayments')->with('success', "Payment was successfull but money is not donated Hint: set the school donation percentage!");
-					    	}
-					    }
-				    	if (isset($auth_request->i_m_staff)) {
-				    		return redirect()->route('getMakePayments')->with('success', "Payment was successfull!");
-				    	} else {
-				    		return redirect()->route('getPayment')->with('success', "Payment was successfull!");
-				    	}
-				    }
-				    else
-				    {
-				    	//dd($response);
-				    	if (isset($auth_request->i_m_staff)) {
-				    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
-				    	} else {
-				    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
-				    	}
-				    }
-				}
-				else
-				{
-					//dd($response);
-				    if (isset($auth_request->i_m_staff)) {
-			    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
-			    	} else {
-			    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
-			    	}
-				}
-	   		}
-	   		else
-	   		{
-	   			if (isset($auth_request->i_m_staff)) {
-		    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
-		    	} else {
-		    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
-		    	}
-	   		}
-    	}
-		else
-		{
-			if (isset($auth_request->i_m_staff)) {
-	    		return redirect()->route('getMakePayments')->with('fail', "Wrong date format! Date format should be YYYY-MM.");
-	    	} else {
-	    		return redirect()->route('getPayment')->with('fail', "Wrong date format! Date format should be YYYY-MM.");
-	    	}
-		}
-
-    }
-
     public function chargePayment(Request $request)
     {
-        if(preg_match('/^([0-9]{4})-([0-9]{2})$/', $request->input('exp_date'))) {
+        if (preg_match('/^([0-9]{4})-([0-9]{2})$/', $request->input('exp_date'))) {
             $paymentKey = PaymentKeys::first();
             if ($paymentKey) {
                 if (!$paymentKey->mode) {
@@ -194,12 +45,14 @@ class PaymentController extends Controller
                             ->first();
                         if ($pickUpRequest) {
                             $customer = CustomerCreditCardInfo::whereUserId($pickUpRequest->user_id)->first();
-                            if (strlen(trim($customer->stripe_customer_id))) {
-                                Stripe::setApiKey($paymentKey->transaction_key);
+                            if ($customer) {
+                                Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
 
                                 $charge = Charge::create([
-                                    "amount" => $request->has('amount') ? $request->input('amount') * 100 : 0,
+                                    "amount" => $request->has('amount') ?
+                                        $request->input('amount') * 100 : 0, // Convert $ to Cent
                                     "currency" => "usd",
+                                    "description" => "Payment received",
                                     "customer" => $customer->stripe_customer_id
                                 ]);
 
@@ -235,13 +88,13 @@ class PaymentController extends Controller
                                                         && strlen(trim($request->input('i_m_staff')))) {
                                                         return redirect()
                                                             ->route('getMakePayments')
-                                                            ->with('success', "Payment was successful but cannot donate
-                                                             to the school. Hint: error while saving data!");
+                                                            ->with('success', "Payment was successful but cannot
+                                                            donate to the school. Hint: error while saving data!");
                                                     } else {
                                                         return redirect()
                                                             ->route('getPayment')
-                                                            ->with('success', "Payment was successful but cannot donate
-                                                             to the school. Hint: error while saving data!");
+                                                            ->with('success', "Payment was successful but cannot
+                                                            donate to the school. Hint: error while saving data!");
                                                     }
                                                 }
                                             } else {
@@ -249,13 +102,13 @@ class PaymentController extends Controller
                                                     && strlen(trim($request->input('i_m_staff')))) {
                                                     return redirect()
                                                         ->route('getMakePayments')
-                                                        ->with('success', "Payment was successful but cannot donate to 
-                                                        the requested school. Hint: could not locate it!");
+                                                        ->with('success', "Payment was successful but cannot donate
+                                                        to the requested school. Hint: could not locate it!");
                                                 } else {
                                                     return redirect()
                                                         ->route('getPayment')
-                                                        ->with('success', "Payment was successful but cannot donate to 
-                                                        the requested school. Hint: could not locate it!");
+                                                        ->with('success', "Payment was successful but cannot donate 
+                                                        to the requested school. Hint: could not locate it!");
                                                 }
                                             }
                                         } else {
@@ -263,17 +116,18 @@ class PaymentController extends Controller
                                                 && strlen(trim($request->input('i_m_staff')))) {
                                                 return redirect()
                                                     ->route('getMakePayments')
-                                                    ->with('success', "Payment was successful but money is not donated 
-                                                    Hint: set the school donation percentage!");
+                                                    ->with('success', "Payment was successful but money is not
+                                                    donated Hint: set the school donation percentage!");
                                             } else {
                                                 return redirect()
                                                     ->route('getPayment')
-                                                    ->with('success', "Payment was successful but money is not donated 
-                                                    Hint: set the school donation percentage!");
+                                                    ->with('success', "Payment was successful but money is not
+                                                    donated Hint: set the school donation percentage!");
                                             }
                                         }
                                     }
-                                    if ($request->has('i_m_staff') && strlen(trim($request->input('i_m_staff')))) {
+                                    if ($request->has('i_m_staff')
+                                        && strlen(trim($request->input('i_m_staff')))) {
                                         return redirect()
                                             ->route('getMakePayments')
                                             ->with('success', "Payment was successful!");
@@ -283,20 +137,21 @@ class PaymentController extends Controller
                                             ->with('success', "Payment was successful!");
                                     }
                                 } else {
-                                    if ($request->has('i_m_staff') && strlen(trim($request->input('i_m_staff')))) {
+                                    if ($request->has('i_m_staff')
+                                        && strlen(trim($request->input('i_m_staff')))) {
                                         return redirect()
                                             ->route('getMakePayments')
-                                            ->with('fail', "Payment Failed check card details and try again later!");
+                                            ->with('fail', "Payment Failed check card details & try again later!");
                                     } else {
                                         return redirect()
                                             ->route('getPayment')
-                                            ->with('fail', "Payment Failed check card details and try again later!");
+                                            ->with('fail', "Payment Failed check card details & try again later!");
                                     }
                                 }
                             } else {
                                 return redirect()
                                     ->back()
-                                    ->with('fail', "Invalid customer.");
+                                    ->with('fail', "Customer's card details not found.");
                             }
                         } else {
                             return redirect()

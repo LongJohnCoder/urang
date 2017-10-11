@@ -183,7 +183,7 @@ class MainController extends Controller
                      */
                     $paymentKey = PaymentKeys::first();
                     if ($paymentKey) {
-                        Stripe::setApiKey($paymentKey->transaction_key);
+                        Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
 
                         $source = [
                             'object' => 'card',
@@ -195,9 +195,9 @@ class MainController extends Controller
                         ];
 
                         $charge = Charge::create([
-                            "amount" => 100,
+                            "amount" => 100,    // 100 Cent = $1
                             "currency" => "usd",
-                            "description" => "Example charge",
+                            "description" => "$1 Pre-authorization",
                             "capture" => false,
                             "source" => $source
                         ]);
@@ -208,36 +208,43 @@ class MainController extends Controller
                                 "email" => $request->input('email'),
                                 "source" => $source
                             ]);
-                        }
 
-                        $card_info = new CustomerCreditCardInfo();
-                        $card_info->user_id = $user_details->user_id;
-                        $card_info->name = $request->input('cardholder_name');
-                        $card_info->card_no = $source['number'];
-                        $card_info->cvv = $source['cvv'];
-                        $card_info->exp_month = $source['exp_month'];
-                        $card_info->exp_year = $source['exp_year'];
-                        $card_info->card_id = array_key_exists(0, $customer->sources->data) ?
-                            $customer->sources->data[0]->id : null;
-                        $card_info->card_type = array_key_exists(0, $customer->sources->data) ?
-                            $customer->sources->data[0]->brand : null;
-                        $card_info->card_fingerprint = array_key_exists(0, $customer->sources->data) ?
-                            $customer->sources->data[0]->fingerprint : null;
-                        $card_info->card_country = array_key_exists(0, $customer->sources->data) ?
-                            $customer->sources->data[0]->country : null;
-                        $card_info->stripe_customer_id = $customer->id;
+                            $card_info = new CustomerCreditCardInfo();
+                            $card_info->user_id = $user_details->user_id;
+                            $card_info->name = $request->input('cardholder_name');
+                            $card_info->card_no = $source['number'];
+                            $card_info->cvv = $source['cvv'];
+                            $card_info->exp_month = $source['exp_month'];
+                            $card_info->exp_year = $source['exp_year'];
+                            $card_info->card_id = array_key_exists(0, $customer->sources->data) ?
+                                $customer->sources->data[0]->id : null;
+                            $card_info->card_type = array_key_exists(0, $customer->sources->data) ?
+                                $customer->sources->data[0]->brand : null;
+                            $card_info->card_fingerprint = array_key_exists(0, $customer->sources->data) ?
+                                $customer->sources->data[0]->fingerprint : null;
+                            $card_info->card_country = array_key_exists(0, $customer->sources->data) ?
+                                $customer->sources->data[0]->country : null;
+                            $card_info->stripe_customer_id = $customer->id;
 
-                        if ($card_info->save()) {
-                            /*
-                             * confirmation mail event driven approach
-                             */
-                            Event::fire(new SendEmailOnSignUp($request));
+                            if ($card_info->save()) {
+                                /*
+                                 * confirmation mail event driven approach
+                                 */
+                                Event::fire(new SendEmailOnSignUp($request));
 
-                            return redirect()->route('getLogin')
-                                ->with('success', 'You have successfully registered please login');
+                                return redirect()
+                                    ->route('getLogin')
+                                    ->with('success', 'You have successfully registered please login');
+                            } else {
+                                return redirect()
+                                    ->route('getSignUp')
+                                    ->with('fail', 'Cannot save your card details');
+                            }
                         } else {
-                            return redirect()->route('getSignUp')
-                                ->with('fail', 'Cannot save your card details');
+                            return redirect()
+                                ->route('getSignUp')
+                                ->with('fail', 'We are getting trouble to validate your card. 
+                                Please use an different card.');
                         }
                     }
                 } else {
@@ -687,7 +694,6 @@ class MainController extends Controller
 
     public function postPickUp(Request $request)
     {
-        //dd($request);
         if ($request->time_frame_start != null && $request->time_frame_end != null) {
             $start_time = strtotime($request->time_frame_start);
             $end_time = strtotime($request->time_frame_end);
@@ -709,8 +715,153 @@ class MainController extends Controller
                 }
             }
         } else {
-            //$this->checkIfReferalInserted($request);
-            return $this->postMyPickup($request);
+            $paymentKey = PaymentKeys::first();
+            if ($paymentKey) {
+                $customer = CustomerCreditCardInfo::whereUserId(auth()->guard('users')->user()->id)->first();
+                if ($customer) {
+                    Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
+
+                    /*
+                     * If a customer has Stripe customer ID then,
+                     *      that customer is already been pre-authorized and schedule the pickup
+                     * else
+                     *      pre-authorized that customer's card for $1 and save Stripe customer ID into dB
+                     *      then schedule the pickup.
+                     */
+                    if (strlen(trim($customer->stripe_customer_id))) {
+                        return $this->postMyPickup($request);
+                    } else {
+                        $source = [
+                            'object' => 'card',
+                            'number' => $customer->card_no,
+                            'exp_month' => $customer->exp_month,
+                            'exp_year' => $customer->exp_year,
+                            'cvc' => $customer->cvv,
+                        ];
+
+                        $charge = Charge::create([
+                            "amount" => 100,    // 100 Cent = $1
+                            "currency" => "usd",
+                            "description" => "$1 Pre-authorization",
+                            "capture" => false,
+                            "source" => $source
+                        ]);
+
+                        $stripeCustomer = null;
+                        if (!$charge) {
+                            $stripeCustomer = Customer::create([
+                                "email" => auth()->guard('users')->user()->email,
+                                "source" => $source
+                            ]);
+
+                            /*
+                             * Save Stripe customer ID and other card details into dB.
+                             */
+                            $customer->card_id = array_key_exists(0, $stripeCustomer->sources->data) ?
+                                $stripeCustomer->sources->data[0]->id : null;
+                            $customer->card_type = array_key_exists(0, $stripeCustomer->sources->data) ?
+                                $stripeCustomer->sources->data[0]->brand : null;
+                            $customer->card_fingerprint =
+                                array_key_exists(0, $stripeCustomer->sources->data) ?
+                                    $stripeCustomer->sources->data[0]->fingerprint : null;
+                            $customer->card_country =
+                                array_key_exists(0, $stripeCustomer->sources->data) ?
+                                    $stripeCustomer->sources->data[0]->country : null;
+                            $customer->stripe_customer_id = $stripeCustomer->id;
+                            $customer->save();
+
+                            return $this->postMyPickup($request);
+                        } else {
+                            return redirect()
+                                ->route('getNewCreditCard')
+                                ->with('fail', "We are getting trouble to validate your card. 
+                                        Please use an different card.");
+                        }
+                    }
+                } else {
+                    return redirect()
+                        ->route('getNewCreditCard')
+                        ->with('fail', "Your saved card info is not found. Please re-enter your card info again.");
+                }
+            } else {
+                return redirect()
+                    ->back()
+                    ->with('fail', "Oops! Something went wrong. Please contact to <a href='mailto: lisa@u-rang.com?subject=Pickup%20Request%20Error&body=Possible%20reason%20payment%20gateway%20error.'>lisa@u-rang.com</a> now.");
+            }
+        }
+    }
+
+    public function getNewCreditCard()
+    {
+        return view('pages.newcreditcard');
+    }
+
+    public function postNewCreditCard(Request $request)
+    {
+        $paymentKey = PaymentKeys::first();
+        if ($paymentKey) {
+            $customer = CustomerCreditCardInfo::whereUserId(auth()->guard('users')->user()->id)->first();
+            if ($customer) {
+                Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
+
+                $source = [
+                    'object' => 'card',
+                    'number' => str_replace(' ', '', $request->input('card_no')),
+                    'exp_month' => $request->input('select_month'),
+                    'exp_year' => $request->input('select_year'),
+                    'cvc' => $request->has('cvv') && strlen(trim($request->input('cvv')))
+                        ? $request->input('cvv') : null,
+                ];
+
+                $charge = Charge::create([
+                    "amount" => 100,    // 100 Cent = $1
+                    "currency" => "usd",
+                    "description" => "$1 Pre-authorization",
+                    "capture" => false,
+                    "source" => $source
+                ]);
+
+                $stripeCustomer = null;
+                if ($charge) {
+                    $stripeCustomer = Customer::create([
+                        "email" => auth()->guard('users')->user()->email,
+                        "source" => $source
+                    ]);
+
+                    /*
+                     * Save Stripe customer ID and other card details into dB.
+                     */
+                    $customer->name = $request->input('cardholder_name');
+                    $customer->card_no = $source['number'];
+                    $customer->cvv = $source['cvc'];
+                    $customer->exp_month = $source['exp_month'];
+                    $customer->exp_year = $source['exp_year'];
+                    $customer->card_id = array_key_exists(0, $stripeCustomer->sources->data) ?
+                        $stripeCustomer->sources->data[0]->id : null;
+                    $customer->card_type = array_key_exists(0, $stripeCustomer->sources->data) ?
+                        $stripeCustomer->sources->data[0]->brand : null;
+                    $customer->card_fingerprint =
+                        array_key_exists(0, $stripeCustomer->sources->data) ?
+                            $stripeCustomer->sources->data[0]->fingerprint : null;
+                    $customer->card_country =
+                        array_key_exists(0, $stripeCustomer->sources->data) ?
+                            $stripeCustomer->sources->data[0]->country : null;
+                    $customer->stripe_customer_id = $stripeCustomer->id;
+                    $customer->save();
+
+                    return redirect()
+                        ->route('getPickUpReq')
+                        ->with('success', "Please create a new pick-up request");
+                } else {
+                    return redirect()
+                        ->route('getNewCreditCard')
+                        ->with('fail', "We are getting trouble to validate your card. Please use an different card.");
+                }
+            }
+        } else {
+            return redirect()
+                ->back()
+                ->with('fail', "Oops! Something went wrong. Please contact to <a href='mailto: lisa@u-rang.com?subject=Pickup%20Request%20Error&body=Possible%20reason%20payment%20gateway%20error.'>lisa@u-rang.com</a> now.");
         }
     }
 
