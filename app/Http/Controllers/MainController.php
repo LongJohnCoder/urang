@@ -748,7 +748,7 @@ class MainController extends Controller
                         ]);
 
                         $stripeCustomer = null;
-                        if (!$charge) {
+                        if ($charge) {
                             $stripeCustomer = Customer::create([
                                 "email" => auth()->guard('users')->user()->email,
                                 "source" => $source
