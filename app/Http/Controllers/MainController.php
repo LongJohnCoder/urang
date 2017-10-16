@@ -1145,15 +1145,19 @@ class MainController extends Controller
     }
     public function getStandAloneNeighbor($slug) {
         $find = Neighborhood::where('url_slug', $slug)->first();
-        $obj = new NavBarHelper();
-        $site_details = $obj->siteData();
-        $login_check = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
-        if ($login_check != null) {
-            $logged_user= $obj->getCustomerData();
-            return view('pages.neighborhoodSingle', compact('find', 'site_details', 'login_check', 'logged_user', 'neighborhood'));
+        if ($find) {
+            $obj = new NavBarHelper();
+            $site_details = $obj->siteData();
+            $login_check = $obj->getCustomerData();
+            $neighborhood = $obj->getNeighborhood();
+            if ($login_check != null) {
+                $logged_user= $obj->getCustomerData();
+                return view('pages.neighborhoodSingle', compact('find', 'site_details', 'login_check', 'logged_user', 'neighborhood'));
+            } else {
+                return view('pages.neighborhoodSingle', compact('find', 'site_details', 'login_check', 'neighborhood'));
+            }
         } else {
-            return view('pages.neighborhoodSingle', compact('find', 'site_details', 'login_check', 'neighborhood'));
+            abort(404);
         }
     }
     public function getComplaints() {

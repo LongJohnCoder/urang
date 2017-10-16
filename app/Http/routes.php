@@ -91,8 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/settings', ['uses' => 'AdminController@getSettings', 'as' => 'get-admin-settings']);
 	Route::post('/change-password', ['uses' => 'AdminController@postChangePassword', 'as' => 'post-change-password']);
 	Route::post('/site-settings', ['uses' => 'AdminController@postSiteSettings', 'as' => 'post-site-settings']);
-	Route::get('/neighborhood', ['uses' => 'AdminController@getNeighborhood', 'as' => 'get-neighborhood']);
-	Route::post('/neighborhood', ['uses' => 'AdminController@postNeighborhood', 'as' => 'postneighborhood' ]);
+	Route::get('/get-neighborhood', ['uses' => 'AdminController@getNeighborhood', 'as' => 'get-neighborhood']);
+	Route::post('/postneighborhood', ['uses' => 'AdminController@postNeighborhood', 'as' => 'postneighborhood' ]);
     Route::post('/seo-neighborhood', ['uses' => 'AdminController@postSeoNeighborhood', 'as' => 'postSeoNeighborhood']);
 	Route::post('/edit-neighborhood', ['uses' => 'AdminController@editNeighborhood', 'as' => 'editneighborhood']);
 	Route::post('/delete-neighborhood', ['uses' => 'AdminController@deleteNeighborhood', 'as' => 'postDeleteNeighborhood']);
