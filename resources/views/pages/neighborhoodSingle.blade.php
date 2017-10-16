@@ -51,7 +51,7 @@
 	     <div class="col-md-7 col-sm-7 text-right">
 	        <div class="clearfix " style="padding-right: 3px;">
 	           <div class="above-title"></div>
-	           <h4>{{$find->name}}</h4>
+	           <h1 class="main-title">{{$find->name}}</h1>
 	        </div>
 	        <div class="design-arrow inline-arrow"></div>
 	        <p>

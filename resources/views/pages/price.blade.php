@@ -6,7 +6,7 @@
    <div class="header-container wow fadeInUp">
       <div class="header-title">
          <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
-         <div class="title">our prices</div>
+         <div class="title"><h1 class="h1-inline-title">Dry Cleaners Prices</h1></div>
          <em>Concierge Dry Cleaning Service<br>
          Owned and Operated Facility in Manhattan</em>
       </div>

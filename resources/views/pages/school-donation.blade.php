@@ -29,7 +29,8 @@
                 <div class="header-title">
                     <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
                     <div class="title">School Donations</div>
-                    <em>Let's make future clean along with your cloths....</em>
+                    <em>Let's make future clean along with your cloths....</em><br/>
+                    <h1 class="h1-inline-subtitle">On-Demand Dry Cleaning</h1>
                 </div>
             </div><!--container-->
         </section>  

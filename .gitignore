@@ -22,3 +22,5 @@ bootstrap/autoload.php
 _ide_helper.php
 config/ide-helper.php
 config/image.php
+dev/
+

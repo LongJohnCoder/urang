@@ -10,7 +10,7 @@
             <div class="header-container">	
                 <div class="header-title">
                     <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
-                    <div class="title">contact us</div>
+                    <div class="title"><h1 class="h1-inline-title">Contact Us</h1></div>
                     <em>U-Rang, We Answer</em>
                 </div>
             </div><!--container-->

@@ -9,7 +9,7 @@
                 <div class="header-title">
                     <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
                     <div class="title">our Q & A</div>
-                    <em>Basic questions answered...</em>
+                    <em>Basic</em> <h1 class="h1-inline-subtitle">FAQ's</h1> <em>answered...</em>
                 </div>
             </div><!--container-->
         </section>  

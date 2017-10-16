@@ -6,8 +6,8 @@
       <div class="header-title">
          <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
          <div class="title">our services</div>
-         <em>Concierge Dry Cleaning Service<br>
-         Owned and Operated Facility in Manhattan</em>
+          <em>Concierge</em> <h1 class="h1-inline-subtitle">Dry Cleaners NYC</h1><br>
+         <em>Owned and Operated Facility in Manhattan</em>
       </div>
    </div>
    <!--container-->

@@ -33,3 +33,4 @@
 [27-Jan-2017 02:33:44 America/New_York] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/urangco1/public_html/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 335
 [27-Jan-2017 02:55:38 America/New_York] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/urangco1/public_html/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 349
 [27-Jan-2017 06:23:25 America/New_York] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/urangco1/public_html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php on line 542
+[16-Oct-2017 15:08:15 America/New_York] PHP Fatal error:  Call to undefined function App\Http\Controllers\abor() in /home/urangco1/public_html/app/Http/Controllers/MainController.php on line 1160

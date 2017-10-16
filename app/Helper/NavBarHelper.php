@@ -77,4 +77,63 @@ class NavBarHelper
 			return false;
 		}
 	}
+
+
+    /**
+     * ZNG return custom metas for given key
+     * @param string $key
+     * @param object $site_details
+     * @return null|object
+     */
+    public function getMetaCustomPages($key, $site_details){
+	    $metas = [];
+
+        $metas['home'] = [
+            'site_title'=>'Dry Cleaners NYC | On Demand Dry Cleaning | U Rang',
+            'meta_description'=>'#1 dry cleaners in NYC offering free pick-up and delivery, custom services specific to your needs. Dry cleaners are not all the same, learn why here.',
+        ];
+	    $metas['services'] = [
+            'site_title'=>'Dry Cleaners NYC | Our Services | Dry Cleaning and Landry APP | U Rang',
+            'meta_description'=>'Know as the best dry cleaners in NYC, U Rang offers a hassle free dry cleaning and laundry experience with free pick-up and delivery. Download app and enjoy a seamless experience.',
+        ];
+        $metas['sign-up'] = [
+            'site_title'=>'Sign Up for an U Rang Account | U Rang',
+            'meta_description'=>'Sign-up to U Rang today! Download app and receive superior dry cleaning services delivered to your office or to the comfort of your home with free pick-up and delivery.',
+        ];
+        $metas['contact-us'] = [
+            'site_title'=>'On-Demand Dry Cleaning and Laundry | Contact U Rang',
+            'meta_description'=>'Contact us today for custom laundry and dry cleaning services. U Rang offers hassle free pick-up and delivery in NYC and metro area free of charge.',
+        ];
+        $metas['faqs'] = [
+            'site_title'=>'FAQ\'s On-Demand Dry Cleaners NYC | Dry Cleaning and Landry APP | U Rang',
+            'meta_description'=>'U Rang Frequently Asked Questions - FAQ’s. Learn more about the most popular laundry & dry cleaner service in NYC.',
+        ];
+        $metas['prices'] = [
+            'site_title'=>'Dry Cleaners Prices | On-Demand Dry Cleaners NYC | U Rang',
+            'meta_description'=>'Unbeatable full-service dry cleaners prices in NYC. Be amazed with craft wash & fold services delivered to your door. We can do miracles! Contact U Rang today.',
+        ];
+        $metas['login'] = [
+            'site_title'=>'On-Demand Dry Cleaning and Laundry | Login to your account | U Rang',
+            'meta_description'=>'Log-in to your account and recieve on-demand dry cleaning and laundry with free pick-up and delivery in NYC.',
+        ];
+        $metas['school-donations'] = [
+            'site_title'=>'Giving Back | On-Demand Dry Cleaning | Dry Cleaning and Landry APP | U Rang',
+            'meta_description'=>'U Rang offers on-demand dry cleaning and laundry services in New York City. Schedule your free pickup and learn why U Rang is New York\'s favorite dry cleaning service.',
+        ];
+        $metas['forgot-password'] = [
+            'site_title'=>'On-Demand Dry Cleaning | Dry Cleaning and Landry APP | U Rang',
+            'meta_description'=>'On Demand Cleaning and Laundry App in NYC. U Rang - Forgot password.',
+        ];
+
+        if(isset($metas[$key])){
+            if($site_details===null){
+                $site_details = (object) $metas[$key];
+            }else{
+                $site_details->site_title = $metas[$key]['site_title'];
+                $site_details->meta_description = $metas[$key]['meta_description'];
+            }
+        }
+
+        return $site_details;
+    }
 }

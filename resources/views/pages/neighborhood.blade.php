@@ -19,8 +19,8 @@
 <section class="latest-works-section clearfix">
    <div class="container">
       <div class="section-heading">
-         <div class="section-title">Neighborhoods We Service</div>
-         <div class="section-subtitle"></div>
+         <div class="section-title"><h1 class="main-section-title">U-rang On Demand Dry Cleaners<?php /**Neighborhoods We Service*/ ?></h1></div>
+         <div class="section-subtitle">Neighborhoods We Service</div>
          <div class="design-arrow"></div>
       </div>
    </div>

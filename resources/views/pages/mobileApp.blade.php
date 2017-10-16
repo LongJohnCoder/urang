@@ -7,7 +7,8 @@
          <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
          <a href="" id="scroll_here_n"></a>
          <div class="title">{{$page_data != null && $page_data->title != null ? $page_data->title : "U-rang Mobile App"}}</div>
-         <em style="color: whitesmoke;">{{$page_data != null && $page_data->tagLine != null ? $page_data->tagLine : "Dont wana be away from your phone? okay! we have an app too."}}</em>
+         <em style="color: whitesmoke;">{{$page_data != null && $page_data->tagLine != null ? $page_data->tagLine : "Dont wana be away from your phone? okay! we have an app too."}}</em><br/>
+         <h1 style="color: whitesmoke;" class="h1-inline-subtitle">Dry Cleaning and Laundry Service Mobile App</h1>
       </div>
    </div>
    <!--container-->

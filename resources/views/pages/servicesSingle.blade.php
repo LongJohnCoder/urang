@@ -20,23 +20,24 @@
    <div class="container">
       <div class="section-heading">
          <div class="section-title">
+            <h1 class="main-section-title">
             <?php
                if ($data != null) {
                   switch ($data->identifier) {
                      case '0':
-                        echo "Dry Clean";
+                        echo "On-Demand Dry Cleaning NYC";/*echo "Dry Clean";*/
                         break;
                      case '1':
-                        echo "Wash And Fold";
+                        echo "Wash and Fold NYC";/*echo "Wash And Fold";*/
                         break;
                      case '2':
-                        echo "Corporate";
+                        echo "Corporate Dry Cleaning NYC";/*echo "Corporate";*/
                         break;
                      case '3':
-                        echo "Tailoring";
+                        echo "Tailoring Services NYC";/*echo "Tailoring";*/
                         break;
                      case '4':
-                        echo "Wet Cleaning";
+                        echo "Organic Cleaning Services NYC";/*echo "Wet Cleaning";*/
                         break;
                      default:
                         echo "Core Services";
@@ -48,6 +49,7 @@
                   echo "Core Services";
                }
             ?>
+            </h1>
          </div>
          <div class="section-subtitle">your personal concierge</div>
          <div class="design-arrow"></div>

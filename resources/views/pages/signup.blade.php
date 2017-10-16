@@ -32,7 +32,7 @@
         </div>
       @endif
 
-
+          <h1 class="h1-black-title">Sign Up</h1>
           <div class="container white-bg">
             <div class="row">
               <div class="col-md-12 col-sm-12">

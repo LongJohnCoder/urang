@@ -869,7 +869,7 @@ body.fixed-header .scrolling-header .navbar .navbar-search .input-group .search-
     color: #666;
     text-transform: uppercase;
 }
-.areas-section h4 {
+.areas-section h4,.areas-section h1.main-title {
     color: #333;
     margin-top: 10px;
     font-weight: 700;
@@ -2182,7 +2182,7 @@ body.fixed-header .scrolling-header .navbar .navbar-search .input-group .search-
 .section-heading {
     padding: 30px 0;
 }
-.section-title {
+.section-title,.section-title h1.main-section-title{
     font-size: 26px;
     color: #333;
     text-transform: uppercase;
@@ -4213,6 +4213,12 @@ body.fixed-header .scrolling-header .navbar .navbar-nav li a {
 #emailExist{margin-top: 15px;}
 
 
+/** ZNG START */
+.h1-inline-title,.h1-inline-subtitle{display:inline;margin:0;padding:0;}
+.top-header .header-container .header-title .h1-inline-subtitle{color:#999;font-style:italic;font-size:16px;font-family:'Playfair Display', serif}
+.top-header .header-container .header-title .title .h1-inline-title{font-size:38px;color:#fff}
+.h1-black-title{color:#1A1A1A;margin:0;padding:0;text-align:center}
+/** ZNG END*/
 
 @media only screen and (min-width:992px) and (max-width:1199px) {
     .plans h2 {
@@ -4250,7 +4256,7 @@ body.fixed-header .scrolling-header .navbar .navbar-nav li a {
 
 
 	.top-header .header-container .header-title .title{font-size: 29px;}
-    .areas-section h4{font-size: 22px;}
+    .areas-section h4,.areas-section h1.main-title{font-size: 22px;}
     .wrap-timeline .time-item .dateRight{margin-right: 0; text-align: left;}
     .wrap-timeline .time-item .dateLeft{margin-left: 0; text-align: left; }
 

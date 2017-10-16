@@ -13,6 +13,7 @@
 </div>
 @else
 @endif
+<h1 class="h1-black-title">On-Demand Dry Cleaning and Laundry</h1>
 <div class="form">
   <!--<form class="register-form" role="form" method="post" action="register.php">
     <input type="text" placeholder="name"/>

@@ -65,7 +65,7 @@
   <div class="container">
       <div class="section-heading " >
           <div class="section-title">{{$indexcontent->section_one_header}}</div>
-          <div class="section-subtitle"></div>
+          <div class="section-subtitle"><h1 class="h1-main-section-title">Dry Cleaners NYC</h1></div>
           <div class="design-arrow"></div>
       </div>
   </div>

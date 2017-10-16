@@ -267,7 +267,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 .areas-section { padding: 150px 0 80px; }
 .areas-section.service-areas-section { padding-top: 40px; }
 .areas-section .above-title { font-size: 18px; color: #666666; text-transform: uppercase; }
-.areas-section h4 { color: #333333; margin-top: 10px; font-weight: bold; font-size: 32px; text-transform: uppercase; margin-bottom: 15px; }
+.areas-section h4,.areas-section h1.main-title { color: #333333; margin-top: 10px; font-weight: bold; font-size: 32px; text-transform: uppercase; margin-bottom: 15px; }
 .areas-section em { font-size: 16px; display: inline-block; margin-bottom: 15px; }
 .areas-section .design-arrow { margin-bottom: 45px; }
 .areas-section p.large { font-weight: 500; margin-bottom: 20px; }
@@ -605,7 +605,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 /*********/
 .section-heading { padding: 30px 0; }
 
-.section-title { font-size: 26px; color: #333333; text-transform: uppercase; font-weight: bold; margin-bottom: 10px; text-align: center; letter-spacing: 1px; }
+.section-title,.section-title h1.main-section-title { font-size: 26px; color: #333333; text-transform: uppercase; font-weight: bold; margin-bottom: 10px; text-align: center; letter-spacing: 1px; }
 
 .section-subtitle { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #999999; margin-bottom: 15px; text-align: center; }
 
@@ -872,6 +872,13 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 
 .demopage-footer { background-color: #333; padding: 46px 0; text-align: center; }
 .demopage-footer span { color: #fff; font-size: 14px; font-weight: normal; text-align: center; }
+
+/** ZNG START */
+.h1-inline-title,.h1-inline-subtitle{display:inline;margin:0;padding:0;}
+.top-header .header-container .header-title .h1-inline-subtitle{color:#999;font-style:italic;font-size:16px;font-family:'Playfair Display', serif}
+.top-header .header-container .header-title .title .h1-inline-title{font-size:38px;color:#fff}
+.h1-black-title{color:#1A1A1A;margin:0;padding:0;text-align:center}
+/** ZNG END*/
 
 /*MEDIA*/
 @media (min-width: 1650px) { .with-top-effect { background-size: contain; } }
