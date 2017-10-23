@@ -213,7 +213,7 @@ class MainController extends Controller
                             $card_info->user_id = $user_details->user_id;
                             $card_info->name = $request->input('cardholder_name');
                             $card_info->card_no = $source['number'];
-                            $card_info->cvv = $source['cvv'];
+                            $card_info->cvv = $source['cvc'];
                             $card_info->exp_month = $source['exp_month'];
                             $card_info->exp_year = $source['exp_year'];
                             $card_info->card_id = array_key_exists(0, $customer->sources->data) ?
