@@ -356,17 +356,13 @@ class MainController extends Controller
 
     public function postProfile(Request $request)
     {
-        //dd($request);
         $obj = new NavBarHelper();
         $logged_user = $obj->getCustomerData();
         $update_id = $logged_user->id;
-        //dd($update_id);
         $user = User::find($update_id);
-        //dd($user);
         $user->email = $request->email;
         if ($user->save()) {
             $user_details = UserDetails::where('user_id', $update_id)->first();
-            //dd($user_details);
             $user_details->user_id = $update_id;
             $user_details->name = $request->name;
             $user_details->address_line_1 = $request->address_line_1;
@@ -381,22 +377,72 @@ class MainController extends Controller
             $user_details->state = $request->state;
             $user_details->zip = $request->zip;
             if ($user_details->save()) {
-                $card_info = CustomerCreditCardInfo::where('user_id', $update_id)->first();
-                if ($card_info == null) {
-                    $card_info = new CustomerCreditCardInfo();
-                }
-                $card_info->user_id = $update_id;
-                $card_info->name = $request->cardholder_name;
-                $card_info->card_no = $request->card_no;
-                $card_info->card_type = $request->cardtype;
-                $card_info->cvv = $request->cvv;
-                $card_info->exp_month = $request->select_month;
-                $card_info->exp_year = $request->select_year;
-                if ($card_info->save()) {
+                $paymentKey = PaymentKeys::first();
+                if ($paymentKey) {
+                    Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
+                    $card_info = CustomerCreditCardInfo::where('user_id', $update_id)->first();
 
-                    return redirect()->route('get-user-profile')->with('success', 'Details successfully updated!');
+                    $source = [
+                        'object' => 'card',
+                        'number' => $request->card_no,
+                        'exp_month' => $request->select_month,
+                        'exp_year' => $request->select_year,
+                        'cvc' => $request->cvv,
+                    ];
+
+                    $charge = Charge::create([
+                        "amount" => 100,    // 100 Cent = $1
+                        "currency" => "usd",
+                        "description" => "$1 Pre-authorization",
+                        "capture" => false,
+                        "source" => $source
+                    ]);
+
+                    $stripeCustomer = null;
+                    if ($charge) {
+                        if ($card_info) {
+                            $stripeCustomer = Customer::retrieve($card_info->stripe_customer_id);
+                            $oldCard = $stripeCustomer->sources->retrieve($card_info->card_id);
+                            $oldCard->delete();
+                            $newCard = $stripeCustomer->sources->create(["source" => $source]);
+                            $stripeCustomer->default_source = $newCard->id;
+                            $stripeCustomer->save();
+                        } else {
+                            $card_info = new CustomerCreditCardInfo();
+                            $stripeCustomer = Customer::create([
+                                "email" => $user->email,
+                                "source" => $source
+                            ]);
+                        }
+
+                        $card_info->user_id = $update_id;
+                        $card_info->name = $request->cardholder_name;
+                        $card_info->card_no = $request->card_no;
+                        $card_info->card_type = $request->cardtype;
+                        $card_info->cvv = $request->cvv;
+                        $card_info->exp_month = $request->select_month;
+                        $card_info->exp_year = $request->select_year;
+                        $card_info->card_id = array_key_exists(0, $stripeCustomer->sources->data) ?
+                                $stripeCustomer->sources->data[0]->id : null;
+                        $card_info->card_fingerprint = array_key_exists(0, $stripeCustomer->sources->data) ?
+                                    $stripeCustomer->sources->data[0]->fingerprint : null;
+                        $card_info->card_country =
+                                array_key_exists(0, $stripeCustomer->sources->data) ?
+                                    $stripeCustomer->sources->data[0]->country : null;
+                        $card_info->stripe_customer_id = $stripeCustomer->id;
+
+                        if ($card_info->save()) {
+                            return redirect()->route('get-user-profile')->with('success', 'Details successfully updated!');
+                        } else {
+                            return redirect()->route('get-user-profile')->with('fail', 'Could not save your card details!');
+                        }
+                    } else {
+                        return redirect()->route('get-user-profile')->with('fail', 'Invalid card, please use a valid card!');
+                    }
                 } else {
-                    return redirect()->route('get-user-profile')->with('fail', 'Could not save your card details!');
+                    return redirect()
+                        ->back()
+                        ->with('fail', "Oops! Something went wrong. Please contact to <a href='mailto:lisa@u-rang.com?subject=Update%20Card%20Error&body=Possible%20reason%20payment%20gateway%20error.'>lisa@u-rang.com</a> now.");
                 }
             } else {
                 return redirect()->route('get-user-profile')->with('fail', 'Could not save user details!');

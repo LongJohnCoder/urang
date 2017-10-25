@@ -48,6 +48,9 @@ use App\MobileAppWys;
 use App\refPercentage;
 use App\NeighborhoodSeo;
 use Illuminate\Support\Facades\Event;
+use Stripe\Charge;
+use Stripe\Customer;
+use Stripe\Stripe;
 
 class AdminController extends Controller
 {
@@ -597,8 +600,8 @@ class AdminController extends Controller
             return "Sorry cannot find the user ID";
         }
     }
+
     public function postEditCustomer(Request $request) {
-        //dd($request);
         $search = User::find($request->id);
         if ($search) {
             $search->email = $request->email;
@@ -618,60 +621,85 @@ class AdminController extends Controller
                     $searchUserDetails->driving_instructions = isset($request->driving_instructions) ? $request->driving_instructions : NULL;
                     $searchUserDetails->referred_by = $request->ref_name;
                     if ($searchUserDetails->save()) {
-                       $credit_info = CustomerCreditCardInfo::where('user_id', $request->id)->first();
-                       if ($credit_info) {
-                          $credit_info->name = $request->card_name;
-                          $credit_info->card_no = $request->card_no;
-                          $credit_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
-                          $credit_info->card_type = $request->cardType;
-                          $credit_info->exp_month = $request->SelectMonth;
-                          $credit_info->exp_year = $request->selectYear;
-                          if ($credit_info->save()) {
-                             return redirect()->route('getAllCustomers')->with('successUpdate', 'Records Updated Successfully!');
-                          }
-                          else
-                          {
-                            return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
-                          }
-                       }
-                       else
-                       {
-                          $credit_info_new_record = new CustomerCreditCardInfo();
-                          $credit_info_new_record->name = $request->card_name;
-                          $credit_info_new_record->card_no = $request->card_no;
-                          $credit_info_new_record->cvv = isset($request->cvv) ? $request->cvv : NULL;
-                          /*$credit_info_new_record->card_type = $request->cardType;*/
-                          $credit_info_new_record->exp_month = $request->SelectMonth;
-                          $credit_info_new_record->exp_year = $request->selectYear;
-                          if($credit_info_new_record->save()) {
-                            return redirect()->route('getAllCustomers')->with('successUpdate', 'Records Updated Successfully!');
-                          }
-                          else
-                          {
-                            return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
-                          }
-                       }
-                    }
-                    else
-                    {
+                        $paymentKey = PaymentKeys::first();
+                        if ($paymentKey) {
+                            Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
+                            $credit_info = CustomerCreditCardInfo::where('user_id', $request->id)->first();
+
+                            $source = [
+                                'object' => 'card',
+                                'number' => $request->card_no,
+                                'exp_month' => $request->SelectMonth,
+                                'exp_year' => $request->selectYear,
+                                'cvc' => $request->cvv,
+                            ];
+
+                            $charge = Charge::create([
+                                "amount" => 100,    // 100 Cent = $1
+                                "currency" => "usd",
+                                "description" => "$1 Pre-authorization",
+                                "capture" => false,
+                                "source" => $source
+                            ]);
+
+                            $stripeCustomer = null;
+                            if ($charge) {
+                                if ($credit_info) {
+                                    $stripeCustomer = Customer::retrieve($credit_info->stripe_customer_id);
+                                    $oldCard = $stripeCustomer->sources->retrieve($credit_info->card_id);
+                                    $oldCard->delete();
+                                    $newCard = $stripeCustomer->sources->create(["source" => $source]);
+                                    $stripeCustomer->default_source = $newCard->id;
+                                    $stripeCustomer->save();
+                                } else {
+                                    $credit_info = new CustomerCreditCardInfo();
+                                    $stripeCustomer = Customer::create([
+                                        "email" => $user->email,
+                                        "source" => $source
+                                    ]);
+                                }
+
+                                $credit_info->name = $request->card_name;
+                                $credit_info->card_no = $request->card_no;
+                                $credit_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
+                                $credit_info->card_type = $request->cardType;
+                                $credit_info->exp_month = $request->SelectMonth;
+                                $credit_info->exp_year = $request->selectYear;
+                                $credit_info->card_id = array_key_exists(0, $stripeCustomer->sources->data) ?
+                                        $stripeCustomer->sources->data[0]->id : null;
+                                $credit_info->card_fingerprint = array_key_exists(0, $stripeCustomer->sources->data) ?
+                                        $stripeCustomer->sources->data[0]->fingerprint : null;
+                                $credit_info->card_country = array_key_exists(0, $stripeCustomer->sources->data) ?
+                                        $stripeCustomer->sources->data[0]->country : null;
+                                $credit_info->stripe_customer_id = $stripeCustomer->id;
+
+                                if ($credit_info->save()) {
+                                    return redirect()->route('getAllCustomers')->with('successUpdate', 'Records Updated Successfully!');
+                                } else {
+                                    return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+                                }
+                            }  else {
+                                return redirect()->route('get-user-profile')->with('fail', 'Invalid card, please use a valid card!');
+                            }
+                        } else {
+                            return redirect()
+                                ->back()
+                                ->with('fail', "Oops! Something went wrong. Possible reason payment gateway error. Please check valid payment keys are set up.");
+                        }
+                    } else {
                         return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
                     }
-                }
-                else
-                {
+                } else {
                     return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
                 }
-            }
-            else
-            {
+            } else {
                 return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
             }
-        }
-        else
-        {
+        } else {
             return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
         }
     }
+
     public function getAddNewCustomer(){
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
