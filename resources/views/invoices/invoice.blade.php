@@ -45,7 +45,7 @@
                                 <label>From,</label><br>
                                 Urang.com<br>
                                 Email us: support@urang.com<br>
-                                Call us: 85858558585 <br>
+                                Call us: 6469025326 <br>
                                 Payment Status: {{$one_iteration->pick_up_req->payment_status == 1 ? "Paid" : "Pending"}} <br>
                                 @if($one_iteration->user_details->payment_status == 1)
                                     Paid At: {{date("F jS Y",strtotime($one_iteration->updated_at->toDateString()))}}
