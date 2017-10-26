@@ -235,13 +235,14 @@ class UserApiController extends Controller
             $tracker->original_invoice = $pick_up_req->total_price;
             $tracker->save();
 
+            $address = (trim($pick_up_req->apt_no) ? $pick_up_req->apt_no . ", " : "") . $pick_up_req->address . ", " . $pick_up_req->address_line_2;
             if ($request->pick_up_type == 1) {
 
                 //fast pick up
 //return "fast pickup";
                 //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //dd($request->request);
-                Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount));
+                Event::fire(new PickUpReqEvent($request, 0, $is_eligible_for_sign_up_discount, $address));
 
 
                 return Response::json(array(
@@ -281,7 +282,7 @@ class UserApiController extends Controller
                     $invoice->save();
                 }
                 //dd($request->request);
-                Event::fire(new PickUpReqEvent($request, $global_invoice_id, $is_eligible_for_sign_up_discount));
+                Event::fire(new PickUpReqEvent($request, $global_invoice_id, $is_eligible_for_sign_up_discount, $address));
                 return Response::json(array(
                     'status' => true,
                     'status_code' => 200,
