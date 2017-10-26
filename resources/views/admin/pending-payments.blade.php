@@ -44,7 +44,7 @@
 	                            				<td>{{$items->id}}</td>
 	                            				<td>{{$items->user->email}}</td>
 	                            				<td>{{$items->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}</td>
-	                            				<td>{{$items->payment_type == 2 ? "Cash On Delivary" : "Check Payment"}}</td>
+	                            				<td>{{$items->payment_type == 2 ? "Cash On Delivary" : "Cheque Payment"}}</td>
 	                            				<td>{{date("F jS Y",strtotime($items->created_at->toDateString()))}}</td>
 	                            				<td>
 	                            					@if($items->coupon || $items->ref_discount == 1)

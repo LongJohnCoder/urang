@@ -148,7 +148,7 @@
                 </label>
                 <br> -->
                 <label class="radio">
-                  <input type="radio" name="pay_method" id="inlineRadio9" value="3"> Check
+                  <input type="radio" name="pay_method" id="inlineRadio9" value="3"> Cheque
                 </label>
               </div>
             </div>
