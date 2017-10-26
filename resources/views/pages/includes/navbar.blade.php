@@ -112,7 +112,7 @@
 </header><!--./navigation -->
 <?php $sticky_nav_data = \App\Helper\SiteHelper::getStickyText(); ?>
 @if($sticky_nav_data)
-<div class="sticky-text">
-  {!!$sticky_nav_data!!}
-</div>
+  <div class="sticky-text">
+    {!!$sticky_nav_data!!}
+  </div>
 @endif

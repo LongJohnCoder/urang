@@ -130,8 +130,10 @@
     });
   </script>
 <?php $sticky_nav_data = \App\Helper\SiteHelper::getStickyText(); ?>
-@if($sticky_nav_data)
-<div class="sticky-text">
-  {!!$sticky_nav_data!!}
-</div>
+@if (!auth()->check())
+  @if($sticky_nav_data)
+    <div class="sticky-text">
+      {!!$sticky_nav_data!!}
+    </div>
+  @endif
 @endif
