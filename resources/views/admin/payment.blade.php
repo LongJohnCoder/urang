@@ -56,6 +56,7 @@
                                 <div class="form-group">
                                 	<label>Amount</label>
                                 	<input type="number" class="form-control" name="amount" required="" placeholder="chargable amount" id="amount" step="any"></input>
+                                  <div id="amountErrorMessage" style="color: red; display: none;"></div>
                                 </div>
                                 <button type="submit" class="btn btn-outline btn-primary " id="make_payment">Make Payment</button>
                                 <button type="button" class="btn btn-outline btn-primary" id="reset_btn" onclick="flushData()">Reset</button>
@@ -363,5 +364,21 @@
         $('#conf_msg').hide();
         return;
       }
+</script>
+<!-- Validate Payment Amount -->
+<script>
+  $(document).ready(function () {
+    $('form#payment_form').submit(function (event) {
+      if  (parseFloat($('#amount').val()) > 999999.99) {
+        $('#amountErrorMessage').html("<p>Amount should not be more than $999,999.99.</p>")
+        $('#amountErrorMessage').show()
+        event.preventDefault(event)
+      } else {
+        $('#amountErrorMessage').hide()
+        $('#amountErrorMessage').html("")
+        event.stopPropagation(event)
+      }
+    });
+  });
 </script>
 @endsection
