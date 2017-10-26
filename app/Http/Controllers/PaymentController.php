@@ -48,13 +48,28 @@ class PaymentController extends Controller
                             if ($customer) {
                                 Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
 
-                                $charge = Charge::create([
-                                    "amount" => $request->has('amount') ?
-                                        $request->input('amount') * 100 : 0, // Convert $ to Cent
-                                    "currency" => "usd",
-                                    "description" => "Payment received",
-                                    "customer" => $customer->stripe_customer_id
-                                ]);
+                                $error = null;
+                                try {
+                                    $charge = Charge::create([
+                                        "amount" => $request->has('amount') ?
+                                            $request->input('amount') * 100 : 0, // Convert $ to Cent
+                                        "currency" => "usd",
+                                        "description" => "Payment received",
+                                        "customer" => $customer->stripe_customer_id
+                                    ]);
+                                } catch (\Stripe\Error\RateLimit $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\InvalidRequestError $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\AuthenticationError $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\ApiConnectionError $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\Error $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Exception $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                }
 
                                 if ($charge->captured && $charge->paid) {
                                     $pickUpRequest->payment_status = 1;
