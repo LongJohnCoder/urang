@@ -59,9 +59,17 @@
                     <a href="{{route('getStaffList')}}"><i class="fa fa-user fa-fw"></i> Staffs Management</a>
                 </li>
                 <li>
-                     <a href="{{route('getPayment')}}"><i class="fa fa-credit-card fa-fw"></i> Make Payments</a>
+                    <a href="#"><i class="fa fa fa-cc-stripe fa-fw"></i> Manage Payments<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                             <a href="{{route('getPayment')}}"><i class="fa fa-credit-card fa-fw"></i> Card Payments</a>
+                        </li>
+                        <li>
+                            <a href="{{route('getManageClientPayment')}}"><i class="fa fa-dollar" aria-hidden="true"></i> Cheque Payments</a>
+                        </li>
+                    </ul>
                 </li>
-               <li>
+                <li>
                     <a href="#"><i class="fa fa-files-o fa-fw"></i> Cms<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -87,9 +95,6 @@
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
-                </li>
-                <li>
-                    <a href="{{route('getManageClientPayment')}}"><i class="fa fa-dollar" aria-hidden="true"></i> Manage client Payments</a>
                 </li>
                 <li>
                     <a href="{{route('manageReqNo')}}"><i class="fa fa-stack-overflow" aria-hidden="true"></i> Manage Request Numbers</a>

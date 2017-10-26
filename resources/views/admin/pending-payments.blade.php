@@ -18,7 +18,7 @@
 	                	@else
 	                	@endif
 	                   Customers<br>
-	                   <div class="alert alert-danger">Customers with card payment will be shown in <a href="{{route('getPayment')}}">Make Payment Module</a></div>
+	                   <div class="alert alert-danger">Customers with card payment will be shown in <a href="{{route('getPayment')}}">Card Payment Module</a></div>
 	                </div>
 	                <!-- /.panel-heading -->
 	                <div class="panel-body">
