@@ -93,9 +93,10 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $customers = User::with('user_details', 'pickup_req', 'order_details')->paginate(10);
+        $totalCustomers = User::all();
         $school_count = SchoolDonations::count();
         //dd($school_count);
-        return view('admin.dashboard', compact('user_data', 'site_details', 'customers', 'school_count'));
+        return view('admin.dashboard', compact('user_data', 'site_details', 'customers', 'school_count', 'totalCustomers'));
     }
     public function getEmailTemplates() {
         $obj = new NavBarHelper();

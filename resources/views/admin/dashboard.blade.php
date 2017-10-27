@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-xs-9 text-right">
                                 @if(count($customers) > 0)
-                                    <div class="huge">{{count($customers)}}</div>
+                                    <div class="huge">{{count($totalCustomers)}}</div>
                                 @else
                                     <div class="huge">0</div>
                                 @endif
@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-xs-9 text-right">
                                 <?php $j = 0; ?>
-                                @foreach($customers as $cus)
+                                @foreach($totalCustomers as $cus)
                                     @foreach($cus->pickup_req as $pick)
                                         <?php $j += count($pick); ?>
                                     @endforeach
