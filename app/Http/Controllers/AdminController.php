@@ -972,7 +972,7 @@ class AdminController extends Controller
                 if ($req->payment_type == 1) {
                     //charge this card
 
-                    $response = $this->ChargeCard($req->user_id, $req->chargable);
+                    $response = $this->captureAmountThroughCard($req->user_id, $req->chargable);
                     //dd($response);
                     //return $response;
                     if ($response === "I00001") {
@@ -1083,6 +1083,7 @@ class AdminController extends Controller
             }
         }
     }
+
     public function ChargeCard($id, $amount) {
         //fetch the record from databse
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
@@ -1134,6 +1135,48 @@ class AdminController extends Controller
             return 0;
         }
     }
+
+    public function captureAmountThroughCard($userId, $amountToBeCaptured) {
+        $paymentKey = PaymentKeys::first();
+        if ($paymentKey) {
+            $customer = CustomerCreditCardInfo::whereUserId($userId)->first();
+            Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
+
+            try {
+                $charge = Charge::create([
+                    "amount" => $amountToBeCaptured * 100, // Convert $ to Cent
+                    "currency" => "usd",
+                    "description" => "Payment received",
+                    "customer" => $customer->stripe_customer_id
+                ]);
+            } catch (\Stripe\Error\RateLimit $e) {
+                return 3;
+            } catch (\Stripe\Error\InvalidRequestError $e) {
+                return 3;
+            } catch (\Stripe\Error\AuthenticationError $e) {
+                return 3;
+            } catch (\Stripe\Error\ApiConnectionError $e) {
+                return 3;
+            } catch (\Stripe\Error\Error $e) {
+                return 3;
+            } catch (\Exception $e) {
+                return 3;
+            }
+
+            if ($charge) {
+                if ($charge->captured && $charge->paid) {
+                    return "I00001";
+                } else {
+                    return 2;
+                }
+            } else {
+                return 1;
+            }
+        } else {
+            return 0;
+        }
+    }
+
     public function getStaffList() {
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();

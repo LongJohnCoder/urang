@@ -1469,8 +1469,6 @@
           type: "POST",
           data: {actual_school_donation_amount: actual_school_donation_amount, actual_school_donation_id: actual_school_donation_id ,order_status:selectvalue, payment_type: paymenttype, pickup_id: pickupid, user_id: userid, chargable:chargable, _token: "{{Session::token()}}"  },
           success: function(data) {
-            /*console.log(data);
-            return;*/
             if (data == 1) 
             {
               swal({
@@ -1489,6 +1487,18 @@
               $('#loaderBodyOrder').hide();
               $('.table').show();
               sweetAlert("Oops...", "Failed to update order status!", "error");
+            }
+            else if (data == 3) 
+            {
+              $('#loaderBodyOrder').hide();
+              $('.table').show();
+              setTimeout(function () {
+                swal({
+                  title: "Oops...",
+                  text: "Payment Failed, Stripe Error. Hint : Plase make sure that customer and customer's card details exist on your Stripe account and amount is no more than $999,999.99.",
+                  type: "error"
+                });
+              }, 1000);
             }
             else if (data == "I00001") 
             {
@@ -1534,6 +1544,11 @@
                       $('#loaderBodyOrder').hide();
                       $('.table').show();
                       sweetAlert("Oops...", "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!", "error");
+                    break;
+                    case '3':
+                      $('#loaderBodyOrder').hide();
+                      $('.table').show();
+                      sweetAlert("Oops...", "Payment Failed, Stripe Error. Hint : Plase make sure that customer and customer's card details existr on your Stripe account and amount is no more than $999,999.99.", "error");
                     break;
                   default:
                     $('#loaderBodyOrder').hide();

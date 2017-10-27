@@ -48,7 +48,6 @@ class PaymentController extends Controller
                             if ($customer) {
                                 Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
 
-                                $error = null;
                                 try {
                                     $charge = Charge::create([
                                         "amount" => $request->has('amount') ?
