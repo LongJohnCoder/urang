@@ -390,29 +390,83 @@ class MainController extends Controller
                         'cvc' => $request->cvv,
                     ];
 
-                    $charge = Charge::create([
-                        "amount" => 100,    // 100 Cent = $1
-                        "currency" => "usd",
-                        "description" => "$1 Pre-authorization",
-                        "capture" => false,
-                        "source" => $source
-                    ]);
+                    try {
+                        $charge = Charge::create([
+                            "amount" => 100,    // 100 Cent = $1
+                            "currency" => "usd",
+                            "description" => "$1 Pre-authorization",
+                            "capture" => false,
+                            "source" => $source
+                        ]);
+                    } catch (\Stripe\Error\RateLimit $e) {
+                        return redirect()->back()->with('fail', $e->getMessage());
+                    } catch (\Stripe\Error\InvalidRequestError $e) {
+                        return redirect()->back()->with('fail', $e->getMessage());
+                    } catch (\Stripe\Error\AuthenticationError $e) {
+                        return redirect()->back()->with('fail', $e->getMessage());
+                    } catch (\Stripe\Error\ApiConnectionError $e) {
+                        return redirect()->back()->with('fail', $e->getMessage());
+                    } catch (\Stripe\Error\Error $e) {
+                        return redirect()->back()->with('fail', $e->getMessage());
+                    } catch (\Exception $e) {
+                        return redirect()->back()->with('fail', $e->getMessage());
+                    }
 
                     $stripeCustomer = null;
                     if ($charge) {
-                        if ($card_info) {
-                            $stripeCustomer = Customer::retrieve($card_info->stripe_customer_id);
-                            $oldCard = $stripeCustomer->sources->retrieve($card_info->card_id);
-                            $oldCard->delete();
-                            $newCard = $stripeCustomer->sources->create(["source" => $source]);
-                            $stripeCustomer->default_source = $newCard->id;
-                            $stripeCustomer->save();
-                        } else {
-                            $card_info = new CustomerCreditCardInfo();
-                            $stripeCustomer = Customer::create([
-                                "email" => $user->email,
-                                "source" => $source
-                            ]);
+                        $error = null;
+                        try {
+                            if ($card_info) {
+                                $stripeCustomer = Customer::retrieve($card_info->stripe_customer_id);
+                                $oldCard = $stripeCustomer->sources->retrieve($card_info->card_id);
+                                $oldCard->delete();
+                                $newCard = $stripeCustomer->sources->create(["source" => $source]);
+                                $stripeCustomer->default_source = $newCard->id;
+                                $stripeCustomer->save();
+                            } else {
+                                $card_info = new CustomerCreditCardInfo();
+                                $stripeCustomer = Customer::create([
+                                    "email" => $user->email,
+                                    "source" => $source
+                                ]);
+                            }
+                        } catch (\Stripe\Error\RateLimit $e) {
+                            $error = $e->getMessage();
+                        } catch (\Stripe\Error\InvalidRequestError $e) {
+                            $error = $e->getMessage();
+                        } catch (\Stripe\Error\AuthenticationError $e) {
+                            $error = $e->getMessage();
+                        } catch (\Stripe\Error\ApiConnectionError $e) {
+                            $error = $e->getMessage();
+                        } catch (\Stripe\Error\Error $e) {
+                            $error = $e->getMessage();
+                        } catch (\Exception $e) {
+                            $error = $e->getMessage();
+                        }
+
+                        if (gettype($error) === 'string' && strlen(trim($error)) > 0) {
+                            if (preg_match('/No such customer:/', $error)) {
+                                try {
+                                    $stripeCustomer = Customer::create([
+                                        "email" => $user->email,
+                                        "source" => $source
+                                    ]);
+                                } catch (\Stripe\Error\RateLimit $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\InvalidRequestError $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\AuthenticationError $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\ApiConnectionError $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Stripe\Error\Error $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                } catch (\Exception $e) {
+                                    return redirect()->back()->with('fail', $e->getMessage());
+                                }
+                            } else {
+                                return redirect()->back()->with('fail', $error);
+                            }
                         }
 
                         $card_info->user_id = $update_id;

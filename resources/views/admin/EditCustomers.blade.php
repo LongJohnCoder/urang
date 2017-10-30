@@ -1,6 +1,20 @@
 @extends('admin.layouts.master')
 @section('content')
 <div id="page-wrapper">
+	@if(Session::has('success'))
+		<div class="alert alert-success">
+			<i class="fa fa-check" aria-hidden="true"></i>
+			<strong>Success!</strong> {{Session::get('success')}}
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		</div>
+	@endif
+	@if(Session::has('fail'))
+		<div class="alert alert-danger">
+			<i class="fa fa-warning" aria-hidden="true"></i>
+			<strong>Error!</strong> {{Session::get('fail')}}
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		</div>
+	@endif
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel-heading">
@@ -73,15 +87,15 @@
 								    <label for="name">Name on Card</label>
 								    <input type="text" class="form-control" id="card_name" name="card_name" required="" value="{{$user->card_details != null ? $user->card_details->name : 'No data exist' }}" />
 								</div>
-								<!-- <div class="form-group">
+								<div class="form-group">
 								    <label for="name">Card Type</label>
 								    <select class="form-control" id="cardType" name="cardType">
 								    	<option value="">Select Card Type</option>
 								    	<option value="Visa">Visa</option>
-								    	<option value="AmericanExpress">American Express</option>
-								    	<option value="Mastercard">Mastercard</option>
+								    	<option value="MasterCard">Master Card</option>
+								    	<option value="American Express">American Express</option>
 								    </select>
-								</div> -->
+								</div>
 								<div class="form-group">
 								    <label for="name">Card No</label>
 								    <input type="text" class="form-control" id="card_no" name="card_no" required="" value="{{$user->card_details != null ? substr_replace($user->card_details->card_no, str_repeat("*", 8), 4, 8) : 'No data exist' }}" 
