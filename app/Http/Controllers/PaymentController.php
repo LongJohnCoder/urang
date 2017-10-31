@@ -38,7 +38,7 @@ class PaymentController extends Controller
         if (preg_match('/^([0-9]{4})-([0-9]{2})$/', $request->input('exp_date'))) {
             $paymentKey = PaymentKeys::first();
             if ($paymentKey) {
-                if (!$paymentKey->mode) {
+                if ($paymentKey->mode) {
                     if ($request->has('pick_up_re_id') && strlen(trim($request->input('pick_up_re_id')))) {
                         $pickUpRequest = Pickupreq::whereId($request->input('pick_up_re_id'))
                             ->wherePaymentStatus(0)
