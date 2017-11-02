@@ -795,6 +795,8 @@ class MainController extends Controller
 
     public function postPickUp(Request $request)
     {
+        $userId = $request->has('user_id') ? $request->input('user_id') : auth()->guard('users')->user()->id;
+
         if ($request->time_frame_start != null && $request->time_frame_end != null) {
             $start_time = strtotime($request->time_frame_start);
             $end_time = strtotime($request->time_frame_end);
@@ -818,7 +820,7 @@ class MainController extends Controller
         } else {
             $paymentKey = PaymentKeys::first();
             if ($paymentKey) {
-                $customer = CustomerCreditCardInfo::whereUserId(auth()->guard('users')->user()->id)->first();
+                $customer = CustomerCreditCardInfo::whereUserId($userId)->first();
                 if ($customer) {
                     Stripe::setApiKey($paymentKey->transaction_key); // Stripe Secret API Key
 
@@ -851,7 +853,7 @@ class MainController extends Controller
                         $stripeCustomer = null;
                         if ($charge) {
                             $stripeCustomer = Customer::create([
-                                "email" => auth()->guard('users')->user()->email,
+                                "email" => \App\User::find($userId)->email,
                                 "source" => $source
                             ]);
 
@@ -873,10 +875,17 @@ class MainController extends Controller
 
                             return $this->postMyPickup($request);
                         } else {
-                            return redirect()
-                                ->route('getNewCreditCard')
-                                ->with('fail', "We are getting trouble to validate your card. 
-                                        Please use an different card.");
+                            if ($request->has('user_id')) {
+                                return redirect()
+                                    ->back()
+                                    ->with('fail', "We are getting trouble to validate this saved card. 
+                                            Please ask customer to use an different card.");
+                            } else {
+                                return redirect()
+                                    ->route('getNewCreditCard')
+                                    ->with('fail', "We are getting trouble to validate your card. 
+                                            Please use an different card.");
+                            }
                         }
                     }
                 } else {
@@ -968,7 +977,7 @@ class MainController extends Controller
 
     public function postMyPickup($request)
     {
-        //dd($request);
+        $userId = $request->has('user_id') ? $request->input('user_id') : auth()->guard('users')->user()->id;
 
         /* global flag for sign discount check */
         $is_eligible_for_sign_up_discount = false;
@@ -981,7 +990,7 @@ class MainController extends Controller
                 $pick_up_req->user_id = $request->user_id;
                 $this->checkIfReferalInsertedAdmin($request);
             } else {
-                $pick_up_req->user_id = auth()->guard('users')->user()->id;
+                $pick_up_req->user_id = $userId;
                 $this->checkIfReferalInserted($request);
             }
             $pick_up_req->address = $request->address;
@@ -1035,7 +1044,7 @@ class MainController extends Controller
             if ($request->identifier == "admin") {
                 $check_ref = ref::where('user_id', $request->user_id)->where('discount_status', 1)->where('is_expired', 0)->first();
             } else {
-                $check_ref = ref::where('user_id', auth()->guard('users')->user()->id)->where('discount_status', 1)->where('is_expired', 0)->first();
+                $check_ref = ref::where('user_id', $userId)->where('discount_status', 1)->where('is_expired', 0)->first();
             }
             //dd($total_price);
             if ($check_ref) {
@@ -1063,7 +1072,7 @@ class MainController extends Controller
                 $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
 
             } else {
-                $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
+                $update_user_details = UserDetails::where('user_id', $userId)->first();
             }
             $update_user_details->address_line_1 = $request->has('address') && strlen(trim($request->address)) ? $request->address : $update_user_details->address_line_1;
             $update_user_details->address_line_2 = $request->has('address_line_2') && strlen(trim($request->address_line_2)) ? $request->address_line_2 : $update_user_details->address_line_2;
@@ -1089,8 +1098,8 @@ class MainController extends Controller
                 if ($request->identifier == "admin") {
                     $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
                 } else {
-                    //$pick_up_req->user_id = auth()->guard('users')->user()->id;
-                    $this->SavePreferncesSchool(auth()->guard('users')->user()->id, $request->school_donation_id);
+                    //$pick_up_req->user_id = $userId;
+                    $this->SavePreferncesSchool($userId, $request->school_donation_id);
                 }
                 //dd($total_price);
                 $percentage = SchoolDonationPercentage::first();
@@ -1122,7 +1131,7 @@ class MainController extends Controller
                     $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
 
                 } else {
-                    $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
+                    $update_user_details = UserDetails::where('user_id', $userId)->first();
                 }
                 $update_user_details->school_id = $request->school_donation_id;
 
@@ -1171,7 +1180,7 @@ class MainController extends Controller
                         if ($request->identifier == "admin") {
                             $order_details->user_id = $request->user_id;
                         } else {
-                            $order_details->user_id = auth()->guard('users')->user()->id;
+                            $order_details->user_id = $userId;
                         }
                         $order_details->price = $data[$i]->item_price;
                         $order_details->items = $data[$i]->item_name;
@@ -1185,9 +1194,9 @@ class MainController extends Controller
                         if ($request->identifier == "admin") {
                             $invoice->user_id = $request->user_id;
                         } else {
-                            $invoice->user_id = auth()->guard('users')->user()->id;
+                            $invoice->user_id = $userId;
                         }
-                        //$invoice->user_id = auth()->guard('users')->user()->id;
+                        //$invoice->user_id = $userId;
                         $invoice->pick_up_req_id = $pick_up_req->id;
                         $invoice->invoice_id = time();
                         $invoice->item = $data[$j]->item_name;
